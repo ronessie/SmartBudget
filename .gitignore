@@ -1,35 +1,54 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# build output
+dist
+.next
+target
+packages/next/wasm/@next
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+node_modules
+package-lock.json
+yarn.lock
+!/yarn.lock
+test/node_modules
+.pnpm-store/
+.github/**/node_modules
 
-# testing
-/coverage
+# logs & pids
+*.log
+pids
+*.cpuprofile
+*.heapsnapshot
 
-# next.js
-/.next/
-/out/
+# coverage
+.nyc_output
+coverage
 
-# production
-/build
-
-# misc
+# test output
+test/**/out*
+test/**/next-env.d.ts
 .DS_Store
-*.pem
+/e2e-tests
+test/tmp/**
+test/.trace
+test/traces
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Editors
+**/.idea
+**/.#*
+.nvmrc
 
-# local env files
-.env*.local
+# examples
+examples/**/out
+examples/**/.env*.local
 
-# vercel
+pr-stats.md
+test-timings.json
+
+# Vercel
 .vercel
+.now
 
-# typescript
+# Cache
 *.tsbuildinfo
-next-env.d.ts
+.swc/
+.turbo
