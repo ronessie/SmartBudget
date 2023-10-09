@@ -90,6 +90,10 @@ export default function Home() {
           </p>
         </a>
       </div>
+      <h2>Введите ФИО</h2>
+      <input type={"text"}></input>
+      <button>Сохранить</button>
     </main>
+
   )
 }
