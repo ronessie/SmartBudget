@@ -9,3 +9,10 @@ export default function Page()
             <button>Сохранить</button>
         </div>)
 }
+export const getServerSideProps: GetServerSideProps = async ctx => {
+    const { userId } = ctx.query;
+
+    return {
+        props: {}
+    };
+};

@@ -7,5 +7,5 @@ export default interface IUser {
     phone: string;
     password: string;
     language: string;
-    points: number;
+    status: string;
 }
