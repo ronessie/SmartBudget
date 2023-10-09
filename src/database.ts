@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
-import { User } from './User';
+import IUser from './types/IUser';
 
 dotenv.config({ path: './.env.local' });
 
@@ -49,13 +49,13 @@ export async function validateAccount(fio: string): Promise<boolean> {
 
     const result = (await collection
         .find({ fio: fio })
-        .toArray()) as User[];
+        .toArray()) as IUser[];
 
     return result.length > 0;
 }
 
 export async function createAccount(username: string, email: string, phone: string, password: string, language: string) {
-    const user: User = {
+    const user: IUser = {
         _id: new ObjectId(),
         fio: username,
         email: email,

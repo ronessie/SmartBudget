@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import styles from './page.module.css'
+import styles from '../styles/page.module.css'
 
 export default function Home() {
   return (
@@ -90,9 +90,6 @@ export default function Home() {
           </p>
         </a>
       </div>
-      <h2>Введите ФИО</h2>
-      <input type={"text"}></input>
-      <button>Сохранить</button>
     </main>
 
   )
