@@ -45,7 +45,7 @@ export async function connectToDatabase() {
 
 export async function validateAccount(fio: string): Promise<boolean> {
     const { db } = await connectToDatabase();
-    const collection = await db.collection('Users');
+    const collection = await db.collection('users');
 
     const result = (await collection
         .find({ fio: fio })
@@ -66,5 +66,5 @@ export async function createAccount(fio: string, email: string, phone: string, p
     };
 
     const { db } = await connectToDatabase();
-    await db.collection('Users').insertOne(user);
+    await db.collection('users').insertOne(user);
 }
