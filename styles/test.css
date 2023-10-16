@@ -6,9 +6,9 @@
     background-color: whitesmoke;
 }*/
 div{
-    font-family: "Arial";
+    font-family: Arial;
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     text-align: center; /* Выравнивание по центру */
     background-color: whitesmoke;
     display: block;
@@ -23,7 +23,7 @@ h3 {
 
 input[type="text"] {
     width: 40%; /* Уменьшение размера полей на 30% */
-    padding: 10px;
+    padding: 7px;
     margin: 5px 0; /* Уменьшение отступов между полями */
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -32,7 +32,7 @@ input[type="text"] {
 
 select {
     width: 41%; /* Уменьшение размера полей на 30% */
-    padding: 10px;
+    padding: 7px;
     margin: 5px 0; /* Уменьшение отступов между полями */
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -41,7 +41,7 @@ select {
 
 button {
     width: 41%; /* Уменьшение размера кнопки на 30% */
-    padding: 15px; /* Увеличение размера кнопки */
+    padding: 12px; /* Увеличение размера кнопки */
     background-color: #007bff;
     color: #fff;
     border: none;
