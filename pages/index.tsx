@@ -83,14 +83,14 @@ export default function Page() {
             <h3>Введите эл. почту</h3>
             <input type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
             <h3>Введите номер телефона</h3>
-            <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} />
+            <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
             <h3>Введите пароль</h3>
-            <input type="text" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} />
+            <input type="text" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
             <h3>Подтвердите пароль</h3>
-            <input type="text" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} />
+            <input type="text" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
             <br />
             <h3>Выберите страну</h3>
-            <select value={date.country} onChange={(e) => handleFieldChange("country", e)}>
+            <select value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
                 <option value="RU">Россия</option>
                 <option value="BY">Беларусь</option>
                 <option value="US">США</option>
@@ -101,12 +101,12 @@ export default function Page() {
             </select>
             <br />
             <h3>Выберите язык</h3>
-            <select value={date.language} onChange={(e) => handleFieldChange("language", e)}>
+            <select value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
                 <option value="ru">Русский</option>
                 <option value="en">Английский</option>
             </select>
             <br />
-            <button onClick={dateValidation}>Сохранить</button>
+            <button onClick={dateValidation} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
         </div>
     );
 }
