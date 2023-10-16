@@ -10,8 +10,8 @@ export default function Page() {
         phone: "",
         password: "",
         checkPassword: "",
-        country:"",
-        language: "",
+        country:"RU",
+        language: "ru",
         status: "NotAuthorized",
     });
 
@@ -22,44 +22,39 @@ export default function Page() {
         });
     }
 
-    function validatePhoneNumber(phoneNumber: string) {
-        return validator.isMobilePhone(phoneNumber);
-    }
-    function validateEmail(email: string)
-    {
-        return validator.isEmail(email);
-    }
-    function isTextOnly(inputText: string) {
-        return /^[a-zA-Z]+$/.test(inputText);
-    }
-
     function dateValidation() {
-        if (date.fio !== "" && date.email !== "" && date.phone !== "" && date.password !== "" && date.checkPassword !== "")
+        if (!date.fio || !date.email || !date.phone || !date.password || !date.checkPassword)
         {
-            if (isTextOnly(date.fio))
-            {
-                if (validateEmail(date.email)) {
-                    if (validatePhoneNumber(date.phone)) {
-                        if (date.password == date.checkPassword) {
-                            dateToDB()
-                        } else {
-                            alert("Пароль введён не верно")
-                        }
-                    }
-                    else {
-                        alert("Номер телефона введён не верно")
-                    }
-                }
-                else {
-                    alert("Почта введена не верно")
-                }
-            }
-            else {
-                alert("Имя введено не верно")
-            }
+            alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
+            return
+        }
+        if (!(/^[A-Za-zА-Яа-яЁё\\s]+$/).test(date.fio))
+        {
+            alert("ФИО введено не верно")
+            return;
+        }
+        if (!validator.isEmail(date.email))
+        {
+            alert("Почта введена не верно")
+            return;
+        }
+        if (!validator.isMobilePhone(date.phone))
+        {
+            alert("Телефон введён не верно")
+            return;
+        }
+        if (date.password.length < 8)
+        {
+            alert("Пароль должен содержать не менее 8 символов")
+            return;
+        }
+        if (date.password == date.checkPassword)
+        {
+            dateToDB()
         }
         else {
-            alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
+            alert("Пароль введён не верно")
+            return;
         }
     }
 
