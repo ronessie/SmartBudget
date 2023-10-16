@@ -2,7 +2,7 @@ import IUser from "@/src/types/IUser";
 import { ObjectId } from "bson";
 import React, { useState } from "react";
 import validator from 'validator';
-
+import '../styles/test.css'
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -28,7 +28,7 @@ export default function Page() {
             alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
             return
         }
-        if (!(/^[A-Za-zА-Яа-яЁё\\s]+$/).test(date.fio))
+        if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(date.fio))
         {
             alert("ФИО введено не верно")
             return;

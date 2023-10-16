@@ -1,0 +1,56 @@
+/*.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: whitesmoke;
+}*/
+div{
+    font-family: "Arial";
+    margin: 0;
+    padding: 10px;
+    text-align: center; /* Выравнивание по центру */
+    background-color: whitesmoke;
+    display: block;
+}
+
+h3 {
+    font-size: 18px; /* Увеличение размера текста */
+    margin: 10px 0; /* Уменьшение отступов между заголовками */
+    text-align: left;
+    padding-left: 30%;
+}
+
+input[type="text"] {
+    width: 40%; /* Уменьшение размера полей на 30% */
+    padding: 10px;
+    margin: 5px 0; /* Уменьшение отступов между полями */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Увеличение размера шрифта */
+}
+
+select {
+    width: 41%; /* Уменьшение размера полей на 30% */
+    padding: 10px;
+    margin: 5px 0; /* Уменьшение отступов между полями */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Увеличение размера шрифта */
+}
+
+button {
+    width: 41%; /* Уменьшение размера кнопки на 30% */
+    padding: 15px; /* Увеличение размера кнопки */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px; /* Увеличение размера текста на кнопке */
+    margin: 10px 0; /* Уменьшение отступов между кнопкой и предыдущим элементом */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
