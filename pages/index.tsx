@@ -1,91 +1,62 @@
-"use client"
 import IUser from "@/src/types/IUser";
-import {ObjectId} from "bson";
-import {useState} from "react";
-import React from "react";
+import { ObjectId } from "bson";
+import React, { useState } from "react";
 
 export default function Page() {
     const [date, setDate] = useState({
-        fio: "", email: "lala", phone: "", password: "",
-        checkPassword: "", language: "", status: "NotAuthorized"
-    })
+        fio: "",
+        email: "",
+        phone: "",
+        password: "",
+        checkPassword: "",
+        language: "",
+        status: "NotAuthorized",
+    });
 
-    function handleFioChange(event: any) {
+    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setDate({
             ...date,
-            [date.fio]: event.target.value,
-        })
-        console.log(date.fio)
-    }
-    function handleEmailChange(event: any) {
-        setDate({
-            ...date,
-            [date.email]: event.target.value,
-        })
-        console.log(date.email)
-    }
-    function handlePhoneChange(event: any) {
-        setDate({
-            ...date,
-            [date.phone]: event.target.value,
-        })
-    }
-    function handlePasswordChange(event: any) {
-        setDate({
-            ...date,
-            [date.password]: event.target.value,
-        })
-    }
-    function handleCheckPasswordChange(event: any) {
-        setDate({
-            ...date,
-            [date.checkPassword]: event.target.value,
-        })
-    }
-    function handleLanguageChange(event: any) {
-        setDate({
-            ...date,
-            [date.language]: event.target.value,
-        })
+            [fieldName]: event.target.value,
+        });
     }
 
     async function dateToDB() {
         const user: IUser = {
             _id: new ObjectId(),
-            fio: "Veronika",
-            email: "lala@mail.ru",
-            phone: "+375889462151",
-            password: "password",
-            language: "ru",
-            status: "autorization",
+            fio: date.fio,
+            email: date.email,
+            phone: date.phone,
+            password: date.password,
+            language: date.language,
+            status: "Autorization",
         };
-        alert(date.fio.toString())
-        alert(date.language.toString())
-        /*const response = await fetch(
-            `/api/test/${JSON.stringify(user)}`
-        );
+
+        const response = await fetch(`/api/test/${JSON.stringify(user)}`);
 
         if (!response.ok) throw new Error(response.statusText);
-        console.log(user)*/
+        console.log(user);
     }
 
     return (
         <div>
             <h3>Введите ФИО</h3>
-            <input type={"text"} onChange={handleFioChange}></input>
+            <input type="text" value={date.fio} onChange={(e) => handleFieldChange("fio", e)} />
             <h3>Введите эл. почту</h3>
-            <input type={"text"} onChange={handleEmailChange}></input>
+            <input type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)} />
             <h3>Введите номер телефона</h3>
-            <input type={"text"} onChange={handlePhoneChange}></input>
+            <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} />
             <h3>Введите пароль</h3>
-            <input type={"text"} onChange={handlePasswordChange}></input>
+            <input type="text" value={date.password} onChange={(e) => handleFieldChange("password", e)} />
             <h3>Подтвердите пароль</h3>
-            <input type={"text"} onChange={handleCheckPasswordChange}></input><br/>
+            <input type="text" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} />
+            <br />
             <h3>Выберите язык</h3>
-            <select onSelect={handleLanguageChange}>
+            <select value={date.language} onChange={(e) => handleFieldChange("language", e)}>
                 <option value="ru">Русский</option>
                 <option value="en">Английский</option>
-            </select><br/>
+            </select>
+            <br />
             <button onClick={dateToDB}>Сохранить</button>
-        </div>)
+        </div>
+    );
 }
