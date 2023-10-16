@@ -6,6 +6,7 @@ export default interface IUser {
     email: string;
     phone: string;
     password: string;
+    country: string;
     language: string;
     status: string;
 }

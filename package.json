@@ -17,13 +17,15 @@
     "next-session": "^4.0.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-input-mask": "^2.0.4"
+    "react-input-mask": "^2.0.4",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-input-mask": "^3.0.3",
+    "@types/validator": "^13.11.3",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
     "typescript": "^5"
