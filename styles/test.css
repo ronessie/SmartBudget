@@ -5,12 +5,14 @@
     text-align: center;
     background-color: whitesmoke;
 }*/
+body{
+    background-color: whitesmoke;
+}
 div{
     font-family: Arial;
     margin: 0;
     padding: 5px;
     text-align: center; /* Выравнивание по центру */
-    background-color: whitesmoke;
     display: block;
 }
 
