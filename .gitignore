@@ -10,7 +10,7 @@ node_modules
 package-lock.json
 yarn.lock
 !/yarn.lock
-test/node_modules
+pages/api/auth/node_modules
 .pnpm-store/
 .github/**/node_modules
 
@@ -24,14 +24,14 @@ pids
 .nyc_output
 coverage
 
-# test output
-test/**/out*
-test/**/next-env.d.ts
+# auth output
+pages/api/auth/**/out*
+pages/api/auth/**/next-env.d.ts
 .DS_Store
 /e2e-tests
-test/tmp/**
-test/.trace
-test/traces
+pages/api/auth/tmp/**
+pages/api/auth/.trace
+pages/api/auth/traces
 
 # Editors
 **/.idea

@@ -3,7 +3,6 @@ import { ObjectId } from "bson";
 import React, { useState } from "react";
 import validator from 'validator';
 import '../styles/test.css'
-import Link from "next/link";
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -71,7 +70,7 @@ export default function Page() {
             status: "Autorization",
         };
 
-        const response = await fetch(`/api/test/${JSON.stringify(user)}`);
+        const response = await fetch(`/api/auth/${JSON.stringify(user)}`);
 
         if (!response.ok) throw new Error(response.statusText);
         console.log(user);

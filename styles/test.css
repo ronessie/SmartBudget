@@ -1,10 +1,6 @@
-/*.container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-    background-color: whitesmoke;
-}*/
+.auth{
+    padding-top: 12%;
+}
 body{
     background-color: whitesmoke;
 }
@@ -12,45 +8,45 @@ div{
     font-family: Arial;
     margin: 0;
     padding: 5px;
-    text-align: center; /* Выравнивание по центру */
+    text-align: center;
     display: block;
 }
 
 h3 {
-    font-size: 18px; /* Увеличение размера текста */
-    margin: 10px 0; /* Уменьшение отступов между заголовками */
+    font-size: 18px;
+    margin: 10px 0;
     text-align: left;
     padding-left: 30%;
 }
 
 input[type="text"] {
-    width: 40%; /* Уменьшение размера полей на 30% */
+    width: 40%;
     padding: 7px;
-    margin: 5px 0; /* Уменьшение отступов между полями */
+    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px; /* Увеличение размера шрифта */
+    font-size: 16px;
 }
 
 select {
-    width: 41%; /* Уменьшение размера полей на 30% */
+    width: 41%;
     padding: 7px;
-    margin: 5px 0; /* Уменьшение отступов между полями */
+    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px; /* Увеличение размера шрифта */
+    font-size: 16px;
 }
 
 button {
-    width: 41%; /* Уменьшение размера кнопки на 30% */
-    padding: 12px; /* Увеличение размера кнопки */
+    width: 41%;
+    padding: 12px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 18px; /* Увеличение размера текста на кнопке */
-    margin: 10px 0; /* Уменьшение отступов между кнопкой и предыдущим элементом */
+    font-size: 18px;
+    margin: 10px 0;
 }
 
 button:hover {

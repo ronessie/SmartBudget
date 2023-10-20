@@ -19,7 +19,6 @@ export namespace API {
 
         return json.account;
     }
-
     export async function getAllUsers(): Promise<IUser[]> {
         const response = await fetch(`${NEXTAUTH_URL}/api/users`);
 
