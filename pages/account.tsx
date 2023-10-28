@@ -1,6 +1,6 @@
-import '../styles/test.css'
+import '../styles/test.module.css'
 import {user} from "@nextui-org/react";
-export default async function Page() {
+export default function Page() {
     async function DateFromDB() {
         const response = await fetch(`/api/auth/${JSON.stringify(user)}`);
         if (!response.ok) throw new Error(response.statusText);

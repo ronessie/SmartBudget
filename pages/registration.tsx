@@ -2,7 +2,7 @@ import IUser from "@/src/types/IUser";
 import { ObjectId } from "bson";
 import React, { useState } from "react";
 import validator from 'validator';
-import '../styles/test.css'
+import '../styles/test.module.css'
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -22,39 +22,42 @@ export default function Page() {
         });
     }
 
-    function dateValidation() {
-        if (!date.fio || !date.email || !date.phone || !date.password || !date.checkPassword)
-        {
+    async function dateValidation() {
+        const response = await fetch(`/api/auth/users`);
+        if (!response.ok) throw new Error(response.statusText);
+        const json = await response.json();
+        const userExist = json.users.find((user: IUser) => user.email === date.email || user.phone === date.phone);
+
+        if (!date.fio || !date.email || !date.phone || !date.password || !date.checkPassword) {
             alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
             return
         }
-        if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(date.fio))
-        {
+        if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(date.fio)) {
             alert("ФИО введено не верно")
             return;
         }
-        if (!validator.isEmail(date.email))
-        {
+        if (!validator.isEmail(date.email)) {
             alert("Почта введена не верно")
             return;
         }
-        if (!validator.isMobilePhone(date.phone))
-        {
+        if (!validator.isMobilePhone(date.phone)) {
             alert("Телефон введён не верно")
             return;
         }
-        if (date.password.length < 8)
-        {
+        if (date.password.length < 8) {
             alert("Пароль должен содержать не менее 8 символов")
             return;
         }
-        if (date.password == date.checkPassword)
+        if (date.password != date.checkPassword) {
+            alert("Пароль введён не верно")
+            return;
+        }
+        if (!userExist)
         {
             dateToDB()
         }
         else {
-            alert("Пароль введён не верно")
-            return;
+            alert("Аккаунт с такой почтой/номером телефона уже существует")
         }
     }
 
@@ -86,9 +89,10 @@ export default function Page() {
             <h3>Введите номер телефона</h3>
             <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
             <h3>Введите пароль</h3>
-            <input type="text" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
+            <input type="password" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
+            <br/><input type="checkbox" value="seePassword"/><label>Показать пароль</label>
             <h3>Подтвердите пароль</h3>
-            <input type="text" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
+            <input type="password" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
             <br />
             <h3>Выберите страну</h3>
             <select value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
