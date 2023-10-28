@@ -1,9 +1,11 @@
 export default function Page() {
     return(
         <div>
-            <a href="authentication">вход</a>
+            <a href="authentication">Вход</a>
             <br/>
-            <a href="registration">регистрация</a>
+            <a href="registration">Регистрация</a>
+            <br/>
+            <a href="account">Аккаунт</a>
         </div>
     )
 }
