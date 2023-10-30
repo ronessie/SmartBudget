@@ -28,6 +28,15 @@ input[type="text"] {
     font-size: 16px;
 }
 
+input[type="password"] {
+    width: 40%;
+    padding: 7px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 select {
     width: 41%;
     padding: 7px;

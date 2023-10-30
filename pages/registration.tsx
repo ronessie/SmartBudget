@@ -90,7 +90,6 @@ export default function Page() {
             <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
             <h3>Введите пароль</h3>
             <input type="password" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
-            <br/><input type="checkbox" value="seePassword"/><label>Показать пароль</label>
             <h3>Подтвердите пароль</h3>
             <input type="password" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
             <br />
