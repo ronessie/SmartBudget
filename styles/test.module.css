@@ -1,10 +1,24 @@
-.auth{
-    padding-top: 12%;
-}
-body{
+.page {
+    width: 100vw;
+    height: 100vh;
     background-color: whitesmoke;
 }
-div{
+
+.auth {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 750px;
+}
+
+.text {
+    font-size: 18px;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.div {
     font-family: Arial;
     margin: 0;
     padding: 5px;
@@ -12,32 +26,7 @@ div{
     display: block;
 }
 
-h3 {
-    font-size: 18px;
-    margin: 10px 0;
-    text-align: left;
-    padding-left: 30%;
-}
-
-input[type="text"] {
-    width: 40%;
-    padding: 7px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-input[type="password"] {
-    width: 40%;
-    padding: 7px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-select {
+.selector {
     width: 41%;
     padding: 7px;
     margin: 5px 0;
@@ -46,7 +35,25 @@ select {
     font-size: 16px;
 }
 
-button {
+.input {
+    width: 40%;
+    padding: 7px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.passwordInput {
+    width: 40%;
+    padding: 7px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.button {
     width: 41%;
     padding: 12px;
     background-color: #007bff;
@@ -58,6 +65,14 @@ button {
     margin: 10px 0;
 }
 
-button:hover {
-    background-color: #0056b3;
+.button:hover {
+    width: 41%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 10px 0;
 }
