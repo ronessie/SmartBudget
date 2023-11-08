@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import '../styles/test.module.css'
+import styles from'../styles/test.module.css'
 import validator from 'validator';
 import { useRouter } from 'next/router'
 import IUser from "@/src/types/IUser";
@@ -50,17 +50,19 @@ export default function Page() {
     }
 
     return (
-        <div className="auth">
-            <h3>Введите электронную почту/номер телефона</h3>
-            <input type="text" value={date.email_or_phone} onChange={(e) => handleFieldChange("email_or_phone", e)}
-                   title="Пример: Ivanov@mail.ru"/>
-            <h3>Введите пароль</h3>
-            <input type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
-                   title="Пароль должен быть не менее 8 символов"/>
-            <br/>
-            <button onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
-            <br/>
-            <a href="registration">Нет аккаунта, зарегистрируйтесь</a>
+        <div className={styles.page}>
+            <div className={styles.auth}>
+                <h3 className={styles.text}>Введите электронную почту/номер телефона</h3>
+                <input className={styles.input} type="text" value={date.email_or_phone} onChange={(e) => handleFieldChange("email_or_phone", e)}
+                    title="Пример: Ivanov@mail.ru"/>
+                <h3 className={styles.text}>Введите пароль</h3>
+                <input className={styles.passwordInput} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
+                    title="Пароль должен быть не менее 8 символов"/>
+                <br/>
+                <button className={styles.button} onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
+                <br/>
+                <a href="registration">Нет аккаунта, зарегистрируйтесь</a>
+            </div>
         </div>
     )
 }
