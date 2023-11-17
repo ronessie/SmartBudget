@@ -9,13 +9,23 @@
     align-content: center;
     flex-direction: column;
     justify-content: center;
-    margin-left: 750px;
+    margin-left: 37%;
+    padding-top: 10%;
+}
+
+.registration {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 37%;
 }
 
 .text {
     font-size: 18px;
     margin: 10px 0;
     text-align: left;
+    font-family: Arial;
 }
 
 .div {
@@ -27,7 +37,7 @@
 }
 
 .selector {
-    width: 41%;
+    width: 41.5%;
     padding: 7px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -54,7 +64,7 @@
 }
 
 .button {
-    width: 41%;
+    width: 41.5%;
     padding: 12px;
     background-color: #007bff;
     color: #fff;
@@ -66,13 +76,18 @@
 }
 
 .button:hover {
-    width: 41%;
+    width: 41.5%;
     padding: 12px;
-    background-color: #007bff;
+    background-color: #005eff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
     margin: 10px 0;
+}
+.link {
+    font-family: Arial;
+    font-size: 14px;
+    padding-left: 9%;
 }

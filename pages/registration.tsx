@@ -1,8 +1,9 @@
 import IUser from "@/src/types/IUser";
 import { ObjectId } from "bson";
 import React, { useState } from "react";
+import styles from '../styles/pages.module.css'
 import validator from 'validator';
-import '../styles/test.module.css'
+import '../styles/pages.module.css'
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -81,38 +82,40 @@ export default function Page() {
 
 
     return (
-        <div>
-            <h3>Введите ФИО</h3>
-            <input type="text" value={date.fio} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
-            <h3>Введите эл. почту</h3>
-            <input type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
-            <h3>Введите номер телефона</h3>
-            <input type="text" value={date.phone} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
-            <h3>Введите пароль</h3>
-            <input type="password" value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
-            <h3>Подтвердите пароль</h3>
-            <input type="password" value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
-            <br />
-            <h3>Выберите страну</h3>
-            <select value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
-                <option value="RU">Россия</option>
-                <option value="BY">Беларусь</option>
-                <option value="US">США</option>
-                <option value="GB">Великобритания</option>
-                <option value="PL">Польша</option>
-                <option value="LT">Литва</option>
-                <option value="DE">Германия</option>
-            </select>
-            <br />
-            <h3>Выберите язык</h3>
-            <select value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
-                <option value="ru">Русский</option>
-                <option value="en">Английский</option>
-            </select>
-            <br />
-            <button onClick={dateValidation} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
-            <br />
-            <a href="authentication">У Вас уже есть аккаунт, войдите</a>
+        <div className={styles.page}>
+            <div className={styles.registration}>
+                <h3 className={styles.text}>Введите ФИО</h3>
+                <input type="text" value={date.fio} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
+                <h3 className={styles.text}>Введите эл. почту</h3>
+                <input type="text" value={date.email} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
+                <h3 className={styles.text}>Введите номер телефона</h3>
+                <input type="text" value={date.phone} className={styles.input} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
+                <h3 className={styles.text}>Введите пароль</h3>
+                <input type="password" className={styles.passwordInput} value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
+                <h3 className={styles.text}>Подтвердите пароль</h3>
+                <input type="password" className={styles.passwordInput} value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
+                <br />
+                <h3 className={styles.text}>Выберите страну</h3>
+                <select className={styles.selector} value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
+                    <option value="RU">Россия</option>
+                    <option value="BY">Беларусь</option>
+                    <option value="US">США</option>
+                    <option value="GB">Великобритания</option>
+                    <option value="PL">Польша</option>
+                    <option value="LT">Литва</option>
+                    <option value="DE">Германия</option>
+                </select>
+                <br />
+                <h3 className={styles.text}>Выберите язык</h3>
+                <select className={styles.selector} value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
+                    <option value="ru">Русский</option>
+                    <option value="en">Английский</option>
+                </select>
+                <br />
+                <button className={styles.button} onClick={dateValidation} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
+                <br />
+                <a className={styles.link} href="authentication">У Вас уже есть аккаунт, войдите</a>
+            </div>
         </div>
     );
 }

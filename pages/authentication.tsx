@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import styles from'../styles/test.module.css'
+import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import { useRouter } from 'next/router'
 import IUser from "@/src/types/IUser";
@@ -61,7 +61,7 @@ export default function Page() {
                 <br/>
                 <button className={styles.button} onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
                 <br/>
-                <a href="registration">Нет аккаунта, зарегистрируйтесь</a>
+                <a href="registration" className={styles.link}>Нет аккаунта, зарегистрируйтесь</a>
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import '../styles/test.module.css'
+import '../styles/pages.module.css'
 import {user} from "@nextui-org/react";
 export default function Page() {
     async function DateFromDB() {
