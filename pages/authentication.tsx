@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import styles from '../styles/pages.module.css'
 import validator from 'validator';
-import { useRouter } from 'next/router'
 import IUser from "@/src/types/IUser";
 
 export default function Page() {

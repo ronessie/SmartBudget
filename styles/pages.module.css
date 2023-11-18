@@ -86,8 +86,37 @@
     font-size: 18px;
     margin: 10px 0;
 }
+
 .link {
     font-family: Arial;
     font-size: 14px;
     padding-left: 9%;
+}
+
+.rectangle {
+    display: inline-block;
+    width: 300px;
+    height: 150px;
+    background: #007bff;
+    border-radius: 10px;
+}
+
+.whiteText
+{
+    font-size: 16px;
+    margin: 2px 0;
+    text-align: left;
+    font-family: Arial;
+    color: white;
+    padding-left: 5px;
+}
+.bigWhiteText
+{
+    font-size: 30px;
+    margin: 10px 0;
+    text-align: left;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    padding-left: 60px;
 }
