@@ -100,16 +100,22 @@
     margin: 10px 0;
 }
 
-.button:hover {
-    width: 41.5%;
+.logOutButton {
+    float: right;
+    width: 7%;
     padding: 12px;
-    background-color: #005eff;
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
     margin: 10px 0;
+    margin-right: 10px;
+}
+
+.button:hover, .logOutButton:hover {
+    background-color: #005eff;
 }
 
 .link {
@@ -156,4 +162,9 @@
     color: black;
     font-weight: bold;
     padding-left:35px;
+}
+
+.conteiners{
+    display: flex;
+    justify-content: space-between;
 }
