@@ -21,6 +21,13 @@
     margin-left: 37%;
 }
 
+.pages {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .text {
     font-size: 18px;
     margin: 10px 0;
@@ -45,8 +52,26 @@
     font-size: 16px;
 }
 
+.selectorCurrency {
+    width: 8%;
+    padding: 7px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 .input {
     width: 40%;
+    padding: 7px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.inputMoney {
+    width: 32%;
     padding: 7px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -110,6 +135,7 @@
     color: white;
     padding-left: 5px;
 }
+
 .bigWhiteText
 {
     font-size: 30px;
@@ -119,4 +145,15 @@
     color: white;
     font-weight: bold;
     padding-left: 60px;
+}
+
+.bigBlackText
+{
+    font-size: 30px;
+    margin: 10px 0;
+    text-align: left;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    padding-left:35px;
 }

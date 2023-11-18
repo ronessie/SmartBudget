@@ -8,6 +8,8 @@ export default function Page() {
             <a href="account">Аккаунт</a>
             <br/>
             <a href="main">Главная</a>
+            <br/>
+            <a href="operations">Операции</a>
         </div>
     )
 }
