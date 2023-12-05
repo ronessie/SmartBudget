@@ -51,16 +51,19 @@ export default function Page() {
     return (
         <div className={styles.page}>
             <div className={styles.auth}>
-                <h3 className={styles.text}>Введите электронную почту/номер телефона</h3>
-                <input className={styles.input} type="text" value={date.email_or_phone} onChange={(e) => handleFieldChange("email_or_phone", e)}
-                    title="Пример: Ivanov@mail.ru"/>
-                <h3 className={styles.text}>Введите пароль</h3>
-                <input className={styles.passwordInput} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
-                    title="Пароль должен быть не менее 8 символов"/>
-                <br/>
-                <button className={styles.button} onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
-                <br/>
-                <a href="registration" className={styles.link}>Нет аккаунта, зарегистрируйтесь</a>
+                <form className={styles.form}>
+                    <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>Вход</h1>
+                    <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту/номер телефона</h3>
+                    <input className={styles.input} style={{width: 335}} type="text" value={date.email_or_phone} onChange={(e) => handleFieldChange("email_or_phone", e)}
+                           title="Пример: Ivanov@mail.ru"/>
+                    <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>Введите пароль</h3>
+                    <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
+                           title="Пароль должен быть не менее 8 символов"/>
+                    <br/>
+                    <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
+                    <br/>
+                    <a href="registration" className={styles.link} style={{paddingLeft: 50, fontSize: 16}}>Нет аккаунта, зарегистрируйтесь</a>
+                </form>
             </div>
         </div>
     )

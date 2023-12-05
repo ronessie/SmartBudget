@@ -114,6 +114,40 @@
     margin-right: 10px;
 }
 
+.expenseButton {
+    width: 7%;
+    padding: 12px;
+    background-color: palevioletred;
+    border: none;
+    color: #660000;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 10px 0;
+    margin-right: 10px;
+}
+
+.incomeButton {
+    width: 7%;
+    border: none;
+    padding: 12px;
+    background-color: darkseagreen;
+    color: #003300;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 10px 0;
+    margin-right: 10px;
+}
+
+.expenseButton:hover {
+    background-color: crimson;
+}
+
+.incomeButton:hover {
+    background-color: green;
+}
+
 .button:hover, .logOutButton:hover {
     background-color: #005eff;
 }
@@ -122,18 +156,22 @@
     font-family: Arial;
     font-size: 14px;
     padding-left: 9%;
+    color: #007bff;
+}
+
+.link:hover{
+    color: #1845ad;
 }
 
 .rectangle {
     display: inline-block;
-    width: 300px;
+    width: 250px;
     height: 150px;
     background: #007bff;
     border-radius: 10px;
 }
 
-.whiteText
-{
+.whiteText {
     font-size: 16px;
     margin: 2px 0;
     text-align: left;
@@ -142,8 +180,7 @@
     padding-left: 5px;
 }
 
-.bigWhiteText
-{
+.bigWhiteText {
     font-size: 30px;
     margin: 10px 0;
     text-align: left;
@@ -153,8 +190,7 @@
     padding-left: 60px;
 }
 
-.bigBlackText
-{
+.bigBlackText {
     font-size: 30px;
     margin: 10px 0;
     text-align: left;
@@ -167,4 +203,27 @@
 .conteiners{
     display: flex;
     justify-content: space-between;
+}
+
+.form {
+    height: 400px;
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 50px 35px;
+}
+
+.form .page {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
 }
