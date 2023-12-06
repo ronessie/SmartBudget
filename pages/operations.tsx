@@ -2,16 +2,14 @@ import styles from '../styles/pages.module.css'
 import React, {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
-import convert from "lodash/fp/convert";
-import {parse} from "url";
 import {redirect} from "next/navigation";
 
 export default function Page() {
     const [data, setData] = useState({
         sum: "",
         currency: "",
+        category: "",
         date: "",
-        bankAccount: ""
     });
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -30,7 +28,7 @@ export default function Page() {
             sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,
-            bankAccount: data.bankAccount,
+            category: data.category,
             operationsStatus: ""
         };
 
@@ -81,18 +79,10 @@ export default function Page() {
                         <option value="entertainment">Развлечения</option>
                     </select><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Укажите дату</h1><br/>
-                    <input type="date" style={{ width: 337}} className={styles.input}/><br/>
+                    <input type="date" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date}/><br/>
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить</button>
                 </form>
             </div>
         </div>
     )
 }
-/*
-<h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Выберите счёт</h1><br/>
-                    <select className={styles.selector} onChange={(e) => handleFieldChange("bankAccount", e)} value={date.bankAccount} style={{width: 351}} title="Выберите счёт операции. Пример: Счёт 1">
-                        <option value="name1">Счёт 1</option>
-                        <option value="name2">Счёт 2</option>
-                        <option value="new">Новый счёт</option>
-                    </select><br/>
-*/

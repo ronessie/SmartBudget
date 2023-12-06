@@ -51,7 +51,7 @@ export default function Page() {
                 <form className={styles.form} style={{height: 365}}>
                     <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>Вход</h1>
                     <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email_or_phone", e)}
+                    <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)}
                            title="Пример: Ivanov@mail.ru"/>
                     <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>Введите пароль</h3>
                     <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}

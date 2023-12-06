@@ -64,8 +64,8 @@ export default function Page() {
             status: "Autorization",
             sum: 0,
             currency: "",
+            category: "",
             date: "",
-            bankAccount: "",
             operationsStatus: "",
         };
 
