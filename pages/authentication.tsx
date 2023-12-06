@@ -6,7 +6,7 @@ import {useRouter} from "next/navigation";
 
 export default function Page() {
     const [date, setDate] = useState({
-        email_or_phone: "",
+        email: "",
         password: "",
         status: "NotAuthorized",
     });
@@ -19,8 +19,8 @@ export default function Page() {
 
         const json = await response.json();
 
-        if (!validator.isMobilePhone(date.email_or_phone) && !validator.isEmail(date.email_or_phone)) {
-            alert("Электронная почта или телефон введены не верно")
+        if (!validator.isEmail(date.email)) {
+            alert("Электронная почта введена не верно")
             return;
         }
         if (!date.password) {
@@ -28,8 +28,8 @@ export default function Page() {
             return;
         }
 
-        const userEmailOrPhone = json.users.find((user: IUser) => user.email === date.email_or_phone || user.phone === date.email_or_phone && user.password === date.password);
-        if (!userEmailOrPhone) {
+        const userEmail = json.users.find((user: IUser) => user.email === date.email && user.password === date.password);
+        if (!userEmail) {
             alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
@@ -48,10 +48,10 @@ export default function Page() {
     return (
         <div className={styles.page}>
             <div className={styles.auth}>
-                <form className={styles.form}>
+                <form className={styles.form} style={{height: 365}}>
                     <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>Вход</h1>
-                    <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту/номер телефона</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={date.email_or_phone} onChange={(e) => handleFieldChange("email_or_phone", e)}
+                    <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту</h3>
+                    <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email_or_phone", e)}
                            title="Пример: Ivanov@mail.ru"/>
                     <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>Введите пароль</h3>
                     <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
