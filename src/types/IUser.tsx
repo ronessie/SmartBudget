@@ -7,7 +7,7 @@ export default interface IUser {
     password: string;
     sum: number;
     currency: string;
-    category: string;
+    date: string;
     bankAccount: string;
     status: string;
     operationsStatus: string;

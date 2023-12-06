@@ -7,16 +7,16 @@ import {parse} from "url";
 import {redirect} from "next/navigation";
 
 export default function Page() {
-    const [date, setDate] = useState({
+    const [data, setData] = useState({
         sum: "",
         currency: "",
-        category: "",
+        date: "",
         bankAccount: ""
     });
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setDate({
-            ...date,
+        setData({
+            ...data,
             [fieldName]: event.target.value,
         });
     }
@@ -27,10 +27,10 @@ export default function Page() {
             email: "",
             password: "",
             status: "Autorization",
-            sum: parseFloat(date.sum),
-            currency: date.currency,
-            category: date.category,
-            bankAccount: date.bankAccount,
+            sum: parseFloat(data.sum),
+            currency: data.currency,
+            date: data.date,
+            bankAccount: data.bankAccount,
             operationsStatus: ""
         };
 
@@ -45,7 +45,7 @@ export default function Page() {
         const json = await response.json();
         //const userExist = json.users.find((user: IUser) => user.email === date.email || user.phone === date.phone);
 
-        if (!date.sum || !(/^[\d]+$/).test(date.sum)) {
+        if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
@@ -63,9 +63,9 @@ export default function Page() {
                 <form className={styles.form} style={{height: 420}}>
                     <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 25}}>Добавление операции</h1><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 15}}>Введите сумму</h1><br/>
-                    <div><input value={date.sum} className={styles.inputMoney} onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
+                    <div><input value={data.sum} className={styles.inputMoney} onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
                                 title="Пример: 100"/>
-                        <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)} value={date.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
+                        <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)} value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
                             <option value="RUB">RUB</option>
                             <option value="BYN">BYN</option>
                             <option value="USD">USD</option>
@@ -73,7 +73,7 @@ export default function Page() {
                             <option value="EUR">EUR</option>
                         </select></div><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0}}>Выберите категорию трат</h1><br/>
-                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={date.category} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
+                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={data.date} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
                         <option value="products">Продукты</option>
                         <option value="clothes">Одежда</option>
                         <option value="house">Жильё</option>
