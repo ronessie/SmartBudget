@@ -2,7 +2,9 @@ import styles from '../styles/pages.module.css'
 import React, {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
-import validator from "validator";
+import convert from "lodash/fp/convert";
+import {parse} from "url";
+import {redirect} from "next/navigation";
 
 export default function Page() {
     const [date, setDate] = useState({
@@ -26,10 +28,10 @@ export default function Page() {
             phone: "",
             password: "",
             status: "Autorization",
-            sum: 0,
-            currency: "",
-            category: "",
-            bankAccount: ""
+            sum: parseFloat(date.sum),
+            currency: date.currency,
+            category: date.category,
+            bankAccount: date.bankAccount
         };
 
         const response = await fetch(`/api/auth/${JSON.stringify(user)}`);
@@ -49,6 +51,9 @@ export default function Page() {
         }
         else {
             alert("всё оки, работаем дальше")
+            dateToDB();
+            alert("Мы всё сохранили")
+            redirect('main')
         }
     }
 
@@ -68,7 +73,7 @@ export default function Page() {
                             <option value="EUR">EUR</option>
                         </select></div><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0}}>Выберите категорию трат</h1><br/>
-                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={date.category} style={{width: 351}} title="Укажите категорию трат. Пример: Продукты">
+                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={date.category} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
                         <option value="products">Продукты</option>
                         <option value="clothes">Одежда</option>
                         <option value="house">Жильё</option>
@@ -76,7 +81,7 @@ export default function Page() {
                         <option value="entertainment">Развлечения</option>
                     </select><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Выберите счёт</h1><br/>
-                    <select className={styles.selector} onChange={(e) => handleFieldChange("bankAccount", e)} value={date.bankAccount} style={{width: 351}} title="Укажите категорию трат. Пример: Продукты">
+                    <select className={styles.selector} onChange={(e) => handleFieldChange("bankAccount", e)} value={date.bankAccount} style={{width: 351}} title="Выберите счёт операции. Пример: Счёт 1">
                         <option value="name1">Счёт 1</option>
                         <option value="name2">Счёт 2</option>
                         <option value="new">Новый счёт</option>
