@@ -11,8 +11,6 @@ export default function Page() {
         phone: "",
         password: "",
         checkPassword: "",
-        country:"RU",
-        language: "ru",
         status: "NotAuthorized",
     });
 
@@ -69,9 +67,11 @@ export default function Page() {
             email: date.email,
             phone: date.phone,
             password: date.password,
-            language: date.language,
-            country: date.country,
             status: "Autorization",
+            sum: 0,
+            currency: "",
+            category: "",
+            bankAccount: ""
         };
 
         const response = await fetch(`/api/auth/${JSON.stringify(user)}`);
@@ -105,22 +105,3 @@ export default function Page() {
         </div>
     );
 }
-/*
-<h3 className={styles.text} style={{fontSize: 16}}>Выберите страну</h3>
-                    <select className={styles.selector} style={{marginTop: 3}} value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
-                        <option value="RU">Россия</option>
-                        <option value="BY">Беларусь</option>
-                        <option value="US">США</option>
-                        <option value="GB">Великобритания</option>
-                        <option value="PL">Польша</option>
-                        <option value="LT">Литва</option>
-                        <option value="DE">Германия</option>
-                    </select>
-                    <br />
-                    <h3 className={styles.text} style={{fontSize: 16}}>Выберите язык</h3>
-                    <select className={styles.selector} style={{marginTop: 3}} value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
-                        <option value="ru">Русский</option>
-                        <option value="en">Английский</option>
-                    </select>
-                    <br />
-*/
