@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import '../styles/pages.module.css'
+import {useRouter} from "next/navigation";
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -13,6 +14,8 @@ export default function Page() {
         status: "NotAuthorized",
     });
 
+    const router = useRouter();
+
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setDate({
             ...date,
@@ -20,7 +23,8 @@ export default function Page() {
         });
     }
 
-    async function dateValidation() {
+    async function dateValidation(e: any) {
+        e.preventDefault();
         const response = await fetch(`/api/auth/users`);
         if (!response.ok) throw new Error(response.statusText);
         const json = await response.json();
@@ -49,6 +53,7 @@ export default function Page() {
         if (!userExist)
         {
             dateToDB()
+            router.push('/account')
         }
         else {
             alert("Аккаунт с такой почтой уже существует")

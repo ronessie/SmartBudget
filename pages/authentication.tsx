@@ -12,7 +12,8 @@ export default function Page() {
     });
     const router = useRouter();
 
-    async function checkDate() {
+    async function checkDate(e: any) {
+        e.preventDefault();
         const response = await fetch(`/api/auth/users`);
 
         if (!response.ok) throw new Error(response.statusText);
@@ -35,7 +36,7 @@ export default function Page() {
         }
         alert("Вы успешно вошли")
 
-        router.replace('./account');
+        router.push('/account');
     }
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {

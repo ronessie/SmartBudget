@@ -2,7 +2,7 @@ import styles from '../styles/pages.module.css'
 import React, {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -11,6 +11,8 @@ export default function Page() {
         category: "",
         date: "",
     });
+
+    const router = useRouter();
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setData({
@@ -37,7 +39,8 @@ export default function Page() {
         console.log(user);
     }
 
-    async function dateValidation() {
+    async function dateValidation(e: any) {
+        e.preventDefault();
         const response = await fetch(`/api/auth/users`);
         if (!response.ok) throw new Error(response.statusText);
         const json = await response.json();
@@ -51,7 +54,7 @@ export default function Page() {
             alert("всё оки, работаем дальше")
             dateToDB();
             alert("Мы всё сохранили")
-            redirect('main')
+            router.push('/main')
         }
     }
 
