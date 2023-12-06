@@ -20,7 +20,7 @@ export default function Page() {
                 </div>
                 <div>
                     <button className={styles.incomeButton} onClick={() => router.push('/operations')}>+ Доход</button>
-                    <button className={styles.expenseButton}>+ Расход</button>
+                    <button className={styles.expenseButton} onClick={() => router.push('/operations')}>+ Расход</button>
                 </div>
             </div>
         </div>

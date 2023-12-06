@@ -84,38 +84,43 @@ export default function Page() {
     return (
         <div className={styles.page}>
             <div className={styles.registration}>
-                <h3 className={styles.text}>Введите ФИО</h3>
-                <input type="text" value={date.fio} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
-                <h3 className={styles.text}>Введите эл. почту</h3>
-                <input type="text" value={date.email} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
-                <h3 className={styles.text}>Введите номер телефона</h3>
-                <input type="text" value={date.phone} className={styles.input} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
-                <h3 className={styles.text}>Введите пароль</h3>
-                <input type="password" className={styles.passwordInput} value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
-                <h3 className={styles.text}>Подтвердите пароль</h3>
-                <input type="password" className={styles.passwordInput} value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
-                <br />
-                <h3 className={styles.text}>Выберите страну</h3>
-                <select className={styles.selector} value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
-                    <option value="RU">Россия</option>
-                    <option value="BY">Беларусь</option>
-                    <option value="US">США</option>
-                    <option value="GB">Великобритания</option>
-                    <option value="PL">Польша</option>
-                    <option value="LT">Литва</option>
-                    <option value="DE">Германия</option>
-                </select>
-                <br />
-                <h3 className={styles.text}>Выберите язык</h3>
-                <select className={styles.selector} value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
-                    <option value="ru">Русский</option>
-                    <option value="en">Английский</option>
-                </select>
-                <br />
-                <button className={styles.button} onClick={dateValidation} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
-                <br />
-                <a className={styles.link} href="authentication">У Вас уже есть аккаунт, войдите</a>
+                <form className={styles.form} style={{height: 570}}>
+                    <h1 className={styles.bigBlackText} style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 60}}>Регистрация</h1>
+                    <h3 className={styles.text} style={{fontSize: 16}}>Введите ФИО</h3>
+                    <input type="text" value={date.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
+                    <h3 className={styles.text} style={{fontSize: 16}}>Введите эл. почту</h3>
+                    <input type="text" value={date.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
+                    <h3 className={styles.text} style={{fontSize: 16}}>Введите номер телефона</h3>
+                    <input type="text" value={date.phone} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("phone", e)} title="Пример: +777777777777"/>
+                    <h3 className={styles.text} style={{fontSize: 16}}>Введите пароль</h3>
+                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
+                    <h3 className={styles.text} style={{fontSize: 16}}>Подтвердите пароль</h3>
+                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
+                    <br />
+                    <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
+                    <br />
+                    <a className={styles.link} href="authentication" style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</a>
+                </form>
             </div>
         </div>
     );
 }
+/*
+<h3 className={styles.text} style={{fontSize: 16}}>Выберите страну</h3>
+                    <select className={styles.selector} style={{marginTop: 3}} value={date.country} onChange={(e) => handleFieldChange("country", e)} title="Укажите страну в которой Вы находитесь. Пример: Беларусь">
+                        <option value="RU">Россия</option>
+                        <option value="BY">Беларусь</option>
+                        <option value="US">США</option>
+                        <option value="GB">Великобритания</option>
+                        <option value="PL">Польша</option>
+                        <option value="LT">Литва</option>
+                        <option value="DE">Германия</option>
+                    </select>
+                    <br />
+                    <h3 className={styles.text} style={{fontSize: 16}}>Выберите язык</h3>
+                    <select className={styles.selector} style={{marginTop: 3}} value={date.language} onChange={(e) => handleFieldChange("language", e)} title="Выберите язык. Пример: русский">
+                        <option value="ru">Русский</option>
+                        <option value="en">Английский</option>
+                    </select>
+                    <br />
+*/

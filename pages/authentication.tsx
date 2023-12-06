@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import IUser from "@/src/types/IUser";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
     const [date, setDate] = useState({
@@ -9,6 +10,7 @@ export default function Page() {
         password: "",
         status: "NotAuthorized",
     });
+    const router = useRouter();
 
     async function checkDate() {
         const response = await fetch(`/api/auth/users`);
@@ -31,15 +33,10 @@ export default function Page() {
             alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
-        //goToAccount()
         alert("Вы успешно вошли")
-    }
 
-    /*function goToAccount()
-    {
-        const router = useRouter()
-        router.push('/account')
-    }*/
+        router.replace('./account');
+    }
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setDate({
