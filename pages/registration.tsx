@@ -66,7 +66,7 @@ export default function Page() {
             fio: date.fio,
             email: date.email,
             password: date.password,
-            status: "Autorization",
+            status: "Authorized",
             sum: 0,
             currency: "",
             category: "",

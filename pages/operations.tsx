@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {useRouter} from "next/navigation";
+import validator from "validator";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -48,6 +49,10 @@ export default function Page() {
 
         if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
+            return
+        }
+        if (!data.date || !validator.isDate(data.date)){
+            alert("Дата введена не верно")
             return
         }
         else {
