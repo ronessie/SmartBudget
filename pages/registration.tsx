@@ -68,13 +68,6 @@ export default function Page() {
             email: date.email,
             password: date.password,
             status: "Authorized",
-            sum: 0,
-            lastUpdateDate: "",
-            balance: 0.00,
-            currency: "",
-            category: "",
-            date: "",
-            operationsStatus: "",
         };
 
         const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);

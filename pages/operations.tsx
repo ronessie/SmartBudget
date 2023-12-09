@@ -24,15 +24,11 @@ export default function Page() {
     async function dateToDB() {
         const user: IUser = {
             _id: new ObjectId(),
-            fio: "",
-            email: "",
-            password: "",
             status: "Autorization",
             sum: parseFloat(data.sum),
             balance: 0.00,
-            lastUpdateDate: "",
             currency: data.currency,
-            date: data.date,
+            date: "",
             category: data.category,
             operationsStatus: ""
         };
@@ -89,7 +85,7 @@ export default function Page() {
                         <option value="entertainment">Развлечения</option>
                     </select><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Укажите дату</h1><br/>
-                    <input type="date" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date}/><br/>
+                    <input type="datetime-local" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date}/><br/>
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить</button>
                 </form>
             </div>

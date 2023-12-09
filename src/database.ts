@@ -54,20 +54,13 @@ export async function validateAccount(fio: string): Promise<boolean> {
     return result.length > 0;
 }
 
-export async function createAccount(fio: string, email: string, password: string, status: string, balance: number, sum: number, lastUpdateDate: string, currency: string, category: string,  date: string, operationsStatus: string) {
+export async function createAccount(fio: string, email: string, password: string, status: string) {
     const user: IUser = {
         _id: new ObjectId(),
         fio: fio,
         email: email,
         password: password,
-        balance: balance,
-        sum: sum,
-        lastUpdateDate: lastUpdateDate,
-        currency: currency,
-        date: date,
-        status: status,
-        category: category,
-        operationsStatus: operationsStatus
+        status: status
     };
 
     const { db } = await connectToDatabase();

@@ -28,12 +28,7 @@ export default function Page(props: { sum: string, email: string }) {
         password: "",
         status: "Autorization",
         balance: 0.00,
-        sum: 0.00,
         lastUpdateDate:"",
-        currency: "",
-        date: "",
-        category: "",
-        operationsStatus: ""
     };
 
     function exitButton()
