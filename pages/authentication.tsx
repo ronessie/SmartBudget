@@ -47,8 +47,9 @@ export default function Page() {
         });
     }
 
-    function googleAuthentication()
+    function googleAuthentication(e: any)
     {
+        e.preventDefault()
         signIn('google');
     }
 

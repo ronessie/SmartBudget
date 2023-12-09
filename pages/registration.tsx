@@ -83,8 +83,9 @@ export default function Page() {
         console.log(user);
     }
 
-    function googleAuthentication()
+    function googleAuthentication(e: any)
     {
+        e. preventDefault();
         signIn('google');
     }
 

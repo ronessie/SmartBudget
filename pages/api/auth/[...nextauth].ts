@@ -19,7 +19,7 @@ export default NextAuth({
         async signIn(props) {
             const username = props.user.name;
             const email = props.user.email;
-
+            console.log(username +" bebebe "+ email)
             return true;
         }
     }
