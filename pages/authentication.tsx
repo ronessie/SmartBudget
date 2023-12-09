@@ -36,7 +36,7 @@ export default function Page() {
         }
         alert("Вы успешно вошли")
 
-        router.push('/account');
+        router.push('/main');
     }
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {

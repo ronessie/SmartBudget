@@ -5,7 +5,7 @@ export default function Page() {
             <br/>
             <a href="registration">Регистрация</a>
             <br/>
-            <a href="account">Аккаунт</a>
+            <a href="settings">Аккаунт/настройки</a>
             <br/>
             <a href="main">Главная</a>
             <br/>

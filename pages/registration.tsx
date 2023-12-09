@@ -53,7 +53,7 @@ export default function Page() {
         if (!userExist)
         {
             dateToDB()
-            router.push('/account')
+            router.push('/main')
         }
         else {
             alert("Аккаунт с такой почтой уже существует")
@@ -68,6 +68,8 @@ export default function Page() {
             password: date.password,
             status: "Authorized",
             sum: 0,
+            lastUpdateDate: "",
+            balance: 0.00,
             currency: "",
             category: "",
             date: "",

@@ -29,6 +29,8 @@ export default function Page() {
             password: "",
             status: "Autorization",
             sum: parseFloat(data.sum),
+            balance: 0.00,
+            lastUpdateDate: "",
             currency: data.currency,
             date: data.date,
             category: data.category,

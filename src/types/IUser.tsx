@@ -6,6 +6,8 @@ export default interface IUser {
     email: string;
     password: string;
     sum: number;
+    lastUpdateDate: string;
+    balance: number;
     currency: string;
     category: string;
     date: string;
