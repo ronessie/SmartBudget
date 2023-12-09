@@ -15,7 +15,7 @@ export default function Page() {
 
     async function checkDate(e: any) {
         e.preventDefault();
-        const response = await fetch(`/api/auth/users`);
+        const response = await fetch(`/api/authentication/users`);
 
         if (!response.ok) throw new Error(response.statusText);
 

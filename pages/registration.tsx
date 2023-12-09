@@ -26,7 +26,7 @@ export default function Page() {
 
     async function dateValidation(e: any) {
         e.preventDefault();
-        const response = await fetch(`/api/auth/users`);
+        const response = await fetch(`/api/authentication/users`);
         if (!response.ok) throw new Error(response.statusText);
         const json = await response.json();
         const userExist = json.users.find((user: IUser) => user.email === date.email);
@@ -77,7 +77,7 @@ export default function Page() {
             operationsStatus: "",
         };
 
-        const response = await fetch(`/api/auth/${JSON.stringify(user)}`);
+        const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);
 
         if (!response.ok) throw new Error(response.statusText);
         console.log(user);

@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     const { NEXTAUTH_URL } = process.env;
     console.log('url: ', NEXTAUTH_URL)
 
-    const response = await fetch(`${NEXTAUTH_URL}/api/auth/users`);
+    const response = await fetch(`${NEXTAUTH_URL}/api/authentication/users`);
     if (!response.ok) throw new Error(response.statusText);
 
     const user = (await response.json()).users.find((user: IUser) => user.fio=="Veronika");
