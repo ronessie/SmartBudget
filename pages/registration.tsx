@@ -5,6 +5,7 @@ import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -82,11 +83,16 @@ export default function Page() {
         console.log(user);
     }
 
+    function googleAuthentication()
+    {
+        signIn('google');
+    }
+
 
     return (
         <div className={styles.page}>
             <div className={styles.registration}>
-                <form className={styles.form} style={{height: 490}}>
+                <form className={styles.form} style={{height: 550}}>
                     <h1 className={styles.bigBlackText} style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 60}}>Регистрация</h1>
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите ФИО</h3>
                     <input type="text" value={date.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
@@ -99,6 +105,7 @@ export default function Page() {
                     <br />
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
                     <br />
+                    <button className={styles.button} onClick={googleAuthentication} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью Google</button>
                     <a className={styles.link} href="authentication" style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</a>
                 </form>
             </div>

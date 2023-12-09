@@ -3,6 +3,7 @@ import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import IUser from "@/src/types/IUser";
 import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 
 export default function Page() {
     const [date, setDate] = useState({
@@ -46,10 +47,15 @@ export default function Page() {
         });
     }
 
+    function googleAuthentication()
+    {
+        signIn('google');
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.auth}>
-                <form className={styles.form} style={{height: 365}}>
+                <form className={styles.form} style={{height: 420}}>
                     <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>Вход</h1>
                     <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту</h3>
                     <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)}
@@ -60,6 +66,7 @@ export default function Page() {
                     <br/>
                     <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate} title="Нажмите кнопку что бы войти">Войти</button>
                     <br/>
+                    <button className={styles.button} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}} onClick={googleAuthentication} title="Нажмите кнопку что бы войти">Войти с помощью Google</button>
                     <a href="registration" className={styles.link} style={{paddingLeft: 50, fontSize: 16}}>Нет аккаунта, зарегистрируйтесь</a>
                 </form>
             </div>
