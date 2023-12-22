@@ -3,10 +3,8 @@ import {useRouter} from "next/navigation";
 import {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
-import session from "next-session";
-import {id} from "postcss-selector-parser";
-import {text} from "stream/consumers";
-import {number} from "prop-types";
+import {GetServerSideProps} from "next";
+import {getSession, useSession} from "next-auth/react";
 
 
 export default function Page(props: { sum: string, email: string }) {
@@ -21,6 +19,10 @@ export default function Page(props: { sum: string, email: string }) {
         balance: 0.00,
         lastUpdateDate: "",
     });
+
+    const {data: session} = useSession();
+    console.log(session);
+
     const user: IUser = {
         _id: new ObjectId(),
         fio: "",
@@ -60,4 +62,11 @@ export default function Page(props: { sum: string, email: string }) {
         </div>
     )
 }
-/*<button className={styles.logOutButton} onClick={exitButton}>Выйти</button>*/
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+    const session = await getSession(ctx);
+
+    return {
+        props: {}
+    };
+};

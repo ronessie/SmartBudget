@@ -4,14 +4,18 @@ import validator from 'validator';
 import IUser from "@/src/types/IUser";
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
+import {GetServerSideProps} from "next";
+import {useTranslation} from "next-i18next";
 
 export default function Page() {
+    const { t } = useTranslation('authentication');
     const [date, setDate] = useState({
         email: "",
         password: "",
         status: "NotAuthorized",
     });
     const router = useRouter();
+
 
     async function checkDate(e: any) {
         e.preventDefault();
@@ -47,21 +51,24 @@ export default function Page() {
         });
     }
 
-    function googleAuthentication(e: any)
+    async function googleAuthentication(e: any)
     {
         e.preventDefault()
-        signIn('google');
+        const  response = await signIn('google');
+        if (response && response.ok) {
+            router.push('/main');
+        }
     }
 
     return (
         <div className={styles.page}>
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 420}}>
-                    <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>Вход</h1>
-                    <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите электронную почту</h3>
+                    <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>{t('login')}</h1>
+                    <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>{t('input.email')}</h3>
                     <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)}
                            title="Пример: Ivanov@mail.ru"/>
-                    <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>Введите пароль</h3>
+                    <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>{t('input.password')}</h3>
                     <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
                            title="Пароль должен быть не менее 8 символов"/>
                     <br/>
@@ -74,3 +81,8 @@ export default function Page() {
         </div>
     )
 }
+export const getServerSideProps: GetServerSideProps = async ctx => {
+    return {
+        props: {}
+    };
+};
