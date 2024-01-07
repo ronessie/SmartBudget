@@ -7,30 +7,25 @@ path.resolve('./next.config.js');
 
 export default function Page() {
     const router = useRouter()
-    const { locale, locales, asPath } = router
-    const {t, i18n} = useTranslation('common');
-    const changeLanguage = (language: any) => {
-        i18n.changeLanguage(language);
+    const { t} = useTranslation('common');
+    const changeLanguage = async (language: string) => {
+        await router.push(router.pathname, router.asPath, { locale: language });
     };
 
     return(
         <div>
-            <a href="authentication">{t('indexPage.authentication')}</a>
+            <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
             <br/>
-            <a href="registration">{t('indexPage.registration')}</a>
+            <Link href="registration">{t('indexPage.registration')}</Link>
             <br/>
-            <a href="settings">{t('indexPage.settings')}</a>
+            <Link href="settings">{t('indexPage.settings')}</Link>
             <br/>
-            <a href="main">{t('indexPage.main')}</a>
+            <Link href="main">{t('indexPage.main')}</Link>
             <br/>
-            <a href="operations">{t('indexPage.operations')}</a>
-            <div>
-                {locales?.map((loc) => (
-                    <Link key={loc} href={asPath} locale={loc}>
-                        {loc}
-                    </Link>
-                ))}
-            </div>
+            <Link href="operations">{t('indexPage.operations')}</Link>
+            <br/>
+            <button onClick={() => changeLanguage('en')}>EN</button>
+            <button onClick={() => changeLanguage('ru')}>RU</button>
         </div>
     )
 }
