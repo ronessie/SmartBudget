@@ -1,10 +1,13 @@
 import styles from '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
-import {useState} from "react";
+//import {useState} from "react";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {GetServerSideProps} from "next";
 import {getSession, useSession} from "next-auth/react";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import {any, number} from "prop-types";
 
 
 export default function Page(props: { sum: string, email: string }) {
@@ -58,6 +61,7 @@ export default function Page(props: { sum: string, email: string }) {
                     <button className={styles.incomeButton} onClick={() => router.push('/operations')}>+ Доход</button>
                     <button className={styles.expenseButton} onClick={() => router.push('/operations')}>+ Расход</button>
                 </div>
+
             </div>
         </div>
     )
@@ -69,4 +73,73 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     return {
         props: {}
     };
+};
+
+const CurrencyConverter = () => {
+    const [exchangeRates, setExchangeRates] = useState("");
+    const [amount, setAmount] = useState(1);
+    const [fromCurrency, setFromCurrency] = useState('USD');
+    const [toCurrency, setToCurrency] = useState('EUR');
+    const [convertedAmount, setConvertedAmount] = useState(null);
+
+    useEffect(() => {
+        const getExchangeRates = async () => {
+            try {
+                const response = await axios.get(
+                    `https://api.openexchangerates.org/latest?base=${fromCurrency}&app_id=YOUR_API_KEY`
+                );
+                setExchangeRates(response.data.rates);
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+            }
+        };
+
+        getExchangeRates();
+    }, [fromCurrency]);
+
+    const convertCurrency = () => {
+        const rate = exchangeRates[toCurrency];
+        const result = amount * rate;
+        setConvertedAmount(result.toFixed(2));
+    };
+
+    useEffect(() => {
+        convertCurrency();
+    }, [amount, fromCurrency, toCurrency, exchangeRates]);
+
+    return (
+        <div>
+            <h2>Currency Converter</h2>
+            <label>
+                Amount:
+                <input
+                    type="number"
+                    value={amount}
+                    onChange={(e:any) => setAmount(e.target.value)}
+                />
+            </label>
+            <br />
+            <label>
+                From Currency:
+                <select
+                    value={fromCurrency}
+                    onChange={(e) => setFromCurrency(e.target.value)}
+                >
+                    {/* Add options for different currencies */}
+                </select>
+            </label>
+            <br />
+            <label>
+                To Currency:
+                <select
+                    value={toCurrency}
+                    onChange={(e) => setToCurrency(e.target.value)}
+                >
+                    {/* Add options for different currencies */}
+                </select>
+            </label>
+            <br />
+            <p>Converted Amount: {convertedAmount}</p>
+        </div>
+    );
 };

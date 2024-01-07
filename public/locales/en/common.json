@@ -1,4 +1,4 @@
-export const en = {
+{
     "indexPage": {
         "authentication": "Authentication",
         "registration": "Registration",
@@ -25,4 +25,4 @@ export const en = {
             "button": "Click the button to signIn"
         }
     }
-};
+}

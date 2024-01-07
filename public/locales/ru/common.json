@@ -1,4 +1,4 @@
-export const ru = {
+{
     "indexPage": {
         "authentication": "Вход",
         "registration": "Регистрация",
@@ -25,4 +25,4 @@ export const ru = {
             "button": "Нажмите кнопку что бы войти"
         }
     }
-};
+}
