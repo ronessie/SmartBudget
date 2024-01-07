@@ -1,0 +1,13 @@
+{
+  "links": {
+    "authentication": "Вход",
+    "registration": "Регистрация",
+    "settings": "Настройки/Аккаунт",
+    "main": "Главная",
+    "operations": "Операции",
+    "languages": {
+      "russian": "Русский",
+      "english": "Английский"
+    }
+  }
+}

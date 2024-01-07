@@ -8,7 +8,7 @@ import {GetServerSideProps} from "next";
 import {useTranslation} from "next-i18next";
 
 export default function Page() {
-    const { t } = useTranslation('authentication');
+    const { t } = useTranslation('./public/locales/russianLocal/authentication');
     const [date, setDate] = useState({
         email: "",
         password: "",
@@ -67,7 +67,7 @@ export default function Page() {
                     <h1 className={styles.bigBlackText} style={{fontSize: 40, paddingLeft: 120}}>{t('login')}</h1>
                     <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>{t('input.email')}</h3>
                     <input className={styles.input} style={{width: 335}} type="text" value={date.email} onChange={(e) => handleFieldChange("email", e)}
-                           title="Пример: Ivanov@mail.ru"/>
+                           title="Пример: Ivanov@mail.indexPage"/>
                     <h3 className={styles.text} style={{fontSize: 16, paddingTop: 10}}>{t('input.password')}</h3>
                     <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password} onChange={(e) => handleFieldChange("password", e)}
                            title="Пароль должен быть не менее 8 символов"/>

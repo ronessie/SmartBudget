@@ -91,7 +91,7 @@ export default function Page() {
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите ФИО</h3>
                     <input type="text" value={date.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите эл. почту</h3>
-                    <input type="text" value={date.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.ru"/>
+                    <input type="text" value={date.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.indexPage"/>
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите пароль</h3>
                     <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
                     <h3 className={styles.text} style={{fontSize: 16}}>Подтвердите пароль</h3>
