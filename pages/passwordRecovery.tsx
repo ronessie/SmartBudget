@@ -9,6 +9,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import nodemailer from 'nodemailer';
 import {router} from "next/client";
+import fetch from "nodemailer/lib/fetch";
 export default function Page() {
 
     const [date, setDate] = useState({
@@ -26,7 +27,6 @@ export default function Page() {
             return;
         }
         date.newPassword = generatePassword();
-        sendEmail(1,1, date.email, date.newPassword);
     }
 
     function generatePassword() {
@@ -38,47 +38,40 @@ export default function Page() {
         return password;
     }
 
-    async function sendEmail(req: any, res: any, toEmail: any, newPassword: any) {
-        if (req.method === 'POST') {
-            try {
-                //const { name, email, message } = req.body;
+    ////////////////////////////////////////////////////////
+    const YourComponent = () => {
+        const [formData, setFormData] = useState({
+            email: date.email
+        });
 
-                const transporter = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
-                    port: 587,
-                    secure: false,
-                    auth: {
-                        user: 'vsakolinskaa@gmail.com',
-                        pass: 'hbjjwbstsgliuoco',
+        const handleSubmit = async (e: any) => {
+            e.preventDefault();
+
+            try {
+                const response = await fetch('/api/sendEmail/sendEmail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
                     },
+                    body: JSON.stringify(formData),
                 });
 
-                // Параметры электронного письма
-                const mailOptions = {
-                    from: 'vsakolinskaa@gmail.com',
-                    to: toEmail,
-                    subject: 'Новый пароль SmartBudget',
-                    //text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-                    text: `Ваш новый пароль для сайта SmartBudget` + newPassword,
-                };
-
-                // Отправка письма
-                const info = await transporter.sendMail(mailOptions);
-
-                console.log('Message sent: %s', info.messageId);
-
-                // Возвращаем успешный ответ
-                return res.status(200).json({ success: true });
-
+                if (response.ok) {
+                    console.log('Message sent successfully!');
+                    // Здесь вы можете выполнить дополнительные действия после успешной отправки
+                } else {
+                    console.error('Failed to send message:', response.statusCode);//был statusText
+                }
             } catch (error) {
                 console.error('Error sending message:', error);
-                return res.status(500).json({ success: false, error: 'Internal Server Error' });
             }
-        } else {
-            // Метод не разрешен
-            return res.status(405).json({ error: 'Method Not Allowed' });
-        }
+        };
+
+        const handleChange = (e) => {
+            setFormData({...formData, [e.target.name]: e.target.value});
+        };
     }
+    ////////////////////////////////////////////////////////
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setDate({
