@@ -38,41 +38,6 @@ export default function Page() {
         return password;
     }
 
-    ////////////////////////////////////////////////////////
-    const YourComponent = () => {
-        const [formData, setFormData] = useState({
-            email: date.email
-        });
-
-        const handleSubmit = async (e: any) => {
-            e.preventDefault();
-
-            try {
-                const response = await fetch('/api/sendEmail/sendEmail', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                if (response.ok) {
-                    console.log('Message sent successfully!');
-                    // Здесь вы можете выполнить дополнительные действия после успешной отправки
-                } else {
-                    console.error('Failed to send message:', response.statusCode);//был statusText
-                }
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }
-        };
-
-        const handleChange = (e) => {
-            setFormData({...formData, [e.target.name]: e.target.value});
-        };
-    }
-    ////////////////////////////////////////////////////////
-
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setDate({
             ...date,

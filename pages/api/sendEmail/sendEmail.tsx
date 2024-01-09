@@ -1,15 +1,11 @@
 import nodemailer from "nodemailer";
-import {useState} from "react";
+import {NextApiRequest, NextApiResponse} from "next";
 
-const [date, setDate] = useState({
-    password: "",
-    newPassword: "",
-    status: "NotAuthorized",
-});
-export default async function sendEmail(req, res, toEmail: any, newPassword: any) {
+export default async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
 
         try {
+            const { name, email, message } = req.body;
             const transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 587,
