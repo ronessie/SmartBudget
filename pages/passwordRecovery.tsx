@@ -7,9 +7,7 @@ import {signIn} from "next-auth/react";
 import { useTranslation } from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import nodemailer from 'nodemailer';
 import {router} from "next/client";
-import fetch from "nodemailer/lib/fetch";
 export default function Page() {
 
     const [date, setDate] = useState({
@@ -27,6 +25,19 @@ export default function Page() {
             return;
         }
         date.newPassword = generatePassword();
+        const response = await fetch('/api/sendEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: date.email, password: date.newPassword}),
+        });
+
+        if (response.ok) {
+            console.log('Email sent successfully!');
+        } else {
+            console.error('Failed to send email.');
+        }
     }
 
     function generatePassword() {
