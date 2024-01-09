@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import {signIn} from "next-auth/react";
 import { useTranslation } from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 
 export default function Page() {
     const [date, setDate] = useState({
@@ -74,7 +75,8 @@ export default function Page() {
                     <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate} title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
                     <br/>
                     <button className={styles.button} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}} onClick={googleAuthentication} title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</button>
-                    <a href="registration" className={styles.link} style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</a>
+                    <Link href="registration" className={styles.link} style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</Link>
+                    <Link href="passwordRecovery" className={styles.link}>Восстановить пароль</Link>
                 </form>
             </div>
         </div>

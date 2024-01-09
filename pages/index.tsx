@@ -24,6 +24,8 @@ export default function Page() {
             <br/>
             <Link href="operations">{t('indexPage.operations')}</Link>
             <br/>
+            <Link href="passwordRecovery">Восстановление пароля</Link>
+            <br/>
             <button onClick={() => changeLanguage('en')}>EN</button>
             <button onClick={() => changeLanguage('ru')}>RU</button>
         </div>
