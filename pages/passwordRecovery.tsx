@@ -25,6 +25,18 @@ export default function Page() {
             alert("Электронная почта введена не верно")
             return;
         }
+
+        const resp = await fetch(`/api/authentication/users`);
+
+        if (!resp.ok) throw new Error(resp.statusText);
+
+        const json = await resp.json();
+
+        const userEmail = json.users.find((user: IUser) => user.email === date.email);
+        if (!userEmail) {
+            alert("Пользователь с такой почтой не обнаружен")
+            return;
+        }
         date.newPassword = generatePassword();
         const response = await fetch('/api/sendEmail', {
             method: 'POST',
