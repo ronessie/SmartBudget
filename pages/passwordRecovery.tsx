@@ -14,6 +14,7 @@ export default function Page() {
         email: "",
         password: "",
         newPassword: "",
+        fromEmail: "vsakolinskaa@gmail.com",
         status: "NotAuthorized",
     });
     const router = useRouter();
@@ -30,11 +31,14 @@ export default function Page() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email: date.email, password: date.newPassword}),
+            body: JSON.stringify({email: date.email, password: date.newPassword, fromEmail: date.fromEmail}),
         });
 
         if (response.ok) {
+            alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
+            date.password=date.newPassword;
+            router.push('/authentication');
         } else {
             console.error('Failed to send email.');
         }
