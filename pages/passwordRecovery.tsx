@@ -56,6 +56,21 @@ export default function Page() {
         }
     }
 
+    /*async function dateToDB() {
+        const user: IUser = {
+            _id: new ObjectId(),
+            fio: date.fio,
+            email: date.email,
+            password: date.password,
+            status: "Authorized",
+        };
+
+        const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);
+
+        if (!response.ok) throw new Error(response.statusText);
+        console.log(user);
+    }*/
+
     function generatePassword() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
         let password = '';

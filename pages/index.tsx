@@ -26,6 +26,10 @@ export default function Page() {
             <br/>
             <Link href="passwordRecovery">Восстановление пароля</Link>
             <br/>
+            <Link href="account">Аккаунт</Link>
+            <br/>
+            <Link href="addBankAccount">Добавление счёта</Link>
+            <br/>
             <button onClick={() => changeLanguage('en')}>EN</button>
             <button onClick={() => changeLanguage('ru')}>RU</button>
         </div>
