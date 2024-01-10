@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import {NextApiRequest, NextApiResponse} from "next";
+import {connectToDatabase} from "@/src/database";
 
 export default async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -18,21 +19,37 @@ export default async function sendEmail(req: NextApiRequest, res: NextApiRespons
             },
         });
 
-        // Параметры электронного письма
         const mailOptions = {
             from: `"SmartBudget" <${fromEmail}>`,
-            //from: 'vsakolinskaa@gmail.com',
             to: email,
             subject: 'Новый пароль SmartBudget',
             text: `Ваш новый пароль для сайта SmartBudget - ` + password,
         };
 
-        // Отправка письма
         const info = await transporter.sendMail(mailOptions);
 
         console.log('Message sent: %s', info.messageId);
 
-        // Возвращаем успешный ответ
+        if (res.status(200))
+        {
+            const { db } = await connectToDatabase();
+            const collection = await db.collection('users');
+            const filter = { email: email };
+            const updateDocument = {
+                $set: {
+                    password: password
+                }
+            };
+
+            const result = await collection.updateOne(filter, updateDocument);
+
+            if (result.modifiedCount === 1) {
+                console.log('Password updated successfully for ${email}');
+            } else {
+                console.log('No user found with the email ${email}');
+            }
+        }
+
         return res.status(200).json({success: true});
 
     } catch (error) {
