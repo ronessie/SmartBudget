@@ -38,7 +38,7 @@ export default function Page() {
             return;
         }
         date.newPassword = generatePassword();
-        const response = await fetch('/api/sendEmail', {
+        const response = await fetch('/api/sendNewPasswordOnEmail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,21 +55,6 @@ export default function Page() {
             console.error('Failed to send email.');
         }
     }
-
-    /*async function dateToDB() {
-        const user: IUser = {
-            _id: new ObjectId(),
-            fio: date.fio,
-            email: date.email,
-            password: date.password,
-            status: "Authorized",
-        };
-
-        const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);
-
-        if (!response.ok) throw new Error(response.statusText);
-        console.log(user);
-    }*/
 
     function generatePassword() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';

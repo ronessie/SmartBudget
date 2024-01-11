@@ -13,9 +13,19 @@ export default function Page() {
         email: "",
         password: "",
         status: "NotAuthorized",
+        twoStepAuthCode: ""
     });
     const router = useRouter();
     const { t } = useTranslation('common');
+
+    function generate2FAcode() {
+        const characters = '0123456789';
+        let password = '';
+        for (let i = 0; i < 6; i++) {
+            password += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return password;
+    }
 
     async function checkDate(e: any) {
         e.preventDefault();
@@ -39,6 +49,27 @@ export default function Page() {
             alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
+
+        const user2FA = json.users.find((user: IUser) => user.twoStepAuth === true);//тут надо точно менять запрос
+        if (user2FA) {
+            date.twoStepAuthCode = generate2FAcode();
+
+            const response = await fetch('/api/send2FAcodeOnEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: date.email, twoStepAuthCode: date.twoStepAuthCode, fromEmail: "vsakolinskaa@gmail.com"}),
+            });
+
+            if (response.ok) {
+                alert("Код уже отправлен Вам на почту");
+                console.log('Email sent successfully!');
+            } else {
+                console.error('Failed to send email.');
+            }
+        }
+
         alert("Вы успешно вошли")
 
         router.push('/main');
@@ -49,6 +80,11 @@ export default function Page() {
             ...date,
             [fieldName]: event.target.value,
         });
+    }
+
+    function twoStepAuthentication ()
+    {
+
     }
 
     async function googleAuthentication(e: any)
