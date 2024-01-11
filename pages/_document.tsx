@@ -4,7 +4,7 @@ export default function Document() {
     return (
         <Html lang='indexPage'>
             <Head>
-                <title>Financial accounting</title>
+                <title>SmartBudget</title>
                 <meta name='description' content='Income and expense calculation website' />
             </Head>
             <body>

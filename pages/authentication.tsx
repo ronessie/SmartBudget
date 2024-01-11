@@ -84,7 +84,7 @@ export default function Page() {
     function popUpElement() {
         return (
             <div>
-                <Popup>
+                <Popup trigger={popUpElement}>
                     <div>
                         <form className={styles.form} style={{height: 420}}>
                             <h1 className={styles.bigBlackText}
