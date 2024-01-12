@@ -75,10 +75,12 @@ export default function Page() {
                 console.error('Failed to send email.');
             }
         }
+        
+        await signIn('credentials', { username: date.email, password: date.password });
 
         alert("Вы успешно вошли")
 
-        router.push('/main');
+        await router.push('/main');
     }
 
     function popUpElement() {

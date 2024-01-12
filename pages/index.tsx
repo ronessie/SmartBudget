@@ -1,18 +1,20 @@
-import { useTranslation } from 'next-i18next';
+import {useTranslation} from 'next-i18next';
 import path from 'path';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {getSession} from "next-auth/react";
+
 path.resolve('./next.config.js');
 
 export default function Page() {
     const router = useRouter()
-    const { t} = useTranslation('common');
+    const {t} = useTranslation('common');
     const changeLanguage = async (language: string) => {
-        await router.push(router.pathname, router.asPath, { locale: language });
+        await router.push(router.pathname, router.asPath, {locale: language});
     };
 
-    return(
+    return (
         <div>
             <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
             <br/>
@@ -36,11 +38,14 @@ export default function Page() {
     )
 }
 
-export const getServerSideProps = async (ctx: any) => ({
-    props: {
-        ...(await serverSideTranslations(ctx.locale, ['common']))
+export const getServerSideProps = async (ctx: any) => {
+    const session = await getSession(ctx);
+    console.log('session: ', session?.user)
+    
+    return {
+        props: {...(await serverSideTranslations(ctx.locale, ['common']))}
     }
-});
+};
 //ТУТ БУДЕТ СТРАНИЦА - РЕКЛАМА, ВСЁ О ПРИЛОЖЕНИ И ТД + КНОПКА ВХОДА/РЕГИСТРАЦИИ
 /*<Link href="/" locale="en">
                     {t('indexPage.languages.english')}

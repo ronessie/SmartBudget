@@ -1,4 +1,5 @@
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from "next-auth/providers/credentials"
 import NextAuth from "next-auth";
 
 export default NextAuth({
@@ -7,6 +8,25 @@ export default NextAuth({
             id: 'google',
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+        }),
+        CredentialsProvider({
+            id: "credentials",
+            name: 'Credentials',
+            credentials: {
+                username: { label: "Username", type: "text" },
+                password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials, req) {
+                if (!credentials) return false as any;
+                
+                const username = credentials.username;
+                const password = credentials.password;
+                console.log("credentials auth: ", username, password);
+                
+                return {
+                    email: username,
+                };
+            }
         })
     ],
     secret: process.env.JWT_SECRET,
