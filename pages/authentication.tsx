@@ -55,7 +55,7 @@ export default function Page() {
         const user2FA = json.users.find((user: IUser) => user.twoStepAuth === true && user.email === date.email);//тут надо точно менять запрос
         if (user2FA) {
             date.twoStepAuthCode = generate2FAcode();
-            popUpElement();
+            //popUpElement();
             const response = await fetch('/api/send2FAcodeOnEmail', {
                 method: 'POST',
                 headers: {
@@ -81,30 +81,6 @@ export default function Page() {
         alert("Вы успешно вошли")
 
         await router.push('/main');
-    }
-
-    function popUpElement() {
-        return (
-            <div>
-                <Popup trigger={popUpElement}>
-                    <div>
-                        <form className={styles.form} style={{height: 420}}>
-                            <h1 className={styles.bigBlackText}
-                                style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
-                            <h3 className={styles.text}
-                                style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                            <input className={styles.input} style={{width: 335}} type="text" value={date.email}
-                                   onChange={(e) => handleFieldChange("email", e)}
-                                   title="Введите шестизначный код который пришёл вам на почту"/>
-                            <button className={styles.button}
-                                    style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
-                                    onClick={()=> router.push('/main')}
-                                    title={t('authenticationPage.placeholder.button')}>Подтвердить</button>
-                        </form>
-                    </div>
-                </Popup>
-            </div>
-        )
     }
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -143,7 +119,7 @@ export default function Page() {
                            onChange={(e) => handleFieldChange("password", e)}
                            title={t('authenticationPage.placeholder.password')}/>
                     <br/>
-                    <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
+                    <button id="auth" className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
                             onClick={checkDate}
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
                     <br/>
@@ -156,6 +132,23 @@ export default function Page() {
                     <Link href="passwordRecovery" className={styles.link}>Восстановить пароль</Link>
                 </form>
             </div>
+            <Popup trigger={<button>Жмяк</button>}>
+                <div style={{paddingLeft: 200}}>
+                    <form className={styles.form} style={{height: 420}}>
+                        <h1 className={styles.bigBlackText}
+                            style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
+                        <h3 className={styles.text}
+                            style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
+                        <input className={styles.input} style={{width: 335}} type="text" value={date.email}
+                               onChange={(e) => handleFieldChange("email", e)}
+                               title="Введите шестизначный код который пришёл вам на почту"/>
+                        <button className={styles.button}
+                                style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                                onClick={()=> router.push('/main')}
+                                title={t('authenticationPage.placeholder.button')}>Подтвердить</button>
+                    </form>
+                </div>
+            </Popup>
         </div>
     )
 }
