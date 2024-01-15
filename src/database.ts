@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 import IUser from './types/IUser';
+import IBankAccount from "@/src/types/IBankAccount";
 
 dotenv.config({ path: './.env.local' });
 
@@ -41,28 +42,4 @@ export async function connectToDatabase() {
         client: cachedClient,
         db: cachedDb
     };
-}
-
-export async function validateAccount(fio: string): Promise<boolean> {
-    const { db } = await connectToDatabase();
-    const collection = await db.collection('users');
-
-    const result = (await collection
-        .find({ fio: fio })
-        .toArray()) as IUser[];
-
-    return result.length > 0;
-}
-
-export async function createAccount(fio: string, email: string, password: string, status: string) {
-    const user: IUser = {
-        _id: new ObjectId(),
-        fio: fio,
-        email: email,
-        password: password,
-        status: status
-    };
-
-    const { db } = await connectToDatabase();
-    await db.collection('users').insertOne(user);
 }

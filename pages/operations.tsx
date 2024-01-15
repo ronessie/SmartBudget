@@ -4,13 +4,17 @@ import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {useRouter} from "next/navigation";
 import validator from "validator";
+import IOperation from "@/src/types/IOperation";
+import {today} from "@internationalized/date";
+import {Day} from "@formatjs/ecma402-abstract";
+import {any} from "prop-types";
 
 export default function Page() {
     const [data, setData] = useState({
         sum: "",
         currency: "",
         category: "",
-        date: "",
+        date: new Date(),
     });
 
     const router = useRouter();
@@ -22,25 +26,25 @@ export default function Page() {
         });
     }
     async function dateToDB() {
-        const user: IUser = {
+        const operation: IOperation = {
             _id: new ObjectId(),
-            status: "Autorization",
+            user_id: 0,
+            bankAccount_id: 0,
             sum: parseFloat(data.sum),
-            balance: 0.00,
             currency: data.currency,
-            date: "",
+            date: data.date,
             category: data.category,
             operationsStatus: ""
         };
 
-        const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);
+        const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
         if (!response.ok) throw new Error(response.statusText);
-        console.log(user);
+        console.log(operation);
     }
 
     async function dateValidation(e: any) {
         e.preventDefault();
-        const response = await fetch(`/api/authentication/users`);
+        const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
         const json = await response.json();
         //const userExist = json.users.find((user: IUser) => user.email === date.email || user.phone === date.phone);
@@ -49,7 +53,7 @@ export default function Page() {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
-        if (!data.date || !validator.isDate(data.date)){
+        if (!data.date || !validator.isDate(data.date.toString())){
             alert("Дата введена не верно")
             return
         }
@@ -77,7 +81,7 @@ export default function Page() {
                             <option value="EUR">EUR</option>
                         </select></div><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0}}>Выберите категорию трат</h1><br/>
-                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={data.date} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
+                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={data.category} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
                         <option value="products">Продукты</option>
                         <option value="clothes">Одежда</option>
                         <option value="house">Жильё</option>
@@ -85,7 +89,7 @@ export default function Page() {
                         <option value="entertainment">Развлечения</option>
                     </select><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Укажите дату</h1><br/>
-                    <input type="datetime-local" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date}/><br/>
+                    <input type="date" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date.toString()}/><br/>
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить</button>
                 </form>
             </div>
