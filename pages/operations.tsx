@@ -6,8 +6,10 @@ import validator from "validator";
 import IOperation from "@/src/types/IOperation";
 import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {connectToDatabase} from "@/src/database";
+import IUser from "@/src/types/IUser";
 
-export default function Page(props: {_id: ObjectId, currentBankAccount: ObjectId}) {
+export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [data, setData] = useState({
         sum: "",
         currency: "",
@@ -26,7 +28,7 @@ export default function Page(props: {_id: ObjectId, currentBankAccount: ObjectId
     async function dateToDB() {
         const operation: IOperation = {
             _id: new ObjectId(),
-            user_id: props._id,
+            user_id: props.user._id,
             bankAccount_id: props.currentBankAccount,
             sum: parseFloat(data.sum),
             currency: data.currency,
@@ -97,8 +99,15 @@ export default function Page(props: {_id: ObjectId, currentBankAccount: ObjectId
 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
+
+    const { db } = await connectToDatabase();
+
+    const user = (await db
+        .collection('users')
+        .find({}, { email: session?.user?.email }).toArray())[0] as IUser;
+
     return {
-        props: { _id: session?.user, currentBankAccount: session?.user,
+        props: { user: user, currentBankAccount: session?.user,
             ...(await serverSideTranslations(ctx.locale, ['common']))}
     }
 };
