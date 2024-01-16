@@ -127,9 +127,9 @@ export default function Page() {
                             style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
                             onClick={googleAuthentication}
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</button>
-                    <Link href="registration" className={styles.link}
+                    <Link href={"registration"} className={styles.link}
                           style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</Link><br/>
-                    <Link href="passwordRecovery" className={styles.link}>Восстановить пароль</Link>
+                    <Link href={"passwordRecovery"} className={styles.link}>Восстановить пароль</Link>
                 </form>
             </div>
             <Popup trigger={<button>Жмяк</button>}>

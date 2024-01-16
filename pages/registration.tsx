@@ -7,6 +7,7 @@ import '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 import IBankAccount from "@/src/types/IBankAccount";
+import Link from "next/link";
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -125,7 +126,7 @@ export default function Page() {
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
                     <br />
                     <button className={styles.button} onClick={googleAuthentication} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью Google</button>
-                    <a className={styles.link} href="authentication" style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</a>
+                    <Link className={styles.link} href={"authentication"} style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</Link>
                 </form>
             </div>
         </div>

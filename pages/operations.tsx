@@ -28,8 +28,8 @@ export default function Page() {
     async function dateToDB() {
         const operation: IOperation = {
             _id: new ObjectId(),
-            user_id: 0,
-            bankAccount_id: 0,
+            user_id: new ObjectId(),
+            bankAccount_id: new ObjectId(),
             sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,

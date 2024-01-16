@@ -18,19 +18,19 @@ export default function Page() {
         <div>
             <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
             <br/>
-            <Link href="registration">{t('indexPage.registration')}</Link>
+            <Link href={"registration"}>{t('indexPage.registration')}</Link>
             <br/>
-            <Link href="settings">{t('indexPage.settings')}</Link>
+            <Link href={"settings"}>{t('indexPage.settings')}</Link>
             <br/>
-            <Link href="main">{t('indexPage.main')}</Link>
+            <Link href={"main"}>{t('indexPage.main')}</Link>
             <br/>
-            <Link href="operations">{t('indexPage.operations')}</Link>
+            <Link href={"operations"}>{t('indexPage.operations')}</Link>
             <br/>
-            <Link href="passwordRecovery">Восстановление пароля</Link>
+            <Link href={"passwordRecovery"}>Восстановление пароля</Link>
             <br/>
-            <Link href="account">Аккаунт</Link>
+            <Link href={"account"}>Аккаунт</Link>
             <br/>
-            <Link href="addBankAccount">Добавление счёта</Link>
+            <Link href={"addBankAccount"}>Добавление счёта</Link>
             <br/>
             <button onClick={() => changeLanguage('en')}>EN</button>
             <button onClick={() => changeLanguage('ru')}>RU</button>
@@ -47,9 +47,3 @@ export const getServerSideProps = async (ctx: any) => {
     }
 };
 //ТУТ БУДЕТ СТРАНИЦА - РЕКЛАМА, ВСЁ О ПРИЛОЖЕНИ И ТД + КНОПКА ВХОДА/РЕГИСТРАЦИИ
-/*<Link href="/" locale="en">
-                    {t('indexPage.languages.english')}
-                </Link>
-                <Link href="/" locale="ru">
-                    {t('indexPage.languages.russian')}
-                </Link>*/

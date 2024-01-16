@@ -83,7 +83,7 @@ export default function Page() {
                     <br/>
                     <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate} title="Нажмите для смены пароля">Сменить пароль</button>
                     <br/>
-                    <Link href="registration" className={styles.link}>Вернуться назад</Link>
+                    <Link href={"registration"} className={styles.link}>Вернуться назад</Link>
                 </form>
             </div>
         </div>

@@ -5,6 +5,7 @@ import {ObjectId} from "bson";
 import {GetServerSideProps} from "next";
 import {getSession, useSession} from "next-auth/react";
 import React, { useState, useEffect } from 'react';
+import Link from "next/link";
 
 
 export default function Page(props: { sum: string, email: string }) {
@@ -16,7 +17,7 @@ export default function Page(props: { sum: string, email: string }) {
     const [data, setData] = useState({
         status: "",
         currency: "",
-        balance: 0.00,
+        balance: 0,
         lastUpdateDate: "",
     });
 
@@ -29,8 +30,6 @@ export default function Page(props: { sum: string, email: string }) {
         email: "",
         password: "",
         status: "Autorization",
-        balance: 0.00,
-        lastUpdateDate:"",
     };
 
     function exitButton()
@@ -46,7 +45,7 @@ export default function Page(props: { sum: string, email: string }) {
             <div className={styles.pages}>
                 <div className={styles.conteiners}>
                     <h1 className={styles.bigBlackText}>Hi, UserName</h1>
-                    <a href="settings" style={{fontSize: 32, marginTop: 15, textDecorationLine: "none", marginRight:15}}>⚙️</a>
+                    <Link href={"settings"} style={{fontSize: 32, marginTop: 15, textDecorationLine: "none", marginRight:15}}>⚙️</Link>
                 </div>
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
