@@ -125,7 +125,7 @@ export default function Page() {
                     <h3 className={styles.text} style={{fontSize: 16}}>Подтвердите пароль</h3>
                     <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
                     <br />
-                    <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Сохранить</button>
+                    <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Зарегистрироваться</button>
                     <br />
                     <button className={styles.button} onClick={googleAuthentication} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью Google</button>
                     <Link className={styles.link} href={"authentication"} style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</Link>

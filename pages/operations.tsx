@@ -7,7 +7,7 @@ import IOperation from "@/src/types/IOperation";
 import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
-export default function Page() {
+export default function Page(props: {_id: ObjectId, currentBankAccount: ObjectId}) {
     const [data, setData] = useState({
         sum: "",
         currency: "",
@@ -26,8 +26,8 @@ export default function Page() {
     async function dateToDB() {
         const operation: IOperation = {
             _id: new ObjectId(),
-            user_id: new ObjectId(),
-            bankAccount_id: new ObjectId(),
+            user_id: props._id,
+            bankAccount_id: props.currentBankAccount,
             sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,
