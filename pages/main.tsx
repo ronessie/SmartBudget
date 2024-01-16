@@ -2,10 +2,10 @@ import styles from '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
-import {GetServerSideProps} from "next";
 import {getSession, useSession} from "next-auth/react";
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 
 export default function Page(props: { sum: string, email: string }) {
@@ -63,10 +63,11 @@ export default function Page(props: { sum: string, email: string }) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async ctx => {
+export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
+    console.log('session: ', session?.user)
 
     return {
-        props: {}
-    };
+        props: {...(await serverSideTranslations(ctx.locale, ['common']))}
+    }
 };

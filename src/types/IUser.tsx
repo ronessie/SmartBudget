@@ -6,7 +6,8 @@ export default interface IUser {
     twoStepAuth?: boolean;
     twoStepAuthCode?: string;
     fio?: string;
-    email?: string;
-    password?: string;
+    email: string;
+    password: string;
     status: string;
+    currentBankAccount?: ObjectId;
 }

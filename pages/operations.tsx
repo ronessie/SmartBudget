@@ -1,13 +1,11 @@
 import styles from '../styles/pages.module.css'
 import React, {useState} from "react";
-import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {useRouter} from "next/navigation";
 import validator from "validator";
 import IOperation from "@/src/types/IOperation";
-import {today} from "@internationalized/date";
-import {Day} from "@formatjs/ecma402-abstract";
-import {any} from "prop-types";
+import {getSession} from "next-auth/react";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -96,3 +94,11 @@ export default function Page() {
         </div>
     )
 }
+
+export const getServerSideProps = async (ctx: any) => {
+    const session = await getSession(ctx);
+    return {
+        props: { _id: session?.user, currentBankAccount: session?.user,
+            ...(await serverSideTranslations(ctx.locale, ['common']))}
+    }
+};

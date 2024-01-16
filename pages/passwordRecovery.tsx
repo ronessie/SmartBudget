@@ -3,11 +3,8 @@ import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import IUser from "@/src/types/IUser";
 import { useRouter } from 'next/router';
-import {signIn} from "next-auth/react";
-import { useTranslation } from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import {router} from "next/client";
 export default function Page() {
 
     const [date, setDate] = useState({

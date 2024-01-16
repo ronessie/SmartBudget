@@ -74,12 +74,14 @@ export default function Page() {
     }
 
     async function dateToDB() {
+        const bankAccount_id = new ObjectId();
         const user: IUser = {
             _id: new ObjectId(),
             fio: date.fio,
             email: date.email,
             password: date.password,
             status: "Authorized",
+            currentBankAccount: bankAccount_id,
         };
 
         const userResponse = await fetch(`/api/authentication/${JSON.stringify(user)}`);
@@ -88,7 +90,7 @@ export default function Page() {
         console.log(user);
 
         const bankAccount: IBankAccount = {
-            _id: new ObjectId(),
+            _id: bankAccount_id,
             user_id: user._id,
             name: "Счёт",
             currency: "BYN",

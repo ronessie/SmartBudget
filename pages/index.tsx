@@ -1,9 +1,7 @@
 import {useTranslation} from 'next-i18next';
 import path from 'path';
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {getSession} from "next-auth/react";
 
 path.resolve('./next.config.js');
 
@@ -37,13 +35,4 @@ export default function Page() {
         </div>
     )
 }
-
-export const getServerSideProps = async (ctx: any) => {
-    const session = await getSession(ctx);
-    console.log('session: ', session?.user)
-    
-    return {
-        props: {...(await serverSideTranslations(ctx.locale, ['common']))}
-    }
-};
 //ТУТ БУДЕТ СТРАНИЦА - РЕКЛАМА, ВСЁ О ПРИЛОЖЕНИ И ТД + КНОПКА ВХОДА/РЕГИСТРАЦИИ

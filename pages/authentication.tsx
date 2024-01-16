@@ -90,10 +90,6 @@ export default function Page() {
         });
     }
 
-    function twoStepAuthentication() {
-
-    }
-
     async function googleAuthentication(e: any) {
         e.preventDefault()
         const response = await signIn('google');
