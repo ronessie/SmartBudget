@@ -76,7 +76,7 @@ export default function Page() {
             }
         }
         
-        await signIn('credentials', { username: date.email, password: date.password });
+        await signIn('credentials', { username: date.email, password: date.password, redirect: false });
 
         alert("Вы успешно вошли")
 
