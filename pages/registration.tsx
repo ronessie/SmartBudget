@@ -6,6 +6,7 @@ import validator from 'validator';
 import '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
+import IBankAccount from "@/src/types/IBankAccount";
 export default function Page() {
     const [date, setDate] = useState({
         fio: "",
@@ -61,6 +62,16 @@ export default function Page() {
         }
     }
 
+    function inviteCode()
+    {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+        let code = '';
+        for (let i = 0; i < 16; i++) {
+            code += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return code;
+    }
+
     async function dateToDB() {
         const user: IUser = {
             _id: new ObjectId(),
@@ -70,7 +81,21 @@ export default function Page() {
             status: "Authorized",
         };
 
-        const response = await fetch(`/api/authentication/${JSON.stringify(user)}`);
+        const userResponse = await fetch(`/api/authentication/${JSON.stringify(user)}`);
+
+        if (!userResponse.ok) throw new Error(userResponse.statusText);
+        console.log(user);
+
+        const bankAccount: IBankAccount = {
+            _id: new ObjectId(),
+            user_id: user._id,
+            name: "Счёт",
+            currency: "BYN",
+            balance: 0,
+            invitingCode: inviteCode(),
+        };
+
+        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
         if (!response.ok) throw new Error(response.statusText);
         console.log(user);
