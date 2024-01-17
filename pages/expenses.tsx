@@ -34,7 +34,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             currency: data.currency,
             date: data.date,
             category: data.category,
-            operationsStatus: ""
+            operationsStatus: "-"
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
@@ -46,21 +46,18 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         e.preventDefault();
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
-        const json = await response.json();
-        //const userExist = json.users.find((user: IUser) => user.email === date.email || user.phone === date.phone);
 
         if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
-        if (!data.date || !validator.isDate(data.date.toString())){
+        if ((!data.date || !validator.isDate(data.date.toString())) && data.date>new Date()){
             alert("Дата введена не верно")
             return
         }
         else {
-            alert("всё оки, работаем дальше")
             dateToDB();
-            alert("Мы всё сохранили")
+            alert("всё оки, работаем дальше")
             router.push('/main')
         }
     }
@@ -87,6 +84,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         <option value="house">Жильё</option>
                         <option value="car">Автомобиль</option>
                         <option value="entertainment">Развлечения</option>
+                        <option value="duty">Долг</option>
                     </select><br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Укажите дату</h1><br/>
                     <input type="date" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date.toString()}/><br/>
