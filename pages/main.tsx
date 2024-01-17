@@ -54,8 +54,8 @@ export default function Page(props: { sum: string, email: string }) {
                     <h1 className={styles.whiteText}>Последнее обновление 29/01/22</h1>
                 </div>
                 <div>
-                    <button className={styles.incomeButton} onClick={() => router.push('/operations')}>+ Доход</button>
-                    <button className={styles.expenseButton} onClick={() => router.push('/operations')}>+ Расход</button>
+                    <button className={styles.incomeButton} onClick={() => router.push('/income')}>+ Доход</button>
+                    <button className={styles.expenseButton} onClick={() => router.push('/expenses')}>+ Расход</button>
                 </div>
 
             </div>

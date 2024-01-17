@@ -2,6 +2,7 @@ import {useTranslation} from 'next-i18next';
 import path from 'path';
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 path.resolve('./next.config.js');
 
@@ -22,7 +23,9 @@ export default function Page() {
             <br/>
             <Link href={"main"}>{t('indexPage.main')}</Link>
             <br/>
-            <Link href={"operations"}>{t('indexPage.operations')}</Link>
+            <Link href={"expenses"}>Расход</Link>
+            <br/>
+            <Link href={"income"}>Доход</Link>
             <br/>
             <Link href={"passwordRecovery"}>Восстановление пароля</Link>
             <br/>
@@ -35,4 +38,9 @@ export default function Page() {
         </div>
     )
 }
+export const getServerSideProps = async (ctx: any) => ({
+    props: {
+        ...(await serverSideTranslations(ctx.locale, ['common']))
+    }
+});
 //ТУТ БУДЕТ СТРАНИЦА - РЕКЛАМА, ВСЁ О ПРИЛОЖЕНИ И ТД + КНОПКА ВХОДА/РЕГИСТРАЦИИ

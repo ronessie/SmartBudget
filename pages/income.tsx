@@ -8,16 +8,12 @@ import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
-import Popup from "reactjs-popup";
-import Link from "next/link";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [data, setData] = useState({
-        name: "",
+        sum: "",
         currency: "",
-        balance: "",
-        lastBalanceUpdateDate: new Date(),
-        inviteCode: "",
+        category: "",
         date: new Date(),
     });
 
@@ -30,20 +26,20 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         });
     }
     async function dateToDB() {
-        /*const operation: IOperation = {
+        const operation: IOperation = {
             _id: new ObjectId(),
             user_id: props.user._id,
             bankAccount_id: props.currentBankAccount,
-            sum: parseFloat(data.balance),
+            sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,
             category: data.category,
-            operationsStatus: ""
+            operationsStatus: "+"
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
         if (!response.ok) throw new Error(response.statusText);
-        console.log(operation);*/
+        console.log(operation);
     }
 
     async function dateValidation(e: any) {
@@ -51,11 +47,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
 
-        if (!data.balance || !(/^[\d]+$/).test(data.balance)) {
+        if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
-        if (!data.date || !validator.isDate(data.date.toString())){
+        if ((!data.date || !validator.isDate(data.date.toString())) && data.date>new Date()){
             alert("Дата введена не верно")
             return
         }
@@ -69,16 +65,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     return(
         <div className={styles.page}>
             <div className={styles.registration}>
-                <form className={styles.form} style={{height: 380}}>
-                    <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 45}}>Добавление счёта</h1>
-                    <br/>
-                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Введите название счёта</h1><br/>
-                    <input type="text" style={{width: 337}} onChange={(e) => handleFieldChange("date", e)}
-                           className={styles.input} value={data.name}/><br/>
-                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите сумму на счету</h1><br/>
-                    <div><input value={data.balance} className={styles.input} onChange={(e) => handleFieldChange("sum", e)}
-                                type="text" style={{width: 260}}
-                                title="Пример: BYN"/>
+                <form className={styles.form} style={{height: 420}}>
+                    <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 25}}>Добавление операции</h1><br/>
+                    <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 15}}>Введите сумму</h1><br/>
+                    <div><input value={data.sum} className={styles.inputMoney} onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
+                                title="Пример: 100"/>
                         <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)}
                                 value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
                             <option value="BYN">BYN</option>
@@ -88,22 +79,17 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             <option value="EUR">EUR</option>
                         </select></div>
                     <br/>
-                    <button className={styles.button} onClick={dateValidation}
-                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                    </button>
-                    <Popup trigger={<Link className={styles.link} style={{paddingLeft: 60}} href={""}>У меня есть пригласительный код</Link>}>
-                        <div>
-                            <form className={styles.form} style={{height: 200}}>
-                                <h1 className={styles.text}
-                                    style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Введите код</h1><br/>
-                                <input type="text" style={{width: 337}} onChange={(e) => handleFieldChange("date", e)}
-                                       className={styles.input} value={data.inviteCode}/><br/>
-                                <button className={styles.button}
-                                        style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                </button>
-                            </form>
-                        </div>
-                    </Popup>
+                    <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0}}>Выберите источник дохода</h1><br/>
+                    <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={data.category} style={{width: 351}} title="Выберите источник дохода. Пример: Подарок">
+                        <option value="salary">Заработная плата</option>
+                        <option value="gift">Подарок</option>
+                        <option value="premium">Премия</option>
+                        <option value="debt refund">Возврат долга</option>
+                        <option value="cachek">Кэшбэк</option>
+                    </select><br/>
+                    <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 17}}>Укажите дату</h1><br/>
+                    <input type="date" style={{ width: 337}} onChange={(e) => handleFieldChange("date", e)} className={styles.input} value={data.date.toString()}/><br/>
+                    <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить</button>
                 </form>
             </div>
         </div>
@@ -113,11 +99,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
-    const {db} = await connectToDatabase();
+    const { db } = await connectToDatabase();
 
     const user = (await db
         .collection('users')
-        .find({}, {email: session?.user?.email }).toArray())[0] as IUser;
+        .find({}, { email: session?.user?.email }).toArray())[0] as IUser;
 
     return {
         props: { user: user, currentBankAccount: session?.user,
