@@ -92,7 +92,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google');
+        const response = await signIn('google', { redirect: false });
         if (response && response.ok) {
             router.push('/main');
         }
