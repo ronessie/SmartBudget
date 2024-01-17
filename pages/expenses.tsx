@@ -70,13 +70,15 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0, marginTop: 15}}>Введите сумму</h1><br/>
                     <div><input value={data.sum} className={styles.inputMoney} onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
                                 title="Пример: 100"/>
-                        <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)} value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
-                            <option value="RUB">RUB</option>
+                        <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)}
+                                value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
                             <option value="BYN">BYN</option>
+                            <option value="RUB">RUB</option>
                             <option value="USD">USD</option>
                             <option value="PLN">PLN</option>
                             <option value="EUR">EUR</option>
-                        </select></div><br/>
+                        </select></div>
+                    <br/>
                     <h1 className={styles.text} style={{fontSize: 16, margin:0, padding:0}}>Выберите категорию трат</h1><br/>
                     <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)} value={data.category} style={{width: 351}} title="Выберите категорию трат. Пример: Продукты">
                         <option value="products">Продукты</option>
