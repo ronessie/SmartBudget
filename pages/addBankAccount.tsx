@@ -10,6 +10,8 @@ import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Popup from "reactjs-popup";
 import Link from "next/link";
+import bankAccounts from "@/pages/api/addBankAccount/bankAccounts";
+import IBankAccount from "@/src/types/IBankAccount";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [data, setData] = useState({
@@ -46,17 +48,34 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         console.log(operation);*/
     }
 
+    async function checkInviteCode()
+    {
+        /*const response = await fetch(`/api/addBankAccount/bankAccounts`);
+
+        if (!response.ok) throw new Error(response.statusText);
+
+        const json = await response.json();
+        const inviteToBankAccount = json.bankAccounts.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)
+        if (!inviteToBankAccount)
+        {
+            alert("Код введён не верно, попробуйте ещё раз")
+            return;
+        }
+        //const userEmail = json.users.find((user: IUser) => user.email === date.email && user.password === date.password);
+        */
+    }
+
     async function dateValidation(e: any) {
         e.preventDefault();
-        const response = await fetch(`/api/addOperation/operations`);
+        const response = await fetch(`/api/addBankAccount/bankAccounts`);
         if (!response.ok) throw new Error(response.statusText);
 
         if (!data.balance || !(/^[\d]+$/).test(data.balance)) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
-        if (!data.date || !validator.isDate(data.date.toString())){
-            alert("Дата введена не верно")
+        if (!data.name){
+            alert("Укажите название счёта")
             return
         }
         else {
@@ -98,7 +117,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                                     style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Введите код</h1><br/>
                                 <input type="text" style={{width: 337}} onChange={(e) => handleFieldChange("date", e)}
                                        className={styles.input} value={data.inviteCode}/><br/>
-                                <button className={styles.button}
+                                <button className={styles.button} onClick={checkInviteCode}
                                         style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
                                 </button>
                             </form>
