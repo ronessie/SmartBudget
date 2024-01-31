@@ -2,16 +2,12 @@ import styles from '../styles/pages.module.css'
 import React, {useState} from "react";
 import {ObjectId} from "bson";
 import {useRouter} from "next/navigation";
-import validator from "validator";
-import IOperation from "@/src/types/IOperation";
 import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Popup from "reactjs-popup";
 import Link from "next/link";
-import bankAccounts from "@/pages/api/addBankAccount/bankAccounts";
-import IBankAccount from "@/src/types/IBankAccount";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [data, setData] = useState({

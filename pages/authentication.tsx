@@ -15,7 +15,8 @@ export default function Page() {
         email: "",
         password: "",
         status: "NotAuthorized",
-        twoStepAuthCode: ""
+        twoStepAuthCode: "",
+        check2FA: ""
     });
     const router = useRouter();
     const {t} = useTranslation('common');
@@ -52,31 +53,28 @@ export default function Page() {
             return;
         }
 
-        const user2FA = json.users.find((user: IUser) => user.twoStepAuth === true && user.email === date.email);//тут надо точно менять запрос
-        if (user2FA) {
-            date.twoStepAuthCode = generate2FAcode();
-            //popUpElement();
-            const response = await fetch('/api/send2FAcodeOnEmail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: date.email,
-                    twoStepAuthCode: date.twoStepAuthCode,
-                    fromEmail: "vsakolinskaa@gmail.com"
-                }),
-            });
+        date.twoStepAuthCode = generate2FAcode();
+        const response2FA = await fetch('/api/send2FAcodeOnEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: date.email,
+                twoStepAuthCode: date.twoStepAuthCode,
+                fromEmail: "vsakolinskaa@gmail.com"
+            }),
+        });
 
-            if (response.ok) {
-                alert("Код уже отправлен Вам на почту");
-                console.log('Email sent successfully!');
-            } else {
-                console.error('Failed to send email.');
-            }
+        if (response2FA.ok) {
+            alert("Код уже отправлен Вам на почту");
+            console.log('Email sent successfully!');
+        } else {
+            console.error('Failed to send email.');
         }
-        
-        await signIn('credentials', { username: date.email, password: date.password, redirect: false });
+
+
+        await signIn('credentials', {username: date.email, password: date.password, redirect: false});
 
         alert("Вы успешно вошли")
 
@@ -92,7 +90,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google', { redirect: false });
+        const response = await signIn('google', {redirect: false});
         if (response && response.ok) {
             router.push('/main');
         }
@@ -126,25 +124,28 @@ export default function Page() {
                     <Link href={"registration"} className={styles.link}
                           style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</Link><br/>
                     <Link href={"passwordRecovery"} className={styles.link}>Восстановить пароль</Link>
+                    <Popup trigger={<button id="auth" className={styles.button}
+                                            style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate}
+                                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>}>
+                        <div style={{paddingLeft: 200}}>
+                            <form className={styles.form} style={{height: 420}}>
+                                <h1 className={styles.bigBlackText}
+                                    style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
+                                <h3 className={styles.text}
+                                    style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
+                                <input className={styles.input} style={{width: 335}} type="text" value={date.check2FA}
+                                       onChange={(e) => handleFieldChange("email", e)}
+                                       title="Введите шестизначный код который пришёл вам на почту"/>
+                                <button className={styles.button}
+                                        style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                                        onClick={() => router.push('/main')}
+                                        title={t('authenticationPage.placeholder.button')}>Подтвердить
+                                </button>
+                            </form>
+                        </div>
+                    </Popup>
                 </form>
             </div>
-            <Popup trigger={<button>Жмяк</button>}>
-                <div style={{paddingLeft: 200}}>
-                    <form className={styles.form} style={{height: 420}}>
-                        <h1 className={styles.bigBlackText}
-                            style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
-                        <h3 className={styles.text}
-                            style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                        <input className={styles.input} style={{width: 335}} type="text" value={date.email}
-                               onChange={(e) => handleFieldChange("email", e)}
-                               title="Введите шестизначный код который пришёл вам на почту"/>
-                        <button className={styles.button}
-                                style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
-                                onClick={()=> router.push('/main')}
-                                title={t('authenticationPage.placeholder.button')}>Подтвердить</button>
-                    </form>
-                </div>
-            </Popup>
         </div>
     )
 }
@@ -154,3 +155,10 @@ export const getServerSideProps = async (ctx: any) => ({
         ...(await serverSideTranslations(ctx.locale, ['common']))
     }
 });
+
+/*
+<button id="auth" className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
+                        onClick={checkDate}
+                        title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
+                <br/>
+*/
