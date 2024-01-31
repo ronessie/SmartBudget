@@ -9,7 +9,7 @@ import {signIn} from "next-auth/react";
 import IBankAccount from "@/src/types/IBankAccount";
 import Link from "next/link";
 export default function Page() {
-    const [date, setDate] = useState({
+    const [data, setData] = useState({
         fio: "",
         email: "",
         password: "",
@@ -20,8 +20,8 @@ export default function Page() {
     const router = useRouter();
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setDate({
-            ...date,
+        setData({
+            ...data,
             [fieldName]: event.target.value,
         });
     }
@@ -31,25 +31,25 @@ export default function Page() {
         const response = await fetch(`/api/authentication/users`);
         if (!response.ok) throw new Error(response.statusText);
         const json = await response.json();
-        const userExist = json.users.find((user: IUser) => user.email === date.email);
+        const userExist = json.users.find((user: IUser) => user.email === data.email);
 
-        if (!date.fio || !date.email || !date.password || !date.checkPassword) {
+        if (!data.fio || !data.email || !data.password || !data.checkPassword) {
             alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
             return
         }
-        if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(date.fio)) {
+        if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(data.fio)) {
             alert("ФИО введено не верно")
             return;
         }
-        if (!validator.isEmail(date.email)) {
+        if (!validator.isEmail(data.email)) {
             alert("Почта введена не верно")
             return;
         }
-        if (date.password.length < 8) {
+        if (data.password.length < 8) {
             alert("Пароль должен содержать не менее 8 символов")
             return;
         }
-        if (date.password != date.checkPassword) {
+        if (data.password != data.checkPassword) {
             alert("Пароль введён не верно")
             return;
         }
@@ -77,9 +77,9 @@ export default function Page() {
         const bankAccount_id = new ObjectId();
         const user: IUser = {
             _id: new ObjectId(),
-            fio: date.fio,
-            email: date.email,
-            password: date.password,
+            fio: data.fio,
+            email: data.email,
+            password: data.password,
             status: "Authorized",
             currentBankAccount: bankAccount_id,
         };
@@ -117,13 +117,13 @@ export default function Page() {
                 <form className={styles.form} style={{height: 550}}>
                     <h1 className={styles.bigBlackText} style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 60}}>Регистрация</h1>
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите ФИО</h3>
-                    <input type="text" value={date.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
+                    <input type="text" value={data.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите эл. почту</h3>
-                    <input type="text" value={date.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.indexPage"/>
+                    <input type="text" value={data.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.indexPage"/>
                     <h3 className={styles.text} style={{fontSize: 16}}>Введите пароль</h3>
-                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
+                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={data.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
                     <h3 className={styles.text} style={{fontSize: 16}}>Подтвердите пароль</h3>
-                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={date.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
+                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={data.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
                     <br />
                     <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Зарегистрироваться</button>
                     <br />

@@ -6,7 +6,7 @@ import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
 
 export default function Page(props: { fio: string, email: string }) {
-    const [accountDate, setAccountDate] = useState({
+    const [accountData, setAccountData] = useState({
         fio: props.fio,
         email: props.email,
     });
@@ -18,8 +18,8 @@ export default function Page(props: { fio: string, email: string }) {
             <div>
                 <button className={styles.button} style={{marginRight: 10}} onClick={() => router.push('/addBankAccount')}>+ счёт</button>
             </div>
-            <h2>ФИО:</h2><h3>{accountDate.fio}</h3>
-            <h2>Электронная почта:</h2><h3>{accountDate.email}</h3>
+            <h2>ФИО:</h2><h3>{accountData.fio}</h3>
+            <h2>Электронная почта:</h2><h3>{accountData.email}</h3>
         </div>
     )
 }

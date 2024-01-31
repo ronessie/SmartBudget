@@ -11,7 +11,7 @@ import Popup from 'reactjs-popup';
 import Link from "next/link";
 
 export default function Page() {
-    const [date, setDate] = useState({
+    const [data, setData] = useState({
         email: "",
         password: "",
         status: "NotAuthorized",
@@ -38,30 +38,30 @@ export default function Page() {
 
         const json = await response.json();
 
-        if (!validator.isEmail(date.email)) {
+        if (!validator.isEmail(data.email)) {
             alert("Электронная почта введена не верно")
             return;
         }
-        if (!date.password) {
+        if (!data.password) {
             alert("Введите пароль")
             return;
         }
 
-        const userEmail = json.users.find((user: IUser) => user.email === date.email && user.password === date.password);
+        const userEmail = json.users.find((user: IUser) => user.email === data.email && user.password === data.password);
         if (!userEmail) {
             alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
 
-        date.twoStepAuthCode = generate2FAcode();
+        data.twoStepAuthCode = generate2FAcode();
         const response2FA = await fetch('/api/send2FAcodeOnEmail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: date.email,
-                twoStepAuthCode: date.twoStepAuthCode,
+                email: data.email,
+                twoStepAuthCode: data.twoStepAuthCode,
                 fromEmail: "vsakolinskaa@gmail.com"
             }),
         });
@@ -74,7 +74,7 @@ export default function Page() {
         }
 
 
-        await signIn('credentials', {username: date.email, password: date.password, redirect: false});
+        await signIn('credentials', {username: data.email, password: data.password, redirect: false});
 
         alert("Вы успешно вошли")
 
@@ -82,8 +82,8 @@ export default function Page() {
     }
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setDate({
-            ...date,
+        setData({
+            ...data,
             [fieldName]: event.target.value,
         });
     }
@@ -104,12 +104,12 @@ export default function Page() {
                         style={{fontSize: 40, paddingLeft: 120}}>{t('authenticationPage.signIn')}</h1>
                     <h3 className={styles.text}
                         style={{paddingTop: 35, fontSize: 16}}>{t('authenticationPage.input.email')}</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={date.email}
+                    <input className={styles.input} style={{width: 335}} type="text" value={data.email}
                            onChange={(e) => handleFieldChange("email", e)}
                            title={t('authenticationPage.placeholder.email')}/>
                     <h3 className={styles.text}
                         style={{fontSize: 16, paddingTop: 10}}>{t('authenticationPage.input.password')}</h3>
-                    <input className={styles.passwordInput} style={{width: 335}} type="password" value={date.password}
+                    <input className={styles.passwordInput} style={{width: 335}} type="password" value={data.password}
                            onChange={(e) => handleFieldChange("password", e)}
                            title={t('authenticationPage.placeholder.password')}/>
                     <br/>
@@ -133,7 +133,7 @@ export default function Page() {
                                     style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
                                 <h3 className={styles.text}
                                     style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                                <input className={styles.input} style={{width: 335}} type="text" value={date.check2FA}
+                                <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
                                        onChange={(e) => handleFieldChange("email", e)}
                                        title="Введите шестизначный код который пришёл вам на почту"/>
                                 <button className={styles.button}

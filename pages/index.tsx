@@ -23,15 +23,9 @@ export default function Page() {
             <br/>
             <Link href={"main"}>{t('indexPage.main')}</Link>
             <br/>
-            <Link href={"expenses"}>Расход</Link>
-            <br/>
-            <Link href={"income"}>Доход</Link>
-            <br/>
             <Link href={"passwordRecovery"}>Восстановление пароля</Link>
             <br/>
             <Link href={"account"}>Аккаунт</Link>
-            <br/>
-            <Link href={"addBankAccount"}>Добавление счёта</Link>
             <br/>
             <button onClick={() => changeLanguage('en')}>EN</button>
             <button onClick={() => changeLanguage('ru')}>RU</button>
