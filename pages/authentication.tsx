@@ -15,6 +15,9 @@ export default function Page() {
         email: "",
         password: "",
         status: "NotAuthorized",
+        newPassword: generatePassword(),
+        fromEmail: "vsakolinskaa@gmail.com",
+        popUpEmail: "",
         twoStepAuthCode: "",
         check2FA: ""
     });
@@ -81,6 +84,50 @@ export default function Page() {
         await router.push('/main');
     }
 
+    function generatePassword() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+        let password = '';
+        for (let i = 0; i < 12; i++) {
+            password += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return password;
+    }
+    async function checkDateForPasswrdRecovery(e: any) {
+        e.preventDefault();
+
+        if (!validator.isEmail(data.popUpEmail)) {
+            alert("Электронная почта введена не верно")
+            return;
+        }
+
+        const resp = await fetch(`/api/authentication/users`);
+
+        if (!resp.ok) throw new Error(resp.statusText);
+
+        const json = await resp.json();
+
+        const userEmail = json.users.find((user: IUser) => user.email === data.popUpEmail);
+        if (!userEmail) {
+            alert("Пользователь с такой почтой не обнаружен")
+            return;
+        }
+        const response = await fetch('/api/sendNewPasswordOnEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: data.popUpEmail, password: data.newPassword, fromEmail: data.fromEmail}),
+        });
+
+        if (response.ok) {
+            alert("Новый пароль отправлен вам на почту");
+            console.log('Email sent successfully!');
+            router.push('/authentication');
+        } else {
+            console.error('Failed to send email.');
+        }
+    }
+
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setData({
             ...data,
@@ -123,8 +170,36 @@ export default function Page() {
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</button>
                     <Link href={"registration"} className={styles.link}
                           style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</Link><br/>
-                    <Link href={"passwordRecovery"} className={styles.link}>Восстановить пароль</Link>
-                    <Popup trigger={<button id="auth" className={styles.button}
+                    <Popup trigger={<Link href={""} className={styles.link} style={{paddingLeft: 100}}>Восстановить
+                        пароль</Link>}>
+                        <form className={styles.form} style={{height: 290, marginLeft: 63}}>
+                            <h1 className={styles.bigBlackText} style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
+                                пароля</h1>
+                            <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите эл. почту к
+                                которой привязан аккаунт: </h3>
+                            <input autoFocus={true} className={styles.input} style={{width: 335}} type="text" value={data.popUpEmail}
+                                   onChange={(e) => handleFieldChange("popUpEmail", e)}
+                                   title="Пример: Ivanov@mail.ru"/>
+                            <br/>
+                            <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
+                                    onClick={checkDateForPasswrdRecovery} title="Нажмите для смены пароля">Сменить пароль
+                            </button>
+                            <br/>
+                        </form>
+                    </Popup>
+                </form>
+            </div>
+        </div>
+    )
+}
+
+export const getServerSideProps = async (ctx: any) => ({
+    props: {
+        ...(await serverSideTranslations(ctx.locale, ['common']))
+    }
+});
+
+/*<Popup trigger={<button id="auth" className={styles.button}
                                             style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate}
                                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>}>
                         <div style={{paddingLeft: 200}}>
@@ -143,22 +218,4 @@ export default function Page() {
                                 </button>
                             </form>
                         </div>
-                    </Popup>
-                </form>
-            </div>
-        </div>
-    )
-}
-
-export const getServerSideProps = async (ctx: any) => ({
-    props: {
-        ...(await serverSideTranslations(ctx.locale, ['common']))
-    }
-});
-
-/*
-<button id="auth" className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
-                        onClick={checkDate}
-                        title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
-                <br/>
-*/
+                    </Popup>*/
