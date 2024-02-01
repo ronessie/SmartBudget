@@ -26,6 +26,7 @@
     "react-dom": "^18",
     "react-input-mask": "^2.0.4",
     "reactjs-popup": "^2.0.6",
+    "tesseract.js": "^5.0.4",
     "validator": "^13.11.0"
   },
   "devDependencies": {

@@ -1,7 +1,5 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
-import IUser from './types/IUser';
-import IBankAccount from "@/src/types/IBankAccount";
 
 dotenv.config({ path: './.env.local' });
 

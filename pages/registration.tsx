@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 import IBankAccount from "@/src/types/IBankAccount";
 import Link from "next/link";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 export default function Page() {
     const [data, setData] = useState({
         fio: "",
@@ -134,3 +135,9 @@ export default function Page() {
         </div>
     );
 }
+
+export const getServerSideProps = async (ctx: any) => ({
+    props: {
+        ...(await serverSideTranslations(ctx.locale, ['common']))
+    }
+});

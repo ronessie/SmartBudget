@@ -10,8 +10,6 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
-import validator from "validator";
-import toFloat = validator.toFloat;
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
 
     const [data, setData] = useState({
