@@ -83,6 +83,7 @@ export default function Page() {
             password: data.password,
             status: "Authorized",
             currentBankAccount: bankAccount_id,
+            twoStepAuth: false
         };
 
         const userResponse = await fetch(`/api/authentication/${JSON.stringify(user)}`);
