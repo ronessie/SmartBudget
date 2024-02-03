@@ -58,7 +58,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             category: data.category,
             operationsStatus: data.operationStatus
         };
-        console.log("TEST" + operation.category + operation.sum)
+        console.log("TEST " + operation.category + " " + operation.sum)
         alert("test1")
 
         const response = await fetch(`/api/addOperupation/${JSON.stringify(operation)}`);//проблема тут
@@ -66,20 +66,54 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
 
         if (!response.ok) throw new Error(response.statusText);
         if (!response.ok) alert("govno");
-        console.log(operation);
+        await updateBalance()
         alert("всё оки, работаем дальше")
     }
-    async function updateBalance(){
-        alert("hello2")
-        const responseUpdate = await fetch('/api/updateBalance', {
+
+    async function updateBalance() {
+
+        /*const responseUpdate = await fetch('/api/updateBalance', {
             body: JSON.stringify({
                 currentBankAccount_id: props.currentBankAccount.id,
                 sum: data.sum,
                 balance: props.bankAccount.balance
             }),
         });
+        alert("hello2")
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
-        alert("Операция проведена успешно")
+        alert("Операция проведена успешно")*/
+
+        const apiUrl = '/api/updateBalance';
+
+        const requestData = {
+            currentBankAccount_id: props.currentBankAccount.id,
+            operationStatus: data.operationStatus,
+            sum: data.sum,
+            balance: props.bankAccount.balance
+        };
+        try {
+            alert("тест2")
+            const response = await fetch(apiUrl, { //тут проблема
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+                alert("тест3")
+
+                await dateToDB()
+            } else {
+                console.log('Error updating balance');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            console.log('An error occurred while updating balance');
+        }
     }
 
     async function dateValidation() {
@@ -93,8 +127,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
             alert("Дата введена не верно")
             return
-        }
-        else {
+        } else {
             await dateToDB();
             //router.push('/main')
         }
@@ -114,7 +147,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
                     <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
-                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1><br/>
+                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1>
+                    <br/>
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
@@ -162,7 +196,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                             </button>
                         </form>
                     </Popup>
-                    <Popup trigger={<button className={styles.expenseButton}>+ Расход</button>} >
+                    <Popup trigger={<button className={styles.expenseButton}>+ Расход</button>}>
                         <form className={styles.form} style={{height: 420, marginLeft: 740, marginTop: 170}}>
                             <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 35}}>Добавление
                                 расхода</h1><br/>

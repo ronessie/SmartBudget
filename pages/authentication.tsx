@@ -23,7 +23,6 @@ export default function Page() {
     });
     const router = useRouter();
     const {t} = useTranslation('common');
-    const [modalDisabled, setModalDisabled] = useState(false);
 
     function generate2FAcode() {
         const characters = '0123456789';
@@ -57,32 +56,37 @@ export default function Page() {
             return;
         }
 
-        data.twoStepAuthCode = generate2FAcode();
-        const response2FA = await fetch('/api/send2FAcodeOnEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: data.email,
-                twoStepAuthCode: data.twoStepAuthCode,
-                fromEmail: "vsakolinskaa@gmail.com"
-            }),
-        });
+        const checkUser2FA = json.users.find((user: IUser) => user.email === data.email && user.password === data.password && user.twoStepAuth === true);
+        if (checkUser2FA) {
+            data.twoStepAuthCode = generate2FAcode();
+            const response2FA = await fetch('/api/send2FAcodeOnEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    twoStepAuthCode: data.twoStepAuthCode,
+                    fromEmail: "vsakolinskaa@gmail.com"
+                }),
+            });
 
-        if (response2FA.ok) {
-            alert("Код уже отправлен Вам на почту");
-            console.log('Email sent successfully!');
+            if (response2FA.ok) {
+                alert("Код уже отправлен Вам на почту");
+                await router.push('/2FA');
+                console.log('Email sent successfully!');
+            } else {
+                console.error('Failed to send email.');
+            }
         } else {
-            console.error('Failed to send email.');
+            await signIn('credentials', {username: data.email, password: data.password, redirect: false});
+
+            alert("Вы успешно вошли")
+
+            await router.push('/main');
         }
 
 
-        await signIn('credentials', {username: data.email, password: data.password, redirect: false});
-
-        alert("Вы успешно вошли")
-
-        await router.push('/main');
     }
 
     function generatePassword() {
@@ -93,6 +97,7 @@ export default function Page() {
         }
         return password;
     }
+
     async function checkDataForPasswrdRecovery(e: any) {
         e.preventDefault();
 
@@ -161,25 +166,11 @@ export default function Page() {
                            onChange={(e) => handleFieldChange("password", e)}
                            title={t('authenticationPage.placeholder.password')}/>
                     <br/>
-                    {!modalDisabled && <Popup trigger={<button id="auth" className={styles.button}
-                                                               style={{width: 351, marginTop: 20, fontSize: 20}}
-                                                               onClick={checkDate}
-                                                               title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>}>
-                        <form className={styles.form} style={{height: 250}}>
-                            <h1 className={styles.bigBlackText}
-                                style={{fontSize: 40, textAlign: "center"}}>Двухфакторка</h1>
-                            <h3 className={styles.text}
-                                style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                            <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
-                                   onChange={(e) => handleFieldChange("email", e)}
-                                   title="Введите шестизначный код который пришёл вам на почту"/>
-                            <button className={styles.button}
-                                    style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
-                                    onClick={() => router.push('/main')}
-                                    title={t('authenticationPage.placeholder.button')}>Подтвердить
-                            </button>
-                        </form>
-                    </Popup>}
+                    <button id="auth" className={styles.button}
+                            style={{width: 351, marginTop: 20, fontSize: 20}}
+                            onClick={checkDate}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
+                    <br/>
                     <button className={styles.button}
                             style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
                             onClick={googleAuthentication}

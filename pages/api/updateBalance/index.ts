@@ -4,7 +4,7 @@ import {connectToDatabase} from "@/src/database";
 export default async function updateBalance(req: NextApiRequest, res: NextApiResponse) {
 
     const {currentBankAccount_id, operationStatus, sum, balance} = req.body;
-    var newBalance = 0
+    let newBalance = 0
     if (operationStatus == "-") {
         newBalance = parseFloat(balance) - parseFloat(sum)
     }
