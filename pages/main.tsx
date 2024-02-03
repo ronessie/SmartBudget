@@ -10,9 +10,10 @@ import Popup from "reactjs-popup";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
+import IBankAccount from "@/src/types/IBankAccount";
 
 
-export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
+export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
     const [data, setData] = useState({
         sum: "",
         currency: "BYN",
@@ -20,8 +21,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         date: new Date(),
         status: "",
         balance: 0,
-        lastUpdateDate: "",
-        operationStatus: ""
+        lastUpdateDate: Date.now(),
+        operationStatus: "",
+        newBalance: 0
     });
 
     const router = useRouter();
@@ -33,20 +35,19 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         });
     }
 
-    function addIncome() {
+    async function addIncome() {
         data.operationStatus = "+";
         if (!data.category) data.category = "salary";
-        dateValidation();
+        await dateValidation();
     }
 
-    function addExpenses() {
+    async function addExpenses() {
         data.operationStatus = "-";
         if (!data.category) data.category = "products";
-        dateValidation()
+        await dateValidation()
     }
 
     async function dateToDB() {
-        alert(data.category)
         const operation: IOperation = {
             _id: new ObjectId(),
             user_id: props.user._id,
@@ -57,10 +58,28 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             category: data.category,
             operationsStatus: data.operationStatus
         };
+        console.log("TEST" + operation.category + operation.sum)
+        alert("test1")
 
-        const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
+        const response = await fetch(`/api/addOperupation/${JSON.stringify(operation)}`);//проблема тут
+        alert("test")
+
         if (!response.ok) throw new Error(response.statusText);
+        if (!response.ok) alert("govno");
         console.log(operation);
+        alert("всё оки, работаем дальше")
+    }
+    async function updateBalance(){
+        alert("hello2")
+        const responseUpdate = await fetch('/api/updateBalance', {
+            body: JSON.stringify({
+                currentBankAccount_id: props.currentBankAccount.id,
+                sum: data.sum,
+                balance: props.bankAccount.balance
+            }),
+        });
+        if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
+        alert("Операция проведена успешно")
     }
 
     async function dateValidation() {
@@ -76,9 +95,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             return
         }
         else {
-            dateToDB();
-            alert("всё оки, работаем дальше")
-            router.push('/main')
+            await dateToDB();
+            //router.push('/main')
         }
     }
 
@@ -89,15 +107,15 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         <div className={styles.page}>
             <div className={styles.pages}>
                 <div className={styles.conteiners}>
-                    <h1 className={styles.bigBlackText}>Hi, UserName</h1>
+                    <h1 className={styles.bigBlackText}>Здравствуйте, {props.user.fio}</h1>
                     <Link href={"settings"}
                           style={{fontSize: 32, marginTop: 15, textDecorationLine: "none", marginRight: 15}}>⚙️</Link>
                 </div>
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
-                    <h1 className={styles.whiteText}>Счёт 1</h1><br/>
-                    <h1 className={styles.bigWhiteText}>{data.balance}</h1><br/>
-                    <h1 className={styles.whiteText}>Последнее обновление 29/01/22</h1>
+                    <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
+                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1><br/>
+                    <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
                     <Popup trigger={<button className={styles.incomeButton}>+ Доход</button>}>
@@ -189,7 +207,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         </div>
     )
 }
-
+//переделать метод под current BankAccount
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
@@ -199,9 +217,13 @@ export const getServerSideProps = async (ctx: any) => {
         .collection('users')
         .find({}, {email: session?.user?.email}).toArray())[0] as IUser;
 
+    const bankAccountT = (await db
+        .collection('bankAccounts')
+        .find({}, {_id: user.currentBankAccount}).toArray())[0] as IBankAccount;
+
     return {
         props: {
-            user: user, currentBankAccount: session?.user,
+            user: user, bankAccount: bankAccountT, currentBankAccount: session?.user,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }

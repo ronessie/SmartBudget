@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {connectToDatabase} from "@/src/database";
 
-export default async function sendEmail(req: NextApiRequest, res: NextApiResponse) {
+export default async function updateCurrentBankAccount(req: NextApiRequest, res: NextApiResponse) {
 
     const {user_id, bankAccount_id, inviteCode} = req.body;
 

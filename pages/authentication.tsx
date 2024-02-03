@@ -23,6 +23,7 @@ export default function Page() {
     });
     const router = useRouter();
     const {t} = useTranslation('common');
+    const [modalDisabled, setModalDisabled] = useState(false);
 
     function generate2FAcode() {
         const characters = '0123456789';
@@ -92,7 +93,7 @@ export default function Page() {
         }
         return password;
     }
-    async function checkDateForPasswrdRecovery(e: any) {
+    async function checkDataForPasswrdRecovery(e: any) {
         e.preventDefault();
 
         if (!validator.isEmail(data.popUpEmail)) {
@@ -160,10 +161,25 @@ export default function Page() {
                            onChange={(e) => handleFieldChange("password", e)}
                            title={t('authenticationPage.placeholder.password')}/>
                     <br/>
-                    <button id="auth" className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
-                            onClick={checkDate}
-                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
-                    <br/>
+                    {!modalDisabled && <Popup trigger={<button id="auth" className={styles.button}
+                                                               style={{width: 351, marginTop: 20, fontSize: 20}}
+                                                               onClick={checkDate}
+                                                               title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>}>
+                        <form className={styles.form} style={{height: 250}}>
+                            <h1 className={styles.bigBlackText}
+                                style={{fontSize: 40, textAlign: "center"}}>Двухфакторка</h1>
+                            <h3 className={styles.text}
+                                style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
+                            <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
+                                   onChange={(e) => handleFieldChange("email", e)}
+                                   title="Введите шестизначный код который пришёл вам на почту"/>
+                            <button className={styles.button}
+                                    style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                                    onClick={() => router.push('/main')}
+                                    title={t('authenticationPage.placeholder.button')}>Подтвердить
+                            </button>
+                        </form>
+                    </Popup>}
                     <button className={styles.button}
                             style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
                             onClick={googleAuthentication}
@@ -173,16 +189,19 @@ export default function Page() {
                     <Popup trigger={<Link href={""} className={styles.link} style={{paddingLeft: 100}}>Восстановить
                         пароль</Link>}>
                         <form className={styles.form} style={{height: 290, marginLeft: 63}}>
-                            <h1 className={styles.bigBlackText} style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
+                            <h1 className={styles.bigBlackText}
+                                style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
                                 пароля</h1>
                             <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите эл. почту к
                                 которой привязан аккаунт: </h3>
-                            <input autoFocus={true} className={styles.input} style={{width: 335}} type="text" value={data.popUpEmail}
+                            <input autoFocus={true} className={styles.input} style={{width: 335}} type="text"
+                                   value={data.popUpEmail}
                                    onChange={(e) => handleFieldChange("popUpEmail", e)}
                                    title="Пример: Ivanov@mail.ru"/>
                             <br/>
                             <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
-                                    onClick={checkDateForPasswrdRecovery} title="Нажмите для смены пароля">Сменить пароль
+                                    onClick={checkDataForPasswrdRecovery} title="Нажмите для смены пароля">Сменить
+                                пароль
                             </button>
                             <br/>
                         </form>
