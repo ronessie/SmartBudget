@@ -38,7 +38,8 @@ export default function Page(props: { user: IUser}) {
         return password;
     }
 
-    async function resend2FA() {
+    async function resend2FA(e: any) {
+        e.preventDefault()
         data.twoStepAuthCode = generate2FAcode();
         const response2FA = await fetch('/api/send2FAcodeOnEmail', {
             method: 'POST',
@@ -59,7 +60,8 @@ export default function Page(props: { user: IUser}) {
             console.error('Failed to send email.');
         }
     }
-    async function check2FA() {
+    async function check2FA(e: any) {
+        e.preventDefault()
         if (!data.check2FA || data.check2FA !== data.twoStepAuthCode)
         {
             alert("код введён не верно, попробуйте ещё раз");

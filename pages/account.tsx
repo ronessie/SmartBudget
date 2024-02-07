@@ -57,7 +57,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         }
     }
 
-    async function checkInviteCode() {
+    async function checkInviteCode(e: any) {
+        e.preventDefault()
         const response = await fetch(`/api/addBankAccount/bankAccounts`);
 
         if (!response.ok) throw new Error(response.statusText);

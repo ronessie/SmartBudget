@@ -41,7 +41,7 @@ export default function Page() {
 
         const json = await response.json();
 
-        if (!validator.isEmail(data.email)) {
+        if (!validator.isEmail(data.email.trim())) {
             alert("Электронная почта введена не верно")
             return;
         }

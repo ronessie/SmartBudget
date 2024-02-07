@@ -33,13 +33,15 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         });
     }
 
-    async function addIncome() {
+    async function addIncome(e: any) {
+        e.preventDefault()
         data.operationStatus = "+";
         if (!data.category) data.category = "salary";
         await dateValidation();
     }
 
-    async function addExpenses() {
+    async function addExpenses(e:any) {
+        e.preventDefault()
         data.operationStatus = "-";
         if (!data.category) data.category = "products";
         await dateValidation()
@@ -66,8 +68,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
     }
 
     async function updateBalance() {
+        console.log('updateBalance')
 
-        /*const responseUpdate = await fetch('/api/updateBalance', {
+        const responseUpdate = await fetch('/api/updateBalance', {
+            method: 'POST',
             body: JSON.stringify({
                 currentBankAccount_id: props.currentBankAccount.id,
                 sum: data.sum,
@@ -77,39 +81,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         });
         alert("hello2")
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
-        alert("Операция проведена успешно")*/
-
-        /*const apiUrl = '/api/updateBalance';
-
-        const requestData = {
-            currentBankAccount_id: props.currentBankAccount.id,
-            operationStatus: data.operationStatus,
-            sum: data.sum,
-            balance: props.bankAccount.balance
-        };
-        try {
-            alert("тест2")
-            const response = await fetch(apiUrl, { //тут проблема
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.message);
-                alert("тест3")
-
-                await dateToDB()
-            } else {
-                console.log('Error updating balance');
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
-            console.log('An error occurred while updating balance');
-        }*/
+        alert("Операция проведена успешно")
     }
 
     async function dateValidation() {

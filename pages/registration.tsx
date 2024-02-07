@@ -42,7 +42,7 @@ export default function Page() {
             alert("ФИО введено не верно")
             return;
         }
-        if (!validator.isEmail(data.email)) {
+        if (!validator.isEmail(data.email.trim())) {
             alert("Почта введена не верно")
             return;
         }
@@ -57,6 +57,7 @@ export default function Page() {
         if (!userExist)
         {
             await dateToDB()
+            await signIn('credentials', {username: data.email, password: data.password, redirect: false});
             router.push('/main')
         }
         else {
