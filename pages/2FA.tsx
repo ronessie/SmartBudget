@@ -16,8 +16,8 @@ export default function Page(props: { user: IUser}) {
         email: props.user.email,
         status: "get 2FA",
         fromEmail: "vsakolinskaa@gmail.com",
-        twoStepAuthCode: "",
-        check2FA: props.user.twoStepAuthCode
+        twoStepAuthCode: props.user.twoStepAuthCode,
+        check2FA: ""
     });
     const router = useRouter();
     const {t} = useTranslation('common');
@@ -60,14 +60,15 @@ export default function Page(props: { user: IUser}) {
         }
     }
     async function check2FA() {
-        if (!data.check2FA || data.check2FA !== props.user.twoStepAuthCode)
+        if (!data.check2FA || data.check2FA !== data.twoStepAuthCode)
         {
             alert("код введён не верно, попробуйте ещё раз");
             return
         }
-        //await signIn('credentials', {username: props.user.email, password: props.user.password, redirect: false});
+        // ТУТ ПРОБЛЕМЫ
+        /*await signIn('credentials', {username: props.user.email, password: props.user.password, redirect: false});
         alert("Вы успешно вошли")
-        await router.push('/main');
+        await router.push('/main');*/
     }
 
     return (
@@ -78,8 +79,8 @@ export default function Page(props: { user: IUser}) {
                         style={{fontSize: 40, textAlign: "center"}}>Двухфакторка</h1>
                     <h3 className={styles.text}
                         style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={data.twoStepAuthCode}
-                           onChange={(e) => handleFieldChange("twoStepAuthCode", e)}
+                    <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
+                           onChange={(e) => handleFieldChange("check2FA", e)}
                            title="Введите шестизначный код который пришёл вам на почту"/>
                     <button className={styles.button}
                             style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
@@ -97,9 +98,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-    const user = (await db
-        .collection('users')
-        .find({}, {email: session?.user?.email}).toArray())[0] as IUser;
+    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
 
     return {
         props: {

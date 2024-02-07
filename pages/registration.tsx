@@ -56,7 +56,7 @@ export default function Page() {
         }
         if (!userExist)
         {
-            dateToDB()
+            await dateToDB()
             router.push('/main')
         }
         else {
@@ -106,10 +106,10 @@ export default function Page() {
         console.log(user);
     }
 
-    function googleAuthentication(e: any)
+    async function googleAuthentication(e: any)
     {
         e. preventDefault();
-        signIn('google');
+        await signIn('google');
     }
 
 

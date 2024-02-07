@@ -11,6 +11,7 @@ export default async function updateBalance(req: NextApiRequest, res: NextApiRes
     if (operationStatus == "+") {
         newBalance = parseFloat(balance) + parseFloat(sum)
     }
+    alert(newBalance)
     const {db} = await connectToDatabase();
     const collection = await db.collection('bankAccounts');
     const filter = {_id: currentBankAccount_id};

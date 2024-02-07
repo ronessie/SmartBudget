@@ -1,5 +1,4 @@
 import styles from '../styles/pages.module.css'
-import {useRouter} from "next/navigation";
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {getSession, useSession} from "next-auth/react";
@@ -26,7 +25,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         newBalance: 0
     });
 
-    const router = useRouter();
 
     function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         setData({

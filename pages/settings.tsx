@@ -54,7 +54,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         if (!response.ok) throw new Error(response.statusText);
     }
 
-    async function checkInviteCode() {
+    async function checkInviteCode(e: any) {
+        e.preventDefault()
         const response = await fetch(`/api/addBankAccount/bankAccounts`);
 
         if (!response.ok) throw new Error(response.statusText);
@@ -86,7 +87,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             alert("Укажите название счёта")
             return
         } else {
-            dateToDB();
+            await dateToDB();
             alert("всё оки, работаем дальше")
             router.push('/main')
         }
@@ -145,9 +146,8 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-    const user = (await db
-        .collection('users')
-        .find({}, {email: session?.user?.email}).toArray())[0] as IUser;
+    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+
 
     return {
         props: {

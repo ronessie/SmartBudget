@@ -51,9 +51,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             alert("Укажите название счёта")
             return
         } else {
-            dateToDB();
+            await dateToDB();
             alert("всё оки, работаем дальше")
-            router.push('/main')
+            await router.push('/main')
         }
     }
 
@@ -69,7 +69,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             return;
         } else {
             alert("Всё круто")
-            router.push('/main')
+            await router.push('/main')
             //тут надо прописать смену текущего аккаунта для данного пользователя и переход на главную
         }
     }
@@ -152,9 +152,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-    const user = (await db
-        .collection('users')
-        .find({}, {email: session?.user?.email}).toArray())[0] as IUser;
+    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
 
     return {
         props: {

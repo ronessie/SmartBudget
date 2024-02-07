@@ -98,7 +98,7 @@ export default function Page() {
         return password;
     }
 
-    async function checkDataForPasswrdRecovery(e: any) {
+    async function checkDataForPasswordRecovery(e: any) {
         e.preventDefault();
 
         if (!validator.isEmail(data.popUpEmail)) {
@@ -128,7 +128,7 @@ export default function Page() {
         if (response.ok) {
             alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
-            router.push('/authentication');
+            await router.push('/authentication');
         } else {
             console.error('Failed to send email.');
         }
@@ -145,7 +145,7 @@ export default function Page() {
         e.preventDefault()
         const response = await signIn('google', {redirect: false});
         if (response && response.ok) {
-            router.push('/main');
+            await router.push('/main');
         }
     }
 
@@ -191,7 +191,7 @@ export default function Page() {
                                    title="Пример: Ivanov@mail.ru"/>
                             <br/>
                             <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
-                                    onClick={checkDataForPasswrdRecovery} title="Нажмите для смены пароля">Сменить
+                                    onClick={checkDataForPasswordRecovery} title="Нажмите для смены пароля">Сменить
                                 пароль
                             </button>
                             <br/>
