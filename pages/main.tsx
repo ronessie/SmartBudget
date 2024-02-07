@@ -59,15 +59,12 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             operationsStatus: data.operationStatus
         };
         console.log("TEST " + operation.category + " " + operation.sum)
-        alert("test1")
 
-        const response = await fetch(`/api/addOperupation/${JSON.stringify(operation)}`);//проблема тут
-        alert("test")
+        const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
         if (!response.ok) throw new Error(response.statusText);
-        if (!response.ok) alert("govno");
-        await updateBalance()
         alert("всё оки, работаем дальше")
+        await updateBalance()
     }
 
     async function updateBalance() {
@@ -76,6 +73,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             body: JSON.stringify({
                 currentBankAccount_id: props.currentBankAccount.id,
                 sum: data.sum,
+                operationStatus: data.operationStatus,
                 balance: props.bankAccount.balance
             }),
         });
@@ -83,7 +81,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         alert("Операция проведена успешно")*/
 
-        const apiUrl = '/api/updateBalance';
+        /*const apiUrl = '/api/updateBalance';
 
         const requestData = {
             currentBankAccount_id: props.currentBankAccount.id,
@@ -113,7 +111,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         } catch (error) {
             console.error('An error occurred:', error);
             console.log('An error occurred while updating balance');
-        }
+        }*/
     }
 
     async function dateValidation() {
@@ -241,23 +239,20 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         </div>
     )
 }
-//переделать метод под current BankAccount
+
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
     const {db} = await connectToDatabase();
 
-    const user = (await db
-        .collection('users')
-        .find({}, {email: session?.user?.email}).toArray())[0] as IUser;
 
-    const bankAccountT = (await db
-        .collection('bankAccounts')
-        .find({}, {_id: user.currentBankAccount}).toArray())[0] as IBankAccount;
+    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+
+    const bankAcc = (await db.collection('bankAccounts').findOne({ _id: user.currentBankAccount })) as IBankAccount;
 
     return {
         props: {
-            user: user, bankAccount: bankAccountT, currentBankAccount: session?.user,
+            user: user, bankAccount: bankAcc, currentBankAccount: session?.user,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }
