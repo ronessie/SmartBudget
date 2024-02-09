@@ -7,8 +7,11 @@ import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Popup from 'reactjs-popup';
+import {Button, Text} from '@mantine/core';
+import {modals} from '@mantine/modals';
 
 import Link from "next/link";
+import {TextInput} from "@mantine/core";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -141,6 +144,34 @@ export default function Page() {
         });
     }
 
+    const openModalNewPassword = () => modals.openConfirmModal({
+        title: 'Please confirm your action',
+        children: (
+            <form className={styles.form} style={{height: 290, marginLeft: 63}}>
+                <h1 className={styles.bigBlackText}
+                    style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
+                    пароля</h1>
+                <TextInput
+                    withAsterisk
+                    label="Введите эл. почту к
+                                которой привязан аккаунт:"
+                    placeholder="your@email.com"
+                    value={data.popUpEmail}
+                    onChange={(e) => handleFieldChange("popUpEmail", e)}
+                    title="Пример: your@email.com"
+                />
+                <button className={styles.button} style={{width: 275, marginTop: 20, fontSize: 20}}
+                        onClick={checkDataForPasswordRecovery} title="Нажмите для смены пароля">Сменить
+                    пароль
+                </button>
+                <br/>
+            </form>
+        ),
+        labels: {confirm: 'Confirm', cancel: 'Cancel'},
+        onCancel: () => console.log('Cancel'),
+        onConfirm: () => console.log('Confirmed'),
+    });
+
     async function googleAuthentication(e: any) {
         e.preventDefault()
         const response = await signIn('google', {redirect: false});
@@ -154,49 +185,56 @@ export default function Page() {
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 420}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, paddingLeft: 120}}>{t('authenticationPage.signIn')}</h1>
-                    <h3 className={styles.text}
-                        style={{paddingTop: 35, fontSize: 16}}>{t('authenticationPage.input.email')}</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={data.email}
-                           onChange={(e) => handleFieldChange("email", e)}
-                           title={t('authenticationPage.placeholder.email')}/>
-                    <h3 className={styles.text}
-                        style={{fontSize: 16, paddingTop: 10}}>{t('authenticationPage.input.password')}</h3>
-                    <input className={styles.passwordInput} style={{width: 335}} type="password" value={data.password}
-                           onChange={(e) => handleFieldChange("password", e)}
-                           title={t('authenticationPage.placeholder.password')}/>
-                    <br/>
-                    <button id="auth" className={styles.button}
-                            style={{width: 351, marginTop: 20, fontSize: 20}}
+                        style={{fontSize: 40, paddingLeft: 90}}>{t('authenticationPage.signIn')}</h1>
+                    <TextInput
+                        withAsterisk
+                        label={t('authenticationPage.input.email')}
+                        placeholder="your@email.com"
+                        value={data.email}
+                        onChange={(e) => handleFieldChange("email", e)}
+                        title="Пример: your@email.com"
+                    />
+                    <TextInput
+                        withAsterisk
+                        label={t('authenticationPage.input.password')}
+                        value={data.password}
+                        onChange={(e) => handleFieldChange("email", e)}
+                        title={t('authenticationPage.placeholder.password')}
+                        type="password"
+                    />
+                    <Button className={styles.button} id="auth"
+                            style={{width: 275, marginTop: 20, fontSize: 18}}
                             onClick={checkDate}
-                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>
-                    <br/>
-                    <button className={styles.button}
-                            style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
+                    <Button className={styles.button}
+                            style={{width: 275, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
                             onClick={googleAuthentication}
-                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</button>
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
+                    <br/>
                     <Link href={"registration"} className={styles.link}
-                          style={{paddingLeft: 50, fontSize: 16}}>{t('authenticationPage.registrationLink')}</Link><br/>
-                    <Popup trigger={<Link href={""} className={styles.link} style={{paddingLeft: 100}}>Восстановить
-                        пароль</Link>}>
-                        <form className={styles.form} style={{height: 290, marginLeft: 63}}>
-                            <h1 className={styles.bigBlackText}
-                                style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
-                                пароля</h1>
-                            <h3 className={styles.text} style={{paddingTop: 35, fontSize: 16}}>Введите эл. почту к
-                                которой привязан аккаунт: </h3>
-                            <input autoFocus={true} className={styles.input} style={{width: 335}} type="text"
-                                   value={data.popUpEmail}
-                                   onChange={(e) => handleFieldChange("popUpEmail", e)}
-                                   title="Пример: Ivanov@mail.ru"/>
-                            <br/>
-                            <button className={styles.button} style={{width: 351, marginTop: 20, fontSize: 20}}
-                                    onClick={checkDataForPasswordRecovery} title="Нажмите для смены пароля">Сменить
-                                пароль
-                            </button>
-                            <br/>
-                        </form>
-                    </Popup>
+                          style={{fontSize: 16, paddingLeft: 15}}>{t('authenticationPage.registrationLink')}</Link><br/>
+                    <Link href={""} className={styles.link} style={{marginLeft: 30, fontSize: 16}} onClick={() => {
+                        modals.open({
+                            title: 'Восстановление пароля',
+                            children: (
+                                <>
+                                    <TextInput
+                                        withAsterisk
+                                        label="Введите эл. почту к
+                                которой привязан аккаунт:"
+                                        placeholder="your@email.com"
+                                        value={data.popUpEmail}
+                                        onChange={(e) => handleFieldChange("popUpEmail", e)}
+                                        title="Пример: your@email.com"
+                                    />
+                                    <Button onClick={checkDataForPasswordRecovery} style={{marginTop: 10}}
+                                            title="Нажмите для смены пароля">Сменить
+                                        пароль</Button>
+                                </>
+                            ),
+                        });
+                    }}
+                    >Восстановить пароль</Link>
                 </form>
             </div>
         </div>
@@ -208,24 +246,3 @@ export const getServerSideProps = async (ctx: any) => ({
         ...(await serverSideTranslations(ctx.locale, ['common']))
     }
 });
-
-/*<Popup trigger={<button id="auth" className={styles.button}
-                                            style={{width: 351, marginTop: 20, fontSize: 20}} onClick={checkDate}
-                                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</button>}>
-                        <div style={{paddingLeft: 200}}>
-                            <form className={styles.form} style={{height: 420}}>
-                                <h1 className={styles.bigBlackText}
-                                    style={{fontSize: 40, paddingLeft: 120}}>Двухфакторка</h1>
-                                <h3 className={styles.text}
-                                    style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                                <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
-                                       onChange={(e) => handleFieldChange("email", e)}
-                                       title="Введите шестизначный код который пришёл вам на почту"/>
-                                <button className={styles.button}
-                                        style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
-                                        onClick={() => router.push('/main')}
-                                        title={t('authenticationPage.placeholder.button')}>Подтвердить
-                                </button>
-                            </form>
-                        </div>
-                    </Popup>*/

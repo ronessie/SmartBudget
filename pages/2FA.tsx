@@ -8,6 +8,7 @@ import {getSession, signIn} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
+import {Button, TextInput} from "@mantine/core";
 
 path.resolve('./next.config.js');
 
@@ -78,18 +79,19 @@ export default function Page(props: { user: IUser}) {
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 260}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, textAlign: "center"}}>Двухфакторка</h1>
-                    <h3 className={styles.text}
-                        style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
-                           onChange={(e) => handleFieldChange("check2FA", e)}
-                           title="Введите шестизначный код который пришёл вам на почту"/>
-                    <button className={styles.button}
-                            style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                        style={{fontSize: 40, textAlign: "center", padding: 0}}>Двухфакторка</h1>
+                    <TextInput
+                        label="Введите код"
+                        value = {data.check2FA}
+                        onChange = {(e) => handleFieldChange("check2FA", e)}
+                        title="Введите шестизначный код который пришёл вам на почту"
+                    />
+                    <Button className={styles.button}
+                            style={{width: 276, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
                             onClick={check2FA}
                             title={t('authenticationPage.placeholder.button')}>Подтвердить
-                    </button>
-                    <Link href={""} onClick={resend2FA} className={styles.link}>Код не пришёл</Link>
+                    </Button>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}} className={styles.link}>Код не пришёл</Link>
                 </form>
             </div>
         </div>

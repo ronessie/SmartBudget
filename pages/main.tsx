@@ -10,6 +10,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
+import {MultiSelect, NativeSelect, TextInput} from "@mantine/core";
 
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
@@ -40,7 +41,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         await dateValidation();
     }
 
-    async function addExpenses(e:any) {
+    async function addExpenses(e: any) {
         e.preventDefault()
         data.operationStatus = "-";
         if (!data.category) data.category = "products";
@@ -124,23 +125,25 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                         <form className={styles.form} style={{height: 420, marginLeft: 886, marginTop: 170}}>
                             <h1 className={styles.bigBlackText}
                                 style={{fontSize: 27, paddingLeft: 40}}>Добавление дохода</h1><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите сумму</h1>
-                            <br/>
-                            <div><input value={data.sum} className={styles.inputMoney}
-                                        onChange={(e) => handleFieldChange("sum", e)} type="text"
-                                        style={{width: 260}}
-                                        title="Пример: 100"/>
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 74}}
-                                        title="Укажите валюту. Пример: BYN">
+                            <div><TextInput
+                                withAsterisk
+                                label="Введите сумму"
+                                placeholder="Пример: 100"
+                                value={data.sum}
+                                onChange={(e) => handleFieldChange("sum", e)}
+                                title="Пример: 100"
+                            />
+                                <NativeSelect className={styles.selectorCurrency}
+                                              onChange={(e) => handleFieldChange("currency", e)}
+                                              value={data.currency} style={{width: 74}}
+                                              title="Укажите валюту. Пример: BYN">
                                     <option value="BYN">BYN</option>
                                     <option value="RUB">RUB</option>
                                     <option value="USD">USD</option>
                                     <option value="PLN">PLN</option>
                                     <option value="EUR">EUR</option>
-                                </select></div>
+                                </NativeSelect>
+                            </div>
                             <br/>
                             <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
                                 источник дохода</h1><br/>
@@ -216,9 +219,9 @@ export const getServerSideProps = async (ctx: any) => {
     const {db} = await connectToDatabase();
 
 
-    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
-    const bankAcc = (await db.collection('bankAccounts').findOne({ _id: user.currentBankAccount })) as IBankAccount;
+    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
 
     return {
         props: {
