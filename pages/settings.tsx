@@ -2,7 +2,6 @@ import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
 import styles from "@/styles/pages.module.css";
-import Popup from "reactjs-popup";
 import Link from "next/link";
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
@@ -11,7 +10,7 @@ import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
 import {modals} from "@mantine/modals";
-import {Button, TextInput} from "@mantine/core";
+import {Button, Group, TextInput} from "@mantine/core";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
 
@@ -108,25 +107,24 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                                 onChange={(e) => handleFieldChange("name", e)}
                                 title="Счёт №1"
                             />
-                            <div><TextInput
+                            <Group><TextInput
                                 label="Введите
                                 начальную сумму и валюту"
                                 placeholder="1000"
                                 value={data.balance}
                                 onChange={(e) => handleFieldChange("balance", e)}
                                 title="Пример: 1000"
-                                style={{width: 260}}
+                                style={{width: 310}}
                             />
                                 <select className={styles.selectorCurrency}
                                         onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
+                                        value={data.currency} style={{width: 80, marginTop: 28}} title="Укажите валюту. Пример: BYN">
                                     <option value="BYN">BYN</option>
                                     <option value="RUB">RUB</option>
                                     <option value="USD">USD</option>
                                     <option value="PLN">PLN</option>
                                     <option value="EUR">EUR</option>
-                                </select></div>
-                            <br/>
+                                </select></Group>
                             <Button className={styles.button} onClick={dateValidation}
                                     style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                             </Button>

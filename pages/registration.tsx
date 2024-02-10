@@ -9,7 +9,7 @@ import {signIn} from "next-auth/react";
 import IBankAccount from "@/src/types/IBankAccount";
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {NavLink, TextInput} from "@mantine/core";
+import {TextInput} from "@mantine/core";
 export default function Page() {
     const [data, setData] = useState({
         fio: "",
@@ -167,4 +167,3 @@ export const getServerSideProps = async (ctx: any) => ({
         ...(await serverSideTranslations(ctx.locale, ['common']))
     }
 });
-//                    <input type="text" value={data.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />

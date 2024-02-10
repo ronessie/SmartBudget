@@ -2,7 +2,7 @@
     "indexPage": {
         "authentication": "Вход",
         "registration": "Регистрация",
-        "settings": "Настройки/Аккаунт",
+        "settings": "Настройки",
         "main": "Главная",
         "operations": "Операции",
         "languages": {

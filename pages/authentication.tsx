@@ -6,7 +6,6 @@ import {useRouter} from 'next/router';
 import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Popup from 'reactjs-popup';
 import {Button, Text} from '@mantine/core';
 import {modals} from '@mantine/modals';
 
@@ -143,34 +142,6 @@ export default function Page() {
             [fieldName]: event.target.value,
         });
     }
-
-    const openModalNewPassword = () => modals.openConfirmModal({
-        title: 'Please confirm your action',
-        children: (
-            <form className={styles.form} style={{height: 290, marginLeft: 63}}>
-                <h1 className={styles.bigBlackText}
-                    style={{fontSize: 40, padding: 0, textAlign: "center"}}>Восстановление
-                    пароля</h1>
-                <TextInput
-                    withAsterisk
-                    label="Введите эл. почту к
-                                которой привязан аккаунт:"
-                    placeholder="your@email.com"
-                    value={data.popUpEmail}
-                    onChange={(e) => handleFieldChange("popUpEmail", e)}
-                    title="Пример: your@email.com"
-                />
-                <button className={styles.button} style={{width: 275, marginTop: 20, fontSize: 20}}
-                        onClick={checkDataForPasswordRecovery} title="Нажмите для смены пароля">Сменить
-                    пароль
-                </button>
-                <br/>
-            </form>
-        ),
-        labels: {confirm: 'Confirm', cancel: 'Cancel'},
-        onCancel: () => console.log('Cancel'),
-        onConfirm: () => console.log('Confirmed'),
-    });
 
     async function googleAuthentication(e: any) {
         e.preventDefault()

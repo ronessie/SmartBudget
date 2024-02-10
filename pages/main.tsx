@@ -5,12 +5,12 @@ import {getSession, useSession} from "next-auth/react";
 import React, {useState} from 'react';
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Popup from "reactjs-popup";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {MultiSelect, NativeSelect, TextInput} from "@mantine/core";
+import {Group, TextInput} from "@mantine/core";
+import {modals} from "@mantine/modals";
 
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
@@ -116,97 +116,116 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
                     <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
-                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1>
-                    <br/>
+                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1><br/>
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
-                    <Popup trigger={<button className={styles.incomeButton}>+ Доход</button>}>
-                        <form className={styles.form} style={{height: 420, marginLeft: 886, marginTop: 170}}>
-                            <h1 className={styles.bigBlackText}
-                                style={{fontSize: 27, paddingLeft: 40}}>Добавление дохода</h1><br/>
-                            <div><TextInput
-                                withAsterisk
-                                label="Введите сумму"
-                                placeholder="Пример: 100"
-                                value={data.sum}
-                                onChange={(e) => handleFieldChange("sum", e)}
-                                title="Пример: 100"
-                            />
-                                <NativeSelect className={styles.selectorCurrency}
-                                              onChange={(e) => handleFieldChange("currency", e)}
-                                              value={data.currency} style={{width: 74}}
-                                              title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </NativeSelect>
-                            </div>
-                            <br/>
-                            <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
-                                источник дохода</h1><br/>
-                            <select className={styles.selector}
-                                    onChange={(e) => handleFieldChange("category", e)} value={data.category}
-                                    style={{width: 351}} title="Выберите источник дохода. Пример: Подарок">
-                                <option value="salary">Заработная плата</option>
-                                <option value="gift">Подарок</option>
-                                <option value="premium">Премия</option>
-                                <option value="debt refund">Возврат долга</option>
-                                <option value="cachek">Кэшбэк</option>
-                            </select><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
-                            <br/>
-                            <input type="date" style={{width: 337}}
-                                   onChange={(e) => handleFieldChange("date", e)} className={styles.input}
-                                   value={data.date.toString()}/><br/>
-                            <button className={styles.button} onClick={addIncome}
-                                    style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                            </button>
-                        </form>
-                    </Popup>
-                    <Popup trigger={<button className={styles.expenseButton}>+ Расход</button>}>
-                        <form className={styles.form} style={{height: 420, marginLeft: 740, marginTop: 170}}>
-                            <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 35}}>Добавление
-                                расхода</h1><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите сумму</h1><br/>
-                            <div><input value={data.sum} className={styles.inputMoney}
-                                        onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
-                                        title="Пример: 100"/>
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </select></div>
-                            <br/>
-                            <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите категорию
-                                трат</h1><br/>
-                            <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)}
-                                    value={data.category} style={{width: 351}}
-                                    title="Выберите категорию трат. Пример: Продукты">
-                                <option value="products">Продукты</option>
-                                <option value="clothes">Одежда</option>
-                                <option value="house">Жильё</option>
-                                <option value="car">Автомобиль</option>
-                                <option value="entertainment">Развлечения</option>
-                                <option value="duty">Долг</option>
-                            </select><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1><br/>
-                            <input type="date" style={{width: 337}} onChange={(e) => handleFieldChange("date", e)}
-                                   className={styles.input} value={data.date.toString()}/><br/>
-                            <button className={styles.button} onClick={addExpenses}
-                                    style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                            </button>
-                        </form>
-                    </Popup>
+                    <button className={styles.incomeButton} onClick={() => {
+                        modals.open({
+                            title: 'Добавление дохода',
+                            children: (
+                                <>
+                                    <Group><TextInput
+                                        withAsterisk
+                                        label="Введите сумму"
+                                        placeholder="Пример: 100"
+                                        value={data.sum}
+                                        onChange={(e) => handleFieldChange("sum", e)}
+                                        title="Пример: 100"
+                                        style={{width: 300}}
+                                    />
+                                        <select className={styles.selectorCurrency}
+                                                onChange={(e) => handleFieldChange("currency", e)}
+                                                value={data.currency} style={{width: 80, marginTop: 28}}
+                                                title="Укажите валюту. Пример: BYN">
+                                            <option value="BYN">BYN</option>
+                                            <option value="RUB">RUB</option>
+                                            <option value="USD">USD</option>
+                                            <option value="PLN">PLN</option>
+                                            <option value="EUR">EUR</option>
+                                        </select>
+                                    </Group>
+                                    <br/>
+                                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
+                                        источник дохода</h1><br/>
+                                    <select className={styles.selector}
+                                            onChange={(e) => handleFieldChange("category", e)} value={data.category}
+                                            style={{width: 351}} title="Выберите источник дохода. Пример: Подарок">
+                                        <option value="salary">Заработная плата</option>
+                                        <option value="gift">Подарок</option>
+                                        <option value="premium">Премия</option>
+                                        <option value="debt refund">Возврат долга</option>
+                                        <option value="cachek">Кэшбэк</option>
+                                    </select><br/>
+                                    <h1 className={styles.text}
+                                        style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
+                                    <br/>
+                                    <input type="date" style={{width: 337}}
+                                           onChange={(e) => handleFieldChange("date", e)} className={styles.input}
+                                           value={data.date.toString()}/><br/>
+                                    <button className={styles.button} onClick={addIncome}
+                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                    </button>
+                                </>
+                            ),
+                        });
+                    }}
+                    >+ Доход
+                    </button>
+                    <button className={styles.expenseButton} onClick={() => {
+                        modals.open({
+                            title: 'Добавление расхода',
+                            children: (
+                                <>
+                                    <Group><TextInput
+                                        withAsterisk
+                                        label="Введите сумму"
+                                        placeholder="Пример: 100"
+                                        value={data.sum}
+                                        onChange={(e) => handleFieldChange("sum", e)}
+                                        title="Пример: 100"
+                                        style={{width: 300}}
+                                    />
+                                        <select className={styles.selectorCurrency}
+                                                onChange={(e) => handleFieldChange("currency", e)}
+                                                value={data.currency} style={{width: 80, marginTop: 28}}
+                                                title="Укажите валюту. Пример: BYN">
+                                            <option value="BYN">BYN</option>
+                                            <option value="RUB">RUB</option>
+                                            <option value="USD">USD</option>
+                                            <option value="PLN">PLN</option>
+                                            <option value="EUR">EUR</option>
+                                        </select></Group>
+                                    <br/>
+                                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
+                                        категорию
+                                        трат</h1><br/>
+                                    <select className={styles.selector}
+                                            onChange={(e) => handleFieldChange("category", e)}
+                                            value={data.category} style={{width: 351}}
+                                            title="Выберите категорию трат. Пример: Продукты">
+                                        <option value="products">Продукты</option>
+                                        <option value="clothes">Одежда</option>
+                                        <option value="house">Жильё</option>
+                                        <option value="car">Автомобиль</option>
+                                        <option value="entertainment">Развлечения</option>
+                                        <option value="duty">Долг</option>
+                                    </select><br/>
+                                    <h1 className={styles.text}
+                                        style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
+                                    <br/>
+                                    <input type="date" style={{width: 337}}
+                                           onChange={(e) => handleFieldChange("date", e)}
+                                           className={styles.input} value={data.date.toString()}/><br/>
+                                    <button className={styles.button} onClick={addExpenses}
+                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                    </button>
+                                </>
+                            ),
+                        });
+                    }}
+                    >+ Расход
+                    </button>
                 </div>
             </div>
         </div>
