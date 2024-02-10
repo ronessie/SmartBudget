@@ -158,7 +158,6 @@ export default function Page() {
                     <h1 className={styles.bigBlackText}
                         style={{fontSize: 40, paddingLeft: 90}}>{t('authenticationPage.signIn')}</h1>
                     <TextInput
-                        withAsterisk
                         label={t('authenticationPage.input.email')}
                         placeholder="your@email.com"
                         value={data.email}
@@ -166,10 +165,9 @@ export default function Page() {
                         title="Пример: your@email.com"
                     />
                     <TextInput
-                        withAsterisk
                         label={t('authenticationPage.input.password')}
                         value={data.password}
-                        onChange={(e) => handleFieldChange("email", e)}
+                        onChange={(e) => handleFieldChange("password", e)}
                         title={t('authenticationPage.placeholder.password')}
                         type="password"
                     />
@@ -190,11 +188,9 @@ export default function Page() {
                             children: (
                                 <>
                                     <TextInput
-                                        withAsterisk
                                         label="Введите эл. почту к
                                 которой привязан аккаунт:"
                                         placeholder="your@email.com"
-                                        value={data.popUpEmail}
                                         onChange={(e) => handleFieldChange("popUpEmail", e)}
                                         title="Пример: your@email.com"
                                     />

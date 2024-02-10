@@ -135,17 +135,18 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                                     />
                                         <NativeSelect label="Укажите валюту"
                                                       onChange={(e) => handleFieldChange("currency", e)}
-                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']} title="Выберите валюту. Пример: BYN"/>
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                                      title="Выберите валюту. Пример: BYN"/>
                                     </Group>
                                     <br/>
                                     <NativeSelect label="Выберите источник дохода"
                                                   onChange={(e) => handleFieldChange("category", e)}
                                                   title="Выберите источник дохода. Пример: Подарок" data={[
-                                        { value: 'salary', label: 'Зарплата' },
-                                        { value: 'gift', label: 'Подарок' },
-                                        { value: 'premium', label: 'Премия' },
-                                        { value: 'debt refund', label: 'Возврат долга' },
-                                        { value: 'cachek', label: 'Кэшбек' },
+                                        {value: 'salary', label: 'Зарплата'},
+                                        {value: 'gift', label: 'Подарок'},
+                                        {value: 'premium', label: 'Премия'},
+                                        {value: 'debt refund', label: 'Возврат долга'},
+                                        {value: 'cachek', label: 'Кэшбек'},
                                     ]}>
                                     </NativeSelect><br/>
                                     <DateInput onChange={(e) => handleFieldChange("date", e)}
@@ -168,32 +169,31 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                                     <Group><TextInput
                                         label="Введите сумму"
                                         placeholder="Пример: 100"
-                                        value={data.sum}
                                         onChange={(e) => handleFieldChange("sum", e)}
                                         title="Пример: 100"
                                         style={{width: 300}}
                                     />
-                                        <NativeSelect value={data.currency} label="Укажите валюту"
-                                                      onChange = {(e => console.log('TEEEEST: ', e.target.value))}
-                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']} title="Выберите валюту. Пример: BYN"/>;</Group>
+                                        <NativeSelect label="Укажите валюту"
+                                                      onChange={(e) => handleFieldChange("currency", e)}
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                                      title="Выберите валюту. Пример: BYN"/></Group>
                                     <br/>
                                     <NativeSelect label="Выберите категорию трат"
                                                   onChange={(e) => handleFieldChange("category", e)}
-                                                  value={data.category}
                                                   title="Выберите категорию трат. Пример: Продукты"
                                                   data={[
-                                                      { value: 'products', label: 'Продукты' },
-                                                      { value: 'clothes', label: 'Одежда' },
-                                                      { value: 'house', label: 'жильё' },
-                                                      { value: 'car', label: 'автомобиль' },
-                                                      { value: 'entertainment', label: 'развлечения' },
-                                                      { value: 'duty', label: 'долг' },
+                                                      {value: 'products', label: 'Продукты'},
+                                                      {value: 'clothes', label: 'Одежда'},
+                                                      {value: 'house', label: 'жильё'},
+                                                      {value: 'car', label: 'автомобиль'},
+                                                      {value: 'entertainment', label: 'развлечения'},
+                                                      {value: 'duty', label: 'долг'},
                                                   ]}>
                                     </NativeSelect><br/>
-                                    <DateInput value={data.date}
-                                               onChange={(e) => handleFieldChange("date", e)}
-                                               label="Укажите дату"
-                                               placeholder="Date input"></DateInput>
+                                    <DateInput
+                                        onChange={(e) => handleFieldChange("date", e)}
+                                        label="Укажите дату"
+                                        placeholder="Date input"></DateInput>
                                     <Button className={styles.button} onClick={addExpenses}
                                             style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
                                     </Button>

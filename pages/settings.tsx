@@ -10,7 +10,7 @@ import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
 import {modals} from "@mantine/modals";
-import {Button, Group, TextInput} from "@mantine/core";
+import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
 
@@ -103,7 +103,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             <TextInput
                                 label="Введите название счёта"
                                 placeholder="Счёт"
-                                value={data.name}
                                 onChange={(e) => handleFieldChange("name", e)}
                                 title="Счёт №1"
                             />
@@ -111,20 +110,14 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                                 label="Введите
                                 начальную сумму и валюту"
                                 placeholder="1000"
-                                value={data.balance}
                                 onChange={(e) => handleFieldChange("balance", e)}
                                 title="Пример: 1000"
                                 style={{width: 310}}
                             />
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 80, marginTop: 28}} title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </select></Group>
+                                <NativeSelect label="Укажите валюту"
+                                              onChange={(e) => handleFieldChange("currency", e)}
+                                              data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                              title="Выберите валюту. Пример: BYN"/></Group>
                             <Button className={styles.button} onClick={dateValidation}
                                     style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                             </Button>
@@ -143,8 +136,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             <TextInput
                                 label="Введите пригласительный
                                 код"
-                                value = {data.inviteCode}
-                                onChange = {(e) => handleFieldChange("inviteCode", e)}
+                                onChange={(e) => handleFieldChange("inviteCode", e)}
                                 title="Введите 16 символов"
                             />
                             <Button className={styles.button} onClick={checkInviteCode}

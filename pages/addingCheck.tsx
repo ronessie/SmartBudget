@@ -29,7 +29,7 @@ export default function Page() {
     return (
         <div>
             <h1>Check Upload</h1>
-            <input type="file" onChange={handleImageChange} />
+            <input type="file" onChange={handleImageChange}/>
             <button onClick={handleUpload}>Upload</button>
         </div>
     );

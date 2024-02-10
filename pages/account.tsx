@@ -10,7 +10,7 @@ import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
 import {modals} from "@mantine/modals";
-import {Button, Group, TextInput} from "@mantine/core";
+import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [data, setData] = useState({
@@ -96,7 +96,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         <div>
             <h2>ФИО:</h2><h3>{props.user.fio}</h3>
             <h2>Электронная почта:</h2><h3>{props.user.email}</h3>
-            <Button style={{width: 200}} className={styles.button}onClick={() => {
+            <Button style={{width: 200}} className={styles.button} onClick={() => {
                 modals.open({
                     title: 'Добавление счёта',
                     children: (
@@ -104,29 +104,23 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             <TextInput
                                 label="Введите название счёта"
                                 placeholder="Счёт"
-                                value = {data.name}
-                                onChange = {(e) => handleFieldChange("name", e)}
+                                onChange={(e) => handleFieldChange("name", e)}
                                 title="Пример: Счёт №1"
                             />
                             <Group>
                                 <TextInput
                                     label="Введите
-                                начальную сумму и валюту"
+                                начальную сумму"
                                     placeholder="1000"
-                                    value = {data.balance}
                                     style={{width: 310}}
-                                    onChange = {(e) => handleFieldChange("balance", e)}
+                                    onChange={(e) => handleFieldChange("balance", e)}
                                     title="Пример: 1000 BYN"
                                 />
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 80, marginTop: 28}} title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </select></Group>
+                                <NativeSelect label="Укажите валюту"
+                                              onChange={(e) => handleFieldChange("currency", e)}
+                                              title="Укажите валюту. Пример: BYN"
+                                              data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
+                                </NativeSelect></Group>
                             <Button className={styles.button} onClick={dateValidation}
                                     style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                             </Button>
@@ -138,8 +132,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                                         <>
                                             <TextInput
                                                 label="Введите пригласительный код"
-                                                value = {data.inviteCode}
-                                                onChange = {(e) => handleFieldChange("inviteCode", e)}
+                                                onChange={(e) => handleFieldChange("inviteCode", e)}
                                                 title="Введите 16-значный код"
                                             />
                                             <Button className={styles.button} onClick={checkInviteCode}
