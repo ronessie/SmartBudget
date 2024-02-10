@@ -129,23 +129,26 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                                     <Group><TextInput
                                         label="Введите сумму"
                                         placeholder="Пример: 100"
-                                        value={data.sum}
                                         onChange={(e) => handleFieldChange("sum", e.target.value)}
                                         title="Пример: 100"
                                         style={{width: 300}}
                                     />
-                                        <NativeSelect value={data.currency} label="Укажите валюту"
+                                        <NativeSelect label="Укажите валюту"
                                                       onChange={(e) => handleFieldChange("currency", e)}
                                                       data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']} title="Выберите валюту. Пример: BYN"/>
                                     </Group>
                                     <br/>
                                     <NativeSelect label="Выберите источник дохода"
                                                   onChange={(e) => handleFieldChange("category", e)}
-                                                  value={data.category}
-                                                  title="Выберите источник дохода. Пример: Подарок" data={['salary', 'gift', 'premium', 'debt refund', 'cachek']}>
+                                                  title="Выберите источник дохода. Пример: Подарок" data={[
+                                        { value: 'salary', label: 'Зарплата' },
+                                        { value: 'gift', label: 'Подарок' },
+                                        { value: 'premium', label: 'Премия' },
+                                        { value: 'debt refund', label: 'Возврат долга' },
+                                        { value: 'cachek', label: 'Кэшбек' },
+                                    ]}>
                                     </NativeSelect><br/>
-                                    <DateInput value={data.date}
-                                               onChange={(e) => handleFieldChange("date", e)}
+                                    <DateInput onChange={(e) => handleFieldChange("date", e)}
                                                label="Укажите дату"
                                                placeholder="Date input"></DateInput>
                                     <Button className={styles.button} onClick={addIncome}
@@ -177,7 +180,15 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                                     <NativeSelect label="Выберите категорию трат"
                                                   onChange={(e) => handleFieldChange("category", e)}
                                                   value={data.category}
-                                                  title="Выберите категорию трат. Пример: Продукты" data={['products/продукты', 'clothes/одежда', 'house/жильё', 'car/автомобиль', 'entertainment/развлечения', 'duty/долг']}>
+                                                  title="Выберите категорию трат. Пример: Продукты"
+                                                  data={[
+                                                      { value: 'products', label: 'Продукты' },
+                                                      { value: 'clothes', label: 'Одежда' },
+                                                      { value: 'house', label: 'жильё' },
+                                                      { value: 'car', label: 'автомобиль' },
+                                                      { value: 'entertainment', label: 'развлечения' },
+                                                      { value: 'duty', label: 'долг' },
+                                                  ]}>
                                     </NativeSelect><br/>
                                     <DateInput value={data.date}
                                                onChange={(e) => handleFieldChange("date", e)}
