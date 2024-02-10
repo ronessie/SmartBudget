@@ -4,6 +4,7 @@ import {SessionProvider} from "next-auth/react";
 import {appWithTranslation} from "next-i18next";
 import Head from "next/head";
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import {createTheme, MantineProvider} from '@mantine/core';
 import {ModalsProvider} from "@mantine/modals";
 

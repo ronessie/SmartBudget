@@ -9,13 +9,14 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Group, TextInput} from "@mantine/core";
+import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
 import {modals} from "@mantine/modals";
+import {DateInput} from '@mantine/dates';
 
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
     const [data, setData] = useState({
-        sum: "",
+        sum: 0,
         currency: "BYN",
         category: "",
         date: new Date(),
@@ -27,10 +28,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
     });
 
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
@@ -53,7 +54,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             _id: new ObjectId(),
             user_id: props.user._id,
             bankAccount_id: props.currentBankAccount,
-            sum: parseFloat(data.sum),
+            sum: data.sum,
             currency: data.currency,
             date: data.date,
             category: data.category,
@@ -89,7 +90,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
 
-        if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
+        if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
@@ -98,7 +99,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             return
         } else {
             await dateToDB();
-            //router.push('/main')
         }
     }
 
@@ -116,7 +116,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
                     <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
-                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1><br/>
+                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1>
+                    <br/>
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
@@ -126,46 +127,30 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                             children: (
                                 <>
                                     <Group><TextInput
-                                        withAsterisk
                                         label="Введите сумму"
                                         placeholder="Пример: 100"
                                         value={data.sum}
-                                        onChange={(e) => handleFieldChange("sum", e)}
+                                        onChange={(e) => handleFieldChange("sum", e.target.value)}
                                         title="Пример: 100"
                                         style={{width: 300}}
                                     />
-                                        <select className={styles.selectorCurrency}
-                                                onChange={(e) => handleFieldChange("currency", e)}
-                                                value={data.currency} style={{width: 80, marginTop: 28}}
-                                                title="Укажите валюту. Пример: BYN">
-                                            <option value="BYN">BYN</option>
-                                            <option value="RUB">RUB</option>
-                                            <option value="USD">USD</option>
-                                            <option value="PLN">PLN</option>
-                                            <option value="EUR">EUR</option>
-                                        </select>
+                                        <NativeSelect value={data.currency} label="Укажите валюту"
+                                                      onChange={(e) => handleFieldChange("currency", e)}
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']} title="Выберите валюту. Пример: BYN"/>
                                     </Group>
                                     <br/>
-                                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
-                                        источник дохода</h1><br/>
-                                    <select className={styles.selector}
-                                            onChange={(e) => handleFieldChange("category", e)} value={data.category}
-                                            style={{width: 351}} title="Выберите источник дохода. Пример: Подарок">
-                                        <option value="salary">Заработная плата</option>
-                                        <option value="gift">Подарок</option>
-                                        <option value="premium">Премия</option>
-                                        <option value="debt refund">Возврат долга</option>
-                                        <option value="cachek">Кэшбэк</option>
-                                    </select><br/>
-                                    <h1 className={styles.text}
-                                        style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
-                                    <br/>
-                                    <input type="date" style={{width: 337}}
-                                           onChange={(e) => handleFieldChange("date", e)} className={styles.input}
-                                           value={data.date.toString()}/><br/>
-                                    <button className={styles.button} onClick={addIncome}
+                                    <NativeSelect label="Выберите источник дохода"
+                                                  onChange={(e) => handleFieldChange("category", e)}
+                                                  value={data.category}
+                                                  title="Выберите источник дохода. Пример: Подарок" data={['salary', 'gift', 'premium', 'debt refund', 'cachek']}>
+                                    </NativeSelect><br/>
+                                    <DateInput value={data.date}
+                                               onChange={(e) => handleFieldChange("date", e)}
+                                               label="Укажите дату"
+                                               placeholder="Date input"></DateInput>
+                                    <Button className={styles.button} onClick={addIncome}
                                             style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                    </button>
+                                    </Button>
                                 </>
                             ),
                         });
@@ -178,7 +163,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                             children: (
                                 <>
                                     <Group><TextInput
-                                        withAsterisk
                                         label="Введите сумму"
                                         placeholder="Пример: 100"
                                         value={data.sum}
@@ -186,40 +170,22 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                                         title="Пример: 100"
                                         style={{width: 300}}
                                     />
-                                        <select className={styles.selectorCurrency}
-                                                onChange={(e) => handleFieldChange("currency", e)}
-                                                value={data.currency} style={{width: 80, marginTop: 28}}
-                                                title="Укажите валюту. Пример: BYN">
-                                            <option value="BYN">BYN</option>
-                                            <option value="RUB">RUB</option>
-                                            <option value="USD">USD</option>
-                                            <option value="PLN">PLN</option>
-                                            <option value="EUR">EUR</option>
-                                        </select></Group>
+                                        <NativeSelect value={data.currency} label="Укажите валюту"
+                                                      onChange = {(e => console.log('TEEEEST: ', e.target.value))}
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']} title="Выберите валюту. Пример: BYN"/>;</Group>
                                     <br/>
-                                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
-                                        категорию
-                                        трат</h1><br/>
-                                    <select className={styles.selector}
-                                            onChange={(e) => handleFieldChange("category", e)}
-                                            value={data.category} style={{width: 351}}
-                                            title="Выберите категорию трат. Пример: Продукты">
-                                        <option value="products">Продукты</option>
-                                        <option value="clothes">Одежда</option>
-                                        <option value="house">Жильё</option>
-                                        <option value="car">Автомобиль</option>
-                                        <option value="entertainment">Развлечения</option>
-                                        <option value="duty">Долг</option>
-                                    </select><br/>
-                                    <h1 className={styles.text}
-                                        style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
-                                    <br/>
-                                    <input type="date" style={{width: 337}}
-                                           onChange={(e) => handleFieldChange("date", e)}
-                                           className={styles.input} value={data.date.toString()}/><br/>
-                                    <button className={styles.button} onClick={addExpenses}
+                                    <NativeSelect label="Выберите категорию трат"
+                                                  onChange={(e) => handleFieldChange("category", e)}
+                                                  value={data.category}
+                                                  title="Выберите категорию трат. Пример: Продукты" data={['products/продукты', 'clothes/одежда', 'house/жильё', 'car/автомобиль', 'entertainment/развлечения', 'duty/долг']}>
+                                    </NativeSelect><br/>
+                                    <DateInput value={data.date}
+                                               onChange={(e) => handleFieldChange("date", e)}
+                                               label="Укажите дату"
+                                               placeholder="Date input"></DateInput>
+                                    <Button className={styles.button} onClick={addExpenses}
                                             style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                    </button>
+                                    </Button>
                                 </>
                             ),
                         });
