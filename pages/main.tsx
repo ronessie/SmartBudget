@@ -16,7 +16,7 @@ import {DateInput} from '@mantine/dates';
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
     const [data, setData] = useState({
-        sum: 0,
+        sum: "",
         currency: "BYN",
         category: "",
         date: new Date(),
@@ -54,13 +54,12 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
             _id: new ObjectId(),
             user_id: props.user._id,
             bankAccount_id: props.currentBankAccount,
-            sum: data.sum,
+            sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,
             category: data.category,
             operationsStatus: data.operationStatus
         };
-        console.log("TEST " + operation.category + " " + operation.sum)
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
@@ -91,7 +90,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         if (!response.ok) throw new Error(response.statusText);
 
         if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
-            alert("Сумма введена не верно, попробуйте ещё раз.")
+            alert("Сумма введена не верно, попробуйте ещё раз." + data.sum)
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {

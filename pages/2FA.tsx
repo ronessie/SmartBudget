@@ -39,7 +39,7 @@ export default function Page(props: { user: IUser }) {
         return password;
     }
 
-    async function resend2FA(e: any) {
+    async function resend2FA(e: any) {//не на ту почту отправляет
         e.preventDefault()
         data.twoStepAuthCode = generate2FAcode();
         const response2FA = await fetch('/api/send2FAcodeOnEmail', {
@@ -48,7 +48,7 @@ export default function Page(props: { user: IUser }) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: data.email,
+                email: props.user.email,
                 twoStepAuthCode: generate2FAcode(),
                 fromEmail: "vsakolinskaa@gmail.com"
             }),
@@ -64,14 +64,12 @@ export default function Page(props: { user: IUser }) {
 
     async function check2FA(e: any) {
         e.preventDefault()
-        if (!data.check2FA || data.check2FA !== data.twoStepAuthCode) {
+        if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
             alert("код введён не верно, попробуйте ещё раз");
             return
         }
-        // ТУТ ПРОБЛЕМЫ
-        /*await signIn('credentials', {username: props.user.email, password: props.user.password, redirect: false});
         alert("Вы успешно вошли")
-        await router.push('/main');*/
+        await router.push('/main');
     }
 
     return (

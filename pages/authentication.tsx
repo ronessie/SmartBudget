@@ -74,6 +74,7 @@ export default function Page() {
             });
 
             if (response2FA.ok) {
+                await signIn('credentials', {username: data.email, password: data.password, redirect: false});
                 alert("Код уже отправлен Вам на почту");
                 await router.push('/2FA');
                 console.log('Email sent successfully!');
