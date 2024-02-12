@@ -77,20 +77,19 @@ export default function Page(props: { user: IUser }) {
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 260}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, textAlign: "center", padding: 0}}>Двухфакторка</h1>
+                        style={{fontSize: 40, textAlign: "center", padding: 0}}>{t('2FA.label')}</h1>
                     <TextInput
-                        label="Введите код"
+                        label={t('2FA.inputCode')}
                         value={data.check2FA}
                         onChange={(e) => handleFieldChange("check2FA", e)}
                         title="Введите шестизначный код который пришёл вам на почту"
                     />
                     <Button className={styles.button}
-                            style={{width: 276, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                            style={{width: 276, marginTop: 5, fontSize: 20}}
                             onClick={check2FA}
-                            title={t('authenticationPage.placeholder.button')}>Подтвердить
+                            title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button>
-                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}} className={styles.link}>Код не
-                        пришёл</Link>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}} className={styles.link}>{t('2FA.resendLink')}</Link>
                 </form>
             </div>
         </div>
