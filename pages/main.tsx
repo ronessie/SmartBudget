@@ -51,7 +51,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
     async function dateToDB() {
         const operation: IOperation = {
-            _id: new ObjectId(),
+            _id: new ObjectId().toString(),
             user_id: props.user._id,
             bankAccount_id: props.bankAccount._id,
             sum: parseFloat(data.sum),
@@ -211,9 +211,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
-
     const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
 
     return {

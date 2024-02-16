@@ -1,10 +1,9 @@
-import { ObjectId } from 'bson';
 import {DateTime} from "next-auth/providers/kakao";
 
 export default interface IBankAccount {
-    _id: ObjectId;
-    user_id: ObjectId;
-    secondUser_id?: ObjectId;
+    _id: string;
+    user_id: string;
+    secondUser_id?: string;
     name?: string;
     currency?: string;
     balance?: number;

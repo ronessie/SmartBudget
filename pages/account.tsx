@@ -77,7 +77,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     async function dateToDB() {
         const bankAccount: IBankAccount = {
-            _id: new ObjectId(),
+            _id: new ObjectId().toString(),
             user_id: props.user._id,
             name: data.name,
             currency: data.currency,
@@ -158,7 +158,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
-    const {db} = await connectToDatabase();
+    const { db } = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 

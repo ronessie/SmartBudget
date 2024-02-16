@@ -6,11 +6,12 @@ import {useRouter} from 'next/router';
 import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {Button, Text} from '@mantine/core';
+import {Button} from '@mantine/core';
 import {modals} from '@mantine/modals';
 
 import Link from "next/link";
 import {TextInput} from "@mantine/core";
+import {generate2FAcode, generatePassword} from "@/src/utils";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -25,15 +26,6 @@ export default function Page() {
     });
     const router = useRouter();
     const {t} = useTranslation('common');
-
-    function generate2FAcode() {
-        const characters = '0123456789';
-        let password = '';
-        for (let i = 0; i < 6; i++) {
-            password += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return password;
-    }
 
     async function checkDate(e: any) {
         e.preventDefault();
@@ -92,15 +84,6 @@ export default function Page() {
 
     }
 
-    function generatePassword() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let password = '';
-        for (let i = 0; i < 12; i++) {
-            password += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return password;
-    }
-
     async function checkDataForPasswordRecovery(e: any) {
         e.preventDefault();
 
@@ -146,7 +129,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google', {redirect: false});
+        const response = await signIn('google');
         if (response && response.ok) {
             await router.push('/main');
         }

@@ -43,7 +43,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     async function dateToDB() {
         const bankAccount: IBankAccount = {
-            _id: new ObjectId(),
+            _id: new ObjectId().toString(),
             user_id: props.user._id,
             name: data.name,
             currency: data.currency,
