@@ -9,14 +9,15 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
-import {modals} from "@mantine/modals";
+import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
+    const [incomeModalState, setIncomeModalState] = useState(false);
+    const [expensesModalState, setExpensesModalState] = useState(false);
     const [data, setData] = useState({
-        sum: "",
+        sum: 0.0,
         currency: "BYN",
         category: "",
         date: new Date(),
@@ -29,10 +30,12 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
 
     function handleFieldChange(fieldName: string, value: any) {
+        console.log(`set ${fieldName} with value: ${value}`)
         setData({
             ...data,
             [fieldName]: value,
         });
+        console.log(data)
     }
 
     async function addIncome(e: any) {
@@ -54,7 +57,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             _id: new ObjectId().toString(),
             user_id: props.user._id,
             bankAccount_id: props.bankAccount._id,
-            sum: parseFloat(data.sum),
+            sum: data.sum,
             currency: data.currency,
             date: data.date,
             category: data.category,
@@ -86,9 +89,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     async function dateValidation() {
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
-
+console.log('data: ', data);
         if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
-            alert("Сумма введена не верно, попробуйте ещё раз." + data.sum)
+            alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
@@ -118,88 +121,72 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
-                    <button className={styles.incomeButton} onClick={() => {
-                        modals.open({
-                            title: 'Добавление дохода',
-                            children: (
-                                <>
-                                    <Group><TextInput
-                                        label="Введите сумму"
-                                        placeholder="Пример: 100"
-                                        onChange={(e) => handleFieldChange("sum", e.target.value)}
-                                        title="Пример: 100"
-                                        style={{width: 300}}
-                                    />
-                                        <NativeSelect label="Укажите валюту"
-                                                      onChange={(e) => handleFieldChange("currency", e)}
-                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                                      title="Выберите валюту. Пример: BYN"/>
-                                    </Group>
-                                    <br/>
-                                    <NativeSelect label="Выберите источник дохода"
-                                                  onChange={(e) => handleFieldChange("category", e)}
-                                                  title="Выберите источник дохода. Пример: Подарок" data={[
-                                        {value: 'salary', label: 'Зарплата'},
-                                        {value: 'gift', label: 'Подарок'},
-                                        {value: 'premium', label: 'Премия'},
-                                        {value: 'debt refund', label: 'Возврат долга'},
-                                        {value: 'cachek', label: 'Кэшбек'},
-                                    ]}>
-                                    </NativeSelect><br/>
-                                    <DateInput onChange={(e) => handleFieldChange("date", e)}
-                                               label="Укажите дату"
-                                               placeholder="Date input"></DateInput>
-                                    <Button className={styles.button} onClick={addIncome}
-                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                    </Button>
-                                </>
-                            ),
-                        });
-                    }}
-                    >+ Доход
-                    </button>
-                    <button className={styles.expenseButton} onClick={() => {
-                        modals.open({
-                            title: 'Добавление расхода',
-                            children: (
-                                <>
-                                    <Group><TextInput
-                                        label="Введите сумму"
-                                        placeholder="Пример: 100"
-                                        onChange={(e) => handleFieldChange("sum", e)}
-                                        title="Пример: 100"
-                                        style={{width: 300}}
-                                    />
-                                        <NativeSelect label="Укажите валюту"
-                                                      onChange={(e) => handleFieldChange("currency", e)}
-                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                                      title="Выберите валюту. Пример: BYN"/></Group>
-                                    <br/>
-                                    <NativeSelect label="Выберите категорию трат"
-                                                  onChange={(e) => handleFieldChange("category", e)}
-                                                  title="Выберите категорию трат. Пример: Продукты"
-                                                  data={[
-                                                      {value: 'products', label: 'Продукты'},
-                                                      {value: 'clothes', label: 'Одежда'},
-                                                      {value: 'house', label: 'жильё'},
-                                                      {value: 'car', label: 'автомобиль'},
-                                                      {value: 'entertainment', label: 'развлечения'},
-                                                      {value: 'duty', label: 'долг'},
-                                                  ]}>
-                                    </NativeSelect><br/>
-                                    <DateInput
-                                        onChange={(e) => handleFieldChange("date", e)}
-                                        label="Укажите дату"
-                                        placeholder="Date input"></DateInput>
-                                    <Button className={styles.button} onClick={addExpenses}
-                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                    </Button>
-                                </>
-                            ),
-                        });
-                    }}
-                    >+ Расход
-                    </button>
+                    <button className={styles.incomeButton} onClick={() => setIncomeModalState(!incomeModalState)}>+ Доход</button>
+                    <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)} title={'Добавление дохода'}>
+                        <Group><TextInput
+                            label="Введите сумму"
+                            placeholder="Пример: 100"
+                            onChange={(e) => handleFieldChange("sum", e.target.value)}
+                            title="Пример: 100"
+                            style={{width: 300}}
+                        />
+                            <NativeSelect label="Укажите валюту"
+                                          onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                          data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                          title="Выберите валюту. Пример: BYN"/>
+                        </Group>
+                        <br/>
+                        <NativeSelect label="Выберите источник дохода"
+                                      onChange={(e) => handleFieldChange("category", e.target.value)}
+                                      title="Выберите источник дохода. Пример: Подарок" data={[
+                            {value: 'salary', label: 'Зарплата'},
+                            {value: 'gift', label: 'Подарок'},
+                            {value: 'premium', label: 'Премия'},
+                            {value: 'debt refund', label: 'Возврат долга'},
+                            {value: 'cachek', label: 'Кэшбек'},
+                        ]}>
+                        </NativeSelect><br/>
+                        <DateInput onChange={(e) => handleFieldChange("date", e)}
+                                   label="Укажите дату"
+                                   placeholder="Date input"></DateInput>
+                        <Button className={styles.button} onClick={addIncome}
+                                style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                        </Button>
+                    </Modal>
+                    <button className={styles.expenseButton} onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход</button>
+                    <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)} title={'Добавление расхода'}>
+                        <Group><TextInput
+                            label="Введите сумму"
+                            placeholder="Пример: 100"
+                            onChange={(e) => handleFieldChange("sum", e.target.value)}
+                            title="Пример: 100"
+                            style={{width: 300}}
+                        />
+                            <NativeSelect label="Укажите валюту"
+                                          onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                          data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                          title="Выберите валюту. Пример: BYN"/></Group>
+                        <br/>
+                        <NativeSelect label="Выберите категорию трат"
+                                      onChange={(e) => handleFieldChange("category", e.target.value)}
+                                      title="Выберите категорию трат. Пример: Продукты"
+                                      data={[
+                                          {value: 'products', label: 'Продукты'},
+                                          {value: 'clothes', label: 'Одежда'},
+                                          {value: 'house', label: 'Жильё'},
+                                          {value: 'car', label: 'Автомобиль'},
+                                          {value: 'entertainment', label: 'Развлечения'},
+                                          {value: 'duty', label: 'Долг'},
+                                      ]}>
+                        </NativeSelect><br/>
+                        <DateInput
+                            onChange={(e) => handleFieldChange("date", e)}
+                            label="Укажите дату"
+                            placeholder="Date input"></DateInput>
+                        <Button className={styles.button} onClick={addExpenses}
+                                style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                        </Button>
+                    </Modal>
                 </div>
             </div>
         </div>

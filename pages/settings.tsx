@@ -9,11 +9,12 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
-import {modals} from "@mantine/modals";
-import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {createBankAccountObj} from "@/src/utils";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
-
+    const [billModalState, setBillModalState] = useState(false);
+    const [bankAccountConnectionModalState, setBankAccountConnectionModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
         currency: "BYN",
@@ -25,31 +26,15 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     const router = useRouter();
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
-    function inviteCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let code = '';
-        for (let i = 0; i < 16; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return code;
-    }
-
     async function dateToDB() {
-        const bankAccount: IBankAccount = {
-            _id: new ObjectId().toString(),
-            user_id: props.user._id,
-            name: data.name,
-            currency: data.currency,
-            balance: data.balance,
-            invitingCode: inviteCode(),
-        };
+        const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString());
 
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
@@ -95,58 +80,47 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     return (
         <div>
-            <button className={styles.button} onClick={() => {
-                modals.open({
-                    title: 'Добавление счёта',
-                    children: (
-                        <>
-                            <TextInput
-                                label="Введите название счёта"
-                                placeholder="Счёт"
-                                onChange={(e) => handleFieldChange("name", e)}
-                                title="Счёт №1"
-                            />
-                            <Group><TextInput
-                                label="Введите
+            <button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить счёт</button>
+            <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                <TextInput
+                    label="Введите название счёта"
+                    placeholder="Счёт"
+                    onChange={(e) => handleFieldChange("name", e.target.value)}
+                    title="Счёт №1"
+                />
+                <Group><TextInput
+                    label="Введите
                                 начальную сумму и валюту"
-                                placeholder="1000"
-                                onChange={(e) => handleFieldChange("balance", e)}
-                                title="Пример: 1000"
-                                style={{width: 310}}
-                            />
-                                <NativeSelect label="Укажите валюту"
-                                              onChange={(e) => handleFieldChange("currency", e)}
-                                              data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                              title="Выберите валюту. Пример: BYN"/></Group>
-                            <Button className={styles.button} onClick={dateValidation}
-                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
-                            </Button>
-                        </>
-                    ),
-                });
-            }}
-            >Добавить счёт
-            </button>
+                    placeholder="1000"
+                    onChange={(e) => handleFieldChange("balance", e.target.value)}
+                    title="Пример: 1000"
+                    style={{width: 310}}
+                />
+                    <NativeSelect label="Укажите валюту"
+                                  onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                  data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                  title="Выберите валюту. Пример: BYN"/></Group>
+                <Button className={styles.button} onClick={dateValidation}
+                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                </Button>
+            </Modal>
 
-            <Link className={styles.link} style={{paddingLeft: 65}} href={""} onClick={() => {
-                modals.open({
-                    title: 'Подключение к банковскому счёту',
-                    children: (
-                        <>
-                            <TextInput
-                                label="Введите пригласительный
+            <Link className={styles.link} style={{paddingLeft: 65}} href={""}
+                  onClick={() => setBankAccountConnectionModalState(!bankAccountConnectionModalState)}>У меня есть
+                пригласительный код</Link>
+
+            <Modal opened={bankAccountConnectionModalState} onClose={() => setBankAccountConnectionModalState(false)}
+                   title={'Подключение к банковскому счёту'}>
+                <TextInput
+                    label="Введите пригласительный
                                 код"
-                                onChange={(e) => handleFieldChange("inviteCode", e)}
-                                title="Введите 16 символов"
-                            />
-                            <Button className={styles.button} onClick={checkInviteCode}
-                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
-                            </Button>
-                        </>
-                    ),
-                });
-            }}
-            >У меня есть пригласительный код</Link>
+                    onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
+                    title="Введите 16 символов"
+                />
+                <Button className={styles.button} onClick={checkInviteCode}
+                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                </Button>
+            </Modal>
         </div>
     )
 }
@@ -156,7 +130,6 @@ export const getServerSideProps = async (ctx: any) => {
     const {db} = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
-
 
     return {
         props: {
