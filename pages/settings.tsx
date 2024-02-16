@@ -2,7 +2,6 @@ import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
 import styles from "@/styles/pages.module.css";
-import Popup from "reactjs-popup";
 import Link from "next/link";
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
@@ -10,6 +9,9 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
+import {modals} from "@mantine/modals";
+import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
+
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
 
     const [data, setData] = useState({
@@ -62,12 +64,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
         const json = await response.json();
         const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)//тут проблемкинс
-        if (!inviteToBankAccount)
-        {
+        if (!inviteToBankAccount) {
             alert("Код введён не верно, попробуйте ещё раз")  // попробовать отменить перезагрузку
             return;
-        }
-        else{
+        } else {
             alert("Всё круто")
             router.push('/main')
             //тут надо прописать смену текущего аккаунта для данного пользователя и переход на главную
@@ -95,49 +95,58 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     return (
         <div>
-            <Popup nested={true} trigger={<button className={styles.button}>Добавить
-                счёт</button>}>
-                <form className={styles.form} style={{height: 370, marginLeft: 560, marginTop: 400}}>
-                    <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 45}}>Добавление счёта</h1>
-                    <br/>
-                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Введите
-                        название счёта</h1><br/>
-                    <input type="text" style={{width: 337}} onChange={(e) => handleFieldChange("name", e)}
-                           className={styles.input} value={data.name}/><br/>
-                    <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите
-                        начальную сумму и валюту</h1><br/>
-                    <div><input value={data.balance} className={styles.input}
+            <button className={styles.button} onClick={() => {
+                modals.open({
+                    title: 'Добавление счёта',
+                    children: (
+                        <>
+                            <TextInput
+                                label="Введите название счёта"
+                                placeholder="Счёт"
+                                onChange={(e) => handleFieldChange("name", e)}
+                                title="Счёт №1"
+                            />
+                            <Group><TextInput
+                                label="Введите
+                                начальную сумму и валюту"
+                                placeholder="1000"
                                 onChange={(e) => handleFieldChange("balance", e)}
-                                type="text" style={{width: 260}}
-                                title="Пример: BYN"/>
-                        <select className={styles.selectorCurrency} onChange={(e) => handleFieldChange("currency", e)}
-                                value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
-                            <option value="BYN">BYN</option>
-                            <option value="RUB">RUB</option>
-                            <option value="USD">USD</option>
-                            <option value="PLN">PLN</option>
-                            <option value="EUR">EUR</option>
-                        </select></div>
-                    <br/>
-                    <button className={styles.button} onClick={dateValidation}
-                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                    </button>
-                    <Popup trigger={<Link className={styles.link} style={{paddingLeft: 65}} href={""}>У меня есть
-                        пригласительный код</Link>}>
-                        <div>
-                            <form className={styles.form} style={{height: 180, marginLeft: 33}}>
-                                <h1 className={styles.text}
-                                    style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Введите пригласительный код</h1><br/>
-                                <input type="text" style={{width: 337}} onChange={(e) => handleFieldChange("inviteCode", e)}
-                                       className={styles.input} value={data.inviteCode}/><br/>
-                                <button className={styles.button} onClick={checkInviteCode}
-                                        style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                                </button>
-                            </form>
-                        </div>
-                    </Popup>
-                </form>
-            </Popup>
+                                title="Пример: 1000"
+                                style={{width: 310}}
+                            />
+                                <NativeSelect label="Укажите валюту"
+                                              onChange={(e) => handleFieldChange("currency", e)}
+                                              data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                              title="Выберите валюту. Пример: BYN"/></Group>
+                            <Button className={styles.button} onClick={dateValidation}
+                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                            </Button>
+                        </>
+                    ),
+                });
+            }}
+            >Добавить счёт
+            </button>
+
+            <Link className={styles.link} style={{paddingLeft: 65}} href={""} onClick={() => {
+                modals.open({
+                    title: 'Подключение к банковскому счёту',
+                    children: (
+                        <>
+                            <TextInput
+                                label="Введите пригласительный
+                                код"
+                                onChange={(e) => handleFieldChange("inviteCode", e)}
+                                title="Введите 16 символов"
+                            />
+                            <Button className={styles.button} onClick={checkInviteCode}
+                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                            </Button>
+                        </>
+                    ),
+                });
+            }}
+            >У меня есть пригласительный код</Link>
         </div>
     )
 }
@@ -146,7 +155,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
 
     return {

@@ -5,11 +5,13 @@ import {getSession, useSession} from "next-auth/react";
 import React, {useState} from 'react';
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import Popup from "reactjs-popup";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
+import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
+import {modals} from "@mantine/modals";
+import {DateInput} from '@mantine/dates';
 
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
@@ -26,22 +28,22 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     });
 
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
     async function addIncome(e: any) {
-        e.preventDefault();
+        e.preventDefault()
         data.operationStatus = "+";
         if (!data.category) data.category = "salary";
         await dateValidation();
     }
 
     async function addExpenses(e: any) {
-        e.preventDefault();
+        e.preventDefault()
         data.operationStatus = "-";
         if (!data.category) data.category = "products";
         await dateValidation()
@@ -58,7 +60,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             category: data.category,
             operationsStatus: data.operationStatus
         };
-        console.log("TEST " + operation.category + " " + operation.sum)
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
@@ -80,46 +81,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         alert("hello2")
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         alert("Операция проведена успешно")
-
-        // const apiUrl = '/api/updateBalance';
-
-        // const requestData = {
-        //     currentBankAccount_id: props.currentBankAccount.id,
-        //     operationStatus: data.operationStatus,
-        //     sum: data.sum,
-        //     balance: props.bankAccount.balance
-        // };
-        // try {
-        //     alert("тест2")
-        //     const response = await fetch(apiUrl, { //тут проблема
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(requestData),
-        //     });
-
-        //     if (response.ok) {
-        //         const data = await response.json();
-        //         console.log(data.message);
-        //         alert("тест3")
-
-        //         await dateToDB()
-        //     } else {
-        //         console.log('Error updating balance');
-        //     }
-        // } catch (error) {
-        //     console.error('An error occurred:', error);
-        //     console.log('An error occurred while updating balance');
-        // }
     }
 
     async function dateValidation() {
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
 
-        if (!data.sum || !(/^[\d]+$/).test(data.sum)) {
-            alert("Сумма введена не верно, попробуйте ещё раз.")
+        if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
+            alert("Сумма введена не верно, попробуйте ещё раз." + data.sum)
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
@@ -127,7 +96,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             return
         } else {
             await dateToDB();
-            //router.push('/main')
         }
     }
 
@@ -150,90 +118,88 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
-                    <Popup trigger={<button className={styles.incomeButton}>+ Доход</button>}>
-                        <form className={styles.form} style={{height: 420, marginLeft: 886, marginTop: 170}}>
-                            <h1 className={styles.bigBlackText}
-                                style={{fontSize: 27, paddingLeft: 40}}>Добавление дохода</h1><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите сумму</h1>
-                            <br/>
-                            <div><input value={data.sum} className={styles.inputMoney}
-                                        onChange={(e) => handleFieldChange("sum", e)} type="text"
-                                        style={{width: 260}}
-                                        title="Пример: 100"/>
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 74}}
-                                        title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </select></div>
-                            <br/>
-                            <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите
-                                источник дохода</h1><br/>
-                            <select className={styles.selector}
-                                    onChange={(e) => handleFieldChange("category", e)} value={data.category}
-                                    style={{width: 351}} title="Выберите источник дохода. Пример: Подарок">
-                                <option value="salary">Заработная плата</option>
-                                <option value="gift">Подарок</option>
-                                <option value="premium">Премия</option>
-                                <option value="debt refund">Возврат долга</option>
-                                <option value="cachek">Кэшбэк</option>
-                            </select><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1>
-                            <br/>
-                            <input type="date" style={{width: 337}}
-                                   onChange={(e) => handleFieldChange("date", e)} className={styles.input}
-                                   value={data.date.toString()}/><br/>
-                            <button className={styles.button} onClick={addIncome}
-                                    style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                            </button>
-                        </form>
-                    </Popup>
-                    <Popup trigger={<button className={styles.expenseButton}>+ Расход</button>}>
-                        <form className={styles.form} style={{height: 420, marginLeft: 740, marginTop: 170}}>
-                            <h1 className={styles.bigBlackText} style={{fontSize: 27, paddingLeft: 35}}>Добавление
-                                расхода</h1><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 15}}>Введите сумму</h1><br/>
-                            <div><input value={data.sum} className={styles.inputMoney}
-                                        onChange={(e) => handleFieldChange("sum", e)} type="text" style={{width: 260}}
-                                        title="Пример: 100"/>
-                                <select className={styles.selectorCurrency}
-                                        onChange={(e) => handleFieldChange("currency", e)}
-                                        value={data.currency} style={{width: 74}} title="Укажите валюту. Пример: BYN">
-                                    <option value="BYN">BYN</option>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="PLN">PLN</option>
-                                    <option value="EUR">EUR</option>
-                                </select></div>
-                            <br/>
-                            <h1 className={styles.text} style={{fontSize: 16, margin: 0, padding: 0}}>Выберите категорию
-                                трат</h1><br/>
-                            <select className={styles.selector} onChange={(e) => handleFieldChange("category", e)}
-                                    value={data.category} style={{width: 351}}
-                                    title="Выберите категорию трат. Пример: Продукты">
-                                <option value="products">Продукты</option>
-                                <option value="clothes">Одежда</option>
-                                <option value="house">Жильё</option>
-                                <option value="car">Автомобиль</option>
-                                <option value="entertainment">Развлечения</option>
-                                <option value="duty">Долг</option>
-                            </select><br/>
-                            <h1 className={styles.text}
-                                style={{fontSize: 16, margin: 0, padding: 0, marginTop: 17}}>Укажите дату</h1><br/>
-                            <input type="date" style={{width: 337}} onChange={(e) => handleFieldChange("date", e)}
-                                   className={styles.input} value={data.date.toString()}/><br/>
-                            <button className={styles.button} onClick={addExpenses}
-                                    style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
-                            </button>
-                        </form>
-                    </Popup>
+                    <button className={styles.incomeButton} onClick={() => {
+                        modals.open({
+                            title: 'Добавление дохода',
+                            children: (
+                                <>
+                                    <Group><TextInput
+                                        label="Введите сумму"
+                                        placeholder="Пример: 100"
+                                        onChange={(e) => handleFieldChange("sum", e.target.value)}
+                                        title="Пример: 100"
+                                        style={{width: 300}}
+                                    />
+                                        <NativeSelect label="Укажите валюту"
+                                                      onChange={(e) => handleFieldChange("currency", e)}
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                                      title="Выберите валюту. Пример: BYN"/>
+                                    </Group>
+                                    <br/>
+                                    <NativeSelect label="Выберите источник дохода"
+                                                  onChange={(e) => handleFieldChange("category", e)}
+                                                  title="Выберите источник дохода. Пример: Подарок" data={[
+                                        {value: 'salary', label: 'Зарплата'},
+                                        {value: 'gift', label: 'Подарок'},
+                                        {value: 'premium', label: 'Премия'},
+                                        {value: 'debt refund', label: 'Возврат долга'},
+                                        {value: 'cachek', label: 'Кэшбек'},
+                                    ]}>
+                                    </NativeSelect><br/>
+                                    <DateInput onChange={(e) => handleFieldChange("date", e)}
+                                               label="Укажите дату"
+                                               placeholder="Date input"></DateInput>
+                                    <Button className={styles.button} onClick={addIncome}
+                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                    </Button>
+                                </>
+                            ),
+                        });
+                    }}
+                    >+ Доход
+                    </button>
+                    <button className={styles.expenseButton} onClick={() => {
+                        modals.open({
+                            title: 'Добавление расхода',
+                            children: (
+                                <>
+                                    <Group><TextInput
+                                        label="Введите сумму"
+                                        placeholder="Пример: 100"
+                                        onChange={(e) => handleFieldChange("sum", e)}
+                                        title="Пример: 100"
+                                        style={{width: 300}}
+                                    />
+                                        <NativeSelect label="Укажите валюту"
+                                                      onChange={(e) => handleFieldChange("currency", e)}
+                                                      data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                                      title="Выберите валюту. Пример: BYN"/></Group>
+                                    <br/>
+                                    <NativeSelect label="Выберите категорию трат"
+                                                  onChange={(e) => handleFieldChange("category", e)}
+                                                  title="Выберите категорию трат. Пример: Продукты"
+                                                  data={[
+                                                      {value: 'products', label: 'Продукты'},
+                                                      {value: 'clothes', label: 'Одежда'},
+                                                      {value: 'house', label: 'жильё'},
+                                                      {value: 'car', label: 'автомобиль'},
+                                                      {value: 'entertainment', label: 'развлечения'},
+                                                      {value: 'duty', label: 'долг'},
+                                                  ]}>
+                                    </NativeSelect><br/>
+                                    <DateInput
+                                        onChange={(e) => handleFieldChange("date", e)}
+                                        label="Укажите дату"
+                                        placeholder="Date input"></DateInput>
+                                    <Button className={styles.button} onClick={addExpenses}
+                                            style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                    </Button>
+                                </>
+                            ),
+                        });
+                    }}
+                    >+ Расход
+                    </button>
                 </div>
             </div>
         </div>
@@ -246,9 +212,9 @@ export const getServerSideProps = async (ctx: any) => {
     const {db} = await connectToDatabase();
 
 
-    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
-    const bankAcc = (await db.collection('bankAccounts').findOne({ _id: user.currentBankAccount })) as IBankAccount;
+    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
 
     return {
         props: {

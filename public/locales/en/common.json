@@ -2,7 +2,7 @@
     "indexPage": {
         "authentication": "Authentication",
         "registration": "Registration",
-        "settings": "Settings/Account",
+        "settings": "Settings",
         "main": "Main",
         "operations": "Operations",
         "languages": {
@@ -24,5 +24,11 @@
             "password": "Password must be at least 8 characters long",
             "button": "Click the button to signIn"
         }
+    },
+    "2FA": {
+        "label": "Two-factor authentication",
+        "inputCode": "Enter the code",
+        "confirmButton": "Confirm",
+        "resendLink": "The code didn't come"
     }
 }

@@ -2,7 +2,7 @@
     "indexPage": {
         "authentication": "Вход",
         "registration": "Регистрация",
-        "settings": "Настройки/Аккаунт",
+        "settings": "Настройки",
         "main": "Главная",
         "operations": "Операции",
         "languages": {
@@ -24,5 +24,11 @@
             "password": "Пароль должен быть не менее 8 символов",
             "button": "Нажмите кнопку что бы войти"
         }
+    },
+    "2FA": {
+        "label": "Двухфакторная аутентификация",
+        "inputCode": "Введите код",
+        "confirmButton": "Подтвердить",
+        "resendLink": "Код не пришёл"
     }
 }

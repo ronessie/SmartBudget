@@ -1,6 +1,6 @@
 import IUser from "@/src/types/IUser";
-import { ObjectId } from "bson";
-import React, { useState } from "react";
+import {ObjectId} from "bson";
+import React, {useState} from "react";
 import styles from '../styles/pages.module.css'
 import validator from 'validator';
 import '../styles/pages.module.css'
@@ -9,6 +9,8 @@ import {signIn} from "next-auth/react";
 import IBankAccount from "@/src/types/IBankAccount";
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {TextInput} from "@mantine/core";
+
 export default function Page() {
     const [data, setData] = useState({
         fio: "",
@@ -42,7 +44,7 @@ export default function Page() {
             alert("ФИО введено не верно")
             return;
         }
-        if (!validator.isEmail(data.email)) {
+        if (!validator.isEmail(data.email.trim())) {
             alert("Почта введена не верно")
             return;
         }
@@ -54,18 +56,16 @@ export default function Page() {
             alert("Пароль введён не верно")
             return;
         }
-        if (!userExist)
-        {
+        if (!userExist) {
             await dateToDB()
+            await signIn('credentials', {username: data.email, password: data.password, redirect: false});
             router.push('/main')
-        }
-        else {
+        } else {
             alert("Аккаунт с такой почтой уже существует")
         }
     }
 
-    function inviteCode()
-    {
+    function inviteCode() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
         let code = '';
         for (let i = 0; i < 16; i++) {
@@ -106,9 +106,8 @@ export default function Page() {
         console.log(user);
     }
 
-    async function googleAuthentication(e: any)
-    {
-        e. preventDefault();
+    async function googleAuthentication(e: any) {
+        e.preventDefault();
         await signIn('google');
     }
 
@@ -117,20 +116,50 @@ export default function Page() {
         <div className={styles.page}>
             <div className={styles.registration}>
                 <form className={styles.form} style={{height: 550}}>
-                    <h1 className={styles.bigBlackText} style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 60}}>Регистрация</h1>
-                    <h3 className={styles.text} style={{fontSize: 16}}>Введите ФИО</h3>
-                    <input type="text" value={data.fio} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("fio", e)} title="Пример: Иванов Иван Иванович" />
-                    <h3 className={styles.text} style={{fontSize: 16}}>Введите эл. почту</h3>
-                    <input type="text" value={data.email} style={{width: 335}} className={styles.input} onChange={(e) => handleFieldChange("email", e)} title="Пример: Ivanov@mail.indexPage"/>
-                    <h3 className={styles.text} style={{fontSize: 16}}>Введите пароль</h3>
-                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={data.password} id="pas" onChange={(e) => handleFieldChange("password", e)} title="Пароль должен быть не менее 8 символов" />
-                    <h3 className={styles.text} style={{fontSize: 16}}>Подтвердите пароль</h3>
-                    <input type="password" className={styles.passwordInput} style={{width: 335}} value={data.checkPassword} onChange={(e) => handleFieldChange("checkPassword", e)} title="Повторите пароль" />
-                    <br />
-                    <button className={styles.button} onClick={dateValidation} style={{width: 351, marginTop: 20, fontSize: 20}} title="Нажмите кнопку что бы зарегистрироваться">Зарегистрироваться</button>
-                    <br />
-                    <button className={styles.button} onClick={googleAuthentication} style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью Google</button>
-                    <Link className={styles.link} href={"authentication"} style={{paddingLeft: 70}}>У Вас уже есть аккаунт, войдите</Link>
+                    <h1 className={styles.bigBlackText}
+                        style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 30}}>Регистрация</h1>
+                    <TextInput
+                        withAsterisk
+                        label="Введите ФИО"
+                        placeholder="Иванов Иван Иванович"
+                        value={data.fio}
+                        onChange={(e) => handleFieldChange("fio", e)}
+                        title="Пример: Иванов Иван Иванович"
+                    />
+                    <TextInput
+                        withAsterisk
+                        label="Введите эл. почту"
+                        placeholder="your@email.com"
+                        value={data.email}
+                        onChange={(e) => handleFieldChange("email", e)}
+                        title="Пример: your@email.com"
+                    />
+                    <TextInput
+                        withAsterisk
+                        label="Введите пароль"
+                        value={data.password}
+                        onChange={(e) => handleFieldChange("password", e)}
+                        title="Пароль должен быть не менее 8 символов"
+                        type="password"
+                    />
+                    <TextInput
+                        withAsterisk
+                        label="Подтвердите пароль"
+                        value={data.checkPassword}
+                        onChange={(e) => handleFieldChange("checkPassword", e)}
+                        title="Пароль должен быть не менее 8 символов"
+                        type="password"
+                    />
+                    <button className={styles.button} onClick={dateValidation}
+                            style={{width: 275, marginTop: 20, fontSize: 20}}
+                            title="Нажмите кнопку что бы зарегистрироваться">Зарегистрироваться
+                    </button>
+                    <br/>
+                    <button className={styles.button} onClick={googleAuthentication}
+                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью
+                        Google
+                    </button>
+                    <Link className={styles.link} href={"authentication"}>У Вас уже есть аккаунт, войдите</Link>
                 </form>
             </div>
         </div>

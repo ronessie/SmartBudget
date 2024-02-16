@@ -8,10 +8,11 @@ import {getSession, signIn} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
+import {Button, TextInput} from "@mantine/core";
 
 path.resolve('./next.config.js');
 
-export default function Page(props: { user: IUser}) {
+export default function Page(props: { user: IUser }) {
     const [data, setData] = useState({
         email: props.user.email,
         status: "get 2FA",
@@ -38,7 +39,8 @@ export default function Page(props: { user: IUser}) {
         return password;
     }
 
-    async function resend2FA() {
+    async function resend2FA(e: any) {//не на ту почту отправляет
+        e.preventDefault()
         data.twoStepAuthCode = generate2FAcode();
         const response2FA = await fetch('/api/send2FAcodeOnEmail', {
             method: 'POST',
@@ -46,7 +48,7 @@ export default function Page(props: { user: IUser}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: data.email,
+                email: props.user.email,
                 twoStepAuthCode: generate2FAcode(),
                 fromEmail: "vsakolinskaa@gmail.com"
             }),
@@ -59,16 +61,15 @@ export default function Page(props: { user: IUser}) {
             console.error('Failed to send email.');
         }
     }
-    async function check2FA() {
-        if (!data.check2FA || data.check2FA !== data.twoStepAuthCode)
-        {
+
+    async function check2FA(e: any) {
+        e.preventDefault()
+        if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
             alert("код введён не верно, попробуйте ещё раз");
             return
         }
-        // ТУТ ПРОБЛЕМЫ
-        /*await signIn('credentials', {username: props.user.email, password: props.user.password, redirect: false});
         alert("Вы успешно вошли")
-        await router.push('/main');*/
+        await router.push('/main');
     }
 
     return (
@@ -76,18 +77,19 @@ export default function Page(props: { user: IUser}) {
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 260}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, textAlign: "center"}}>Двухфакторка</h1>
-                    <h3 className={styles.text}
-                        style={{paddingTop: 35, fontSize: 16}}>Введите код:</h3>
-                    <input className={styles.input} style={{width: 335}} type="text" value={data.check2FA}
-                           onChange={(e) => handleFieldChange("check2FA", e)}
-                           title="Введите шестизначный код который пришёл вам на почту"/>
-                    <button className={styles.button}
-                            style={{width: 351, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}
+                        style={{fontSize: 40, textAlign: "center", padding: 0}}>{t('2FA.label')}</h1>
+                    <TextInput
+                        label={t('2FA.inputCode')}
+                        value={data.check2FA}
+                        onChange={(e) => handleFieldChange("check2FA", e)}
+                        title="Введите шестизначный код который пришёл вам на почту"
+                    />
+                    <Button className={styles.button}
+                            style={{width: 276, marginTop: 5, fontSize: 20}}
                             onClick={check2FA}
-                            title={t('authenticationPage.placeholder.button')}>Подтвердить
-                    </button>
-                    <Link href={""} onClick={resend2FA} className={styles.link}>Код не пришёл</Link>
+                            title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
+                    </Button>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}} className={styles.link}>{t('2FA.resendLink')}</Link>
                 </form>
             </div>
         </div>
@@ -98,7 +100,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     const {db} = await connectToDatabase();
 
-    const user = (await db.collection('users').findOne({ email: session?.user?.email })) as IUser;
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
     return {
         props: {

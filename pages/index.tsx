@@ -23,7 +23,7 @@ export default function Page() {
             <br/>
             <Link href={"main"}>{t('indexPage.main')}</Link>
             <br/>
-            <Link href={"passwordRecovery"}>Восстановление пароля</Link>
+            <Link href={"addingCheck"}>Чеки</Link>
             <br/>
             <Link href={"account"}>Аккаунт</Link>
             <br/>
