@@ -14,7 +14,7 @@ import {modals} from "@mantine/modals";
 import {DateInput} from '@mantine/dates';
 
 
-export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccount: IBankAccount }) {
+export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [data, setData] = useState({
         sum: "",
         currency: "BYN",
@@ -53,7 +53,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         const operation: IOperation = {
             _id: new ObjectId(),
             user_id: props.user._id,
-            bankAccount_id: props.currentBankAccount,
+            bankAccount_id: props.bankAccount._id,
             sum: parseFloat(data.sum),
             currency: data.currency,
             date: data.date,
@@ -69,12 +69,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
     }
 
     async function updateBalance() {
-        console.log('updateBalance')
-
         const responseUpdate = await fetch('/api/updateBalance', {
             method: 'POST',
             body: JSON.stringify({
-                currentBankAccount_id: props.currentBankAccount.id,
+                currentBankAccount_id: props.bankAccount._id,
                 sum: data.sum,
                 operationStatus: data.operationStatus,
                 balance: props.bankAccount.balance
@@ -220,7 +218,7 @@ export const getServerSideProps = async (ctx: any) => {
 
     return {
         props: {
-            user: user, bankAccount: bankAcc, currentBankAccount: session?.user,
+            user: user, bankAccount: bankAcc,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }

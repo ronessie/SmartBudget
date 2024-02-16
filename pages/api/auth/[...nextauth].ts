@@ -1,6 +1,10 @@
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from "next-auth/providers/credentials"
 import NextAuth from "next-auth";
+import {connectToDatabase} from "@/src/database";
+import IUser from "@/src/types/IUser";
+import {createBankAccountObj, createUserObj} from "@/src/utils";
+import {ObjectId} from "bson";
 
 export default NextAuth({
     providers: [
@@ -18,11 +22,11 @@ export default NextAuth({
             },
             async authorize(credentials, req) {
                 if (!credentials) return false as any;
-                
+
                 const username = credentials.username;
                 const password = credentials.password;
                 console.log("credentials auth: ", username, password);
-                
+
                 return {
                     email: username,
                 };
@@ -36,10 +40,35 @@ export default NextAuth({
         error: '/'
     },
     callbacks: {
-        async signIn(props) {
-            const username = props.user.name;
-            const email = props.user.email;
-            console.log(username +" "+ email)
+        async signIn({user, account, profile}) {
+            if (account?.provider === 'google') {
+                console.log('auth by google: ', user, account, profile);
+
+                const { db } = await connectToDatabase();
+
+                const userExists = ((await db
+                    .collection('users')
+                    .find()
+                    .toArray()) as IUser[]).find((u: IUser) => u.email === user.email);
+
+                if (userExists) {
+                    return false;
+                }
+
+                const bankAccount_id = new ObjectId();
+
+                const userCollection = await db.collection('users');
+                const userObj = createUserObj(user?.name ?? profile?.name ?? 'unknown', user.email!, (new ObjectId()).toString(), bankAccount_id);
+                await userCollection.insertOne(userObj);
+
+                const bankCollection = await db.collection('bankAccounts');
+                const bankAccount = createBankAccountObj(userObj._id, bankAccount_id);
+                await bankCollection.insertOne(bankAccount);
+            }
+
+            const username = user.name;
+            const email = user.email;
+            console.log(`unknown auth: ${username} ${email}`)
             return true;
         }
     }

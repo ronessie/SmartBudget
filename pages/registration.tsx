@@ -6,10 +6,10 @@ import validator from 'validator';
 import '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
-import IBankAccount from "@/src/types/IBankAccount";
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {TextInput} from "@mantine/core";
+import {createBankAccountObj, createUserObj} from "@/src/utils";
 
 export default function Page() {
     const [data, setData] = useState({
@@ -65,52 +65,23 @@ export default function Page() {
         }
     }
 
-    function inviteCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let code = '';
-        for (let i = 0; i < 16; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return code;
-    }
-
     async function dateToDB() {
         const bankAccount_id = new ObjectId();
-        const user: IUser = {
-            _id: new ObjectId(),
-            fio: data.fio,
-            email: data.email,
-            password: data.password,
-            status: "Authorized",
-            currentBankAccount: bankAccount_id,
-            twoStepAuth: false
-        };
+        const user = createUserObj(data.fio, data.email, data.password, bankAccount_id);
 
         const userResponse = await fetch(`/api/authentication/${JSON.stringify(user)}`);
-
         if (!userResponse.ok) throw new Error(userResponse.statusText);
-        console.log(user);
 
-        const bankAccount: IBankAccount = {
-            _id: bankAccount_id,
-            user_id: user._id,
-            name: "Счёт",
-            currency: "BYN",
-            balance: 0,
-            invitingCode: inviteCode(),
-        };
+        const bankAccount = createBankAccountObj(user._id, bankAccount_id);
 
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
-
         if (!response.ok) throw new Error(response.statusText);
-        console.log(user);
     }
 
     async function googleAuthentication(e: any) {
         e.preventDefault();
-        await signIn('google');
+        await signIn('google', { redirect: false } );
     }
-
 
     return (
         <div className={styles.page}>
@@ -156,8 +127,7 @@ export default function Page() {
                     </button>
                     <br/>
                     <button className={styles.button} onClick={googleAuthentication}
-                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Вход с помощью
-                        Google
+                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Регистрация через Google
                     </button>
                     <Link className={styles.link} href={"authentication"}>У Вас уже есть аккаунт, войдите</Link>
                 </form>
