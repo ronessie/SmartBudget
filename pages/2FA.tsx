@@ -39,7 +39,7 @@ export default function Page(props: { user: IUser }) {
         return password;
     }
 
-    async function resend2FA(e: any) {//не на ту почту отправляет
+    async function resend2FA(e: any) {
         e.preventDefault()
         data.twoStepAuthCode = generate2FAcode();
         const response2FA = await fetch('/api/send2FAcodeOnEmail', {
@@ -75,9 +75,9 @@ export default function Page(props: { user: IUser }) {
     return (
         <div className={styles.page}>
             <div className={styles.auth}>
-                <form className={styles.form} style={{height: 260}}>
+                <form className={styles.form} style={{height: 330}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, textAlign: "center", padding: 0}}>{t('2FA.label')}</h1>
+                        style={{fontSize: 35, textAlign: "center", padding: 0}}>{t('2FA.label')}</h1>
                     <TextInput
                         label={t('2FA.inputCode')}
                         value={data.check2FA}

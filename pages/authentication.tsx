@@ -138,7 +138,7 @@ export default function Page() {
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 420}}>
                     <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, paddingLeft: 90}}>{t('authenticationPage.signIn')}</h1>
+                        style={{fontSize: 40, padding: 0, textAlign: "center"}}>{t('authenticationPage.signIn')}</h1>
                     <TextInput
                         label={t('authenticationPage.input.email')}
                         placeholder="your@email.com"

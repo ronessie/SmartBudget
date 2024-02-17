@@ -11,6 +11,7 @@ import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
+import {router} from "next/client";
 
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
@@ -67,7 +68,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
         if (!response.ok) throw new Error(response.statusText);
-        alert("всё оки, работаем дальше")
         await updateBalance()
     }
 
@@ -81,7 +81,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 balance: props.bankAccount.balance
             }),
         });
-        alert("hello2")
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         alert("Операция проведена успешно")
     }
