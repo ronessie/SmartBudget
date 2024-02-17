@@ -9,10 +9,12 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {modals} from "@mantine/modals";
-import {Button, Group, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {createBankAccountObj} from "@/src/utils";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
+    const [billModalState, setBillModalState] = useState(false);
+    const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
         currency: "BYN",
@@ -22,20 +24,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         date: new Date(),
     });
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
-    }
-
-    function inviteCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let code = '';
-        for (let i = 0; i < 16; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return code;
     }
 
     async function dateValidation(e: any) {
@@ -76,14 +69,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     }
 
     async function dateToDB() {
-        const bankAccount: IBankAccount = {
-            _id: new ObjectId(),
-            user_id: props.user._id,
-            name: data.name,
-            currency: data.currency,
-            balance: data.balance,
-            invitingCode: inviteCode(),
-        };
+        const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString());
 
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
@@ -96,58 +82,49 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         <div>
             <h2>ФИО:</h2><h3>{props.user.fio}</h3>
             <h2>Электронная почта:</h2><h3>{props.user.email}</h3>
-            <Button style={{width: 200}} className={styles.button} onClick={() => {
-                modals.open({
-                    title: 'Добавление счёта',
-                    children: (
-                        <>
-                            <TextInput
-                                label="Введите название счёта"
-                                placeholder="Счёт"
-                                onChange={(e) => handleFieldChange("name", e)}
-                                title="Пример: Счёт №1"
-                            />
-                            <Group>
-                                <TextInput
-                                    label="Введите
+            <Button style={{width: 200}} className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить
+                счёт</Button>
+            <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                <TextInput
+                    label="Введите название счёта"
+                    placeholder="Счёт"
+                    onChange={(e) => handleFieldChange("name", e.target.value)}
+                    title="Пример: Счёт №1"
+                />
+                <Group>
+                    <TextInput
+                        label="Введите
                                 начальную сумму"
-                                    placeholder="1000"
-                                    style={{width: 310}}
-                                    onChange={(e) => handleFieldChange("balance", e)}
-                                    title="Пример: 1000 BYN"
-                                />
-                                <NativeSelect label="Укажите валюту"
-                                              onChange={(e) => handleFieldChange("currency", e)}
-                                              title="Укажите валюту. Пример: BYN"
-                                              data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
-                                </NativeSelect></Group>
-                            <Button className={styles.button} onClick={dateValidation}
-                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
-                            </Button>
+                        placeholder="1000"
+                        style={{width: 310}}
+                        onChange={(e) => handleFieldChange("balance", e.target.value)}
+                        title="Пример: 1000 BYN"
+                    />
+                    <NativeSelect label="Укажите валюту"
+                                  onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                  title="Укажите валюту. Пример: BYN"
+                                  data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
+                    </NativeSelect></Group>
+                <Button className={styles.button} onClick={dateValidation}
+                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                </Button>
 
-                            <Link className={styles.link} style={{paddingLeft: 100}} href={""} onClick={() => {
-                                modals.open({
-                                    title: 'Подключение к банковскому счёту',
-                                    children: (
-                                        <>
-                                            <TextInput
-                                                label="Введите пригласительный код"
-                                                onChange={(e) => handleFieldChange("inviteCode", e)}
-                                                title="Введите 16-значный код"
-                                            />
-                                            <Button className={styles.button} onClick={checkInviteCode}
-                                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
-                                            </Button>
-                                        </>
-                                    ),
-                                });
-                            }}
-                            >У меня есть пригласительный код</Link>
-                        </>
-                    ),
-                });
-            }}
-            >Добавить счёт</Button>
+                <Link className={styles.link} style={{paddingLeft: 100}} href={""}
+                      onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть пригласительный
+                    код</Link>
+
+                <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
+                       title={'Подключение к банковскому счёту'}>
+                    <TextInput
+                        label="Введите пригласительный код"
+                        onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
+                        title="Введите 16-значный код"
+                    />
+                    <Button className={styles.button} onClick={checkInviteCode}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                    </Button>
+                </Modal>
+            </Modal>
             <br/>
             <button style={{width: 200}} className={styles.button}>Сменить счёт</button>
             <button style={{width: 200}} className={styles.button}>Удалить счёт</button>
@@ -158,7 +135,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
-    const {db} = await connectToDatabase();
+    const { db } = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 

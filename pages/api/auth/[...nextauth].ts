@@ -42,7 +42,7 @@ export default NextAuth({
     callbacks: {
         async signIn({user, account, profile}) {
             if (account?.provider === 'google') {
-                console.log('auth by google: ', user, account, profile);
+                console.log('auth by google: ', user);
 
                 const { db } = await connectToDatabase();
 
@@ -52,23 +52,25 @@ export default NextAuth({
                     .toArray()) as IUser[]).find((u: IUser) => u.email === user.email);
 
                 if (userExists) {
-                    return false;
+                    return true;
                 }
 
-                const bankAccount_id = new ObjectId();
+                const bankAccount_id = new ObjectId().toString();
+                const userPassword = new ObjectId().toString()
 
                 const userCollection = await db.collection('users');
-                const userObj = createUserObj(user?.name ?? profile?.name ?? 'unknown', user.email!, (new ObjectId()).toString(), bankAccount_id);
+                const userObj = createUserObj(user?.name ?? profile?.name ?? 'unknown', user.email!, userPassword, bankAccount_id);
                 await userCollection.insertOne(userObj);
 
                 const bankCollection = await db.collection('bankAccounts');
                 const bankAccount = createBankAccountObj(userObj._id, bankAccount_id);
                 await bankCollection.insertOne(bankAccount);
+            } else {
+                const username = user.name;
+                const email = user.email;
+                console.log(`unknown auth: ${username} ${email}`)
             }
 
-            const username = user.name;
-            const email = user.email;
-            console.log(`unknown auth: ${username} ${email}`)
             return true;
         }
     }

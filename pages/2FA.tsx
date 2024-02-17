@@ -4,7 +4,7 @@ import styles from "@/styles/pages.module.css";
 import React, {useState} from "react";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
-import {getSession, signIn} from "next-auth/react";
+import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
@@ -23,10 +23,10 @@ export default function Page(props: { user: IUser }) {
     const router = useRouter();
     const {t} = useTranslation('common');
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
@@ -81,7 +81,7 @@ export default function Page(props: { user: IUser }) {
                     <TextInput
                         label={t('2FA.inputCode')}
                         value={data.check2FA}
-                        onChange={(e) => handleFieldChange("check2FA", e)}
+                        onChange={(e) => handleFieldChange("check2FA", e.target.value)}
                         title="Введите шестизначный код который пришёл вам на почту"
                     />
                     <Button className={styles.button}

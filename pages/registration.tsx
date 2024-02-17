@@ -22,10 +22,10 @@ export default function Page() {
 
     const router = useRouter();
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
@@ -66,7 +66,8 @@ export default function Page() {
     }
 
     async function dateToDB() {
-        const bankAccount_id = new ObjectId();
+        const bankAccount_id = new ObjectId().toString();
+
         const user = createUserObj(data.fio, data.email, data.password, bankAccount_id);
 
         const userResponse = await fetch(`/api/authentication/${JSON.stringify(user)}`);
@@ -94,7 +95,7 @@ export default function Page() {
                         label="Введите ФИО"
                         placeholder="Иванов Иван Иванович"
                         value={data.fio}
-                        onChange={(e) => handleFieldChange("fio", e)}
+                        onChange={(e) => handleFieldChange("fio", e.target.value)}
                         title="Пример: Иванов Иван Иванович"
                     />
                     <TextInput
@@ -102,14 +103,14 @@ export default function Page() {
                         label="Введите эл. почту"
                         placeholder="your@email.com"
                         value={data.email}
-                        onChange={(e) => handleFieldChange("email", e)}
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
                         title="Пример: your@email.com"
                     />
                     <TextInput
                         withAsterisk
                         label="Введите пароль"
                         value={data.password}
-                        onChange={(e) => handleFieldChange("password", e)}
+                        onChange={(e) => handleFieldChange("password", e.target.value)}
                         title="Пароль должен быть не менее 8 символов"
                         type="password"
                     />
@@ -117,7 +118,7 @@ export default function Page() {
                         withAsterisk
                         label="Подтвердите пароль"
                         value={data.checkPassword}
-                        onChange={(e) => handleFieldChange("checkPassword", e)}
+                        onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
                         title="Пароль должен быть не менее 8 символов"
                         type="password"
                     />

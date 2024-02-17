@@ -6,13 +6,14 @@ import {useRouter} from 'next/router';
 import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {Button, Text} from '@mantine/core';
-import {modals} from '@mantine/modals';
+import {Button, Modal} from '@mantine/core';
 
 import Link from "next/link";
 import {TextInput} from "@mantine/core";
+import {generate2FAcode, generatePassword} from "@/src/utils";
 
 export default function Page() {
+    const [passwordRecoveryModalState, setPasswordRecoveryModalState] = useState(false);
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -25,15 +26,6 @@ export default function Page() {
     });
     const router = useRouter();
     const {t} = useTranslation('common');
-
-    function generate2FAcode() {
-        const characters = '0123456789';
-        let password = '';
-        for (let i = 0; i < 6; i++) {
-            password += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return password;
-    }
 
     async function checkDate(e: any) {
         e.preventDefault();
@@ -88,17 +80,6 @@ export default function Page() {
 
             await router.push('/main');
         }
-
-
-    }
-
-    function generatePassword() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        let password = '';
-        for (let i = 0; i < 12; i++) {
-            password += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return password;
     }
 
     async function checkDataForPasswordRecovery(e: any) {
@@ -137,16 +118,16 @@ export default function Page() {
         }
     }
 
-    function handleFieldChange(fieldName: string, event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleFieldChange(fieldName: string, value: any) {
         setData({
             ...data,
-            [fieldName]: event.target.value,
+            [fieldName]: value,
         });
     }
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google', {redirect: false});
+        const response = await signIn('google');
         if (response && response.ok) {
             await router.push('/main');
         }
@@ -162,13 +143,13 @@ export default function Page() {
                         label={t('authenticationPage.input.email')}
                         placeholder="your@email.com"
                         value={data.email}
-                        onChange={(e) => handleFieldChange("email", e)}
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
                         title="Пример: your@email.com"
                     />
                     <TextInput
                         label={t('authenticationPage.input.password')}
                         value={data.password}
-                        onChange={(e) => handleFieldChange("password", e)}
+                        onChange={(e) => handleFieldChange("password", e.target.value)}
                         title={t('authenticationPage.placeholder.password')}
                         type="password"
                     />
@@ -183,26 +164,22 @@ export default function Page() {
                     <br/>
                     <Link href={"registration"} className={styles.link}
                           style={{fontSize: 16, paddingLeft: 15}}>{t('authenticationPage.registrationLink')}</Link><br/>
-                    <Link href={""} className={styles.link} style={{marginLeft: 30, fontSize: 16}} onClick={() => {
-                        modals.open({
-                            title: 'Восстановление пароля',
-                            children: (
-                                <>
-                                    <TextInput
-                                        label="Введите эл. почту к
-                                которой привязан аккаунт:"
-                                        placeholder="your@email.com"
-                                        onChange={(e) => handleFieldChange("popUpEmail", e)}
-                                        title="Пример: your@email.com"
-                                    />
-                                    <Button onClick={checkDataForPasswordRecovery} style={{marginTop: 10}}
-                                            title="Нажмите для смены пароля">Сменить
-                                        пароль</Button>
-                                </>
-                            ),
-                        });
-                    }}
+
+                    <Link href={""} className={styles.link} style={{marginLeft: 30, fontSize: 16}} onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
                     >Восстановить пароль</Link>
+
+                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)} title={'Восстановление пароля'}>
+                        <TextInput
+                            label="Введите эл. почту к
+                                которой привязан аккаунт:"
+                            placeholder="your@email.com"
+                            onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
+                            title="Пример: your@email.com"
+                        />
+                        <Button onClick={checkDataForPasswordRecovery} style={{marginTop: 10}}
+                                title="Нажмите для смены пароля">Сменить
+                            пароль</Button>
+                    </Modal>
                 </form>
             </div>
         </div>
