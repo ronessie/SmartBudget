@@ -11,19 +11,17 @@ import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
-import {router} from "next/client";
-
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
     const [data, setData] = useState({
         sum: 0.0,
-        currency: "BYN",
+        currency: props.bankAccount.currency,
         category: "",
         date: new Date(),
         status: "",
-        balance: 0,
+        balance: props.bankAccount.balance,
         lastUpdateDate: Date.now(),
         operationStatus: "",
         newBalance: 0
@@ -82,6 +80,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             }),
         });
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
+        if (data.operationStatus === '+') {
+            handleFieldChange("balance", +(data?.balance ?? 0) + +data.sum)
+        }
+        else {
+            handleFieldChange("balance", +(data?.balance ?? 0) - +data.sum)
+        }
+        setIncomeModalState(false)
+        setExpensesModalState(false);
         alert("Операция проведена успешно")
     }
 
@@ -115,25 +121,20 @@ console.log('data: ', data);
                 <h1 className={styles.text}>Ваш счёт</h1>
                 <div className={styles.rectangle}><br/>
                     <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
-                    <h1 className={styles.bigWhiteText}>{props.bankAccount.balance} {props.bankAccount.currency}</h1>
+                    <h1 className={styles.bigWhiteText}>{data.balance} {props.bankAccount.currency}</h1>
                     <br/>
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
                     <button className={styles.incomeButton} onClick={() => setIncomeModalState(!incomeModalState)}>+ Доход</button>
                     <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)} title={'Добавление дохода'}>
-                        <Group><TextInput
+                        <TextInput
                             label="Введите сумму"
                             placeholder="Пример: 100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
                             title="Пример: 100"
                             style={{width: 300}}
                         />
-                            <NativeSelect label="Укажите валюту"
-                                          onChange={(e) => handleFieldChange("currency", e.target.value)}
-                                          data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                          title="Выберите валюту. Пример: BYN"/>
-                        </Group>
                         <br/>
                         <NativeSelect label="Выберите источник дохода"
                                       onChange={(e) => handleFieldChange("category", e.target.value)}
@@ -154,17 +155,13 @@ console.log('data: ', data);
                     </Modal>
                     <button className={styles.expenseButton} onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход</button>
                     <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)} title={'Добавление расхода'}>
-                        <Group><TextInput
+                        <TextInput
                             label="Введите сумму"
                             placeholder="Пример: 100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
                             title="Пример: 100"
                             style={{width: 300}}
                         />
-                            <NativeSelect label="Укажите валюту"
-                                          onChange={(e) => handleFieldChange("currency", e.target.value)}
-                                          data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                          title="Выберите валюту. Пример: BYN"/></Group>
                         <br/>
                         <NativeSelect label="Выберите категорию трат"
                                       onChange={(e) => handleFieldChange("category", e.target.value)}
