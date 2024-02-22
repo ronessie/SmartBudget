@@ -66,9 +66,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             });
 
             if (!response.ok) throw new Error(response.statusText);
+            setBillModalState(false);
+            setBankAccountConnectionModalState(false);
 
-            router.push('/main')
-            //тут надо прописать смену текущего аккаунта для данного пользователя и переход на главную
+            //тут надо прописать смену текущего аккаунта для данного пользователя
         }
     }
 
@@ -87,7 +88,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         } else {
             await dateToDB();
             alert("всё оки, работаем дальше")
-            router.push('/main')
+            setBillModalState(false);
         }
     }
 

@@ -46,7 +46,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         } else {
             await dateToDB();
             alert("всё оки, работаем дальше")
-            await router.push('/main')
         }
     }
 
@@ -65,6 +64,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             alert("Всё круто")
             await router.push('/main')
             //тут надо прописать смену текущего аккаунта для данного пользователя и переход на главную
+            setBillModalState(false);
         }
     }
 
