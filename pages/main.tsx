@@ -9,7 +9,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
@@ -133,7 +133,6 @@ console.log('data: ', data);
                             placeholder="Пример: 100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
                             title="Пример: 100"
-                            style={{width: 300}}
                         />
                         <br/>
                         <NativeSelect label="Выберите источник дохода"
@@ -150,7 +149,7 @@ console.log('data: ', data);
                                    label="Укажите дату"
                                    placeholder="Date input"></DateInput>
                         <Button className={styles.button} onClick={addIncome}
-                                style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
                     <button className={styles.expenseButton} onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход</button>
@@ -160,7 +159,6 @@ console.log('data: ', data);
                             placeholder="Пример: 100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
                             title="Пример: 100"
-                            style={{width: 300}}
                         />
                         <br/>
                         <NativeSelect label="Выберите категорию трат"
@@ -180,7 +178,7 @@ console.log('data: ', data);
                             label="Укажите дату"
                             placeholder="Date input"></DateInput>
                         <Button className={styles.button} onClick={addExpenses}
-                                style={{width: 351, marginTop: 20, fontSize: 20}}>Добавить
+                                style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
                 </div>

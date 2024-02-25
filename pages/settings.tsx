@@ -6,7 +6,6 @@ import Link from "next/link";
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {useRouter} from "next/navigation";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
 import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
@@ -23,8 +22,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         inviteCode: "",
         date: new Date(),
     });
-
-    const router = useRouter();
 
     function handleFieldChange(fieldName: string, value: any) {
         setData({
@@ -48,9 +45,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         if (!response.ok) throw new Error(response.statusText);
 
         const json = await response.json();
-        const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)//тут проблемкинс
+        const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)
         if (!inviteToBankAccount) {
-            alert("Код введён не верно, попробуйте ещё раз")  // попробовать отменить перезагрузку
+            alert("Код введён не верно, попробуйте ещё раз")
             return;
         } else {
             alert("Всё круто")
@@ -103,19 +100,19 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     title="Счёт №1"
                 />
                 <Group><TextInput
-                    label="Введите
-                                начальную сумму и валюту"
+                    label="Введите начальную сумму и укажите валюту"
                     placeholder="1000"
+                    style = {{paddingRight: 0, width: 316}}
                     onChange={(e) => handleFieldChange("balance", e.target.value)}
                     title="Пример: 1000"
-                    style={{width: 310}}
                 />
-                    <NativeSelect label="Укажите валюту"
+                    <NativeSelect
                                   onChange={(e) => handleFieldChange("currency", e.target.value)}
                                   data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                                  style = {{paddingTop: 25, marginLeft: 0}}
                                   title="Выберите валюту. Пример: BYN"/></Group>
                 <Button className={styles.button} onClick={dateValidation}
-                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                        style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                 </Button>
             </Modal>
 
@@ -132,7 +129,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     title="Введите 16 символов"
                 />
                 <Button className={styles.button} onClick={checkInviteCode}
-                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                        style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                 </Button>
             </Modal>
         </div>

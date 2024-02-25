@@ -176,7 +176,7 @@ export default function Page() {
                             onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
                             title="Пример: your@email.com"
                         />
-                        <Button onClick={checkDataForPasswordRecovery} style={{marginTop: 10}}
+                        <Button onClick={checkDataForPasswordRecovery} className={styles.button} style={{marginTop: 10, width: 408}}
                                 title="Нажмите для смены пароля">Сменить
                             пароль</Button>
                     </Modal>

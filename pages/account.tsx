@@ -56,9 +56,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         if (!response.ok) throw new Error(response.statusText);
 
         const json = await response.json();
-        const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)//тут проблемкинс
+        const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)
         if (!inviteToBankAccount) {
-            alert("Код введён не верно, попробуйте ещё раз")  // попробовать отменить перезагрузку
+            alert("Код введён не верно, попробуйте ещё раз")
             return;
         } else {
             alert("Всё круто")
@@ -93,16 +93,16 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                 />
                 <Group>
                     <TextInput
-                        label="Введите
-                                начальную сумму"
+                        label="Введите начальную сумму и укажите валюту"
                         placeholder="1000"
-                        style={{width: 310}}
+                        style={{paddingRight: 0, width: 316}}
                         onChange={(e) => handleFieldChange("balance", e.target.value)}
                         title="Пример: 1000 BYN"
                     />
-                    <NativeSelect label="Укажите валюту"
+                    <NativeSelect
                                   onChange={(e) => handleFieldChange("currency", e.target.value)}
                                   title="Укажите валюту. Пример: BYN"
+                                  style = {{paddingTop: 25, marginLeft: 0}}
                                   data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
                     </NativeSelect></Group>
                 <Button className={styles.button} onClick={dateValidation}
