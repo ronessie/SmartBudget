@@ -144,7 +144,7 @@ export default function Page() {
                         placeholder="your@email.com"
                         value={data.email}
                         onChange={(e) => handleFieldChange("email", e.target.value)}
-                        title="Пример: your@email.com"
+                        title={t('authenticationPage.placeholder.email')}
                     />
                     <TextInput
                         label={t('authenticationPage.input.password')}
@@ -163,22 +163,20 @@ export default function Page() {
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                     <br/>
                     <Link href={"registration"} className={styles.link}
-                          style={{fontSize: 16, paddingLeft: 15}}>{t('authenticationPage.registrationLink')}</Link><br/>
+                          style={{fontSize: 16, paddingLeft: 15}} title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
-                    <Link href={""} className={styles.link} style={{marginLeft: 30, fontSize: 16}} onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
-                    >Восстановить пароль</Link>
+                    <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link} style={{marginLeft: 30, fontSize: 16}} onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
+                    >{t('authenticationPage.changePasswordLink')}</Link>
 
-                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)} title={'Восстановление пароля'}>
+                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)} title={t('authenticationPage.modals.header')}>
                         <TextInput
-                            label="Введите эл. почту к
-                                которой привязан аккаунт:"
+                            label={t('authenticationPage.modals.email')}
                             placeholder="your@email.com"
                             onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
-                            title="Пример: your@email.com"
+                            title={t('authenticationPage.modals.title')}
                         />
                         <Button onClick={checkDataForPasswordRecovery} className={styles.button} style={{marginTop: 10, width: 408}}
-                                title="Нажмите для смены пароля">Сменить
-                            пароль</Button>
+                                title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
                     </Modal>
                 </form>
             </div>

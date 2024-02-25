@@ -19,10 +19,20 @@
         "signInButton": "SignIn",
         "googleLoginButton": "SignIn with google",
         "registrationLink": "No account, signUp",
+        "changePasswordLink": "Reset password",
         "placeholder": {
             "email": "Example: Ivanov@mail.ru",
             "password": "Password must be at least 8 characters long",
-            "button": "Click the button to signIn"
+            "button": "Click the button to signIn",
+            "regLink": "Click to register",
+            "changePassLink": "Click to reset your password"
+        },
+        "modals": {
+            "header": "Password reset",
+            "email": "Enter the email to which your account is linked:",
+            "title": "Example: your@email.com",
+            "buttonTitle": "Click to reset your password",
+            "button": "Password reset"
         }
     },
     "2FA": {
