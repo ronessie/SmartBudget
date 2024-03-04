@@ -40,5 +40,25 @@
         "inputCode": "Enter the code",
         "confirmButton": "Confirm",
         "resendLink": "The code didn't come"
+    },
+    "registrationPage": {
+        "label": "Registration",
+        "inputFIO": "Input name",
+        "inputEmail": "Input email",
+        "inputPassword": "Input password",
+        "checkPassword": "Confirm password",
+        "button": "Sign up",
+        "googleButton": "Google sign up",
+        "link": "You already have an account, log in",
+        "placeholder": {
+            "fio": "Example: Ivanov Ivan Ivanovich",
+            "email": "Example: your@email.com",
+            "password": "Password must be at least 8 characters long",
+            "button": "Click the button to register"
+        },
+        "inputPlaceholder": {
+            "fio": "Ivanov Ivan Ivanovich",
+            "email": "your@email.com"
+        }
     }
 }

@@ -40,5 +40,25 @@
         "inputCode": "Введите код",
         "confirmButton": "Подтвердить",
         "resendLink": "Код не пришёл"
+    },
+    "registrationPage": {
+        "label": "Регистрация",
+        "inputFIO": "Введите ФИО",
+        "inputEmail": "Введите эл. почту",
+        "inputPassword": "Введите пароль",
+        "checkPassword": "Подтвердите пароль",
+        "button": "Зарегистрироваться",
+        "googleButton": "Регистрация через Google",
+        "link": "У Вас уже есть аккаунт, войдите",
+        "placeholder": {
+            "fio": "Пример: Иванов Иван Иванович",
+            "email": "Пример: your@email.com",
+            "password": "Пароль должен быть не менее 8 символов",
+            "button": "Нажмите кнопку что бы зарегистрироваться"
+        },
+        "inputPlaceholder": {
+            "fio": "Иванов Иван Иванович",
+            "email": "your@email.com"
+        }
     }
 }

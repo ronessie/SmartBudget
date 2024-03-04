@@ -6,6 +6,7 @@ import validator from 'validator';
 import '../styles/pages.module.css'
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
+import {useTranslation} from 'next-i18next';
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {TextInput} from "@mantine/core";
@@ -21,6 +22,7 @@ export default function Page() {
     });
 
     const router = useRouter();
+    const {t} = useTranslation('common');
 
     function handleFieldChange(fieldName: string, value: any) {
         setData({
@@ -89,48 +91,46 @@ export default function Page() {
             <div className={styles.registration}>
                 <form className={styles.form} style={{height: 550}}>
                     <h1 className={styles.bigBlackText}
-                        style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 30}}>Регистрация</h1>
+                        style={{marginTop: 5, paddingBottom: 25, fontSize: 35, paddingLeft: 30}}>{t('registrationPage.label')}</h1>
                     <TextInput
                         withAsterisk
-                        label="Введите ФИО"
-                        placeholder="Иванов Иван Иванович"
+                        label={t('registrationPage.inputFIO')}
+                        placeholder={t('registrationPage.inputPlaceholder.fio')}
                         value={data.fio}
                         onChange={(e) => handleFieldChange("fio", e.target.value)}
-                        title="Пример: Иванов Иван Иванович"
+                        title={t('registrationPage.placeholder.fio')}
                     />
                     <TextInput
                         withAsterisk
-                        label="Введите эл. почту"
-                        placeholder="your@email.com"
+                        label={t('registrationPage.inputEmail')}
+                        placeholder={t('registrationPage.inputPlaceholder.email')}
                         value={data.email}
                         onChange={(e) => handleFieldChange("email", e.target.value)}
-                        title="Пример: your@email.com"
+                        title={t('registrationPage.placeholder.email')}
                     />
                     <TextInput
                         withAsterisk
-                        label="Введите пароль"
+                        label={t('registrationPage.inputPassword')}
                         value={data.password}
                         onChange={(e) => handleFieldChange("password", e.target.value)}
-                        title="Пароль должен быть не менее 8 символов"
+                        title={t('registrationPage.placeholder.password')}
                         type="password"
                     />
                     <TextInput
                         withAsterisk
-                        label="Подтвердите пароль"
+                        label={t('registrationPage.checkPassword')}
                         value={data.checkPassword}
                         onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
-                        title="Пароль должен быть не менее 8 символов"
+                        title={t('registrationPage.placeholder.password')}
                         type="password"
                     />
                     <button className={styles.button} onClick={dateValidation}
                             style={{width: 275, marginTop: 20, fontSize: 20}}
-                            title="Нажмите кнопку что бы зарегистрироваться">Зарегистрироваться
-                    </button>
+                            title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</button>
                     <br/>
                     <button className={styles.button} onClick={googleAuthentication}
-                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>Регистрация через Google
-                    </button>
-                    <Link className={styles.link} href={"authentication"}>У Вас уже есть аккаунт, войдите</Link>
+                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>{t('registrationPage.googleButton')}</button>
+                    <Link className={styles.link} href={"authentication"}>{t('registrationPage.link')}</Link>
                 </form>
             </div>
         </div>
