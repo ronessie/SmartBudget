@@ -59,6 +59,14 @@
         "inputPlaceholder": {
             "fio": "Иванов Иван Иванович",
             "email": "your@email.com"
+        },
+        "mainPage": {
+            "hello": "Здравствуйте",
+            "yourBankAccount": "Ваш счёт",
+            "lastUpdate": "Последнее обновление 00/00/0000",
+            "addIncome": "+ Доход",
+            "addExpenses": "+ Расход",
+            "hello": ""
         }
     }
 }

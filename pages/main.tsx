@@ -12,6 +12,7 @@ import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
+import {useTranslation} from "next-i18next";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -27,6 +28,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         operationStatus: "",
         newBalance: 0
     });
+    const {t} = useTranslation('common');
+
     const dataChart = [
         {name: 'USA', value: 400, color: 'blue.6'},
         {name: 'India', value: 300, color: 'yellow.6'},
@@ -120,20 +123,20 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         <div className={styles.page}>
             <div className={styles.pages}>
                 <div className={styles.conteiners}>
-                    <h1 className={styles.bigBlackText}>Здравствуйте, {props.user.fio}</h1>
+                    <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>
                     <Link href={"settings"}
                           style={{fontSize: 32, marginTop: 15, textDecorationLine: "none", marginRight: 15}}>⚙️</Link>
                 </div>
-                <h1 className={styles.text}>Ваш счёт</h1>
+                <h1 className={styles.text}>{t('mainPage.yourBankAccount')}</h1>
                 <div className={styles.rectangle}><br/>
                     <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
                     <h1 className={styles.bigWhiteText}>{data.balance} {props.bankAccount.currency}</h1>
                     <br/>
-                    <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
+                    <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')}</h1>
                 </div>
                 <div>
-                    <button className={styles.incomeButton} onClick={() => setIncomeModalState(!incomeModalState)}>+
-                        Доход
+                    <button className={styles.incomeButton}
+                            onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                     </button>
                     <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
                            title={'Добавление дохода'}>
@@ -162,7 +165,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         </Button>
                     </Modal>
                     <button className={styles.expenseButton}
-                            onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход
+                            onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                     </button>
                     <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
                            title={'Добавление расхода'}>
