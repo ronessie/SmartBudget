@@ -11,6 +11,7 @@ import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
+import {DonutChart} from "@mantine/charts";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -26,6 +27,12 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         operationStatus: "",
         newBalance: 0
     });
+    const dataChart = [
+        { name: 'USA', value: 400, color: 'indigo.6' },
+        { name: 'India', value: 300, color: 'yellow.6' },
+        { name: 'Japan', value: 100, color: 'teal.6' },
+        { name: 'Other', value: 200, color: 'gray.6' },
+    ];
 
 
     function handleFieldChange(fieldName: string, value: any) {
@@ -181,6 +188,7 @@ console.log('data: ', data);
                                 style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
+                    <DonutChart data = {dataChart}/>
                 </div>
             </div>
         </div>
