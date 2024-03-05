@@ -8,7 +8,7 @@ import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
-import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Checkbox, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
@@ -21,6 +21,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         lastBalanceUpdateDate: new Date(),
         inviteCode: "",
         date: new Date(),
+        twoFA: props.user.twoStepAuth
     });
 
     function handleFieldChange(fieldName: string, value: any) {
@@ -132,6 +133,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                 </Button>
             </Modal>
+            <br/>
+            <h1></h1>
+            <Checkbox label="Двухфакторная аутентификация" style={{padding: 20}}/>
+            <Button>Сохранить</Button>// onClick - обновление 2FA статуса у пользователя
         </div>
     )
 }

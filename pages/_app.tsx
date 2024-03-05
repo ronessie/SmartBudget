@@ -10,7 +10,6 @@ import {createTheme, MantineProvider} from '@mantine/core';
 import {ModalsProvider} from "@mantine/modals";
 
 const theme = createTheme({
-    /** Put your mantine theme override here */
 });
 
 const App = ({Component, pageProps: {session, ...pageProps}}: AppProps) => {

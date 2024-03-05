@@ -15,41 +15,43 @@ export default function Page() {
     };
 
     const handleUpload = async () => {
-        /*if (image) {
+        if (image) {
             const formData = new FormData();
             formData.append('image', image);
-
-            try {
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData,
+            fetch("/saveImageEndpoint", {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Изображение успешно сохранено:", data);
+                    // Дополнительные действия, если необходимо
+                })
+                .catch((error) => {
+                    console.error("Ошибка при сохранении изображения:", error);
                 });
+        } else {
+            console.warn("Изображение не выбрано");
+        }
+    }
+    /*try {
+        const formData = new FormData();
+        formData.append('image', image);
 
-                const data = await response.json();
-                console.log('Image saved at:', data.imagePath);
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        }*/
-        /*try {
-            const formData = new FormData();
-            formData.append('image', image);
+        await axios.post('http://localhost:3001/api/upload', formData);
 
-            await axios.post('http://localhost:3001/api/upload', formData);
+        // Дополнительные действия при успешной загрузке, например, обновление интерфейса
+    } catch (error) {
+        console.error(error);
+    }*/
 
-            // Дополнительные действия при успешной загрузке, например, обновление интерфейса
-        } catch (error) {
-            console.error(error);
-        }*/
-    };
-
-    return (
-        <div>
-            <h1>Check Upload</h1>
-            <Input type="file" accept="image/*" onChange={handleImageChange}/>
-            <button onClick={handleUpload}>Upload</button>
-        </div>
-    );
+return (
+    <div>
+        <h1>Check Upload</h1>
+        <Input type="file" accept="image/*" onChange={handleImageChange}/>
+        <button onClick={handleUpload}>Upload</button>
+    </div>
+);
 };
 
 export const getServerSideProps = async (ctx: any) => ({

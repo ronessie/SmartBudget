@@ -28,10 +28,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         newBalance: 0
     });
     const dataChart = [
-        { name: 'USA', value: 400, color: 'indigo.6' },
-        { name: 'India', value: 300, color: 'yellow.6' },
-        { name: 'Japan', value: 100, color: 'teal.6' },
-        { name: 'Other', value: 200, color: 'gray.6' },
+        {name: 'USA', value: 400, color: 'blue.6'},
+        {name: 'India', value: 300, color: 'yellow.6'},
+        {name: 'Japan', value: 100, color: 'pink.6'},
+        {name: 'Other', value: 200, color: 'red.6'},
     ];
 
 
@@ -89,8 +89,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         if (data.operationStatus === '+') {
             handleFieldChange("balance", +(data?.balance ?? 0) + +data.sum)
-        }
-        else {
+        } else {
             handleFieldChange("balance", +(data?.balance ?? 0) - +data.sum)
         }
         setIncomeModalState(false)
@@ -101,7 +100,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     async function dateValidation() {
         const response = await fetch(`/api/addOperation/operations`);
         if (!response.ok) throw new Error(response.statusText);
-console.log('data: ', data);
+        console.log('data: ', data);
         if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
@@ -133,8 +132,11 @@ console.log('data: ', data);
                     <h1 className={styles.whiteText}>Последнее обновление 00/00/0000</h1>
                 </div>
                 <div>
-                    <button className={styles.incomeButton} onClick={() => setIncomeModalState(!incomeModalState)}>+ Доход</button>
-                    <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)} title={'Добавление дохода'}>
+                    <button className={styles.incomeButton} onClick={() => setIncomeModalState(!incomeModalState)}>+
+                        Доход
+                    </button>
+                    <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
+                           title={'Добавление дохода'}>
                         <TextInput
                             label="Введите сумму"
                             placeholder="Пример: 100"
@@ -159,8 +161,11 @@ console.log('data: ', data);
                                 style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
-                    <button className={styles.expenseButton} onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход</button>
-                    <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)} title={'Добавление расхода'}>
+                    <button className={styles.expenseButton}
+                            onClick={() => setExpensesModalState(!expensesModalState)}>+ Расход
+                    </button>
+                    <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
+                           title={'Добавление расхода'}>
                         <TextInput
                             label="Введите сумму"
                             placeholder="Пример: 100"
@@ -188,8 +193,12 @@ console.log('data: ', data);
                                 style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
-                    <DonutChart data = {dataChart}/>
                 </div>
+                <div>
+                    <DonutChart data={dataChart} title="Расходы"/>
+                    <DonutChart data={dataChart} title="Доходы"/>
+                </div>
+
             </div>
         </div>
     )
