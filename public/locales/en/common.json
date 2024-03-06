@@ -62,11 +62,11 @@
     }
   },
   "mainPage": {
-    "hello": "Здравствуйте",
-    "yourBankAccount": "Ваш счёт",
-    "lastUpdate": "Последнее обновление 00/00/0000",
-    "addIncome": "+ Доход",
-    "addExpenses": "+ Расход",
+    "hello": "Hello",
+    "yourBankAccount": "Your bank account",
+    "lastUpdate": "Last update 00/00/0000",
+    "addIncome": "+ Income",
+    "addExpenses": "+ Expense",
     "incomeModal": {
       "title": "Adding income",
       "inputSum": "Enter the amount",
