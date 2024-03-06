@@ -66,7 +66,44 @@
             "lastUpdate": "Последнее обновление 00/00/0000",
             "addIncome": "+ Доход",
             "addExpenses": "+ Расход",
-            "hello": ""
-        }
+            "incomeModal": {
+                "title": "Добавление дохода",
+                "inputSum": "Введите сумму",
+                "sumTitle": "Пример: 100",
+                "selector": {
+                    "label": "Выберите источник дохода",
+                    "title": "Выберите источник дохода. Пример: Подарок",
+                    "value": {
+                        "salary": "Зарплата",
+                        "gift": "Подарок",
+                        "premium": "Премия",
+                        "debtRefund": "Возврат долга",
+                        "cachek": "Кэшбек"
+                    }
+                },
+                "dateLabel": "Укажите дату",
+                "datePlaceholder": "Введите дату",
+                "addButton": "Добавить"
+            },
+            "expensesModal": {
+                "title": "Добавление расхода",
+                "inputSum": "Введите сумму",
+                "sumTitle": "Пример: 100",
+                "selector": {
+                    "label": "Выберите категорию трат",
+                    "title": "Выберите категорию трат. Пример: Продукты",
+                    "value": {
+                        "products": "Продукты",
+                        "clothes": "Одежда",
+                        "house": "Жильё",
+                        "car": "Автомобиль",
+                        "entertainment": "Развлечения",
+                        "duty": "Долг"
+                    }
+                },
+                "dateLabel": "Укажите дату",
+                "datePlaceholder": "Выберите дату",
+                "addButton": "Добавить"
+            }
     }
 }

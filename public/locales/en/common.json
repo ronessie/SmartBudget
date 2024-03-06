@@ -60,5 +60,51 @@
             "fio": "Ivanov Ivan Ivanovich",
             "email": "your@email.com"
         }
+    },
+    "mainPage": {
+        "hello": "Здравствуйте",
+        "yourBankAccount": "Ваш счёт",
+        "lastUpdate": "Последнее обновление 00/00/0000",
+        "addIncome": "+ Доход",
+        "addExpenses": "+ Расход",
+        "incomeModal": {
+            "title": "Adding income",
+            "inputSum": "Enter the amount",
+            "sumTitle": "Example: 100",
+            "selector": {
+                "label": "Choose your source of income",
+                "title": "Choose your source of income. Example: Gift",
+                "value": {
+                    "salary": "Salary",
+                    "gift": "Gift",
+                    "premium": "Premium",
+                    "debtRefund": "Debt refund",
+                    "cachek": "Cachek"
+                }
+            },
+            "dateLabel": "Enter the date",
+            "datePlaceholder": "Select the date",
+            "addButton": "Add"
+        },
+        "expensesModal": {
+            "title": "Adding flow",
+            "inputSum": "Enter the amount",
+            "sumTitle": "Example: 100",
+            "selector": {
+                "label": "Select a spending category",
+                "title": "Choose a spending category. Example: Products",
+                "value": {
+                    "products": "Products",
+                    "clothes": "Clothes",
+                    "house": "House",
+                    "car": "Car",
+                    "entertainment": "Entertainment",
+                    "duty": "Duty"
+                }
+            },
+            "dateLabel": "Enter the date",
+            "datePlaceholder": "Select the date",
+            "addButton": "Add"
+        }
     }
 }

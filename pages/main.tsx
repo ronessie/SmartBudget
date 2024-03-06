@@ -139,61 +139,60 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                     </button>
                     <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
-                           title={'Добавление дохода'}>
+                           title={t('mainPage.incomeModal.title')}>
                         <TextInput
-                            label="Введите сумму"
-                            placeholder="Пример: 100"
+                            label={t('mainPage.incomeModal.inputSum')}
+                            placeholder="100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
-                            title="Пример: 100"
+                            title={t('mainPage.incomeModal.sumTitle')}
                         />
                         <br/>
-                        <NativeSelect label="Выберите источник дохода"
+                        <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                       onChange={(e) => handleFieldChange("category", e.target.value)}
-                                      title="Выберите источник дохода. Пример: Подарок" data={[
-                            {value: 'salary', label: 'Зарплата'},
-                            {value: 'gift', label: 'Подарок'},
-                            {value: 'premium', label: 'Премия'},
-                            {value: 'debt refund', label: 'Возврат долга'},
-                            {value: 'cachek', label: 'Кэшбек'},
+                                      title={t('mainPage.incomeModal.selector.title')} data={[
+                            {value: 'salary', label: t('mainPage.incomeModal.selector.value.salary')},
+                            {value: 'gift', label: t('mainPage.incomeModal.selector.value.gift')},
+                            {value: 'premium', label: t('mainPage.incomeModal.selector.value.premium')},
+                            {value: 'debt refund', label: t('mainPage.incomeModal.selector.value.debtRefund')},
+                            {value: 'cachek', label: t('mainPage.incomeModal.selector.value.cachek')},
                         ]}>
                         </NativeSelect><br/>
                         <DateInput onChange={(e) => handleFieldChange("date", e)}
-                                   label="Укажите дату"
-                                   placeholder="Date input"></DateInput>
+                                   label={t('mainPage.incomeModal.dateLabel')}
+                                   placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
                         <Button className={styles.button} onClick={addIncome}
-                                style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
-                        </Button>
+                                style={{width: 408, marginTop: 20, fontSize: 20}}>{t('mainPage.incomeModal.addButton')}</Button>
                     </Modal>
                     <button className={styles.expenseButton}
                             onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                     </button>
                     <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
-                           title={'Добавление расхода'}>
+                           title={t('mainPage.expensesModal.title')}>
                         <TextInput
-                            label="Введите сумму"
-                            placeholder="Пример: 100"
+                            label={t('mainPage.expensesModal.inputSum')}
+                            placeholder="100"
                             onChange={(e) => handleFieldChange("sum", e.target.value)}
-                            title="Пример: 100"
+                            title={t('mainPage.expensesModal.sumTitle')}
                         />
                         <br/>
-                        <NativeSelect label="Выберите категорию трат"
+                        <NativeSelect label={t('mainPage.expensesModal.selector.label')}
                                       onChange={(e) => handleFieldChange("category", e.target.value)}
-                                      title="Выберите категорию трат. Пример: Продукты"
+                                      title={t('mainPage.expensesModal.selector.title')}
                                       data={[
-                                          {value: 'products', label: 'Продукты'},
-                                          {value: 'clothes', label: 'Одежда'},
-                                          {value: 'house', label: 'Жильё'},
-                                          {value: 'car', label: 'Автомобиль'},
-                                          {value: 'entertainment', label: 'Развлечения'},
-                                          {value: 'duty', label: 'Долг'},
+                                          {value: 'products', label: t('mainPage.expensesModal.selector.value.products')},
+                                          {value: 'clothes', label: t('mainPage.expensesModal.selector.value.clothes')},
+                                          {value: 'house', label: t('mainPage.expensesModal.selector.value.house')},
+                                          {value: 'car', label: t('mainPage.expensesModal.selector.value.car')},
+                                          {value: 'entertainment', label: t('mainPage.expensesModal.selector.value.entertainment')},
+                                          {value: 'duty', label: t('mainPage.expensesModal.selector.value.duty')},
                                       ]}>
                         </NativeSelect><br/>
                         <DateInput
                             onChange={(e) => handleFieldChange("date", e)}
-                            label="Укажите дату"
-                            placeholder="Date input"></DateInput>
+                            label={t('mainPage.expensesModal.dateLabel')}
+                            placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
                         <Button className={styles.button} onClick={addExpenses}
-                                style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
+                                style={{width: 408, marginTop: 20, fontSize: 20}}>{t('mainPage.expensesModal.addButton')}
                         </Button>
                     </Modal>
                 </div>
