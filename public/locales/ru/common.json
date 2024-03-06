@@ -1,109 +1,110 @@
 {
-    "indexPage": {
-        "authentication": "Вход",
-        "registration": "Регистрация",
-        "settings": "Настройки",
-        "main": "Главная",
-        "operations": "Операции",
-        "languages": {
-            "russian": "Русский",
-            "english": "Английский"
-        }
-    },
-    "authenticationPage": {
-        "signIn": "Вход",
-        "input": {
-            "password": "Введите пароль:",
-            "email": "Введите электронную почту:"
-        },
-        "signInButton": "Войти",
-        "googleLoginButton": "Войти с помощью Google",
-        "registrationLink": "Нет аккаунта, зарегистрируйтесь",
-        "changePasswordLink": "Восстановить пароль",
-        "placeholder": {
-            "email": "Пример: Ivanov@mail.ru",
-            "password": "Пароль должен быть не менее 8 символов",
-            "button": "Нажмите кнопку что бы войти",
-            "regLink": "Нажмите чтобы зарегистрироваться",
-            "changePassLink": "Нажмите чтобы восстановить пароль"
-        },
-        "modals": {
-            "header": "Восстановление пароля",
-            "email": "Введите эл. почту к которой привязан аккаунт:",
-            "title": "Пример: your@email.com",
-            "buttonTitle": "Нажмите для смены пароля",
-            "button": "Сменить пароль"
-        }
-    },
-    "2FA": {
-        "label": "Двухфакторная аутентификация",
-        "inputCode": "Введите код",
-        "confirmButton": "Подтвердить",
-        "resendLink": "Код не пришёл"
-    },
-    "registrationPage": {
-        "label": "Регистрация",
-        "inputFIO": "Введите ФИО",
-        "inputEmail": "Введите эл. почту",
-        "inputPassword": "Введите пароль",
-        "checkPassword": "Подтвердите пароль",
-        "button": "Зарегистрироваться",
-        "googleButton": "Регистрация через Google",
-        "link": "У Вас уже есть аккаунт, войдите",
-        "placeholder": {
-            "fio": "Пример: Иванов Иван Иванович",
-            "email": "Пример: your@email.com",
-            "password": "Пароль должен быть не менее 8 символов",
-            "button": "Нажмите кнопку что бы зарегистрироваться"
-        },
-        "inputPlaceholder": {
-            "fio": "Иванов Иван Иванович",
-            "email": "your@email.com"
-        },
-        "mainPage": {
-            "hello": "Здравствуйте",
-            "yourBankAccount": "Ваш счёт",
-            "lastUpdate": "Последнее обновление 00/00/0000",
-            "addIncome": "+ Доход",
-            "addExpenses": "+ Расход",
-            "incomeModal": {
-                "title": "Добавление дохода",
-                "inputSum": "Введите сумму",
-                "sumTitle": "Пример: 100",
-                "selector": {
-                    "label": "Выберите источник дохода",
-                    "title": "Выберите источник дохода. Пример: Подарок",
-                    "value": {
-                        "salary": "Зарплата",
-                        "gift": "Подарок",
-                        "premium": "Премия",
-                        "debtRefund": "Возврат долга",
-                        "cachek": "Кэшбек"
-                    }
-                },
-                "dateLabel": "Укажите дату",
-                "datePlaceholder": "Введите дату",
-                "addButton": "Добавить"
-            },
-            "expensesModal": {
-                "title": "Добавление расхода",
-                "inputSum": "Введите сумму",
-                "sumTitle": "Пример: 100",
-                "selector": {
-                    "label": "Выберите категорию трат",
-                    "title": "Выберите категорию трат. Пример: Продукты",
-                    "value": {
-                        "products": "Продукты",
-                        "clothes": "Одежда",
-                        "house": "Жильё",
-                        "car": "Автомобиль",
-                        "entertainment": "Развлечения",
-                        "duty": "Долг"
-                    }
-                },
-                "dateLabel": "Укажите дату",
-                "datePlaceholder": "Выберите дату",
-                "addButton": "Добавить"
-            }
+  "indexPage": {
+    "authentication": "Вход",
+    "registration": "Регистрация",
+    "settings": "Настройки",
+    "main": "Главная",
+    "operations": "Операции",
+    "languages": {
+      "russian": "Русский",
+      "english": "Английский"
     }
+  },
+  "authenticationPage": {
+    "signIn": "Вход",
+    "input": {
+      "password": "Введите пароль:",
+      "email": "Введите электронную почту:"
+    },
+    "signInButton": "Войти",
+    "googleLoginButton": "Войти с помощью Google",
+    "registrationLink": "Нет аккаунта, зарегистрируйтесь",
+    "changePasswordLink": "Восстановить пароль",
+    "placeholder": {
+      "email": "Пример: Ivanov@mail.ru",
+      "password": "Пароль должен быть не менее 8 символов",
+      "button": "Нажмите кнопку что бы войти",
+      "regLink": "Нажмите чтобы зарегистрироваться",
+      "changePassLink": "Нажмите чтобы восстановить пароль"
+    },
+    "modals": {
+      "header": "Восстановление пароля",
+      "email": "Введите эл. почту к которой привязан аккаунт:",
+      "title": "Пример: your@email.com",
+      "buttonTitle": "Нажмите для смены пароля",
+      "button": "Сменить пароль"
+    }
+  },
+  "2FA": {
+    "label": "Двухфакторная аутентификация",
+    "inputCode": "Введите код",
+    "confirmButton": "Подтвердить",
+    "resendLink": "Код не пришёл"
+  },
+  "registrationPage": {
+    "label": "Регистрация",
+    "inputFIO": "Введите ФИО",
+    "inputEmail": "Введите эл. почту",
+    "inputPassword": "Введите пароль",
+    "checkPassword": "Подтвердите пароль",
+    "button": "Зарегистрироваться",
+    "googleButton": "Регистрация через Google",
+    "link": "У Вас уже есть аккаунт, войдите",
+    "placeholder": {
+      "fio": "Пример: Иванов Иван Иванович",
+      "email": "Пример: your@email.com",
+      "password": "Пароль должен быть не менее 8 символов",
+      "button": "Нажмите кнопку что бы зарегистрироваться"
+    },
+    "inputPlaceholder": {
+      "fio": "Иванов Иван Иванович",
+      "email": "your@email.com"
+    }
+  },
+  "mainPage": {
+    "hello": "Здравствуйте",
+    "yourBankAccount": "Ваш счёт",
+    "lastUpdate": "Последнее обновление 00/00/0000",
+    "addIncome": "+ Доход",
+    "addExpenses": "+ Расход",
+    "incomeModal": {
+      "title": "Добавление дохода",
+      "inputSum": "Введите сумму",
+      "sumTitle": "Пример: 100",
+      "selector": {
+        "label": "Выберите источник дохода",
+        "title": "Выберите источник дохода. Пример: Подарок",
+        "value": {
+          "salary": "Зарплата",
+          "gift": "Подарок",
+          "premium": "Премия",
+          "debtRefund": "Возврат долга",
+          "cachek": "Кэшбек"
+        }
+      },
+      "dateLabel": "Укажите дату",
+      "datePlaceholder": "Введите дату",
+      "addButton": "Добавить"
+    },
+    "expensesModal": {
+      "title": "Добавление расхода",
+      "inputSum": "Введите сумму",
+      "sumTitle": "Пример: 100",
+      "selector": {
+        "label": "Выберите категорию трат",
+        "title": "Выберите категорию трат. Пример: Продукты",
+        "value": {
+          "products": "Продукты",
+          "clothes": "Одежда",
+          "house": "Жильё",
+          "car": "Автомобиль",
+          "entertainment": "Развлечения",
+          "duty": "Долг"
+        }
+      },
+      "dateLabel": "Укажите дату",
+      "datePlaceholder": "Выберите дату",
+      "addButton": "Добавить"
+    }
+  }
 }
