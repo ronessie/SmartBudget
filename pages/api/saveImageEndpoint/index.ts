@@ -1,39 +1,40 @@
 import multer from 'multer';
-import path from 'path';
-import {NextApiRequest, NextApiResponse} from "next";
+import path from "path";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
-        // Конфигурация Multer для обработки загруженных файлов
-        const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, 'uploads/'); // Папка, куда сохранять изображения
-            },
-            filename: (req, file, cb) => {
-                const ext = path.extname(file.originalname);
-                cb(null, `${Date.now()}${ext}`);
-            },
-        });
+export const config = {
+    api: {
+        bodyParser: false
+    }
+}
 
-        const upload = multer({ storage: storage }).single('image');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads'); // Папка, куда сохранять изображения
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        cb(null, `${Date.now()}${ext}`); // Имя файла, каким он будет сохранен
+    },
+});
 
-        // Вызываем multer middleware для обработки загруженного файла
-        upload(req, res, (err) => {
-            if (err instanceof multer.MulterError) {
-                // Ошибка Multer при загрузке файла
-                return res.status(500).json({ error: 'Ошибка при загрузке файла' });
-            } else if (err) {
-                // Прочие ошибки
-                return res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+const upload = multer({ storage: storage });
+
+export default async function handler(req: any, res: any) {
+    if (req.method === 'POST') {
+        upload.single('image')(req, res, (err) => {
+            if (err) {
+                console.error('Multer error:', err);
+                return res.status(500).json({ error: 'Ошибка загрузки файла' });
             }
 
-            // Если файл успешно загружен, вернем сообщение об успешном сохранении
-            return res.json({ message: 'Изображение успешно сохранено' });
-        });
-    } catch (error) {
-        // В случае ошибки вернем соответствующий статус и сообщение об ошибке
-        res.status(500).json({ error: 'Ошибка при сохранении изображения' });
-    }
-};
+            // Путь к загруженному файлу
+            const filePath = req.file.path;
+            console.log('File uploaded:', req.file);
 
-export default handler;
+            // Отправляем клиенту ответ с путем к загруженному файлу
+            res.status(200).json({ filePath });
+        });
+    } else {
+        res.status(405).end(`Метод ${req.method} не разрешен. Используйте метод POST.`);
+    }
+}
