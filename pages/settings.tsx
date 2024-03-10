@@ -92,7 +92,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     return (
         <div>
-            <button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить счёт</button>
+            <Button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить счёт</Button>
             <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
                 <TextInput
                     label="Введите название счёта"

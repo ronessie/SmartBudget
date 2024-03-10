@@ -135,9 +135,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')}</h1>
                 </div>
                 <div>
-                    <button className={styles.incomeButton}
+                    <Button className={styles.incomeButton}
                             onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
-                    </button>
+                    </Button>
                     <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
                            title={t('mainPage.incomeModal.title')}>
                         <TextInput

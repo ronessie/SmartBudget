@@ -3,6 +3,7 @@ import path from 'path';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {Button} from "@mantine/core";
 
 path.resolve('./next.config.js');
 
@@ -27,8 +28,8 @@ export default function Page() {
             <br/>
             <Link href={"account"}>Аккаунт</Link>
             <br/>
-            <button onClick={() => changeLanguage('en')}>EN</button>
-            <button onClick={() => changeLanguage('ru')}>RU</button>
+            <Button onClick={() => changeLanguage('en')}>EN</Button>
+            <Button onClick={() => changeLanguage('ru')}>RU</Button>
         </div>
     )
 }

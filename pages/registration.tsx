@@ -9,7 +9,7 @@ import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {TextInput} from "@mantine/core";
+import {Button, PasswordInput, TextInput} from "@mantine/core";
 import {createBankAccountObj, createUserObj} from "@/src/utils";
 
 export default function Page() {
@@ -108,7 +108,7 @@ export default function Page() {
                         onChange={(e) => handleFieldChange("email", e.target.value)}
                         title={t('registrationPage.placeholder.email')}
                     />
-                    <TextInput
+                    <PasswordInput
                         withAsterisk
                         label={t('registrationPage.inputPassword')}
                         value={data.password}
@@ -116,7 +116,7 @@ export default function Page() {
                         title={t('registrationPage.placeholder.password')}
                         type="password"
                     />
-                    <TextInput
+                    <PasswordInput
                         withAsterisk
                         label={t('registrationPage.checkPassword')}
                         value={data.checkPassword}
@@ -124,12 +124,12 @@ export default function Page() {
                         title={t('registrationPage.placeholder.password')}
                         type="password"
                     />
-                    <button className={styles.button} onClick={dateValidation}
+                    <Button className={styles.button} onClick={dateValidation}
                             style={{width: 275, marginTop: 20, fontSize: 20}}
-                            title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</button>
+                            title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                     <br/>
-                    <button className={styles.button} onClick={googleAuthentication}
-                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>{t('registrationPage.googleButton')}</button>
+                    <Button className={styles.button} onClick={googleAuthentication}
+                            style={{width: 275, marginTop: 5, fontSize: 20, backgroundColor: "grey"}}>{t('registrationPage.googleButton')}</Button>
                     <Link className={styles.link} href={"authentication"}>{t('registrationPage.link')}</Link>
                 </form>
             </div>

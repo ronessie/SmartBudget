@@ -6,7 +6,7 @@ import {useRouter} from 'next/router';
 import {signIn} from "next-auth/react";
 import {useTranslation} from 'next-i18next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {Button, Modal} from '@mantine/core';
+import {Button, Modal, PasswordInput} from '@mantine/core';
 
 import Link from "next/link";
 import {TextInput} from "@mantine/core";
@@ -146,7 +146,7 @@ export default function Page() {
                         onChange={(e) => handleFieldChange("email", e.target.value)}
                         title={t('authenticationPage.placeholder.email')}
                     />
-                    <TextInput
+                    <PasswordInput
                         label={t('authenticationPage.input.password')}
                         value={data.password}
                         onChange={(e) => handleFieldChange("password", e.target.value)}

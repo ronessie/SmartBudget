@@ -1,6 +1,6 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
-import {Input} from "@mantine/core";
+import {FileInput, Input} from "@mantine/core";
 
 export default function Page() {
     const [image, setImage] = useState(null);
@@ -39,7 +39,7 @@ export default function Page() {
     return (
         <div>
             <h1>Check Upload</h1>
-            <Input type="file" accept="image/*" onChange={handleImageChange} />
+            <FileInput accept="image/*" onChange={handleImageChange} placeholder="Выберите файл" />
             <button onClick={handleUpload}>Upload</button>
         </div>
     );
