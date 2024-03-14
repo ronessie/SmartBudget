@@ -134,7 +134,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                 </Button>
             </Modal>
             <br/>
-            <h1></h1>
             <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
                     onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
             <Button>Сохранить</Button>

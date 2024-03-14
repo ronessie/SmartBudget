@@ -9,7 +9,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
@@ -27,6 +27,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         email: props.user.email,
         twoFA: props.user.twoStepAuth,
     });
+    const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
     function handleFieldChange(fieldName: string, value: any) {
         setData({
@@ -104,7 +105,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     value={data.email}
                 /><br/>
 
-                <input type = "checkbox" style={{width: 30,  height: 30}} onChange={(e) => handleFieldChange("twoFA", e.target.value)}/>
+                <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
+                        onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
                 <Button className={styles.button} onClick={checkInviteCode}
                         style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                 </Button>
