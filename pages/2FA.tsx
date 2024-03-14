@@ -82,7 +82,7 @@ export default function Page(props: { user: IUser }) {
                         label={t('2FA.inputCode')}
                         value={data.check2FA}
                         onChange={(e) => handleFieldChange("check2FA", e.target.value)}
-                        title="Введите шестизначный код который пришёл вам на почту"
+                        title="Введите код который пришёл вам на почту"
                     />
                     <Button className={styles.button}
                             style={{width: 276, marginTop: 5, fontSize: 20}}

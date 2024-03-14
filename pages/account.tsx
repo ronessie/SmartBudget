@@ -9,9 +9,8 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Input, Modal, NativeSelect, RadioIcon, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
-import {ToString} from "@formatjs/ecma402-abstract";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [changeModalState, setChangeModalState] = useState(false);
