@@ -17,7 +17,9 @@ path.resolve('./next.config.js');
 export default function Page() {
     const router = useRouter()
     const {t} = useTranslation('common');
-    const [opened, {open, close}] = useDisclosure(false);
+    const [authDrawerState, drawerAuthMethods] = useDisclosure(false);
+    const [registrationDrawerState, drawerRegistrationMethods] = useDisclosure(false);
+    const [segmentState, setSegmentState] = useState('Log In');
     const [passwordRecoveryModalState, setPasswordRecoveryModalState] = useState(false);
     const [data, setData] = useState({
         email: "",
@@ -140,67 +142,6 @@ export default function Page() {
         }
     }
 
-    function authDrawer()
-    {
-        return(
-            <div>
-                <Drawer
-                opened={opened}
-                onClose={close}
-                title="Authentication"
-                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                position="right"
-                offset={8} radius="md">
-                <SegmentedControl data={['Log In', 'Sign In']}/>
-                <h1 className={styles.bigBlackText}
-                    style={{fontSize: 40, padding: 0, textAlign: "center"}}>{t('authenticationPage.signIn')}</h1>
-                <TextInput
-                    label={t('authenticationPage.input.email')}
-                    placeholder="your@email.com"
-                    value={data.email}
-                    onChange={(e) => handleFieldChange("email", e.target.value)}
-                    title={t('authenticationPage.placeholder.email')}
-                />
-                <PasswordInput
-                    label={t('authenticationPage.input.password')}
-                    value={data.password}
-                    onChange={(e) => handleFieldChange("password", e.target.value)}
-                    title={t('authenticationPage.placeholder.password')}
-                />
-                <Button className={styles.button} id="auth"
-                        style={{width: 275, marginTop: 20, fontSize: 18}}
-                        onClick={checkDate}
-                        title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
-                <Button className={styles.button}
-                        style={{width: 275, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
-                        onClick={googleAuthentication}
-                        title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
-                <br/>
-                <Link href={"registration"} className={styles.link}
-                      style={{fontSize: 16, paddingLeft: 15}}
-                      title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
-
-                <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link}
-                      style={{marginLeft: 30, fontSize: 16}}
-                      onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
-                >{t('authenticationPage.changePasswordLink')}</Link>
-
-                <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
-                       title={t('authenticationPage.modals.header')}>
-                    <TextInput
-                        label={t('authenticationPage.modals.email')}
-                        placeholder="your@email.com"
-                        onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
-                        title={t('authenticationPage.modals.title')}
-                    />
-                    <Button onClick={checkDataForPasswordRecovery} className={styles.button}
-                            style={{marginTop: 10, width: 408}}
-                            title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
-                </Modal>
-            </Drawer></div>
-        )
-    }
-
     return (
         <div>
             <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
@@ -217,7 +158,136 @@ export default function Page() {
             <br/>
             <Button onClick={() => changeLanguage('en')}>EN</Button>
             <Button onClick={() => changeLanguage('ru')}>RU</Button>
-            <Button onClick={authDrawer}>Open drawer</Button>
+            <Button onClick={drawerAuthMethods.open}>Open drawer Auth</Button>
+            <div>
+                <Drawer
+                    opened={authDrawerState}
+                    onClose={drawerAuthMethods.close}
+                    title="Authentication"
+                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                    position="right"
+                    offset={8} radius="md">
+                    <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
+                        setSegmentState(e);
+                        if (e === 'Log In') {
+                            drawerRegistrationMethods.close();
+                            drawerAuthMethods.open();
+                        }
+                        else if (e === 'Sign In') {
+                            drawerAuthMethods.close();
+                            drawerRegistrationMethods.open();
+                        }
+                    }}/>
+                    <h1 className={styles.bigBlackText}
+                        style={{fontSize: 40, padding: 0, textAlign: "center"}}>{t('authenticationPage.signIn')}</h1>
+                    <TextInput
+                        label={t('authenticationPage.input.email')}
+                        placeholder="your@email.com"
+                        value={data.email}
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
+                        title={t('authenticationPage.placeholder.email')}
+                    />
+                    <PasswordInput
+                        label={t('authenticationPage.input.password')}
+                        value={data.password}
+                        onChange={(e) => handleFieldChange("password", e.target.value)}
+                        title={t('authenticationPage.placeholder.password')}
+                    />
+                    <Button className={styles.button} id="auth"
+                            style={{width: 275, marginTop: 20, fontSize: 18}}
+                            onClick={checkDate}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
+                    <Button className={styles.button}
+                            style={{width: 275, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                            onClick={googleAuthentication}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
+                    <br/>
+                    <Link href={"registration"} className={styles.link}
+                          style={{fontSize: 16, paddingLeft: 15}}
+                          title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
+
+                    <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link}
+                          style={{marginLeft: 30, fontSize: 16}}
+                          onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
+                    >{t('authenticationPage.changePasswordLink')}</Link>
+
+                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                           title={t('authenticationPage.modals.header')}>
+                        <TextInput
+                            label={t('authenticationPage.modals.email')}
+                            placeholder="your@email.com"
+                            onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
+                            title={t('authenticationPage.modals.title')}
+                        />
+                        <Button onClick={checkDataForPasswordRecovery} className={styles.button}
+                                style={{marginTop: 10, width: 408}}
+                                title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
+                    </Modal>
+                </Drawer>
+                <Drawer
+                    opened={registrationDrawerState}
+                    onClose={drawerRegistrationMethods.close}
+                    title="Registration"
+                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                    position="right"
+                    offset={8} radius="md">
+                    <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
+                        setSegmentState(e);
+                        if (e === 'Log In') {
+                            drawerRegistrationMethods.close();
+                            drawerAuthMethods.open();
+                        }
+                        else if (e === 'Sign In') {
+                            drawerAuthMethods.close();
+                            drawerRegistrationMethods.open();
+                        }
+                    }}/>
+                    <h1 className={styles.bigBlackText}
+                        style={{fontSize: 40, padding: 0, textAlign: "center"}}>{t('authenticationPage.signIn')}</h1>
+                    <TextInput
+                        label={t('authenticationPage.input.email')}
+                        placeholder="your@email.com"
+                        value={data.email}
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
+                        title={t('authenticationPage.placeholder.email')}
+                    />
+                    <PasswordInput
+                        label={t('authenticationPage.input.password')}
+                        value={data.password}
+                        onChange={(e) => handleFieldChange("password", e.target.value)}
+                        title={t('authenticationPage.placeholder.password')}
+                    />
+                    <Button className={styles.button} id="auth"
+                            style={{width: 275, marginTop: 20, fontSize: 18}}
+                            onClick={checkDate}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
+                    <Button className={styles.button}
+                            style={{width: 275, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                            onClick={googleAuthentication}
+                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
+                    <br/>
+                    <Link href={"registration"} className={styles.link}
+                          style={{fontSize: 16, paddingLeft: 15}}
+                          title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
+
+                    <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link}
+                          style={{marginLeft: 30, fontSize: 16}}
+                          onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
+                    >{t('authenticationPage.changePasswordLink')}</Link>
+
+                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                           title={t('authenticationPage.modals.header')}>
+                        <TextInput
+                            label={t('authenticationPage.modals.email')}
+                            placeholder="your@email.com"
+                            onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
+                            title={t('authenticationPage.modals.title')}
+                        />
+                        <Button onClick={checkDataForPasswordRecovery} className={styles.button}
+                                style={{marginTop: 10, width: 408}}
+                                title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
+                    </Modal>
+                </Drawer></div>
         </div>
     )
 }
