@@ -9,8 +9,9 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Checkbox, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Group, Input, Modal, NativeSelect, RadioIcon, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
+import {ToString} from "@formatjs/ecma402-abstract";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [changeModalState, setChangeModalState] = useState(false);
@@ -24,7 +25,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         inviteCode: "",
         date: new Date(),
         fio: props.user.fio,
-        email: props.user.email
+        email: props.user.email,
+        twoFA: props.user.twoStepAuth,
     });
 
     function handleFieldChange(fieldName: string, value: any) {
@@ -102,7 +104,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     title="Введите Электронную почту"
                     value={data.email}
                 /><br/>
-                <NativeSelect/>
+
+                <input type = "checkbox" style={{width: 30,  height: 30}} onChange={(e) => handleFieldChange("twoFA", e.target.value)}/>
                 <Button className={styles.button} onClick={checkInviteCode}
                         style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                 </Button>
@@ -152,11 +155,12 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                 </Modal>
             </Modal>
             <br/>
-            <button style={{width: 200}} className={styles.button}>Сменить счёт</button>
-            <button style={{width: 200}} className={styles.button}>Удалить счёт</button>
+            <Button style={{width: 200}} className={styles.button}>Сменить счёт</Button>
+            <Button style={{width: 200}} className={styles.button}>Удалить счёт</Button>
         </div>
     )
 }
+//сделать value для checkbox изменить его на true/false тумблер
 //доделать функционал кнопок
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);

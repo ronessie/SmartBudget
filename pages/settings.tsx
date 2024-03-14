@@ -8,7 +8,7 @@ import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
-import {Button, Checkbox, Group, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
@@ -21,8 +21,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         lastBalanceUpdateDate: new Date(),
         inviteCode: "",
         date: new Date(),
-        twoFA: props.user.twoStepAuth
     });
+    const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
     function handleFieldChange(fieldName: string, value: any) {
         setData({
@@ -135,11 +135,12 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             </Modal>
             <br/>
             <h1></h1>
-            <Checkbox label="Двухфакторная аутентификация" style={{padding: 20}}/>
-            <Button>Сохранить</Button>// onClick - обновление 2FA статуса у пользователя
+            <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
+                    onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
+            <Button>Сохранить</Button>
         </div>
     )
-}
+}// onClick - обновление 2FA статуса у пользователя
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 

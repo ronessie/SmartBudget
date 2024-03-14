@@ -114,7 +114,6 @@ export default function Page() {
                         value={data.password}
                         onChange={(e) => handleFieldChange("password", e.target.value)}
                         title={t('registrationPage.placeholder.password')}
-                        type="password"
                     />
                     <PasswordInput
                         withAsterisk
@@ -122,7 +121,6 @@ export default function Page() {
                         value={data.checkPassword}
                         onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
                         title={t('registrationPage.placeholder.password')}
-                        type="password"
                     />
                     <Button className={styles.button} onClick={dateValidation}
                             style={{width: 275, marginTop: 20, fontSize: 20}}

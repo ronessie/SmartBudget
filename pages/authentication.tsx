@@ -151,7 +151,6 @@ export default function Page() {
                         value={data.password}
                         onChange={(e) => handleFieldChange("password", e.target.value)}
                         title={t('authenticationPage.placeholder.password')}
-                        type="password"
                     />
                     <Button className={styles.button} id="auth"
                             style={{width: 275, marginTop: 20, fontSize: 18}}

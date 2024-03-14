@@ -1,6 +1,6 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useState } from "react";
-import {FileInput, Input} from "@mantine/core";
+import {FileInput} from "@mantine/core";
 
 export default function Page() {
     const [image, setImage] = useState(null);
