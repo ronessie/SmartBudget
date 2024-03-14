@@ -198,6 +198,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         </Button>
                     </Modal>
                 </div>
+                <br/>
                 <div>
                     <DonutChart data={dataChart} title="Расходы"/>
                     <DonutChart data={dataChart} title="Доходы"/>

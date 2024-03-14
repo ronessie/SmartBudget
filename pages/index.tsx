@@ -214,7 +214,6 @@ export default function Page() {
                 <Drawer
                     opened={authDrawerState}
                     onClose={drawerAuthMethods.close}
-                    title="Authentication"
                     overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                     position="right"
                     offset={8} radius="md">
@@ -245,22 +244,22 @@ export default function Page() {
                         title={t('authenticationPage.placeholder.password')}
                     />
                     <Button className={styles.button} id="auth"
-                            style={{width: 275, marginTop: 20, fontSize: 18}}
+                            style={{width: 410, marginTop: 20, fontSize: 18}}
                             onClick={checkDate}
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
                     <Button className={styles.button}
-                            style={{width: 275, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                            style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
                             onClick={googleAuthentication}
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                     <br/>
                     <Link href={"registration"} className={styles.link}
-                          style={{fontSize: 16, paddingLeft: 15}}
+                          style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                           title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
                     <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link}
-                          style={{marginLeft: 30, fontSize: 16}}
-                          onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}
-                    >{t('authenticationPage.changePasswordLink')}</Link>
+                          style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
+                          onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
+                          {t('authenticationPage.changePasswordLink')}</Link>
 
                     <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
                            title={t('authenticationPage.modals.header')}>
@@ -278,7 +277,6 @@ export default function Page() {
                 <Drawer
                     opened={registrationDrawerState}
                     onClose={drawerRegistrationMethods.close}
-                    title="Registration"
                     overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                     position="right"
                     offset={8} radius="md">
@@ -294,10 +292,8 @@ export default function Page() {
                     }}/>
                     <h1 className={styles.bigBlackText}
                         style={{
-                            marginTop: 5,
-                            paddingBottom: 25,
                             fontSize: 35,
-                            paddingLeft: 30
+                            paddingLeft: 100
                         }}>{t('registrationPage.label')}</h1>
                     <TextInput
                         withAsterisk
@@ -330,17 +326,17 @@ export default function Page() {
                         title={t('registrationPage.placeholder.password')}
                     />
                     <Button className={styles.button} onClick={dateValidation}
-                            style={{width: 275, marginTop: 20, fontSize: 20}}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}
                             title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                     <br/>
                     <Button className={styles.button} onClick={googleAuthentication}
                             style={{
-                                width: 275,
+                                width: 410,
                                 marginTop: 5,
                                 fontSize: 20,
                                 backgroundColor: "grey"
                             }}>{t('registrationPage.googleButton')}</Button>
-                    <Link className={styles.link} href={"authentication"}>{t('registrationPage.link')}</Link>
+                    <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href={"authentication"}>{t('registrationPage.link')}</Link>
                 </Drawer></div>
         </div>
     )
