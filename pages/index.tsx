@@ -12,7 +12,7 @@ import validator from "validator";
 import IUser from "@/src/types/IUser";
 import {signIn} from "next-auth/react";
 import {ObjectId} from "bson";
-import Header from "../components/header"
+import IndexHeader from "../components/indexHeader"
 
 path.resolve('./next.config.js');
 
@@ -204,8 +204,8 @@ export default function Page() {
     }
 
     return (
-        <div>
-            <Header/>
+        <div className={styles.page}>
+            <IndexHeader/>
             <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
             <br/>
             <Link href={"registration"}>{t('indexPage.registration')}</Link>

@@ -4,13 +4,13 @@ import { useDisclosure } from '@mantine/hooks';
 import classes from '../styles/header.module.css';
 
 const links = [
-    { link: 'main', label: 'Main' },
-    { link: 'settings', label: 'Settings' },
-    { link: 'account', label: 'Account' },
-    { link: 'addingCheck', label: 'AddCheck' },
+    { link: '1', label: 'About' },
+    { link: '2', label: 'Contacts' },
+    { link: '3', label: 'Settings' },
+    { link: '4', label: 'LogIn/SignIn' },
 ];
 
-export default function Header() {
+export default function IndexHeader() {
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(links[0].link);
 
