@@ -192,6 +192,15 @@ export default function Page() {
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
         if (!response.ok) throw new Error(response.statusText);
     }
+    function authToReg(){
+        drawerAuthMethods.close();
+        drawerRegistrationMethods.open();
+    }
+
+    function regToAuth(){
+        drawerRegistrationMethods.close();
+        drawerAuthMethods.open();
+    }
 
     return (
         <div>
@@ -220,12 +229,10 @@ export default function Page() {
                     <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
                         setSegmentState(e);
                         if (e === 'Log In') {
-                            drawerRegistrationMethods.close();
-                            drawerAuthMethods.open();
+                            regToAuth()
                         }
                         else if (e === 'Sign In') {
-                            drawerAuthMethods.close();
-                            drawerRegistrationMethods.open();
+                            authToReg()
                         }
                     }}/>
                     <h1 className={styles.bigBlackText}
@@ -252,7 +259,7 @@ export default function Page() {
                             onClick={googleAuthentication}
                             title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                     <br/>
-                    <Link href={"registration"} className={styles.link}
+                    <Link href="" onClick={authToReg} className={styles.link}
                           style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                           title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
@@ -283,11 +290,9 @@ export default function Page() {
                     <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
                         setSegmentState(e);
                         if (e === 'Log In') {
-                            drawerRegistrationMethods.close();
-                            drawerAuthMethods.open();
+                            regToAuth()
                         } else if (e === 'Sign In') {
-                            drawerAuthMethods.close();
-                            drawerRegistrationMethods.open();
+                            authToReg()
                         }
                     }}/>
                     <h1 className={styles.bigBlackText}
@@ -336,7 +341,7 @@ export default function Page() {
                                 fontSize: 20,
                                 backgroundColor: "grey"
                             }}>{t('registrationPage.googleButton')}</Button>
-                    <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href={"authentication"}>{t('registrationPage.link')}</Link>
+                    <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href="" onClick={regToAuth}>{t('registrationPage.link')}</Link>
                 </Drawer></div>
         </div>
     )
