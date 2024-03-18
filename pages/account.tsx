@@ -85,81 +85,84 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     const router = useRouter();
 
     return (
-        <div>
+        <div className={styles.page}>
             <Header/>
-            <h2>ФИО:</h2><h3>{data.fio}</h3>
-            <h2>Электронная почта:</h2><h3>{data.email}</h3>
-            <Button style={{width: 200}} className={styles.button}
-                    onClick={() => setChangeModalState(!changeModalState)}>Изменить
-            </Button><br/>
-            <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
-                   title={'Редактирование данных'}>
-                <TextInput
-                    label="ФИО:"
-                    onChange={(e) => handleFieldChange("fio", e.target.value)}
-                    title="Введите ФИО"
-                    value={data.fio}
-                />
-                <TextInput
-                    label="Электронная почта:"
-                    onChange={(e) => handleFieldChange("email", e.target.value)}
-                    title="Введите Электронную почту"
-                    value={data.email}
-                /><br/>
-
-                <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
-                        onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
-                <Button className={styles.button} onClick={checkInviteCode}
-                        style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
-                </Button>
-            </Modal>
-            <Button style={{width: 200}} className={styles.button}
-                    onClick={() => setBillModalState(!billModalState)}>Добавить
-                счёт</Button>
-            <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
-                <TextInput
-                    label="Введите название счёта"
-                    placeholder="Счёт"
-                    onChange={(e) => handleFieldChange("name", e.target.value)}
-                    title="Пример: Счёт №1"
-                />
-                <Group>
+            <div style={{paddingTop: 70}}>
+                <h2>ФИО:</h2><h3>{data.fio}</h3>
+                <h2>Электронная почта:</h2><h3>{data.email}</h3>
+                <Button style={{width: 200}} className={styles.button}
+                        onClick={() => setChangeModalState(!changeModalState)}>Изменить
+                </Button><br/>
+                <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
+                       title={'Редактирование данных'}>
                     <TextInput
-                        label="Введите начальную сумму и укажите валюту"
-                        placeholder="1000"
-                        style={{paddingRight: 0, width: 316}}
-                        onChange={(e) => handleFieldChange("balance", e.target.value)}
-                        title="Пример: 1000 BYN"
+                        label="ФИО:"
+                        onChange={(e) => handleFieldChange("fio", e.target.value)}
+                        title="Введите ФИО"
+                        value={data.fio}
                     />
-                    <NativeSelect
-                        onChange={(e) => handleFieldChange("currency", e.target.value)}
-                        title="Укажите валюту. Пример: BYN"
-                        style={{paddingTop: 25, marginLeft: 0}}
-                        data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
-                    </NativeSelect></Group>
-                <Button className={styles.button} onClick={dateValidation}
-                        style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
-                </Button>
-
-                <Link className={styles.link} style={{paddingLeft: 100}} href={""}
-                      onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть пригласительный
-                    код</Link>
-
-                <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
-                       title={'Подключение к банковскому счёту'}>
                     <TextInput
-                        label="Введите пригласительный код"
-                        onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
-                        title="Введите 16-значный код"
-                    />
+                        label="Электронная почта:"
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
+                        title="Введите Электронную почту"
+                        value={data.email}
+                    /><br/>
+
+                    <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
+                            checked={checked2FA}
+                            onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
                     <Button className={styles.button} onClick={checkInviteCode}
-                            style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-            </Modal>
-            <br/>
-            <Button style={{width: 200}} className={styles.button}>Сменить счёт</Button>
-            <Button style={{width: 200}} className={styles.button}>Удалить счёт</Button>
+                <Button style={{width: 200}} className={styles.button}
+                        onClick={() => setBillModalState(!billModalState)}>Добавить
+                    счёт</Button>
+                <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                    <TextInput
+                        label="Введите название счёта"
+                        placeholder="Счёт"
+                        onChange={(e) => handleFieldChange("name", e.target.value)}
+                        title="Пример: Счёт №1"
+                    />
+                    <Group>
+                        <TextInput
+                            label="Введите начальную сумму и укажите валюту"
+                            placeholder="1000"
+                            style={{paddingRight: 0, width: 316}}
+                            onChange={(e) => handleFieldChange("balance", e.target.value)}
+                            title="Пример: 1000 BYN"
+                        />
+                        <NativeSelect
+                            onChange={(e) => handleFieldChange("currency", e.target.value)}
+                            title="Укажите валюту. Пример: BYN"
+                            style={{paddingTop: 25, marginLeft: 0}}
+                            data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
+                        </NativeSelect></Group>
+                    <Button className={styles.button} onClick={dateValidation}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                    </Button>
+
+                    <Link className={styles.link} style={{paddingLeft: 100}} href={""}
+                          onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть пригласительный
+                        код</Link>
+
+                    <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
+                           title={'Подключение к банковскому счёту'}>
+                        <TextInput
+                            label="Введите пригласительный код"
+                            onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
+                            title="Введите 16-значный код"
+                        />
+                        <Button className={styles.button} onClick={checkInviteCode}
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                        </Button>
+                    </Modal>
+                </Modal>
+                <br/>
+                <Button style={{width: 200}} className={styles.button}>Сменить счёт</Button>
+                <Button style={{width: 200}} className={styles.button}>Удалить счёт</Button>
+            </div>
         </div>
     )
 }

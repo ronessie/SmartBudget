@@ -92,53 +92,57 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     }
 
     return (
-        <div>
+        <div className={styles.page}>
             <Header/>
-            <Button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить счёт</Button>
-            <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
-                <TextInput
-                    label="Введите название счёта"
-                    placeholder="Счёт"
-                    onChange={(e) => handleFieldChange("name", e.target.value)}
-                    title="Счёт №1"
-                />
-                <Group><TextInput
-                    label="Введите начальную сумму и укажите валюту"
-                    placeholder="1000"
-                    style = {{paddingRight: 0, width: 316}}
-                    onChange={(e) => handleFieldChange("balance", e.target.value)}
-                    title="Пример: 1000"
-                />
-                    <NativeSelect
-                                  onChange={(e) => handleFieldChange("currency", e.target.value)}
-                                  data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
-                                  style = {{paddingTop: 25, marginLeft: 0}}
-                                  title="Выберите валюту. Пример: BYN"/></Group>
-                <Button className={styles.button} onClick={dateValidation}
-                        style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
-                </Button>
-            </Modal>
+            <div style={{paddingTop: 70}}>
+                <Button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить
+                    счёт</Button>
+                <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                    <TextInput
+                        label="Введите название счёта"
+                        placeholder="Счёт"
+                        onChange={(e) => handleFieldChange("name", e.target.value)}
+                        title="Счёт №1"
+                    />
+                    <Group><TextInput
+                        label="Введите начальную сумму и укажите валюту"
+                        placeholder="1000"
+                        style={{paddingRight: 0, width: 316}}
+                        onChange={(e) => handleFieldChange("balance", e.target.value)}
+                        title="Пример: 1000"
+                    />
+                        <NativeSelect
+                            onChange={(e) => handleFieldChange("currency", e.target.value)}
+                            data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}
+                            style={{paddingTop: 25, marginLeft: 0}}
+                            title="Выберите валюту. Пример: BYN"/></Group>
+                    <Button className={styles.button} onClick={dateValidation}
+                            style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
+                    </Button>
+                </Modal>
 
-            <Link className={styles.link} style={{paddingLeft: 65}} href={""}
-                  onClick={() => setBankAccountConnectionModalState(!bankAccountConnectionModalState)}>У меня есть
-                пригласительный код</Link>
+                <Link className={styles.link} style={{paddingLeft: 65}} href={""}
+                      onClick={() => setBankAccountConnectionModalState(!bankAccountConnectionModalState)}>У меня есть
+                    пригласительный код</Link>
 
-            <Modal opened={bankAccountConnectionModalState} onClose={() => setBankAccountConnectionModalState(false)}
-                   title={'Подключение к банковскому счёту'}>
-                <TextInput
-                    label="Введите пригласительный
+                <Modal opened={bankAccountConnectionModalState}
+                       onClose={() => setBankAccountConnectionModalState(false)}
+                       title={'Подключение к банковскому счёту'}>
+                    <TextInput
+                        label="Введите пригласительный
                                 код"
-                    onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
-                    title="Введите 16 символов"
-                />
-                <Button className={styles.button} onClick={checkInviteCode}
-                        style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
-                </Button>
-            </Modal>
-            <br/>
-            <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
-                    onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
-            <Button>Сохранить</Button>
+                        onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
+                        title="Введите 16 символов"
+                    />
+                    <Button className={styles.button} onClick={checkInviteCode}
+                            style={{width: 408, marginTop: 20, fontSize: 20}}>Добавить
+                    </Button>
+                </Modal>
+                <br/>
+                <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF" checked={checked2FA}
+                        onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
+                <Button>Сохранить</Button>
+            </div>
         </div>
     )
 }// onClick - обновление 2FA статуса у пользователя

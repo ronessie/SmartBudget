@@ -1,7 +1,8 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useState } from "react";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useState} from "react";
 import {FileInput} from "@mantine/core";
 import Header from "../components/header"
+import styles from '../styles/pages.module.css'
 
 export default function Page() {
     const [image, setImage] = useState(null);
@@ -38,11 +39,14 @@ export default function Page() {
     };
 
     return (
-        <div>
+        <div className={styles.page}>
             <Header/>
-            <h1>Check Upload</h1>
-            <FileInput accept="image/*" onChange={handleImageChange} placeholder="Выберите файл" />
-            <button onClick={handleUpload}>Upload</button>
+            <div style={{paddingTop: 70}}>
+                <h1>Check Upload</h1>
+                <FileInput accept="image/*" onChange={handleImageChange} placeholder="Выберите файл"
+                           style={{width: 400}}/>
+                <button onClick={handleUpload}>Upload</button>
+            </div>
         </div>
     );
 };

@@ -145,6 +145,7 @@ export default function Page() {
             await router.push('/main');
         }
     }
+
     async function dateValidation(e: any) {
         e.preventDefault();
         const response = await fetch(`/api/authentication/users`);
@@ -180,6 +181,7 @@ export default function Page() {
             alert("Аккаунт с такой почтой уже существует")
         }
     }
+
     async function dateToDB() {
         const bankAccount_id = new ObjectId().toString();
 
@@ -193,12 +195,13 @@ export default function Page() {
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
         if (!response.ok) throw new Error(response.statusText);
     }
-    function authToReg(){
+
+    function authToReg() {
         drawerAuthMethods.close();
         drawerRegistrationMethods.open();
     }
 
-    function regToAuth(){
+    function regToAuth() {
         drawerRegistrationMethods.close();
         drawerAuthMethods.open();
     }
@@ -206,145 +209,152 @@ export default function Page() {
     return (
         <div className={styles.page}>
             <IndexHeader/>
-            <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
-            <br/>
-            <Link href={"registration"}>{t('indexPage.registration')}</Link>
-            <br/>
-            <Link href={"settings"}>{t('indexPage.settings')}</Link>
-            <br/>
-            <Link href={"main"}>{t('indexPage.main')}</Link>
-            <br/>
-            <Link href={"addingCheck"}>Чеки</Link>
-            <br/>
-            <Link href={"account"}>Аккаунт</Link>
-            <br/>
-            <Button onClick={() => changeLanguage('en')}>EN</Button>
-            <Button onClick={() => changeLanguage('ru')}>RU</Button>
-            <Button onClick={drawerAuthMethods.open}>Open drawer Auth</Button>
-            <div>
-                <Drawer
-                    opened={authDrawerState}
-                    onClose={drawerAuthMethods.close}
-                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                    position="right"
-                    offset={8} radius="md">
-                    <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
-                        setSegmentState(e);
-                        if (e === 'Log In') {
-                            regToAuth()
-                        }
-                        else if (e === 'Sign In') {
-                            authToReg()
-                        }
-                    }}/>
-                    <h1 className={styles.bigBlackText}
-                        style={{fontSize: 40, padding: 0, textAlign: "center"}}>{t('authenticationPage.signIn')}</h1>
-                    <TextInput
-                        label={t('authenticationPage.input.email')}
-                        placeholder="your@email.com"
-                        value={data.email}
-                        onChange={(e) => handleFieldChange("email", e.target.value)}
-                        title={t('authenticationPage.placeholder.email')}
-                    />
-                    <PasswordInput
-                        label={t('authenticationPage.input.password')}
-                        value={data.password}
-                        onChange={(e) => handleFieldChange("password", e.target.value)}
-                        title={t('authenticationPage.placeholder.password')}
-                    />
-                    <Button className={styles.button} id="auth"
-                            style={{width: 410, marginTop: 20, fontSize: 18}}
-                            onClick={checkDate}
-                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
-                    <Button className={styles.button}
-                            style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
-                            onClick={googleAuthentication}
-                            title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
-                    <br/>
-                    <Link href="" onClick={authToReg} className={styles.link}
-                          style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
-                          title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
-
-                    <Link href={""} title={t('authenticationPage.placeholder.changePassLink')} className={styles.link}
-                          style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
-                          onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
-                          {t('authenticationPage.changePasswordLink')}</Link>
-
-                    <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
-                           title={t('authenticationPage.modals.header')}>
-                        <TextInput
-                            label={t('authenticationPage.modals.email')}
-                            placeholder="your@email.com"
-                            onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
-                            title={t('authenticationPage.modals.title')}
-                        />
-                        <Button onClick={checkDataForPasswordRecovery} className={styles.button}
-                                style={{marginTop: 10, width: 408}}
-                                title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
-                    </Modal>
-                </Drawer>
-                <Drawer
-                    opened={registrationDrawerState}
-                    onClose={drawerRegistrationMethods.close}
-                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                    position="right"
-                    offset={8} radius="md">
-                    <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
-                        setSegmentState(e);
-                        if (e === 'Log In') {
-                            regToAuth()
-                        } else if (e === 'Sign In') {
-                            authToReg()
-                        }
-                    }}/>
-                    <h1 className={styles.bigBlackText}
-                        style={{
-                            fontSize: 35,
-                            paddingLeft: 100
-                        }}>{t('registrationPage.label')}</h1>
-                    <TextInput
-                        withAsterisk
-                        label={t('registrationPage.inputFIO')}
-                        placeholder={t('registrationPage.inputPlaceholder.fio')}
-                        value={data.fio}
-                        onChange={(e) => handleFieldChange("fio", e.target.value)}
-                        title={t('registrationPage.placeholder.fio')}
-                    />
-                    <TextInput
-                        withAsterisk
-                        label={t('registrationPage.inputEmail')}
-                        placeholder={t('registrationPage.inputPlaceholder.email')}
-                        value={data.email}
-                        onChange={(e) => handleFieldChange("email", e.target.value)}
-                        title={t('registrationPage.placeholder.email')}
-                    />
-                    <PasswordInput
-                        withAsterisk
-                        label={t('registrationPage.inputPassword')}
-                        value={data.password}
-                        onChange={(e) => handleFieldChange("password", e.target.value)}
-                        title={t('registrationPage.placeholder.password')}
-                    />
-                    <PasswordInput
-                        withAsterisk
-                        label={t('registrationPage.checkPassword')}
-                        value={data.checkPassword}
-                        onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
-                        title={t('registrationPage.placeholder.password')}
-                    />
-                    <Button className={styles.button} onClick={dateValidation}
-                            style={{width: 410, marginTop: 20, fontSize: 20}}
-                            title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
-                    <br/>
-                    <Button className={styles.button} onClick={googleAuthentication}
+            <div style={{paddingTop: 70}}>
+                <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
+                <br/>
+                <Link href={"registration"}>{t('indexPage.registration')}</Link>
+                <br/>
+                <Link href={"settings"}>{t('indexPage.settings')}</Link>
+                <br/>
+                <Link href={"main"}>{t('indexPage.main')}</Link>
+                <br/>
+                <Link href={"addingCheck"}>Чеки</Link>
+                <br/>
+                <Link href={"account"}>Аккаунт</Link>
+                <br/>
+                <Button onClick={() => changeLanguage('en')}>EN</Button>
+                <Button onClick={() => changeLanguage('ru')}>RU</Button>
+                <Button onClick={drawerAuthMethods.open}>Open drawer Auth</Button>
+                <div>
+                    <Drawer
+                        opened={authDrawerState}
+                        onClose={drawerAuthMethods.close}
+                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                        position="right"
+                        offset={8} radius="md">
+                        <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
+                            setSegmentState(e);
+                            if (e === 'Log In') {
+                                regToAuth()
+                            } else if (e === 'Sign In') {
+                                authToReg()
+                            }
+                        }}/>
+                        <h1 className={styles.bigBlackText}
                             style={{
-                                width: 410,
-                                marginTop: 5,
-                                fontSize: 20,
-                                backgroundColor: "grey"
-                            }}>{t('registrationPage.googleButton')}</Button>
-                    <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href="" onClick={regToAuth}>{t('registrationPage.link')}</Link>
-                </Drawer></div>
+                                fontSize: 40,
+                                padding: 0,
+                                textAlign: "center"
+                            }}>{t('authenticationPage.signIn')}</h1>
+                        <TextInput
+                            label={t('authenticationPage.input.email')}
+                            placeholder="your@email.com"
+                            value={data.email}
+                            onChange={(e) => handleFieldChange("email", e.target.value)}
+                            title={t('authenticationPage.placeholder.email')}
+                        />
+                        <PasswordInput
+                            label={t('authenticationPage.input.password')}
+                            value={data.password}
+                            onChange={(e) => handleFieldChange("password", e.target.value)}
+                            title={t('authenticationPage.placeholder.password')}
+                        />
+                        <Button className={styles.button} id="auth"
+                                style={{width: 410, marginTop: 20, fontSize: 18}}
+                                onClick={checkDate}
+                                title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
+                        <Button className={styles.button}
+                                style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                                onClick={googleAuthentication}
+                                title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
+                        <br/>
+                        <Link href="" onClick={authToReg} className={styles.link}
+                              style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
+                              title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
+
+                        <Link href={""} title={t('authenticationPage.placeholder.changePassLink')}
+                              className={styles.link}
+                              style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
+                              onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
+                            {t('authenticationPage.changePasswordLink')}</Link>
+
+                        <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                               title={t('authenticationPage.modals.header')}>
+                            <TextInput
+                                label={t('authenticationPage.modals.email')}
+                                placeholder="your@email.com"
+                                onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
+                                title={t('authenticationPage.modals.title')}
+                            />
+                            <Button onClick={checkDataForPasswordRecovery} className={styles.button}
+                                    style={{marginTop: 10, width: 408}}
+                                    title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
+                        </Modal>
+                    </Drawer>
+                    <Drawer
+                        opened={registrationDrawerState}
+                        onClose={drawerRegistrationMethods.close}
+                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                        position="right"
+                        offset={8} radius="md">
+                        <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
+                            setSegmentState(e);
+                            if (e === 'Log In') {
+                                regToAuth()
+                            } else if (e === 'Sign In') {
+                                authToReg()
+                            }
+                        }}/>
+                        <h1 className={styles.bigBlackText}
+                            style={{
+                                fontSize: 35,
+                                paddingLeft: 100
+                            }}>{t('registrationPage.label')}</h1>
+                        <TextInput
+                            withAsterisk
+                            label={t('registrationPage.inputFIO')}
+                            placeholder={t('registrationPage.inputPlaceholder.fio')}
+                            value={data.fio}
+                            onChange={(e) => handleFieldChange("fio", e.target.value)}
+                            title={t('registrationPage.placeholder.fio')}
+                        />
+                        <TextInput
+                            withAsterisk
+                            label={t('registrationPage.inputEmail')}
+                            placeholder={t('registrationPage.inputPlaceholder.email')}
+                            value={data.email}
+                            onChange={(e) => handleFieldChange("email", e.target.value)}
+                            title={t('registrationPage.placeholder.email')}
+                        />
+                        <PasswordInput
+                            withAsterisk
+                            label={t('registrationPage.inputPassword')}
+                            value={data.password}
+                            onChange={(e) => handleFieldChange("password", e.target.value)}
+                            title={t('registrationPage.placeholder.password')}
+                        />
+                        <PasswordInput
+                            withAsterisk
+                            label={t('registrationPage.checkPassword')}
+                            value={data.checkPassword}
+                            onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
+                            title={t('registrationPage.placeholder.password')}
+                        />
+                        <Button className={styles.button} onClick={dateValidation}
+                                style={{width: 410, marginTop: 20, fontSize: 20}}
+                                title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
+                        <br/>
+                        <Button className={styles.button} onClick={googleAuthentication}
+                                style={{
+                                    width: 410,
+                                    marginTop: 5,
+                                    fontSize: 20,
+                                    backgroundColor: "grey"
+                                }}>{t('registrationPage.googleButton')}</Button>
+                        <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href=""
+                              onClick={regToAuth}>{t('registrationPage.link')}</Link>
+                    </Drawer></div>
+            </div>
         </div>
     )
 }

@@ -32,7 +32,7 @@ export default function IndexHeader() {
     return (
         <header className={classes.header}>
             <Container size="md" className={classes.inner}>
-                <img src='/images/logo.svg'/>
+                <img src="../images/logo.svg" alt="SmartBudget"/>
                 <Group gap={5} visibleFrom="xs">
                     {items}
                 </Group>

@@ -4,10 +4,10 @@ import { useDisclosure } from '@mantine/hooks';
 import classes from '../styles/header.module.css';
 
 const links = [
-    { link: 'main', label: 'Main' },
-    { link: 'settings', label: 'Settings' },
-    { link: 'account', label: 'Account' },
-    { link: 'addingCheck', label: 'AddCheck' },
+    { link: '/main', label: 'Main' },
+    { link: '/settings', label: 'Settings' },
+    { link: '/account', label: 'Account' },
+    { link: '/addingCheck', label: 'AddCheck' },
 ];
 
 export default function Header() {
@@ -32,7 +32,7 @@ export default function Header() {
     return (
         <header className={classes.header}>
             <Container size="md" className={classes.inner}>
-                <img src='/images/logo.svg'/>
+                <img src="/images/logo.svg" alt="SmartBudget"/>
                 <Group gap={5} visibleFrom="xs">
                     {items}
                 </Group>
