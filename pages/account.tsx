@@ -11,6 +11,7 @@ import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
+import Header from "../components/header"
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [changeModalState, setChangeModalState] = useState(false);
@@ -85,6 +86,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     return (
         <div>
+            <Header/>
             <h2>ФИО:</h2><h3>{data.fio}</h3>
             <h2>Электронная почта:</h2><h3>{data.email}</h3>
             <Button style={{width: 200}} className={styles.button}

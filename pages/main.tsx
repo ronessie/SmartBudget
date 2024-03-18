@@ -13,6 +13,7 @@ import {Button, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
+import Header from "../components/header"
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -121,6 +122,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
     return (
         <div className={styles.page}>
+            <Header/>
             <div className={styles.pages}>
                 <div className={styles.conteiners}>
                     <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>

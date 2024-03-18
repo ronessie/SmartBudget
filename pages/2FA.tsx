@@ -9,6 +9,7 @@ import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
 import {Button, TextInput} from "@mantine/core";
+import Header from "../components/header"
 
 path.resolve('./next.config.js');
 
@@ -74,6 +75,7 @@ export default function Page(props: { user: IUser }) {
 
     return (
         <div className={styles.page}>
+            <Header/>
             <div className={styles.auth}>
                 <form className={styles.form} style={{height: 330}}>
                     <h1 className={styles.bigBlackText}
@@ -89,7 +91,8 @@ export default function Page(props: { user: IUser }) {
                             onClick={check2FA}
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button>
-                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}} className={styles.link}>{t('2FA.resendLink')}</Link>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}
+                          className={styles.link}>{t('2FA.resendLink')}</Link>
                 </form>
             </div>
         </div>

@@ -10,6 +10,7 @@ import IBankAccount from "@/src/types/IBankAccount";
 import {ObjectId} from "bson";
 import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
+import Header from "../components/header"
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [billModalState, setBillModalState] = useState(false);
@@ -92,6 +93,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     return (
         <div>
+            <Header/>
             <Button className={styles.button} onClick={() => setBillModalState(!billModalState)}>Добавить счёт</Button>
             <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
                 <TextInput
