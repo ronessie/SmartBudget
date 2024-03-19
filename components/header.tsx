@@ -24,7 +24,6 @@ export default function Header() {
             className={classes.link}
             data-active={active === link.link || undefined}
             onClick={(event) => {
-                event.preventDefault();
                 setActive(link.link);
             }}
         >
