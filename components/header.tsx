@@ -6,7 +6,7 @@ import {useRouter} from "next/navigation";
 
 const links = [
     { link: '/main', label: 'Main' },
-    { link: '/settings', label: 'Settings' },
+    { link: '/', label: 'Index' },
     { link: '/account', label: 'Account' },
     { link: '/addingCheck', label: 'AddCheck' },
 ];

@@ -127,13 +127,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 <div className={styles.pages}>
                     <div className={styles.conteiners}>
                         <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>
-                        <Link href={"settings"}
-                              style={{
-                                  fontSize: 32,
-                                  marginTop: 15,
-                                  textDecorationLine: "none",
-                                  marginRight: 15
-                              }}>⚙️</Link>
                     </div>
                     <h1 className={styles.text}>{t('mainPage.yourBankAccount')}</h1>
                     <div className={styles.rectangle}><br/>

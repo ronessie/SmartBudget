@@ -214,8 +214,6 @@ export default function Page() {
                 <br/>
                 <Link href={"registration"}>{t('indexPage.registration')}</Link>
                 <br/>
-                <Link href={"settings"}>{t('indexPage.settings')}</Link>
-                <br/>
                 <Link href={"main"}>{t('indexPage.main')}</Link>
                 <br/>
                 <Link href={"addingCheck"}>Чеки</Link>
