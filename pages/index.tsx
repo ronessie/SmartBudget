@@ -140,10 +140,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google');
-        if (response && response.ok) {
-            await router.push('/main');
-        }
+        await signIn('google', { callbackUrl: '/main' });
     }
 
     async function dateValidation(e: any) {
