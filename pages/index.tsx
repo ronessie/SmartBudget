@@ -125,7 +125,7 @@ export default function Page() {
         if (response.ok) {
             alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
-            await router.push('/authentication');
+            setPasswordRecoveryModalState(false);
         } else {
             console.error('Failed to send email.');
         }
@@ -140,10 +140,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        const response = await signIn('google');
-        if (response && response.ok) {
-            await router.push('/main');
-        }
+        await signIn('google', { callbackUrl: '/main' });
     }
 
     async function dateValidation(e: any) {

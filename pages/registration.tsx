@@ -83,7 +83,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault();
-        await signIn('google', { redirect: false } );
+        await signIn('google', { callbackUrl: '/main' } );
     }
 
     return (
