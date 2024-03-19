@@ -56,8 +56,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     }
 
     async function checkInviteCode(e: any) {
-        e.preventDefault()
-        const response = await fetch(`/api/addBankAccount/bankAccounts`);
+        e.preventDefault();
+        let response = await fetch(`/api/addBankAccount/bankAccounts`);
 
         if (!response.ok) throw new Error(response.statusText);
 
@@ -68,9 +68,22 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             return;
         } else {
             alert("Всё круто")
-            await router.push('/main')
-            //тут надо прописать смену текущего аккаунта для данного пользователя и переход на главную
+            response = await fetch(`/api/updateCurrentBankAccount`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: props.user._id,
+                    inviteCode: data.inviteCode
+                }),
+            });
+
+            if (!response.ok) throw new Error(response.statusText);
             setBillModalState(false);
+            setInviteCodeModalState(false);
+
+            //тут надо прописать смену текущего аккаунта для данного пользователя
         }
     }
 
@@ -81,8 +94,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
         if (!response.ok) throw new Error(response.statusText);
     }
-
-    const router = useRouter();
 
     return (
         <div className={styles.page}>

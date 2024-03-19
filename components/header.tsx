@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {Container, Group, Burger} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from '../styles/header.module.css';
+import {useRouter} from "next/navigation";
 
 const links = [
     { link: '/main', label: 'Main' },
@@ -13,6 +14,8 @@ const links = [
 export default function Header() {
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(links[0].link);
+    const router = useRouter();
+
 
     const items = links.map((link) => (
         <a
@@ -32,7 +35,7 @@ export default function Header() {
     return (
         <header className={classes.header}>
             <Container size="md" className={classes.inner}>
-                <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}/>
+                <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}} onClick={()=> router.push('/')}/>
                 <Group gap={5} visibleFrom="xs">
                     {items}
                 </Group>
