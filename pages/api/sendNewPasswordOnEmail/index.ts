@@ -17,6 +17,9 @@ export default async function sendEmail(req: NextApiRequest, res: NextApiRespons
                 user: 'vsakolinskaa@gmail.com',
                 pass: 'hbjjwbstsgliuoco',
             },
+            tls: {
+                rejectUnauthorized: false
+            }
         });
 
         const mailOptions = {

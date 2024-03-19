@@ -125,7 +125,7 @@ export default function Page() {
         if (response.ok) {
             alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
-            await router.push('/authentication');
+            setPasswordRecoveryModalState(false);
         } else {
             console.error('Failed to send email.');
         }
