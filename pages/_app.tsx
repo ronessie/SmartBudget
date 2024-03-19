@@ -20,6 +20,7 @@ const App = ({Component, pageProps: {session, ...pageProps}}: AppProps) => {
                     <Head>
                         <title>SmartBudget</title>
                         <meta name='description' content='Income and expense calculation website'/>
+                        <link rel="icon" href="/favicon.ico"/>
                     </Head>
                     <Component {...pageProps} />
                 </SessionProvider>

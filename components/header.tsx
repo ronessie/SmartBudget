@@ -32,7 +32,7 @@ export default function Header() {
     return (
         <header className={classes.header}>
             <Container size="md" className={classes.inner}>
-                <img src="/images/logo.svg" alt="SmartBudget"/>
+                <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}/>
                 <Group gap={5} visibleFrom="xs">
                     {items}
                 </Group>
