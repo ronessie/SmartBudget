@@ -63,7 +63,7 @@
   "mainPage": {
     "hello": "Hello",
     "yourBankAccount": "Your bank account",
-    "lastUpdate": "Last update 00/00/0000",
+    "lastUpdate": "Last update:",
     "addIncome": "+ Income",
     "addExpenses": "+ Expense",
     "incomeModal": {

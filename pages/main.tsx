@@ -3,7 +3,6 @@ import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {getSession, useSession} from "next-auth/react";
 import React, {useState} from 'react';
-import Link from "next/link";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
@@ -25,7 +24,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         date: new Date(),
         status: "",
         balance: props.bankAccount.balance,
-        lastUpdateDate: Date.now(),
+        lastUpdateDate: props.bankAccount.lastUpdateDate,
         operationStatus: "",
         newBalance: 0
     });
@@ -62,7 +61,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         await dateValidation()
     }
 
-    async function dateToDB() {
+    async function dataToDB() {
         const operation: IOperation = {
             _id: new ObjectId().toString(),
             user_id: props.user._id,
@@ -77,7 +76,20 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
         if (!response.ok) throw new Error(response.statusText);
+        await updateDate()
         await updateBalance()
+    }
+
+    async function updateDate() {
+
+        const dateUpdate = await fetch('/api/updateLastUpdateDate', {
+            method: 'POST',
+            body: JSON.stringify({
+                currentBankAccount_id: props.bankAccount._id,
+            }),
+        });
+        if (!dateUpdate.ok) throw new Error(dateUpdate.statusText);
+        handleFieldChange("updateLastUpdateDate", data.lastUpdateDate)
     }
 
     async function updateBalance() {
@@ -113,7 +125,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             alert("Дата введена не верно")
             return
         } else {
-            await dateToDB();
+            await dataToDB();
         }
     }
 
@@ -133,7 +145,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
                         <h1 className={styles.bigWhiteText}>{data.balance} {props.bankAccount.currency}</h1>
                         <br/>
-                        <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')}</h1>
+                        <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
                     </div>
                     <div>
                         <Button className={styles.incomeButton}

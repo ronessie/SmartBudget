@@ -62,8 +62,8 @@
   },
   "mainPage": {
     "hello": "Здравствуйте",
-    "yourBankAccount": "Ваш счёт",
-    "lastUpdate": "Последнее обновление 00/00/0000",
+    "yourBankAccount": "Ваш счёт:",
+    "lastUpdate": "Последнее обновление",
     "addIncome": "+ Доход",
     "addExpenses": "+ Расход",
     "incomeModal": {

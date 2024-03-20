@@ -50,7 +50,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             alert("Укажите название счёта")
             return
         } else {
-            await dateToDB();
+            await dataToDB();
             alert("всё оки, работаем дальше")
         }
     }
@@ -87,12 +87,16 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         }
     }
 
-    async function dateToDB() {
+    async function dataToDB() {
         const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString());
 
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
         if (!response.ok) throw new Error(response.statusText);
+    }
+    function updateData()
+    {
+
     }
 
     return (
@@ -122,7 +126,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
-                    <Button className={styles.button} onClick={checkInviteCode}
+                    <Button className={styles.button} onClick={updateData}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>

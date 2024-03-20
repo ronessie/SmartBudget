@@ -171,7 +171,7 @@ export default function Page() {
             return;
         }
         if (!userExist) {
-            await dateToDB()
+            await dataToDB()
             await signIn('credentials', {username: data.email, password: data.password, redirect: false});
             router.push('/main')
         } else {
@@ -179,7 +179,7 @@ export default function Page() {
         }
     }
 
-    async function dateToDB() {
+    async function dataToDB() {
         const bankAccount_id = new ObjectId().toString();
 
         const user = createUserObj(data.fio, data.email, data.password, bankAccount_id);
