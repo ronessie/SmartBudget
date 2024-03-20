@@ -76,20 +76,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
 
         if (!response.ok) throw new Error(response.statusText);
-        await updateDate()
         await updateBalance()
-    }
-
-    async function updateDate() {
-
-        const dateUpdate = await fetch('/api/updateLastUpdateDate', {
-            method: 'POST',
-            body: JSON.stringify({
-                currentBankAccount_id: props.bankAccount._id,
-            }),
-        });
-        if (!dateUpdate.ok) throw new Error(dateUpdate.statusText);
-        handleFieldChange("updateLastUpdateDate", data.lastUpdateDate)
     }
 
     async function updateBalance() {
@@ -103,6 +90,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             }),
         });
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
+        handleFieldChange("updateLastUpdateDate", data?.lastUpdateDate)
         if (data.operationStatus === '+') {
             handleFieldChange("balance", +(data?.balance ?? 0) + +data.sum)
         } else {

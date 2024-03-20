@@ -17,7 +17,8 @@ export default async function updateBalance(req: NextApiRequest, res: NextApiRes
     const filter = {_id: currentBankAccount_id};
     const updateDocument = {
         $set: {
-            balance: newBalance
+            balance: newBalance,
+            lastUpdateDate: Date()
         }
     };
     const result = await collection.updateOne(filter, updateDocument);
