@@ -263,7 +263,7 @@ export default function Page() {
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
-                        <Link href="" onClick={authToReg} className={styles.link}
+                        <Link href="" onClick={() => {setSegmentState('Sign In'); authToReg();}} className={styles.link}
                               style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                               title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
@@ -347,7 +347,7 @@ export default function Page() {
                                     backgroundColor: "grey"
                                 }}>{t('registrationPage.googleButton')}</Button>
                         <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href=""
-                              onClick={regToAuth}>{t('registrationPage.link')}</Link>
+                              onClick={() => {setSegmentState('Log In'); regToAuth();}}>{t('registrationPage.link')}</Link>
                     </Drawer></div>
             </div>
         </div>
