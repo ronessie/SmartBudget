@@ -29,6 +29,12 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         operationStatus: "",
         newBalance: 0
     });
+    const [convertData, setConvertData] = useState({
+        sum: 1,
+        beforeCurrency: "",
+        afterCurrency: "",
+        newSum: 0
+    });
     const {t} = useTranslation('common');
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
@@ -47,6 +53,15 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             [fieldName]: value,
         });
         console.log(data)
+    }
+
+    function handleConvertChange(fieldName: string, value: any) {
+        console.log(`set ${fieldName} with value: ${value}`)
+        setConvertData({
+            ...convertData,
+            [fieldName]: value,
+        });
+        console.log(convertData)
     }
 
     async function addIncome(e: any) {
@@ -119,6 +134,25 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         }
     }
 
+    async function convert(){
+        // api/converter/index.ts
+        const myHeaders = new Headers();
+        myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");
+
+        const response = await fetch('/api/converter', {
+            method: 'GET',
+            redirect: 'follow',
+            headers: myHeaders,
+            body: JSON.stringify({sum: convertData.sum, afterCurrency: convertData.afterCurrency, beforeCurrency: convertData.beforeCurrency}),
+        });
+
+        if (response.ok) {
+            console.log('converter api worked successfully!');
+        } else {
+            console.error('Failed work converter.');
+        }
+    }
+
     const {data: session} = useSession();
     console.log(session);
 
@@ -129,7 +163,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 <div className={styles.pages}>
                     <div className={styles.conteiners}>
                         <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>
-                        <Button onClick={converterAuthMethods.open}>Open drawer Auth</Button>
+                        <Button onClick={converterAuthMethods.open}>Конвертер</Button>
                     </div>
                     <Drawer
                         title="Конвертер валют"
@@ -138,11 +172,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <div className={styles.conteiners}><TextInput style={{width: 270}} label="Укажите сумму"/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}}/></div>
-                        <div className={styles.conteiners}><TextInput style={{width: 270}} label="Итоговая сумма"/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}}/></div><br/>
-                        <Button style={{width: 410}}>Рассчитать</Button>
+                        <div className={styles.conteiners}>
+                            <TextInput style={{width: 270}} label="Укажите сумму" onChange={(e) => handleConvertChange("sum", e.target.value)}/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/></div>
+                        <div className={styles.conteiners}>
+                            <TextInput style={{width: 270}} label="Итоговая сумма" onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
+                        <br/>
+                        <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
                     <h1 className={styles.text}>{t('mainPage.yourBankAccount')}</h1>
                     <div className={styles.rectangle}><br/>
