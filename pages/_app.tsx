@@ -9,12 +9,9 @@ import '@mantine/charts/styles.css';
 import {createTheme, MantineProvider} from '@mantine/core';
 import {ModalsProvider} from "@mantine/modals";
 
-const theme = createTheme({
-});
-
 const App = ({Component, pageProps: {session, ...pageProps}}: AppProps) => {
     return (
-        <MantineProvider theme={theme}>
+        <MantineProvider defaultColorScheme="light">
             <ModalsProvider>
                 <SessionProvider session={session}>
                     <Head>

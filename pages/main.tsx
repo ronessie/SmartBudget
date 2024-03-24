@@ -8,11 +8,12 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Drawer, Modal, NativeSelect, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
+import {useDisclosure} from "@mantine/hooks";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -29,6 +30,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         newBalance: 0
     });
     const {t} = useTranslation('common');
+    const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
     const dataChart = [
         {name: 'USA', value: 400, color: 'blue.6'},
@@ -127,7 +129,21 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 <div className={styles.pages}>
                     <div className={styles.conteiners}>
                         <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>
+                        <Button onClick={converterAuthMethods.open}>Open drawer Auth</Button>
                     </div>
+                    <Drawer
+                        title="Конвертер валют"
+                        opened={converterDrawerState}
+                        onClose={converterAuthMethods.close}
+                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                        position="right"
+                        offset={8} radius="md">
+                        <div className={styles.conteiners}><TextInput style={{width: 270}} label="Укажите сумму"/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}}/></div>
+                        <div className={styles.conteiners}><TextInput style={{width: 270}} label="Итоговая сумма"/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}}/></div><br/>
+                        <Button style={{width: 410}}>Рассчитать</Button>
+                    </Drawer>
                     <h1 className={styles.text}>{t('mainPage.yourBankAccount')}</h1>
                     <div className={styles.rectangle}><br/>
                         <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>

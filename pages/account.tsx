@@ -2,7 +2,6 @@ import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
 import styles from '../styles/pages.module.css'
-import {useRouter} from "next/router";
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
