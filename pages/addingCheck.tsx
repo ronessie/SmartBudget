@@ -8,8 +8,7 @@ export default function Page() {
     const [image, setImage] = useState(null);
 
     const handleImageChange = (e: any) => {
-        const file = e.target.files[0];
-        setImage(file);
+        setImage(e);
     };
 
     const handleUpload = async () => {

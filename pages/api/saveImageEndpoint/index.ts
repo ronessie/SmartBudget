@@ -1,5 +1,6 @@
 import multer from 'multer';
 import path from "path";
+import * as fs from "fs";
 
 export const config = {
     api: {
@@ -21,6 +22,8 @@ const upload = multer({ storage: storage });
 
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
+        await createDirIfNotExists('public/uploads');
+
         upload.single('image')(req, res, (err) => {
             if (err) {
                 console.error('Multer error:', err);
@@ -36,5 +39,11 @@ export default async function handler(req: any, res: any) {
         });
     } else {
         res.status(405).end(`Метод ${req.method} не разрешен. Используйте метод POST.`);
+    }
+}
+
+const createDirIfNotExists = async (dir: string) => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir)
     }
 }
