@@ -1,4 +1,4 @@
-import {NextApiRequest, NextApiResponse} from "next";
+/*import {NextApiRequest, NextApiResponse} from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {sum, afterCurrency, beforeCurrency} = JSON.parse(req.body);
@@ -7,4 +7,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
-}
+}*/
