@@ -14,11 +14,12 @@ import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import {useDisclosure} from "@mantine/hooks";
-import currency from "./Data/currency.json"
+import currency from "@/pages/data/currency"
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
+    const [categoryModalState, setCategoryModalState] = useState(false);
     const [data, setData] = useState({
         sum: 0.0,
         currency: props.bankAccount.currency,
@@ -130,6 +131,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
             alert("Дата введена не верно")
             return
+        }
+        if (data.category === "other"){
+            setCategoryModalState(true);
         } else {
             await dataToDB();
         }
@@ -268,6 +272,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                         fontSize: 20
                                     }}>{t('mainPage.expensesModal.addButton')}
                             </Button>
+                        </Modal>
+                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)} title="Добавление новой категории">
+                            <TextInput label="Введите название категории"/>
+                            <Button style={{
+                                width: 408,
+                                marginTop: 20,
+                                fontSize: 20
+                            }}>Добавить</Button>
                         </Modal>
                     </div>
                     <br/>
