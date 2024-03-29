@@ -3,8 +3,16 @@ import {useState} from "react";
 import {FileInput} from "@mantine/core";
 import Header from "../components/header"
 import styles from '../styles/pages.module.css'
+import IOperation from "@/src/types/IOperation";
+import {ObjectId} from "bson";
+import {DateTime} from "next-auth/providers/kakao";
+import ICheck from "@/src/types/ICheck";
+import {getSession} from "next-auth/react";
+import {connectToDatabase} from "@/src/database";
+import IUser from "@/src/types/IUser";
+import IBankAccount from "@/src/types/IBankAccount";
 
-export default function Page() {
+export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
 
     const handleImageChange = (e: any) => {
@@ -17,7 +25,7 @@ export default function Page() {
                 const formData = new FormData();
                 formData.append('image', image);
 
-                const response = await fetch('/api/saveImageEndpoint', {
+                const response = await fetch('/api/addCheck/checks', {
                     method: 'POST',
                     body: formData,
                 });
@@ -27,8 +35,20 @@ export default function Page() {
                 }
 
                 const data = await response.json();
-                console.log("Изображение успешно сохранено:", data);
-                // Дополнительные действия, если необходимо
+
+                const check: ICheck = {
+                    _id: new ObjectId().toString(),
+                    user_id: props.user._id,
+                    bankAccount_id: props.bankAccount._id,
+                    filePath: data.filePath,
+                    //checkText: "",
+                    dateTime: Date()
+                };
+
+                const dbResponse = await fetch(`/api/addCheck/${JSON.stringify(check)}`);
+
+                if (!dbResponse.ok) throw new Error(dbResponse.statusText);
+                alert("Файл успешно загружен")
             } catch (error) {
                 console.error("Ошибка при сохранении изображения:", error);
             }
@@ -50,8 +70,18 @@ export default function Page() {
     );
 };
 
-export const getServerSideProps = async (ctx: any) => ({
-    props: {
-        ...(await serverSideTranslations(ctx.locale, ['common']))
+export const getServerSideProps = async (ctx: any) => {
+    const session = await getSession(ctx);
+
+    const {db} = await connectToDatabase();
+
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
+    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+
+    return {
+        props: {
+            user: user, bankAccount: bankAcc,
+            ...(await serverSideTranslations(ctx.locale, ['common']))
+        }
     }
-});
+};
