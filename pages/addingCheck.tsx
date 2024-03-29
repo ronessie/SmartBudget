@@ -45,7 +45,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     dateTime: Date()
                 };
 
-                const dbResponse = await fetch(`/api/addCheck/${JSON.stringify(check)}`);
+                const dbResponse = await fetch(`/api/addCheck`,{
+                    method: "POST",
+                    body: JSON.stringify(check),
+                });
 
                 if (!dbResponse.ok) throw new Error(dbResponse.statusText);
                 alert("Файл успешно загружен")
