@@ -29,7 +29,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         balance: props.bankAccount.balance,
         lastUpdateDate: props.bankAccount.lastUpdateDate,
         operationStatus: "",
-        newBalance: 0
+        newBalance: 0,
+        newCategory: ""
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -274,7 +275,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             </Button>
                         </Modal>
                         <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)} title="Добавление новой категории">
-                            <TextInput label="Введите название категории"/>
+                            <TextInput label="Введите название категории" onChange={(e) => handleFieldChange("newCategory", e.target.value)}/>
                             <Button style={{
                                 width: 408,
                                 marginTop: 20,

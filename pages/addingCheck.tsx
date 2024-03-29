@@ -3,9 +3,7 @@ import {useState} from "react";
 import {FileInput} from "@mantine/core";
 import Header from "../components/header"
 import styles from '../styles/pages.module.css'
-import IOperation from "@/src/types/IOperation";
 import {ObjectId} from "bson";
-import {DateTime} from "next-auth/providers/kakao";
 import ICheck from "@/src/types/ICheck";
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
