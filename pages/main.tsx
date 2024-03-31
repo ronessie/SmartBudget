@@ -27,7 +27,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         date: new Date(),
         status: "",
         balance: props.bankAccount.balance,
-        lastUpdateDate: props.bankAccount.lastUpdateDate,
+        lastUpdateDate: formatTime(props.bankAccount.lastUpdateDate?.toString()),
         operationStatus: "",
         newBalance: 0,
         newCategory: ""
@@ -47,6 +47,27 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         {name: 'Japan', value: 100, color: 'pink.6'},
         {name: 'Other', value: 200, color: 'red.6'},
     ];
+
+    function formatTime(input: string | Date | undefined): string {
+        if (!input) {
+            return '';
+        }
+
+        let date: Date;
+        if (input instanceof Date) {
+            date = input;
+        } else {
+            date = new Date(input);
+        }
+
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${hours}:${minutes} ${day}/${month}/${year}`;
+    }
 
 
     function handleFieldChange(fieldName: string, value: any) {

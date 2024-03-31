@@ -8,7 +8,7 @@ import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
-import {Button, TextInput} from "@mantine/core";
+import {Button, PinInput, TextInput} from "@mantine/core";
 import Header from "../components/header"
 
 path.resolve('./next.config.js');
@@ -65,6 +65,7 @@ export default function Page(props: { user: IUser }) {
 
     async function check2FA(e: any) {
         e.preventDefault()
+        alert(data.check2FA)
         if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
             alert("код введён не верно, попробуйте ещё раз");
             return
@@ -80,12 +81,9 @@ export default function Page(props: { user: IUser }) {
                 <form className={styles.form} style={{height: 330}}>
                     <h1 className={styles.bigBlackText}
                         style={{fontSize: 35, textAlign: "center", padding: 0}}>{t('2FA.label')}</h1>
-                    <TextInput
-                        label={t('2FA.inputCode')}
-                        value={data.check2FA}
-                        onChange={(e) => handleFieldChange("check2FA", e.target.value)}
-                        title="Введите код который пришёл вам на почту"
-                    />
+                    <PinInput size="md" length={6} type="number" value={data.check2FA}
+                              title="Введите код который пришёл вам на почту"
+                              onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
                     <Button className={styles.button}
                             style={{width: 276, marginTop: 5, fontSize: 20}}
                             onClick={check2FA}
