@@ -8,7 +8,7 @@ import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import Link from "next/link";
-import {Button, PinInput, TextInput} from "@mantine/core";
+import {Button, PinInput} from "@mantine/core";
 import Header from "../components/header"
 
 path.resolve('./next.config.js');
