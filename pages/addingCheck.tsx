@@ -32,6 +32,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     throw new Error('Ошибка HTTP: ' + response.status);
                 }
 
+                setImage(null);
+
                 const data = await response.json();
 
                 const check: ICheck = {
@@ -43,7 +45,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     dateTime: Date()
                 };
 
-                const dbResponse = await fetch(`/api/addCheck/${JSON.stringify(check)}`);
+                const dbResponse = await fetch(`/api/addCheck`,{
+                    method: "POST",
+                    body: JSON.stringify(check),
+                });
 
                 if (!dbResponse.ok) throw new Error(dbResponse.statusText);
                 alert("Файл успешно загружен")
@@ -60,7 +65,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             <Header/>
             <div style={{paddingTop: 70}}>
                 <h1>Check Upload</h1>
-                <FileInput accept="image/*" onChange={handleImageChange} placeholder="Выберите файл"
+                <FileInput value={image} accept="image/*" onChange={handleImageChange} placeholder="Выберите файл"
                            style={{width: 400}}/>
                 <button onClick={handleUpload}>Upload</button>
             </div>
