@@ -129,6 +129,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
+                <Button style={{width: 200}} className={styles.button}>Добавить категорию</Button>
+                <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
+                       title={'Редактирование данных'}></Modal>
                 <Button style={{width: 200}} className={styles.button}
                         onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button>
