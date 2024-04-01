@@ -38,6 +38,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         });
     }
 
+    async function findValueForSelect(){
+        const response = await fetch(`/api/userBankAccounts`);
+        if (!response.ok) throw new Error(response.statusText);
+    }
+
     async function dateValidation(e: any) {
         e.preventDefault();
         const response = await fetch(`/api/addBankAccount/bankAccounts`);
@@ -103,6 +108,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     return (
         <div className={styles.page}>
             <Header/>
+            <Button onClick={findValueForSelect}>Test</Button>
             <div style={{paddingTop: 70}}>
                 <h2>ФИО:</h2><h3>{data.fio}</h3>
                 <h2>Электронная почта:</h2><h3>{data.email}</h3>
