@@ -3,20 +3,21 @@ import path from 'path';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {Button, Drawer, Modal, PasswordInput, SegmentedControl, TextInput} from "@mantine/core";
+import {Button, Drawer, Modal, PasswordInput, PinInput, SegmentedControl, TextInput} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "@/styles/pages.module.css";
 import React, {useState} from "react";
 import {createBankAccountObj, createUserObj, generate2FAcode, generatePassword} from "@/src/utils";
 import validator from "validator";
 import IUser from "@/src/types/IUser";
-import {signIn} from "next-auth/react";
+import {getSession, signIn} from "next-auth/react";
 import {ObjectId} from "bson";
 import IndexHeader from "../components/indexHeader"
+import {connectToDatabase} from "@/src/database";
 
 path.resolve('./next.config.js');
 
-export default function Page() {
+export default function Page(props: { user: IUser }) {
     const router = useRouter()
     const {t} = useTranslation('common');
     const [passwordRecoveryModalState, setPasswordRecoveryModalState] = useState(false);
@@ -29,16 +30,51 @@ export default function Page() {
         popUpEmail: "",
         fio: "",
         checkPassword: "",
-        twoStepAuthCode: "",
+        twoStepAuthCode: props.user.twoStepAuthCode,
         check2FA: ""
     });
     const [authDrawerState, drawerAuthMethods] = useDisclosure(false);
     const [registrationDrawerState, drawerRegistrationMethods] = useDisclosure(false);
     const [segmentState, setSegmentState] = useState('Log In');
+    const [twoFAState, setTwoFAState] = useState(false);
 
     const changeLanguage = async (language: string) => {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
+
+    async function resend2FA(e: any) {
+        e.preventDefault()
+        data.twoStepAuthCode = generate2FAcode();
+        const response2FA = await fetch('/api/send2FAcodeOnEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: props.user.email,
+                twoStepAuthCode: generate2FAcode(),
+                fromEmail: "vsakolinskaa@gmail.com"
+            }),
+        });
+
+        if (response2FA.ok) {
+            alert("Код уже отправлен Вам на почту");
+            console.log('Email sent successfully!');
+        } else {
+            console.error('Failed to send email.');
+        }
+    }
+
+    async function check2FA(e: any) {
+        e.preventDefault()
+        alert(data.check2FA)
+        if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
+            alert("код введён не верно, попробуйте ещё раз");
+            return
+        }
+        alert("Вы успешно вошли")
+        await router.push('/main');
+    }
 
     async function checkDate(e: any) {
         e.preventDefault();
@@ -62,7 +98,6 @@ export default function Page() {
             alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
-
         const checkUser2FA = json.users.find((user: IUser) => user.email === data.email && user.password === data.password && user.twoStepAuth === true);
         if (checkUser2FA) {
             data.twoStepAuthCode = generate2FAcode();
@@ -80,8 +115,8 @@ export default function Page() {
 
             if (response2FA.ok) {
                 await signIn('credentials', {username: data.email, password: data.password, redirect: false});
+                setTwoFAState(true)
                 alert("Код уже отправлен Вам на почту");
-                await router.push('/2FA');
                 console.log('Email sent successfully!');
             } else {
                 console.error('Failed to send email.');
@@ -140,7 +175,7 @@ export default function Page() {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        await signIn('google', { callbackUrl: '/main' });
+        await signIn('google', {callbackUrl: '/main'});
     }
 
     async function dateValidation(e: any) {
@@ -207,13 +242,13 @@ export default function Page() {
         <div className={styles.page}>
             <IndexHeader/>
             <div style={{paddingTop: 70}}>
-                <Link href={"authentication"}>{t('indexPage.authentication')}</Link>
+                <Link href={"checks"}>Чеки</Link>
                 <br/>
-                <Link href={"registration"}>{t('indexPage.registration')}</Link>
+                <Link href={"2FA"}>Двухфакторка</Link>
                 <br/>
                 <Link href={"main"}>{t('indexPage.main')}</Link>
                 <br/>
-                <Link href={"addingCheck"}>Чеки</Link>
+                <Link href={"addingCheck"}>Добавить чек</Link>
                 <br/>
                 <Link href={"account"}>Аккаунт</Link>
                 <br/>
@@ -263,7 +298,10 @@ export default function Page() {
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
-                        <Link href="" onClick={() => {setSegmentState('Sign In'); authToReg();}} className={styles.link}
+                        <Link href="" onClick={() => {
+                            setSegmentState('Sign In');
+                            authToReg();
+                        }} className={styles.link}
                               style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                               title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
@@ -348,15 +386,40 @@ export default function Page() {
                                     backgroundColor: "grey"
                                 }}>{t('registrationPage.googleButton')}</Button>
                         <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href=""
-                              onClick={() => {setSegmentState('Log In'); regToAuth();}}>{t('registrationPage.link')}</Link>
+                              onClick={() => {
+                                  setSegmentState('Log In');
+                                  regToAuth();
+                              }}>{t('registrationPage.link')}</Link>
                     </Drawer></div>
+                <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
+                       title={'Двухфакторная аутентификация'}>
+                    <PinInput size="md" length={6} type="number" value={data.check2FA}
+                              title="Введите код который пришёл вам на почту"
+                              onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
+                    <Button className={styles.button}
+                            style={{width: 276, marginTop: 5, fontSize: 20}}
+                            onClick={check2FA}
+                            title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
+                    </Button><br/>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}
+                          className={styles.link}>{t('2FA.resendLink')}</Link>
+                </Modal>
             </div>
         </div>
     )
 }
-export const getServerSideProps = async (ctx: any) => ({
-    props: {
-        ...(await serverSideTranslations(ctx.locale, ['common']))
+export const getServerSideProps = async (ctx: any) => {
+    const session = await getSession(ctx);
+
+    const {db} = await connectToDatabase();
+
+    const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
+
+    return {
+        props: {
+            user: user,
+            ...(await serverSideTranslations(ctx.locale, ['common']))
+        }
     }
-});
+};
 //ТУТ БУДЕТ СТРАНИЦА - РЕКЛАМА, ВСЁ О ПРИЛОЖЕНИ И ТД + КНОПКА ВХОДА/РЕГИСТРАЦИИ
