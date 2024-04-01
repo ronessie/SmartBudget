@@ -274,6 +274,7 @@ export default function Page() {
                             {t('authenticationPage.changePasswordLink')}</Link>
 
                         <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                               overlayProps={{backgroundOpacity: 0}}
                                title={t('authenticationPage.modals.header')}>
                             <TextInput
                                 label={t('authenticationPage.modals.email')}

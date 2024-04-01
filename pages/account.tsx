@@ -14,6 +14,10 @@ import Header from "../components/header"
 
 export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
     const [changeModalState, setChangeModalState] = useState(false);
+    const [changeAccountModalState, setChangeAccountModalState] = useState(false);
+    const [deleteModalState, setDeleteModalState] = useState(false);
+    const [confirmDeleteModalState, setConfirmDeleteModalState] = useState(false);
+    const [addCategoryModalState, setAddCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
     const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
     const [data, setData] = useState({
@@ -106,6 +110,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         onClick={() => setChangeModalState(!changeModalState)}>Изменить
                 </Button><br/>
                 <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
+                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Редактирование данных'}>
                     <TextInput
                         label="ФИО:"
@@ -119,7 +124,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         title="Введите Электронную почту"
                         value={data.email}
                     /><br/>
-
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
@@ -127,13 +131,18 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} className={styles.button}>Добавить категорию</Button>
-                <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
-                       title={'Редактирование данных'}></Modal>
+                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)} className={styles.button}>Добавить категорию</Button><br/>
+                <Modal opened={addCategoryModalState} onClose={() => setAddCategoryModalState(false)}
+                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                       title={'Редактирование данных'}>
+                    <h1>Test category</h1>
+                </Modal>
                 <Button style={{width: 200}} className={styles.button}
                         onClick={() => setBillModalState(!billModalState)}>Добавить
-                    счёт</Button>
-                <Modal opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                    счёт</Button><br/>
+                <Modal
+                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                    opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
                     <TextInput
                         label="Введите название счёта"
                         placeholder="Счёт"
@@ -163,6 +172,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         код</Link>
 
                     <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
+                           overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={'Подключение к банковскому счёту'}>
                         <TextInput
                             label="Введите пригласительный код"
@@ -174,15 +184,32 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         </Button>
                     </Modal>
                 </Modal>
-                <br/>
-                <Button style={{width: 200}} className={styles.button}>Сменить счёт</Button>
-                <Button style={{width: 200}} className={styles.button}>Удалить счёт</Button>
+                <Button style={{width: 200}} onClick={() => setChangeAccountModalState(!changeAccountModalState)} className={styles.button}>Сменить счёт</Button><br/>
+                <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
+                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                       title={'Смена счёта'}>
+                    <h1>Test change account</h1>
+                    <NativeSelect></NativeSelect>
+                </Modal>
+                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)} className={styles.button}>Удалить счёт</Button>
+                <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
+                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                       title={'Удаление счёта'}>
+                    <h1>Test delete account</h1>
+                    <Button onClick={() => setConfirmDeleteModalState(!confirmDeleteModalState)}>Удалить</Button>
+                    <Modal opened={confirmDeleteModalState} onClose={() => setConfirmDeleteModalState(false)}
+                           overlayProps={{backgroundOpacity: 0}}
+                           title={'Вы уверены что хотите удалить аккаунт?'}>
+                        <Button>Да</Button>
+                        <Button>Нет</Button>
+                    </Modal>
+                </Modal>
             </div>
         </div>
     )
 }
-//сделать value для checkbox изменить его на true/false тумблер
 //доделать функционал кнопок
+
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
 
