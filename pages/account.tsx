@@ -40,7 +40,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
 
     async function findValueForSelect(){
         //const response = await fetch(`/api/userBankAccounts`)
-        const response = await fetch(`/api/userBankAccounts/${JSON.stringify(props.user._id)}`);
+        const response = await fetch(`/api/userBankAccounts/${props.user._id}`);
         if (!response.ok) throw new Error(response.statusText);
     }
 
