@@ -178,7 +178,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                         код</Link>
 
                     <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
-                           overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                           overlayProps={{backgroundOpacity: 0, blur: 4}}
                            title={'Подключение к банковскому счёту'}>
                         <TextInput
                             label="Введите пригласительный код"
@@ -204,7 +204,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     <h1>Test delete account</h1>
                     <Button onClick={() => setConfirmDeleteModalState(!confirmDeleteModalState)}>Удалить</Button>
                     <Modal opened={confirmDeleteModalState} onClose={() => setConfirmDeleteModalState(false)}
-                           overlayProps={{backgroundOpacity: 0}}
+                           overlayProps={{backgroundOpacity: 0, blur: 4}}
                            title={'Вы уверены что хотите удалить аккаунт?'}>
                         <Button>Да</Button>
                         <Button>Нет</Button>

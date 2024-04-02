@@ -41,11 +41,17 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const {t} = useTranslation('common');
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
-    const dataChart = [
+    const dataChart1 = [
         {name: 'USA', value: 400, color: 'blue.6'},
         {name: 'India', value: 300, color: 'yellow.6'},
         {name: 'Japan', value: 100, color: 'pink.6'},
         {name: 'Other', value: 200, color: 'red.6'},
+    ];
+    const dataChart2 = [
+        {name: 'USA', value: 250, color: 'green.6'},
+        {name: 'India', value: 190, color: 'orange.6'},
+        {name: 'Japan', value: 160, color: 'red.6'},
+        {name: 'Other', value: 400, color: 'blue.6'},
     ];
 
     function formatTime(input: string | Date | undefined): string {
@@ -220,6 +226,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                         </Button>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
+                               overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.incomeModal.title')}>
                             <TextInput
                                 label={t('mainPage.incomeModal.inputSum')}
@@ -249,10 +256,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                         fontSize: 20
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
-                        <button className={styles.expenseButton}
+                        <Button className={styles.expenseButton}
                                 onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
-                        </button>
+                        </Button>
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
+                               overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.expensesModal.title')}>
                             <TextInput
                                 label={t('mainPage.expensesModal.inputSum')}
@@ -295,7 +303,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                     }}>{t('mainPage.expensesModal.addButton')}
                             </Button>
                         </Modal>
-                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)} title="Добавление новой категории">
+                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)} title="Добавление новой категории" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                             <TextInput label="Введите название категории" onChange={(e) => handleFieldChange("newCategory", e.target.value)}/>
                             <Button style={{
                                 width: 408,
@@ -306,8 +314,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                     <div>
-                        <DonutChart data={dataChart} title="Расходы"/>
-                        <DonutChart data={dataChart} title="Доходы"/>
+                        <DonutChart data={dataChart1} title="Расходы"/>
+                        <DonutChart data={dataChart2} title="Доходы"/>
                     </div>
 
                 </div>

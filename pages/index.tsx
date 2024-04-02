@@ -312,7 +312,7 @@ export default function Page(props: { user: IUser }) {
                             {t('authenticationPage.changePasswordLink')}</Link>
 
                         <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
-                               overlayProps={{backgroundOpacity: 0}}
+                               overlayProps={{backgroundOpacity: 0, blur: 4}}
                                title={t('authenticationPage.modals.header')}>
                             <TextInput
                                 label={t('authenticationPage.modals.email')}
@@ -392,6 +392,7 @@ export default function Page(props: { user: IUser }) {
                               }}>{t('registrationPage.link')}</Link>
                     </Drawer></div>
                 <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
+                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Двухфакторная аутентификация'}>
                     <PinInput size="md" length={6} type="number" value={data.check2FA}
                               title="Введите код который пришёл вам на почту"
