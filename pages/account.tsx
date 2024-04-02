@@ -207,7 +207,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                            overlayProps={{backgroundOpacity: 0, blur: 4}}
                            title={'Вы уверены что хотите удалить аккаунт?'}>
                         <Button>Да</Button>
-                        <Button>Нет</Button>
+                        <Button variant="outline">Нет</Button>
                     </Modal>
                 </Modal>
             </div>

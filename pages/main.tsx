@@ -49,9 +49,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     ];
     const dataChart2 = [
         {name: 'USA', value: 250, color: 'green.6'},
-        {name: 'India', value: 190, color: 'orange.6'},
+        {name: 'India', value: 190, color: 'blue.6'},
         {name: 'Japan', value: 160, color: 'red.6'},
-        {name: 'Other', value: 400, color: 'blue.6'},
+        {name: 'Other', value: 400, color: 'orange.6'},
     ];
 
     function formatTime(input: string | Date | undefined): string {
@@ -222,7 +222,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
                     </div>
                     <div>
-                        <Button className={styles.incomeButton}
+                        <Button className={styles.incomeButton}  variant="light" color="green"
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                         </Button>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
@@ -256,7 +256,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                         fontSize: 20
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
-                        <Button className={styles.expenseButton}
+                        <Button className={styles.expenseButton}  variant="light" color="red"
                                 onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                         </Button>
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
