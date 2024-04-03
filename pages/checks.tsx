@@ -5,12 +5,15 @@ import IBankAccount from "@/src/types/IBankAccount";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {Image} from "@mantine/core";
 import Header from "../components/header"
+import styles from "@/styles/pages.module.css";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
-    return(
-        <div>
+    return (
+        <div className={styles.page}>
             <Header/>
-            <Image src="/uploads/1710020725878.png" h={"auto"}/>
+            <div className={styles.pageContent}>
+                <Image src="/uploads/1710020725878.png" h={"auto"}/>
+            </div>
         </div>
     )
 }

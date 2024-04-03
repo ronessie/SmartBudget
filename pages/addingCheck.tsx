@@ -63,7 +63,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     return (
         <div className={styles.page}>
             <Header/>
-            <div style={{paddingTop: 70}}>
+            <div className={styles.pageContent}>
                 <h1>Check Upload</h1>
                 <FileInput value={image} accept="image/*" onChange={handleImageChange} placeholder="Выберите файл"
                            style={{width: 400}}/>

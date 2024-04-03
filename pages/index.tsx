@@ -67,7 +67,6 @@ export default function Page(props: { user: IUser }) {
 
     async function check2FA(e: any) {
         e.preventDefault()
-        alert(data.check2FA)
         if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
             alert("код введён не верно, попробуйте ещё раз");
             return
@@ -241,7 +240,7 @@ export default function Page(props: { user: IUser }) {
     return (
         <div className={styles.page}>
             <IndexHeader/>
-            <div style={{paddingTop: 70}}>
+            <div className={styles.pageContent}>
                 <Link href={"checks"}>Чеки</Link>
                 <br/>
                 <Link href={"2FA"}>Двухфакторка</Link>
@@ -270,7 +269,7 @@ export default function Page(props: { user: IUser }) {
                                 authToReg()
                             }
                         }}/>
-                        <h1 className={styles.bigBlackText}
+                        <h1
                             style={{
                                 fontSize: 40,
                                 padding: 0,
@@ -289,24 +288,22 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("password", e.target.value)}
                             title={t('authenticationPage.placeholder.password')}
                         />
-                        <Button className={styles.button} id="auth"
+                        <Button id="auth"
                                 style={{width: 410, marginTop: 20, fontSize: 18}}
                                 onClick={checkDate}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
-                        <Button className={styles.button}
-                                style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                        <Button style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
                         <Link href="" onClick={() => {
                             setSegmentState('Sign In');
                             authToReg();
-                        }} className={styles.link}
+                        }}
                               style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                               title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
 
                         <Link href={""} title={t('authenticationPage.placeholder.changePassLink')}
-                              className={styles.link}
                               style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
                               onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Link>
@@ -320,7 +317,7 @@ export default function Page(props: { user: IUser }) {
                                 onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
                                 title={t('authenticationPage.modals.title')}
                             />
-                            <Button onClick={checkDataForPasswordRecovery} className={styles.button}
+                            <Button onClick={checkDataForPasswordRecovery}
                                     style={{marginTop: 10, width: 408}}
                                     title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
                         </Modal>
@@ -339,11 +336,10 @@ export default function Page(props: { user: IUser }) {
                                 authToReg()
                             }
                         }}/>
-                        <h1 className={styles.bigBlackText}
-                            style={{
-                                fontSize: 35,
-                                paddingLeft: 100
-                            }}>{t('registrationPage.label')}</h1>
+                        <h1 style={{
+                            fontSize: 35,
+                            paddingLeft: 100
+                        }}>{t('registrationPage.label')}</h1>
                         <TextInput
                             withAsterisk
                             label={t('registrationPage.inputFIO')}
@@ -374,18 +370,18 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
                             title={t('registrationPage.placeholder.password')}
                         />
-                        <Button className={styles.button} onClick={dateValidation}
+                        <Button onClick={dateValidation}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}
                                 title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                         <br/>
-                        <Button className={styles.button} onClick={googleAuthentication}
+                        <Button onClick={googleAuthentication}
                                 style={{
                                     width: 410,
                                     marginTop: 5,
                                     fontSize: 20,
                                     backgroundColor: "grey"
                                 }}>{t('registrationPage.googleButton')}</Button>
-                        <Link className={styles.link} style={{textAlign: "center", paddingLeft: 100}} href=""
+                        <Link style={{textAlign: "center", paddingLeft: 100}} href=""
                               onClick={() => {
                                   setSegmentState('Log In');
                                   regToAuth();
@@ -397,13 +393,11 @@ export default function Page(props: { user: IUser }) {
                     <PinInput size="md" length={6} type="number" value={data.check2FA}
                               title="Введите код который пришёл вам на почту"
                               onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
-                    <Button className={styles.button}
-                            style={{width: 276, marginTop: 5, fontSize: 20}}
+                    <Button style={{width: 276, marginTop: 5, fontSize: 20}}
                             onClick={check2FA}
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button><br/>
-                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}
-                          className={styles.link}>{t('2FA.resendLink')}</Link>
+                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}>{t('2FA.resendLink')}</Link>
                 </Modal>
             </div>
         </div>

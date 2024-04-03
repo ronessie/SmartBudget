@@ -38,10 +38,10 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         });
     }
 
-    async function findValueForSelect(){
-        //const response = await fetch(`/api/userBankAccounts`)
+    async function userBankAccounts(){
         const response = await fetch(`/api/userBankAccounts/${props.user._id}`);
         if (!response.ok) throw new Error(response.statusText);
+        return response
     }
 
     async function dateValidation(e: any) {
@@ -109,11 +109,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     return (
         <div className={styles.page}>
             <Header/>
-            <Button onClick={findValueForSelect}>Test</Button>
-            <div style={{paddingTop: 70}}>
+            <Button onClick={userBankAccounts}>Test</Button>
+            <div className={styles.pageContent}>
                 <h2>ФИО:</h2><h3>{data.fio}</h3>
                 <h2>Электронная почта:</h2><h3>{data.email}</h3>
-                <Button style={{width: 200}} className={styles.button}
+                <Button style={{width: 200}}
                         onClick={() => setChangeModalState(!changeModalState)}>Изменить
                 </Button><br/>
                 <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
@@ -134,17 +134,17 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
-                    <Button className={styles.button} onClick={updateData}
+                    <Button onClick={updateData}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)} className={styles.button}>Добавить категорию</Button><br/>
+                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)}>Добавить категорию</Button><br/>
                 <Modal opened={addCategoryModalState} onClose={() => setAddCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Редактирование данных'}>
                     <h1>Test category</h1>
                 </Modal>
-                <Button style={{width: 200}} className={styles.button}
+                <Button style={{width: 200}}
                         onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
                 <Modal
@@ -170,11 +170,11 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             style={{paddingTop: 25, marginLeft: 0}}
                             data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
                         </NativeSelect></Group>
-                    <Button className={styles.button} onClick={dateValidation}
+                    <Button onClick={dateValidation}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                     </Button>
 
-                    <Link className={styles.link} style={{paddingLeft: 100}} href={""}
+                    <Link style={{paddingLeft: 100}} href={""}
                           onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть пригласительный
                         код</Link>
 
@@ -186,19 +186,19 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                             onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
                             title="Введите 16-значный код"
                         />
-                        <Button className={styles.button} onClick={checkInviteCode}
+                        <Button onClick={checkInviteCode}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setChangeAccountModalState(!changeAccountModalState)} className={styles.button}>Сменить счёт</Button><br/>
+                <Button style={{width: 200}} onClick={() => setChangeAccountModalState(!changeAccountModalState)}>Сменить счёт</Button><br/>
                 <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Смена счёта'}>
                     <h1>Test change account</h1>
                     <NativeSelect></NativeSelect>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)} className={styles.button}>Удалить счёт</Button>
+                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить счёт</Button>
                 <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Удаление счёта'}>

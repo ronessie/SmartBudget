@@ -192,10 +192,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     return (
         <div className={styles.page}>
             <Header/>
-            <div style={{paddingTop: 70}}>
-                <div className={styles.pages}>
-                    <div className={styles.conteiners}>
-                        <h1 className={styles.bigBlackText}>{t('mainPage.hello')}, {props.user.fio}</h1>
+            <div className={styles.pageContent}>
+                <div>
+                    <div>
+                        <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Button onClick={converterAuthMethods.open}>Конвертер</Button>
                     </div>
                     <Drawer
@@ -205,24 +205,24 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <div className={styles.conteiners}>
+                        <div>
                             <TextInput style={{width: 270}} label="Укажите сумму" onChange={(e) => handleConvertChange("sum", e.target.value)}/>
                             <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/></div>
-                        <div className={styles.conteiners}>
+                        <div>
                             <TextInput style={{width: 270}} label="Итоговая сумма" onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
                             <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
-                    <h1 className={styles.text}>{t('mainPage.yourBankAccount')}</h1>
-                    <div className={styles.rectangle}><br/>
-                        <h1 className={styles.whiteText}>{props.bankAccount.name}</h1><br/>
-                        <h1 className={styles.bigWhiteText}>{data.balance} {props.bankAccount.currency}</h1>
+                    <h1>{t('mainPage.yourBankAccount')}</h1>
+                    <div><br/>
+                        <h1>{props.bankAccount.name}</h1><br/>
+                        <h1>{data.balance} {props.bankAccount.currency}</h1>
                         <br/>
-                        <h1 className={styles.whiteText}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
+                        <h1>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
                     </div>
                     <div>
-                        <Button className={styles.incomeButton}  variant="light" color="green"
+                        <Button variant="light" color="green"
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                         </Button>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
@@ -249,14 +249,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             <DateInput onChange={(e) => handleFieldChange("date", e)}
                                        label={t('mainPage.incomeModal.dateLabel')}
                                        placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
-                            <Button className={styles.button} onClick={addIncome}
+                            <Button onClick={addIncome}
                                     style={{
                                         width: 408,
                                         marginTop: 20,
                                         fontSize: 20
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
-                        <Button className={styles.expenseButton}  variant="light" color="red"
+                        <Button variant="light" color="red"
                                 onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                         </Button>
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
@@ -295,7 +295,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                 onChange={(e) => handleFieldChange("date", e)}
                                 label={t('mainPage.expensesModal.dateLabel')}
                                 placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
-                            <Button className={styles.button} onClick={addExpenses}
+                            <Button onClick={addExpenses}
                                     style={{
                                         width: 408,
                                         marginTop: 20,
@@ -314,6 +314,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                     <div>
+                        <DonutChart data={dataChart1} title="Расходы"/>
+                        <DonutChart data={dataChart2} title="Доходы"/>
                         <DonutChart data={dataChart1} title="Расходы"/>
                         <DonutChart data={dataChart2} title="Доходы"/>
                     </div>
