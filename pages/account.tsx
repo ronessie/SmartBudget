@@ -222,8 +222,7 @@ export const getServerSideProps = async (ctx: any) => {
     const { NEXTAUTH_URL } = process.env;
     const response = await fetch (`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
     if (!response.ok) throw new Error(response.statusText);
-    const userBankAccountsResult = await response.json();
-    const bankAccounts = JSON.parse(userBankAccountsResult) as { label: string, value: string }[];
+    const bankAccounts = (await response.json()).result as { label: string, value: string }[];
 
     return {
         props: {
