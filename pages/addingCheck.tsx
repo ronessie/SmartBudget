@@ -45,7 +45,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     dateTime: Date()
                 };
 
-                const dbResponse = await fetch(`/api/addCheck`,{
+                const dbResponse = await fetch(`/api/addCheck`, {
                     method: "POST",
                     body: JSON.stringify(check),
                 });

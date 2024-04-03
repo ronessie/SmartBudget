@@ -160,14 +160,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             alert("Дата введена не верно")
             return
         }
-        if (data.category === "other"){
+        if (data.category === "other") {
             setCategoryModalState(true);
         } else {
             await dataToDB();
         }
     }
 
-    async function convert(){
+    async function convert() {
         // api/converter/index.ts
         const myHeaders = new Headers();
         myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");
@@ -176,7 +176,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             method: 'GET',
             redirect: 'follow',
             headers: myHeaders,
-            body: JSON.stringify({sum: convertData.sum, afterCurrency: convertData.afterCurrency, beforeCurrency: convertData.beforeCurrency}),
+            body: JSON.stringify({
+                sum: convertData.sum,
+                afterCurrency: convertData.afterCurrency,
+                beforeCurrency: convertData.beforeCurrency
+            }),
         });
 
         if (response.ok) {
@@ -206,11 +210,16 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         position="right"
                         offset={8} radius="md">
                         <div>
-                            <TextInput style={{width: 270}} label="Укажите сумму" onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/></div>
+                            <TextInput style={{width: 270}} label="Укажите сумму"
+                                       onChange={(e) => handleConvertChange("sum", e.target.value)}/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}}
+                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
+                        </div>
                         <div>
-                            <TextInput style={{width: 270}} label="Итоговая сумма" onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
+                            <TextInput style={{width: 270}} label="Итоговая сумма"
+                                       onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}}
+                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
@@ -303,8 +312,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                     }}>{t('mainPage.expensesModal.addButton')}
                             </Button>
                         </Modal>
-                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)} title="Добавление новой категории" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                            <TextInput label="Введите название категории" onChange={(e) => handleFieldChange("newCategory", e.target.value)}/>
+                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)}
+                               title="Добавление новой категории" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                            <TextInput label="Введите название категории"
+                                       onChange={(e) => handleFieldChange("newCategory", e.target.value)}/>
                             <Button style={{
                                 width: 408,
                                 marginTop: 20,
