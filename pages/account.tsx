@@ -11,8 +11,9 @@ import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
+import bankAccounts from "@/pages/api/addBankAccount/bankAccounts";
 
-export default function Page(props: { user: IUser, currentBankAccount: ObjectId }) {
+export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccounts: { label: string, value: string }[] }) {
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState(false);
@@ -28,6 +29,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
         fio: props.user.fio,
         email: props.user.email,
         twoFA: props.user.twoStepAuth,
+        bankAccounts: props.bankAccounts
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -36,12 +38,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
             ...data,
             [fieldName]: value,
         });
-    }
-
-    async function userBankAccounts(){
-        const response = await fetch(`/api/userBankAccounts/${props.user._id}`);
-        if (!response.ok) throw new Error(response.statusText);
-        return response
     }
 
     async function dateValidation(e: any) {
@@ -109,7 +105,6 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
     return (
         <div className={styles.page}>
             <Header/>
-            <Button onClick={userBankAccounts}>Test</Button>
             <div className={styles.pageContent}>
                 <h2>ФИО:</h2><h3>{data.fio}</h3>
                 <h2>Электронная почта:</h2><h3>{data.email}</h3>
@@ -196,7 +191,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId 
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Смена счёта'}>
                     <h1>Test change account</h1>
-                    <NativeSelect></NativeSelect>
+                    <NativeSelect data={data.bankAccounts}></NativeSelect>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить счёт</Button>
                 <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
@@ -224,9 +219,16 @@ export const getServerSideProps = async (ctx: any) => {
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
+    const { NEXTAUTH_URL } = process.env;
+    const response = await fetch (`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
+    if (!response.ok) throw new Error(response.statusText);
+    const userBankAccountsResult = await response.json();
+    const bankAccounts = JSON.parse(userBankAccountsResult) as { label: string, value: string }[];
+
     return {
         props: {
             user: user, currentBankAccount: session?.user,
+            bankAccounts: bankAccounts,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }

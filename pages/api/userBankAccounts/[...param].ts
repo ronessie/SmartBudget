@@ -18,5 +18,10 @@ export default async function userBankAccounts(req: NextApiRequest, res: NextApi
         })
         .toArray()) as IBankAccount[];
 
-    res.json({ bankAccounts: bankAccounts });
+    const result: { label: string, value: string }[] = [];
+
+    bankAccounts.map((e) => result.push({ label: e.name ?? '', value: e._id }))
+    console.log(result);
+
+    res.json({ result: result });
 }

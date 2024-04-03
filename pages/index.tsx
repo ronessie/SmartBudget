@@ -243,8 +243,6 @@ export default function Page(props: { user: IUser }) {
             <div className={styles.pageContent}>
                 <Link href={"checks"}>Чеки</Link>
                 <br/>
-                <Link href={"2FA"}>Двухфакторка</Link>
-                <br/>
                 <Link href={"main"}>{t('indexPage.main')}</Link>
                 <br/>
                 <Link href={"addingCheck"}>Добавить чек</Link>
