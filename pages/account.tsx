@@ -8,12 +8,11 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, Switch, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, Switch, Text, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
-import bankAccounts from "@/pages/api/addBankAccount/bankAccounts";
 
-export default function Page(props: { user: IUser, currentBankAccount: ObjectId, bankAccounts: { label: string, value: string }[] }) {
+export default function Page(props: { user: IUser, bankAccount: IBankAccount, bankAccounts: { label: string, value: string }[] }) {
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState(false);
@@ -21,6 +20,7 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
     const [addCategoryModalState, setAddCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
     const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
+    const [codeModalState, setCodeModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
         currency: "BYN",
@@ -228,6 +228,12 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                         <Button variant="outline">Нет</Button>
                     </Modal>
                 </Modal>
+                <Button onClick={() => setCodeModalState(!codeModalState)}>Пригласительный код</Button>
+                <Modal title={"Пригласительный код для счёта "+props.bankAccount.name}
+                       opened={codeModalState} onClose={() => setCodeModalState(false)}
+                       overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                    <Text>{props.bankAccount.invitingCode}</Text>
+                </Modal>
             </div>
         </div>
     )
@@ -245,10 +251,11 @@ export const getServerSideProps = async (ctx: any) => {
     const response = await fetch (`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
     if (!response.ok) throw new Error(response.statusText);
     const bankAccounts = (await response.json()).result as { label: string, value: string }[];
+    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
 
     return {
         props: {
-            user: user, currentBankAccount: session?.user,
+            user: user, bankAccount: bankAcc,
             bankAccounts: bankAccounts,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
