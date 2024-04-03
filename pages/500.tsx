@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, Text, Title} from '@mantine/core';
+import {Button, Container, Image, Text, Title} from '@mantine/core';
 import {useRouter} from 'next/router';
 
 const Error500Page = () => {
@@ -11,7 +11,7 @@ const Error500Page = () => {
 
     return (
         <Container size="sm">
-            <img src='/images/500.png'
+            <Image src='/images/500.png' alt="Image 500"
                  style={{width: 500, height: 500, marginLeft: 100, marginTop: 100, marginBottom: 50}}/>
             <Title order={1} style={{marginBottom: 10, textAlign: "center"}}>
                 Internal Server Error

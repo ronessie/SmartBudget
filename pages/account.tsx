@@ -8,11 +8,16 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, Switch, Text, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, PinInput, Switch, Text, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
+import {useRouter} from "next/navigation";
 
-export default function Page(props: { user: IUser, bankAccount: IBankAccount, bankAccounts: { label: string, value: string }[] }) {
+export default function Page(props: {
+    user: IUser,
+    bankAccount: IBankAccount,
+    bankAccounts: { label: string, value: string }[]
+}) {
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState(false);
@@ -30,7 +35,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
         email: props.user.email,
         twoFA: props.user.twoStepAuth,
         bankAccounts: props.bankAccounts,
-        selectBankAccount: props.bankAccounts[0].value
+        selectBankAccount: props.bankAccounts[0].value,
+        bankName: props.bankAccount.name
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -41,11 +47,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
         });
     }
 
+    const router = useRouter();
+
     async function dateValidation(e: any) {
         e.preventDefault();
-        const response = await fetch(`/api/addBankAccount/bankAccounts`);
-        if (!response.ok) throw new Error(response.statusText);
-
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
             alert("Сумма введена не верно, попробуйте ещё раз.")
             return
@@ -54,6 +59,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
             alert("Укажите название счёта")
             return
         } else {
+            /*const response = await fetch(`/api/addBankAccount/bankAccounts`);
+            if (!response.ok) throw new Error(response.statusText);*/
             await dataToDB();
             alert("всё оки, работаем дальше")
         }
@@ -72,14 +79,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
             return;
         } else {
             alert("Всё круто")
-            response = await fetch(`/api/updateCurrentBankAccount`, {
+            response = await fetch(`/api/changeCurrentBankAccount`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     user_id: props.user._id,
-                    inviteCode: data.inviteCode
+                    bankAccount_id: inviteToBankAccount._id
                 }),
             });
 
@@ -97,11 +104,24 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
         const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
         if (!response.ok) throw new Error(response.statusText);
+
+        const changeResponse = await fetch(`/api/changeCurrentBankAccount`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: props.user._id,
+                bankAccount_id: bankAccount._id
+            }),
+        });
+
+        if (!changeResponse.ok) throw new Error(response.statusText);
+        await router.push('/main')
     }
 
-    async function changeBankAccount(){
-        if (!data.selectBankAccount)
-        {
+    async function changeBankAccount() {
+        if (!data.selectBankAccount) {
             alert("Выберите счёт")
             return
         }
@@ -119,8 +139,28 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
         if (!response.ok) throw new Error(response.statusText);
         alert("Аккаунт успешно сменён")
     }
-    function updateData()
-    {
+
+    async function updateData() {
+        if (!data.fio || !data.email)
+        {
+            alert("Данные указаны не верно")
+            return
+        }
+        const response = await fetch(`/api/updateData`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: props.user._id,
+                fio: data.fio,
+                email: data.email,
+                twoFA: data.twoFA
+            }),
+        });
+
+        if (!response.ok) throw new Error(response.statusText);
+        alert("Данные успешно обновлены")
     }
 
     return (
@@ -146,7 +186,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
                         onChange={(e) => handleFieldChange("email", e.target.value)}
                         title="Введите Электронную почту"
                         value={data.email}
+                    />
+                    <TextInput
+                        label="Название счёта:"
+                        onChange={(e) => handleFieldChange("bankName", e.target.value)}
+                        title="Введите Электронную почту"
+                        value={data.bankName}
                     /><br/>
+                    <h1>Тут ещё должна быть валюта</h1>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
@@ -154,14 +201,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)}>Добавить категорию</Button><br/>
+                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)}>Добавить
+                    категорию</Button><br/>
                 <Modal opened={addCategoryModalState} onClose={() => setAddCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                       title={'Редактирование данных'}>
+                       title={'Добавление категорий'}>
                     <h1>Test category</h1>
                 </Modal>
-                <Button style={{width: 200}}
-                        onClick={() => setBillModalState(!billModalState)}>Добавить
+                <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
                 <Modal
                     overlayProps={{backgroundOpacity: 0.5, blur: 4}}
@@ -200,22 +247,24 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
                         <TextInput
                             label="Введите пригласительный код"
                             onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
-                            title="Введите 16-значный код"
-                        />
+                            title="Введите 16-значный код"/>
                         <Button onClick={checkInviteCode}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
                     </Modal>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setChangeAccountModalState(!changeAccountModalState)}>Сменить счёт</Button><br/>
+                <Button style={{width: 200}} onClick={() => setChangeAccountModalState(!changeAccountModalState)}>Сменить
+                    счёт</Button><br/>
                 <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Смена счёта'}>
                     <h1>Выберите счёт:</h1>
-                    <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)} data={data.bankAccounts}></NativeSelect>
+                    <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
+                                  data={data.bankAccounts}></NativeSelect>
                     <Button onClick={changeBankAccount}>Перейти</Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить счёт</Button>
+                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить
+                    счёт</Button>
                 <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Удаление счёта'}>
@@ -229,7 +278,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ba
                     </Modal>
                 </Modal>
                 <Button onClick={() => setCodeModalState(!codeModalState)}>Пригласительный код</Button>
-                <Modal title={"Пригласительный код для счёта "+props.bankAccount.name}
+                <Modal title={"Пригласительный код для счёта " + props.bankAccount.name}
                        opened={codeModalState} onClose={() => setCodeModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <Text>{props.bankAccount.invitingCode}</Text>
@@ -247,8 +296,8 @@ export const getServerSideProps = async (ctx: any) => {
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
 
-    const { NEXTAUTH_URL } = process.env;
-    const response = await fetch (`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
+    const {NEXTAUTH_URL} = process.env;
+    const response = await fetch(`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
     if (!response.ok) throw new Error(response.statusText);
     const bankAccounts = (await response.json()).result as { label: string, value: string }[];
     const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
