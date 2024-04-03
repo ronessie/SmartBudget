@@ -29,7 +29,8 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
         fio: props.user.fio,
         email: props.user.email,
         twoFA: props.user.twoStepAuth,
-        bankAccounts: props.bankAccounts
+        bankAccounts: props.bankAccounts,
+        selectBankAccount: props.bankAccounts[0].value
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -97,9 +98,29 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
 
         if (!response.ok) throw new Error(response.statusText);
     }
+
+    async function changeBankAccount(){
+        if (!data.selectBankAccount)
+        {
+            alert("Выберите счёт")
+            return
+        }
+        const response = await fetch(`/api/changeCurrentBankAccount`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: props.user._id,
+                bankAccount_id: data.selectBankAccount
+            }),
+        });
+
+        if (!response.ok) throw new Error(response.statusText);
+        alert("Аккаунт успешно сменён")
+    }
     function updateData()
     {
-
     }
 
     return (
@@ -190,8 +211,9 @@ export default function Page(props: { user: IUser, currentBankAccount: ObjectId,
                 <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Смена счёта'}>
-                    <h1>Test change account</h1>
-                    <NativeSelect data={data.bankAccounts}></NativeSelect>
+                    <h1>Выберите счёт:</h1>
+                    <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)} data={data.bankAccounts}></NativeSelect>
+                    <Button onClick={changeBankAccount}>Перейти</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить счёт</Button>
                 <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
