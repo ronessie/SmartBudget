@@ -30,7 +30,7 @@ export default function Page(props: { user: IUser }) {
         popUpEmail: "",
         fio: "",
         checkPassword: "",
-        twoStepAuthCode: props.user.twoStepAuthCode,
+        twoStepAuthCode: "",
         check2FA: ""
     });
     const [authDrawerState, drawerAuthMethods] = useDisclosure(false);
