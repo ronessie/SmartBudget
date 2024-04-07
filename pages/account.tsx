@@ -8,7 +8,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, PinInput, Switch, Text, TextInput} from "@mantine/core";
+import {Button, Group, Modal, NativeSelect, Switch, Text, TextInput} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {useRouter} from "next/navigation";
@@ -79,12 +79,36 @@ export default function Page(props: {
 
         const json = await response.json();
         const inviteToBankAccount = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode)
+        const firstUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.user_id === props.user._id)
+        const secondUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.secondUser_id === props.user._id)
+        const allUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.secondUser_id)
+        if (firstUser || secondUser) {
+            alert("Вы не можете подключиться к своему счёту")
+            return;
+        }
+        if (allUser) {
+            alert("У данного счёта уже есть второй пользователь")
+            return;
+        }
         if (!inviteToBankAccount) {
             alert("Код введён не верно, попробуйте ещё раз")
             return;
         } else {
-            alert("Всё круто")
-            response = await fetch(`/api/changeCurrentBankAccount`, {
+
+            const response = await fetch(`/api/updateBankAccountSecondUser`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: props.user._id,
+                    id: inviteToBankAccount._id
+                }),
+            });
+
+            if (!response.ok) throw new Error(response.statusText);
+
+            const responseUpdate = await fetch(`/api/changeCurrentBankAccount`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,18 +119,16 @@ export default function Page(props: {
                 }),
             });
 
-            if (!response.ok) throw new Error(response.statusText);
+            if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
             setBillModalState(false);
             setInviteCodeModalState(false);
-
-            //тут надо прописать смену текущего аккаунта для данного пользователя
         }
     }
 
     async function dataToDB() {
-        const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString());
+        const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString(), data.name, data.currency, data.balance);
 
-        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
+        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);// тут выпадает ошибка
 
         if (!response.ok) throw new Error(response.statusText);
 
@@ -122,7 +144,7 @@ export default function Page(props: {
         });
 
         if (!changeResponse.ok) throw new Error(response.statusText);
-        await router.push('/main')
+        router.push('/main')
     }
 
     async function changeBankAccount() {
@@ -204,13 +226,13 @@ export default function Page(props: {
                         onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
                         title="Введите Электронную почту"
                         value={data.changeBankName}
-                    /><br/>
-                    <h1>Тут ещё должна быть валюта</h1>
+                    />
+                    <NativeSelect label="Валюта:"></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
                     <Button onClick={updateData}
-                            style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
+                            style={{width: 410, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)}>Добавить
