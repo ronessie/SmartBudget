@@ -36,7 +36,10 @@ export default function Page(props: {
         twoFA: props.user.twoStepAuth,
         bankAccounts: props.bankAccounts,
         selectBankAccount: props.bankAccounts[0].value,
-        bankName: props.bankAccount.name
+        bankName: props.bankAccount.name,
+        changeFio: props.user.fio,
+        changeEmail: props.user.email,
+        changeBankName: props.bankAccount.name
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -141,7 +144,7 @@ export default function Page(props: {
     }
 
     async function updateData() {
-        if (!data.fio || !data.email)
+        if (!data.changeFio || !data.changeEmail || !data.changeBankName)
         {
             alert("Данные указаны не верно")
             return
@@ -153,13 +156,18 @@ export default function Page(props: {
             },
             body: JSON.stringify({
                 user_id: props.user._id,
-                fio: data.fio,
-                email: data.email,
-                twoFA: data.twoFA
+                fio: data.changeFio,
+                email: data.changeEmail,
+                twoFA: data.twoFA,
+                name: data.changeBankName,
             }),
         });
 
         if (!response.ok) throw new Error(response.statusText);
+        setChangeModalState(false);
+        handleFieldChange("fio", data.changeFio)
+        handleFieldChange("email", data.changeEmail)
+        //handleFieldChange("bankName", data.changeBankName)
         alert("Данные успешно обновлены")
     }
 
@@ -167,8 +175,9 @@ export default function Page(props: {
         <div className={styles.page}>
             <Header/>
             <div className={styles.pageContent}>
-                <h2>ФИО:</h2><h3>{data.fio}</h3>
-                <h2>Электронная почта:</h2><h3>{data.email}</h3>
+                <h2>ФИО: {data.fio}</h2>
+                <h2>Электронная почта: {data.email}</h2>
+                <h2>Название счёта: {data.bankName}</h2>
                 <Button style={{width: 200}}
                         onClick={() => setChangeModalState(!changeModalState)}>Изменить
                 </Button><br/>
@@ -177,25 +186,26 @@ export default function Page(props: {
                        title={'Редактирование данных'}>
                     <TextInput
                         label="ФИО:"
-                        onChange={(e) => handleFieldChange("fio", e.target.value)}
+                        onChange={(e) => handleFieldChange("changeFio", e.target.value)}
                         title="Введите ФИО"
-                        value={data.fio}
+                        value={data.changeFio}
                     />
                     <TextInput
                         label="Электронная почта:"
-                        onChange={(e) => handleFieldChange("email", e.target.value)}
+                        onChange={(e) => handleFieldChange("changeEmail", e.target.value)}
                         title="Введите Электронную почту"
-                        value={data.email}
+                        value={data.changeEmail}
                     />
                     <TextInput
                         label="Название счёта:"
-                        onChange={(e) => handleFieldChange("bankName", e.target.value)}
+                        onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
                         title="Введите Электронную почту"
-                        value={data.bankName}
+                        value={data.changeBankName}
                     /><br/>
                     <h1>Тут ещё должна быть валюта</h1>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
+                            /*value={data.twoFA}*/
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
                     <Button onClick={updateData}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
