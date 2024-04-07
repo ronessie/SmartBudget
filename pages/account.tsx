@@ -12,6 +12,7 @@ import {Button, Group, Modal, NativeSelect, PinInput, Switch, Text, TextInput} f
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {useRouter} from "next/navigation";
+import {currency} from "@/src/utils";
 
 export default function Page(props: {
     user: IUser,
@@ -33,13 +34,14 @@ export default function Page(props: {
         inviteCode: "",
         fio: props.user.fio,
         email: props.user.email,
-        twoFA: props.user.twoStepAuth,
+        //twoFA: props.user.twoStepAuth,
         bankAccounts: props.bankAccounts,
         selectBankAccount: props.bankAccounts[0].value,
         bankName: props.bankAccount.name,
         changeFio: props.user.fio,
         changeEmail: props.user.email,
-        changeBankName: props.bankAccount.name
+        changeBankName: props.bankAccount.name,
+        allCurrency: currency()
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -158,17 +160,18 @@ export default function Page(props: {
                 user_id: props.user._id,
                 fio: data.changeFio,
                 email: data.changeEmail,
-                twoFA: data.twoFA,
+                twoFA: checked2FA,
                 name: data.changeBankName,
             }),
         });
 
         if (!response.ok) throw new Error(response.statusText);
-        setChangeModalState(false);
-        handleFieldChange("fio", data.changeFio)
-        handleFieldChange("email", data.changeEmail)
-        //handleFieldChange("bankName", data.changeBankName)
         alert("Данные успешно обновлены")
+        setChangeModalState(false);// доделать обновление полей на странице без релода страницы
+        /*handleFieldChange("fio", data.changeFio)
+        handleFieldChange("email", data.changeEmail)
+        handleFieldChange("bankName", data.changeBankName)*/
+
     }
 
     return (
@@ -205,7 +208,6 @@ export default function Page(props: {
                     <h1>Тут ещё должна быть валюта</h1>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
-                            /*value={data.twoFA}*/
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
                     <Button onClick={updateData}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
@@ -241,7 +243,7 @@ export default function Page(props: {
                             onChange={(e) => handleFieldChange("currency", e.target.value)}
                             title="Укажите валюту. Пример: BYN"
                             style={{paddingTop: 25, marginLeft: 0}}
-                            data={['BYN', 'RUB', 'USD', 'PLN', 'EUR']}>
+                            /*data={data.allCurrency}*/>
                         </NativeSelect></Group>
                     <Button onClick={dateValidation}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить

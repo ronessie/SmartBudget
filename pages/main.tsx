@@ -14,7 +14,6 @@ import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import {useDisclosure} from "@mantine/hooks";
-import currency from "@/pages/data/currency"
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);

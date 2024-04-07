@@ -25,7 +25,7 @@ export default async function updateBalance(req: NextApiRequest, res: NextApiRes
     };
     const result2 = await bankCollection.updateOne(bankFilter, updateBankDocument);
 
-    if (result2.modifiedCount === 1 && result.modifiedCount === 1) {
+    if (result2.modifiedCount === 1 || result.modifiedCount === 1) {
         console.log(`Data updated successfully for ${fio}`);
         return res.status(200).json({success: true});
     } else {
