@@ -14,13 +14,13 @@ export function createUserObj(fio: string, email: string, password: string, bank
     };
 }
 
-export function createBankAccountObj(userId: string, bankAccount_id: string): IBankAccount {
+export function createBankAccountObj(userId: string, bankAccount_id: string, name?: string, currency?: string, balance?: number): IBankAccount {
     return {
         _id: bankAccount_id,
         user_id: userId,
-        name: "Счёт",
-        currency: "BYN",
-        balance: 0,
+        name: name ?? "Счёт",
+        currency: currency ?? "BYN",
+        balance: balance ?? 0,
         invitingCode: inviteCode(),
     };
 }

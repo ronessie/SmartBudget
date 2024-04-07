@@ -5,10 +5,23 @@ import styles from '../styles/pages.module.css'
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { IconCopy, IconCheck } from '@tabler/icons-react';
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Group, Modal, NativeSelect, Switch, Text, TextInput} from "@mantine/core";
+import {
+    ActionIcon,
+    Button,
+    CopyButton,
+    Fieldset,
+    Group,
+    Modal,
+    NativeSelect,
+    Switch,
+    Text,
+    TextInput,
+    Tooltip
+} from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {useRouter} from "next/navigation";
@@ -21,8 +34,6 @@ export default function Page(props: {
 }) {
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
-    const [deleteModalState, setDeleteModalState] = useState(false);
-    const [confirmDeleteModalState, setConfirmDeleteModalState] = useState(false);
     const [addCategoryModalState, setAddCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
     const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
@@ -31,10 +42,9 @@ export default function Page(props: {
         name: "Счёт",
         currency: "BYN",
         balance: 0,
-        inviteCode: "",
+        inviteCode: props.bankAccount.invitingCode,
         fio: props.user.fio,
         email: props.user.email,
-        //twoFA: props.user.twoStepAuth,
         bankAccounts: props.bankAccounts,
         selectBankAccount: props.bankAccounts[0].value,
         bankName: props.bankAccount.name,
@@ -53,7 +63,6 @@ export default function Page(props: {
     }
 
     const router = useRouter();
-
     async function dateValidation(e: any) {
         e.preventDefault();
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
@@ -144,7 +153,8 @@ export default function Page(props: {
         });
 
         if (!changeResponse.ok) throw new Error(response.statusText);
-        router.push('/main')
+        alert("Всё оки")
+        setBillModalState(false)
     }
 
     async function changeBankAccount() {
@@ -165,11 +175,11 @@ export default function Page(props: {
 
         if (!response.ok) throw new Error(response.statusText);
         alert("Аккаунт успешно сменён")
+        setChangeAccountModalState(false)
     }
 
     async function updateData() {
-        if (!data.changeFio || !data.changeEmail || !data.changeBankName)
-        {
+        if (!data.changeFio || !data.changeEmail || !data.changeBankName) {
             alert("Данные указаны не верно")
             return
         }
@@ -200,9 +210,11 @@ export default function Page(props: {
         <div className={styles.page}>
             <Header/>
             <div className={styles.pageContent}>
-                <h2>ФИО: {data.fio}</h2>
-                <h2>Электронная почта: {data.email}</h2>
-                <h2>Название счёта: {data.bankName}</h2>
+                <Fieldset style={{width: 400}} legend="Personal information">
+                    <h2>ФИО: {data.fio}</h2>
+                    <h2>Электронная почта: {data.email}</h2>
+                    <h2>Название счёта: {data.bankName}</h2>
+                </Fieldset>
                 <Button style={{width: 200}}
                         onClick={() => setChangeModalState(!changeModalState)}>Изменить
                 </Button><br/>
@@ -297,25 +309,25 @@ export default function Page(props: {
                                   data={data.bankAccounts}></NativeSelect>
                     <Button onClick={changeBankAccount}>Перейти</Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setDeleteModalState(!deleteModalState)}>Удалить
-                    счёт</Button>
-                <Modal opened={deleteModalState} onClose={() => setDeleteModalState(false)}
-                       overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                       title={'Удаление счёта'}>
-                    <h1>Test delete account</h1>
-                    <Button onClick={() => setConfirmDeleteModalState(!confirmDeleteModalState)}>Удалить</Button>
-                    <Modal opened={confirmDeleteModalState} onClose={() => setConfirmDeleteModalState(false)}
-                           overlayProps={{backgroundOpacity: 0, blur: 4}}
-                           title={'Вы уверены что хотите удалить аккаунт?'}>
-                        <Button>Да</Button>
-                        <Button variant="outline">Нет</Button>
-                    </Modal>
-                </Modal>
-                <Button onClick={() => setCodeModalState(!codeModalState)}>Пригласительный код</Button>
+                <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
+                    код</Button>
                 <Modal title={"Пригласительный код для счёта " + props.bankAccount.name}
                        opened={codeModalState} onClose={() => setCodeModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                    <Text>{props.bankAccount.invitingCode}</Text>
+                    <Text>{data.inviteCode}
+                    <CopyButton value={data.inviteCode ?? ""} timeout={2000}>
+                        {({ copied, copy }) => (
+                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                                <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                                    {copied ? (
+                                        <IconCheck style={{ width: 16 }} />
+                                    ) : (
+                                        <IconCopy style={{ width: 16 }} />
+                                    )}
+                                </ActionIcon>
+                            </Tooltip>
+                        )}
+                    </CopyButton></Text>
                 </Modal>
             </div>
         </div>
