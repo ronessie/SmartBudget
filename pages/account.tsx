@@ -56,10 +56,10 @@ export default function Page(props: {
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
     function handleFieldChange(fieldName: string, value: any) {
-        setData({
-            ...data,
+        setData(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
+        }));
     }
 
     const router = useRouter();
@@ -73,8 +73,6 @@ export default function Page(props: {
             alert("Укажите название счёта")
             return
         } else {
-            /*const response = await fetch(`/api/addBankAccount/bankAccounts`);
-            if (!response.ok) throw new Error(response.statusText);*/
             await dataToDB();
             alert("всё оки, работаем дальше")
         }
@@ -174,8 +172,10 @@ export default function Page(props: {
         });
 
         if (!response.ok) throw new Error(response.statusText);
+        handleFieldChange("bankName", props.bankAccount.name)
         alert("Аккаунт успешно сменён")
         setChangeAccountModalState(false)
+        ////
     }
 
     async function updateData() {
@@ -199,10 +199,11 @@ export default function Page(props: {
 
         if (!response.ok) throw new Error(response.statusText);
         alert("Данные успешно обновлены")
-        setChangeModalState(false);// доделать обновление полей на странице без релода страницы
-        /*handleFieldChange("fio", data.changeFio)
+        handleFieldChange("fio", data.changeFio)
         handleFieldChange("email", data.changeEmail)
-        handleFieldChange("bankName", data.changeBankName)*/
+        handleFieldChange("bankName", data.changeBankName)
+        setChangeModalState(false);// доделать обновление полей на странице без релода страницы
+
 
     }
 

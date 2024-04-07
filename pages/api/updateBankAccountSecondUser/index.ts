@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {connectToDatabase} from "@/src/database";
 
-export default async function updateBalance(req: NextApiRequest, res: NextApiResponse) {
+export default async function updateBankAccountSecondUser(req: NextApiRequest, res: NextApiResponse) {
     const {id, user_id} = req.body;
 
     const {db} = await connectToDatabase();
