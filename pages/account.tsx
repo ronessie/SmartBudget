@@ -24,7 +24,6 @@ import {
 } from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
-import {useRouter} from "next/navigation";
 import {currency} from "@/src/utils";
 
 export default function Page(props: {
@@ -62,7 +61,6 @@ export default function Page(props: {
         }));
     }
 
-    const router = useRouter();
     async function dateValidation(e: any) {
         e.preventDefault();
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
@@ -127,6 +125,9 @@ export default function Page(props: {
             });
 
             if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
+            const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
+            handleFieldChange("bankName", updateBankAccount.name)
+
             setBillModalState(false);
             setInviteCodeModalState(false);
         }
@@ -151,6 +152,13 @@ export default function Page(props: {
         });
 
         if (!changeResponse.ok) throw new Error(response.statusText);
+
+        const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
+        const updateUser = (await response.json()).user as IUser;
+        handleFieldChange("bankName", updateBankAccount.name)
+        handleFieldChange("fio", updateUser.fio)
+        handleFieldChange("email", updateUser.email)
+
         alert("Всё оки")
         setBillModalState(false)
     }
@@ -172,10 +180,12 @@ export default function Page(props: {
         });
 
         if (!response.ok) throw new Error(response.statusText);
-        handleFieldChange("bankName", props.bankAccount.name)
+
+        const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
+        handleFieldChange("bankName", updateBankAccount.name)
+
         alert("Аккаунт успешно сменён")
         setChangeAccountModalState(false)
-        ////
     }
 
     async function updateData() {
