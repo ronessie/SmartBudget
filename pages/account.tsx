@@ -250,7 +250,8 @@ export default function Page(props: {
                         title="Введите Электронную почту"
                         value={data.changeBankName}
                     />
-                    <NativeSelect label="Валюта:"></NativeSelect><br/>
+                    <NativeSelect onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                  title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
@@ -288,7 +289,7 @@ export default function Page(props: {
                             onChange={(e) => handleFieldChange("currency", e.target.value)}
                             title="Укажите валюту. Пример: BYN"
                             style={{paddingTop: 25, marginLeft: 0}}
-                            /*data={data.allCurrency}*/>
+                            data={data.allCurrency}>
                         </NativeSelect></Group>
                     <Button onClick={dateValidation}
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить

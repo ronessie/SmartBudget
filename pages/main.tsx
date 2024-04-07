@@ -14,6 +14,7 @@ import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import {useDisclosure} from "@mantine/hooks";
+import {currency} from "@/src/utils";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -33,8 +34,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
-        beforeCurrency: "",
-        afterCurrency: "",
+        beforeCurrency: currency(),
+        afterCurrency: currency(),
         newSum: 0
     });
     const {t} = useTranslation('common');
@@ -211,13 +212,13 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <div>
                             <TextInput style={{width: 270}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}}
+                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.beforeCurrency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
                         </div>
                         <div>
                             <TextInput style={{width: 270}} label="Итоговая сумма"
                                        onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}}
+                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.afterCurrency}
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>

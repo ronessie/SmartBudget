@@ -225,7 +225,7 @@ export function currency(){
         "ZMW": "Zambian Kwacha",
         "ZWL": "Zimbabwean Dollar"
     }
-    const result = [];
-
-    return Object.entries(symbols).map((e) => result.push({label: e[0], value: e[1]}))
+    const result: {label: string, value: string}[] = [];
+    Object.entries(symbols).map((e) => result.push({label: e[0], value: e[1]}))
+    return  result
 }
