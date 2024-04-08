@@ -79,7 +79,6 @@ export function currency(){
         "BTN": "Bhutanese Ngultrum",
         "BWP": "Botswanan Pula",
         "BYN": "New Belarusian Ruble",
-        "BYR": "Belarusian Ruble",
         "BZD": "Belize Dollar",
         "CAD": "Canadian Dollar",
         "CDF": "Congolese Franc",

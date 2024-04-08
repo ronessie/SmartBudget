@@ -49,6 +49,7 @@ export default function Page(props: {
         bankName: props.bankAccount.name,
         changeFio: props.user.fio,
         changeEmail: props.user.email,
+        changeCurrency: props.bankAccount.currency,
         changeBankName: props.bankAccount.name,
         allCurrency: currency()
     });
@@ -204,6 +205,7 @@ export default function Page(props: {
                 email: data.changeEmail,
                 twoFA: checked2FA,
                 name: data.changeBankName,
+                currency: data.changeCurrency
             }),
         });
 
@@ -212,9 +214,7 @@ export default function Page(props: {
         handleFieldChange("fio", data.changeFio)
         handleFieldChange("email", data.changeEmail)
         handleFieldChange("bankName", data.changeBankName)
-        setChangeModalState(false);// доделать обновление полей на странице без релода страницы
-
-
+        setChangeModalState(false);
     }
 
     return (
@@ -250,7 +250,7 @@ export default function Page(props: {
                         title="Введите Электронную почту"
                         value={data.changeBankName}
                     />
-                    <NativeSelect onChange={(e) => handleFieldChange("currency", e.target.value)}
+                    <NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}
                                   title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}

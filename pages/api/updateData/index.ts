@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import {connectToDatabase} from "@/src/database";
 
 export default async function updateData(req: NextApiRequest, res: NextApiResponse) {
-    const {user_id, fio, email, twoFA, name} = req.body;
+    const {user_id, fio, email, twoFA, name, currency} = req.body;
 
     const {db} = await connectToDatabase();
     const collection = await db.collection('users');
@@ -21,6 +21,7 @@ export default async function updateData(req: NextApiRequest, res: NextApiRespon
     const updateBankDocument = {
         $set: {
             name: name,
+            currency: currency
         }
     };
     const result2 = await bankCollection.updateOne(bankFilter, updateBankDocument);
