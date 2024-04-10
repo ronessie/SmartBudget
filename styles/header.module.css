@@ -3,7 +3,7 @@
     width: 100%;
     height: 56px;
     margin-bottom: 120px;
-    /*background-color: var(--mantine-color-body);*/
+    color: white;
     background-color: #cccccc;
     border-bottom: 1px solid var(--mantine-color-gray-3), var(--mantine-color-dark-4);
 }
@@ -15,13 +15,12 @@
     align-items: center;
 }
 
-.link {
+.button {
     display: block;
     line-height: 1;
     padding: 8px 12px;
     border-radius: var(--mantine-radius-sm);
     text-decoration: none;
-    color: var(--mantine-color-gray-7), var(--mantine-color-dark-0);
     font-size: var(--mantine-font-size-sm);
     font-weight: 500;
 
@@ -29,7 +28,4 @@
         background-color: var(--mantine-color-blue-filled);
         color: var(--mantine-color-white);
     }
-}
-.link:hover {
-    background-color: var(--mantine-color-gray-0), var(--mantine-color-dark-6);
 }

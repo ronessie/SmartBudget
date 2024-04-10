@@ -3,7 +3,18 @@ import path from 'path';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {Button, Drawer, Modal, PasswordInput, PinInput, SegmentedControl, TextInput} from "@mantine/core";
+import {
+    Burger,
+    Button,
+    Container,
+    Drawer,
+    Group,
+    Modal,
+    PasswordInput,
+    PinInput,
+    SegmentedControl,
+    TextInput
+} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "@/styles/pages.module.css";
 import React, {useState} from "react";
@@ -12,8 +23,9 @@ import validator from "validator";
 import IUser from "@/src/types/IUser";
 import {getSession, signIn} from "next-auth/react";
 import {ObjectId} from "bson";
-import IndexHeader from "../components/indexHeader"
+//import IndexHeader from "../components/indexHeader"
 import {connectToDatabase} from "@/src/database";
+import classes from "@/styles/header.module.css";
 
 path.resolve('./next.config.js');
 
@@ -41,6 +53,25 @@ export default function Page(props: { user: IUser }) {
     const changeLanguage = async (language: string) => {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
+
+    function IndexHeader() {
+        const [opened, { toggle }] = useDisclosure(false);
+        const router = useRouter();
+
+        return (
+            <header className={classes.header}>
+                <Container size="md" className={classes.inner}>
+                    <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}} onClick={()=> router.push('/')}/>
+                    <Group gap={5} visibleFrom="xs">
+                        <Button className={classes.button}>About</Button>
+                        <Button className={classes.button}>Contacts</Button>
+                        <Button className={classes.button} onClick={drawerAuthMethods.open}>LogIn/SignIn</Button>
+                    </Group>
+                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+                </Container>
+            </header>
+        );
+    }
 
     async function resend2FA(e: any) {
         e.preventDefault()
@@ -251,7 +282,6 @@ export default function Page(props: { user: IUser }) {
                 <br/>
                 <Button onClick={() => changeLanguage('en')}>EN</Button>
                 <Button onClick={() => changeLanguage('ru')}>RU</Button>
-                <Button onClick={drawerAuthMethods.open}>Open drawer Auth</Button>
                 <div>
                     <Drawer
                         opened={authDrawerState}
