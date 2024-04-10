@@ -22,6 +22,8 @@ export function createBankAccountObj(userId: string, bankAccount_id: string, nam
         currency: currency ?? "BYN",
         balance: balance ?? 0,
         invitingCode: inviteCode(),
+        incomeCategories: new Map<string, string>([["salary","salary"],["gift","gift"],["premium","premium"],["debt refund","debt refund"],["cashback","cashback"],["other","other"]]),
+        expensesCategories: new Map<string, string>([["products","products"],["clothes","clothes"],["house","house"],["car","car"],["entertainment","entertainment"],["duty","duty"],["other","other"]])
     };
 }
 

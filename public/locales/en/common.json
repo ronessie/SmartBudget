@@ -79,7 +79,7 @@
           "premium": "Premium",
           "debtRefund": "Debt refund",
           "other": "Other",
-          "cachek": "Cachek"
+          "cashback": "Cashback"
         }
       },
       "dateLabel": "Enter the date",

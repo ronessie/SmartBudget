@@ -9,4 +9,6 @@ export default interface IBankAccount {
     balance?: number;
     lastUpdateDate?: DateTime;
     invitingCode?: string;
+    incomeCategories: Map<string, string>,
+    expensesCategories: Map<string, string>,
 }

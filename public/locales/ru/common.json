@@ -79,7 +79,7 @@
           "other": "Другое",
           "premium": "Премия",
           "debtRefund": "Возврат долга",
-          "cachek": "Кэшбек"
+          "cashback": "Кэшбек"
         }
       },
       "dateLabel": "Укажите дату",
