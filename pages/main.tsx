@@ -34,8 +34,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
-        beforeCurrency: currency(),
-        afterCurrency: currency(),
+        currency: currency(),
+        beforeCurrency: "",
+        afterCurrency: "",
         newSum: 0
     });
     const {t} = useTranslation('common');
@@ -168,8 +169,19 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
+        const url = "https://api.apilayer.com/exchangerates_data/convert?to=" + convertData.beforeCurrency + "&from=" + convertData.afterCurrency + "&amount=" + convertData.sum
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'apikey': 'hE44IsmHdazgHUSbLcj34Sl2cGPVsduz'
+                }
+            })
+        if (!response.ok) throw new Error(response.statusText);
+        console.log(response)
+
         // api/converter/index.ts
-        const myHeaders = new Headers();
+        /*const myHeaders = new Headers();
         myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");
 
         const response = await fetch('/api/converter', {
@@ -185,9 +197,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
         if (response.ok) {
             console.log('converter api worked successfully!');
+            const convert = (await response.json()).result;
+            convertData.newSum=convert;
         } else {
             console.error('Failed work converter.');
-        }
+        }*/
     }
 
     const {data: session} = useSession();
@@ -212,13 +226,13 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <div>
                             <TextInput style={{width: 270}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.beforeCurrency}
+                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
                         </div>
                         <div>
-                            <TextInput style={{width: 270}} label="Итоговая сумма"
-                                       onChange={(e) => handleConvertChange("newSum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.afterCurrency}
+                            <TextInput readOnly={true} style={{width: 270}} label="Итоговая сумма"
+                                       value={convertData.newSum}/>
+                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
@@ -251,7 +265,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                 {value: 'gift', label: t('mainPage.incomeModal.selector.value.gift')},
                                 {value: 'premium', label: t('mainPage.incomeModal.selector.value.premium')},
                                 {value: 'debt refund', label: t('mainPage.incomeModal.selector.value.debtRefund')},
-                                {value: 'cachek', label: t('mainPage.incomeModal.selector.value.cachek')},
+                                {value: 'cashback', label: t('mainPage.incomeModal.selector.value.cashback')},
                                 {value: 'other', label: t('mainPage.expensesModal.selector.value.other')},
                             ]}>
                             </NativeSelect><br/>
