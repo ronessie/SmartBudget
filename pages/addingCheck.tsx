@@ -9,9 +9,16 @@ import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import IBankAccount from "@/src/types/IBankAccount";
+import {useRef} from 'react';
+import {Text, Group, Button, rem, useMantineTheme} from '@mantine/core';
+import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
+import {IconCloudUpload, IconX, IconDownload} from '@tabler/icons-react';
+import classes from '@/styles/dropzoneButton.module.css';
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
+    const theme = useMantineTheme();
+    const openRef = useRef<() => void>(null);
 
     const handleImageChange = (e: any) => {
         setImage(e);
@@ -64,10 +71,47 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         <div className={styles.page}>
             <Header/>
             <div className={styles.pageContent}>
-                <h1>Check Upload</h1>
-                <FileInput value={image} accept="image/*" onChange={handleImageChange} placeholder="Выберите файл"
-                           style={{width: 400}}/>
-                <button onClick={handleUpload}>Upload</button>
+                <Dropzone
+                    openRef={openRef}
+                    onDrop={handleImageChange}
+                    className={classes.dropzone}
+                    radius="md"
+                    accept={[MIME_TYPES.png]}
+                    maxSize={30 * 1024 ** 2}>
+                    <div style={{pointerEvents: 'none'}}><br/>
+                        <Group justify="center">
+                            <Dropzone.Accept>
+                                <IconDownload
+                                    style={{width: rem(50), height: rem(50)}}
+                                    color={theme.colors.blue[6]}
+                                    stroke={1.5}
+                                />
+                            </Dropzone.Accept>
+                            <Dropzone.Reject>
+                                <IconX
+                                    style={{width: rem(50), height: rem(50)}}
+                                    color={theme.colors.red[6]}
+                                    stroke={1.5}
+                                />
+                            </Dropzone.Reject>
+                            <Dropzone.Idle>
+                                <IconCloudUpload style={{width: rem(50), height: rem(50)}} stroke={1.5}/>
+                            </Dropzone.Idle>
+                        </Group>
+
+                        <Text ta="center" fw={700} fz="lg" mt="xl">
+                            <Dropzone.Accept>Drop files here</Dropzone.Accept>
+                            <Dropzone.Reject>Png file less than 30mb</Dropzone.Reject>
+                            <Dropzone.Idle>Upload file</Dropzone.Idle>
+                        </Text>
+                        <Text ta="center" fz="sm" mt="xs" c="dimmed">
+                            Drag&apos;n&apos;drop files here to upload.
+                        </Text>
+                    </div><br/>
+                </Dropzone><br/>
+                <Button className={classes.control} size="md" radius="xl" onClick={handleUpload}>
+                    Upload
+                </Button>
             </div>
         </div>
     );
