@@ -28,7 +28,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         if (image) {
             try {
                 const formData = new FormData();
-                formData.append('image', image);
+                formData.append('image', image[0]);
 
                 const response = await fetch('/api/addCheck/checks', {
                     method: 'POST',
@@ -72,6 +72,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             <Header/>
             <div className={styles.pageContent}>
                 <Dropzone
+                    maxFiles={1}
                     openRef={openRef}
                     onDrop={handleImageChange}
                     className={classes.dropzone}
