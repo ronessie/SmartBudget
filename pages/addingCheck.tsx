@@ -1,6 +1,6 @@
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {useState} from "react";
-import {FileInput} from "@mantine/core";
+import Footer from "../components/footer"
 import Header from "../components/header"
 import styles from '../styles/pages.module.css'
 import {ObjectId} from "bson";
@@ -114,6 +114,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     Upload
                 </Button>
             </div>
+            <Footer/>
         </div>
     );
 };

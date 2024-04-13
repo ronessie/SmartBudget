@@ -13,6 +13,7 @@ import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
+import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
 import {currency} from "@/src/utils";
 
@@ -332,6 +333,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

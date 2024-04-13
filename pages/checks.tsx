@@ -6,6 +6,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {Image} from "@mantine/core";
 import Header from "../components/header"
 import styles from "@/styles/pages.module.css";
+import Footer from "../components/footer"
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     return (
@@ -14,6 +15,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             <div className={styles.pageContent}>
                 <Image src="/uploads/1710020725878.png" h={"auto"}/>
             </div>
+            <Footer/>
         </div>
     )
 }

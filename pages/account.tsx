@@ -9,6 +9,7 @@ import { IconCopy, IconCheck } from '@tabler/icons-react';
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
+import Footer from "../components/footer"
 import {
     ActionIcon,
     Button,
@@ -342,6 +343,7 @@ export default function Page(props: {
                     </CopyButton></Text>
                 </Modal>
             </div>
+            <Footer/>
         </div>
     )
 }

@@ -23,7 +23,7 @@ import validator from "validator";
 import IUser from "@/src/types/IUser";
 import {getSession, signIn} from "next-auth/react";
 import {ObjectId} from "bson";
-//import IndexHeader from "../components/indexHeader"
+import Footer from "../components/footer"
 import {connectToDatabase} from "@/src/database";
 import classes from "@/styles/header.module.css";
 
@@ -428,6 +428,7 @@ export default function Page(props: { user: IUser }) {
                     <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}>{t('2FA.resendLink')}</Link>
                 </Modal>
             </div>
+            <Footer/>
         </div>
     )
 }
