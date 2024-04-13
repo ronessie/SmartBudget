@@ -169,7 +169,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
-        // api/converter/index.ts
         let { sum, afterCurrency, beforeCurrency } = convertData;
 
         const response = await fetch('/api/converter', {
