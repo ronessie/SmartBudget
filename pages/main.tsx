@@ -35,8 +35,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const [convertData, setConvertData] = useState({
         sum: 1,
         currency: currency(),
-        beforeCurrency: "",
-        afterCurrency: "",
+        beforeCurrency: "AED",
+        afterCurrency: "AED",
         newSum: 0
     });
     const {t} = useTranslation('common');
