@@ -169,39 +169,25 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
-        const url = "https://api.apilayer.com/exchangerates_data/convert?to=" + convertData.beforeCurrency + "&from=" + convertData.afterCurrency + "&amount=" + convertData.sum
-
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'apikey': 'hE44IsmHdazgHUSbLcj34Sl2cGPVsduz'
-                }
-            })
-        if (!response.ok) throw new Error(response.statusText);
-        console.log(response)
-
         // api/converter/index.ts
-        /*const myHeaders = new Headers();
-        myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");
+        let { sum, afterCurrency, beforeCurrency } = convertData;
 
         const response = await fetch('/api/converter', {
-            method: 'GET',
-            redirect: 'follow',
-            headers: myHeaders,
+            method: 'POST',
             body: JSON.stringify({
-                sum: convertData.sum,
-                afterCurrency: convertData.afterCurrency,
-                beforeCurrency: convertData.beforeCurrency
+                sum,
+                afterCurrency,
+                beforeCurrency
             }),
         });
 
         if (response.ok) {
             console.log('converter api worked successfully!');
             const convert = (await response.json()).result;
-            convertData.newSum=convert;
+            handleConvertChange("newSum", convert?.toFixed(2));
         } else {
             console.error('Failed work converter.');
-        }*/
+        }
     }
 
     const {data: session} = useSession();
