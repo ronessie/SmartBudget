@@ -252,7 +252,7 @@ export default function Page(props: {
                         value={data.changeBankName}
                     />
                     <NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}
-                                  title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}></NativeSelect><br/>
+                                  title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency} defaultValue={props.bankAccount.currency}></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>

@@ -213,7 +213,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             <TextInput style={{width: 270}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
                             <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
-                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
+                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)} defaultValue={props.bankAccount.currency}/>
                         </div>
                         <div>
                             <TextInput readOnly={true} style={{width: 270}} label="Итоговая сумма"
