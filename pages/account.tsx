@@ -282,14 +282,14 @@ export default function Page(props: {
                         <TextInput
                             label="Введите начальную сумму и укажите валюту"
                             placeholder="1000"
-                            style={{paddingRight: 0, width: 316}}
+                            style={{paddingRight: 0, width: 312}}
                             onChange={(e) => handleFieldChange("balance", e.target.value)}
                             title="Пример: 1000 BYN"
                         />
                         <NativeSelect
                             onChange={(e) => handleFieldChange("currency", e.target.value)}
                             title="Укажите валюту. Пример: BYN"
-                            style={{paddingTop: 25, marginLeft: 0}}
+                            style={{paddingTop: 25, marginLeft: 0, width: 80}}
                             data={data.allCurrency}>
                         </NativeSelect></Group>
                     <Button onClick={dateValidation}
