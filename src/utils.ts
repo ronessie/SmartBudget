@@ -15,6 +15,25 @@ export function createUserObj(fio: string, email: string, password: string, bank
 }
 
 export function createBankAccountObj(userId: string, bankAccount_id: string, name?: string, currency?: string, balance?: number): IBankAccount {
+    const incomeCategories: { [key: string]: string } = {
+        "salary": "salary",
+        "gift": "gift",
+        "premium": "premium",
+        "debt refund": "debt refund",
+        "cashback": "cashback",
+        "other": "other"
+    }
+
+    const expensesCategories: { [key: string]: string } = {
+        "products": "products",
+        "clothes": "clothes",
+        "house": "house",
+        "car": "car",
+        "entertainment": "entertainment",
+        "duty": "duty",
+        "other": "other"
+    }
+
     return {
         _id: bankAccount_id,
         user_id: userId,
@@ -22,8 +41,8 @@ export function createBankAccountObj(userId: string, bankAccount_id: string, nam
         currency: currency ?? "BYN",
         balance: balance ?? 0,
         invitingCode: inviteCode(),
-        incomeCategories: new Map<string, string>([["salary","salary"],["gift","gift"],["premium","premium"],["debt refund","debt refund"],["cashback","cashback"],["other","other"]]),
-        expensesCategories: new Map<string, string>([["products","products"],["clothes","clothes"],["house","house"],["car","car"],["entertainment","entertainment"],["duty","duty"],["other","other"]])
+        incomeCategories,
+        expensesCategories
     };
 }
 

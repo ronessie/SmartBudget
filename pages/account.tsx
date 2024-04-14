@@ -40,7 +40,7 @@ export default function Page(props: {
     const [codeModalState, setCodeModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
-        currency: "BYN",
+        currency: props.bankAccount.currency,
         balance: 0,
         inviteCode: props.bankAccount.invitingCode,
         fio: props.user.fio,
@@ -289,6 +289,7 @@ export default function Page(props: {
                             onChange={(e) => handleFieldChange("currency", e.target.value)}
                             title="Укажите валюту. Пример: BYN"
                             style={{paddingTop: 25, marginLeft: 0, width: 80}}
+                            defaultValue={props.bankAccount.currency}
                             data={data.allCurrency}>
                         </NativeSelect></Group>
                     <Button onClick={dateValidation}
@@ -318,7 +319,7 @@ export default function Page(props: {
                        title={'Смена счёта'}>
                     <h1>Выберите счёт:</h1>
                     <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
-                                  data={data.bankAccounts}></NativeSelect>
+                                  data={data.bankAccounts} defaultValue={props.bankAccount.name}></NativeSelect>//
                     <Button onClick={changeBankAccount}>Перейти</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
