@@ -74,7 +74,6 @@ export default function Page(props: {
             return
         } else {
             await dataToDB();
-            alert("всё оки, работаем дальше")
         }
     }
 
@@ -138,7 +137,7 @@ export default function Page(props: {
     async function dataToDB() {
         const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString(), data.name, data.currency, data.balance);
 
-        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);// тут выпадает ошибка
+        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
 
         if (!response.ok) throw new Error(response.statusText);
 
@@ -155,13 +154,13 @@ export default function Page(props: {
 
         if (!changeResponse.ok) throw new Error(response.statusText);
 
-        const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
-        const updateUser = (await response.json()).user as IUser;
+        const responseJson = await changeResponse.json()
+        const updateBankAccount = responseJson.bankAccount as IBankAccount
+        const updateUser = responseJson.user as IUser
         handleFieldChange("bankName", updateBankAccount.name)
         handleFieldChange("fio", updateUser.fio)
         handleFieldChange("email", updateUser.email)
-
-        alert("Всё оки")
+        alert("всё оки, работаем дальше")
         setBillModalState(false)
     }
 
