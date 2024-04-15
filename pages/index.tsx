@@ -26,6 +26,7 @@ import {ObjectId} from "bson";
 import Footer from "../components/footer"
 import {connectToDatabase} from "@/src/database";
 import classes from "@/styles/header.module.css";
+import { notifications } from '@mantine/notifications';
 
 path.resolve('./next.config.js');
 

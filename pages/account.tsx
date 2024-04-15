@@ -26,6 +26,7 @@ import {
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {currency} from "@/src/utils";
+import {notifications} from "@mantine/notifications";
 
 export default function Page(props: {
     user: IUser,
@@ -66,11 +67,19 @@ export default function Page(props: {
     async function dateValidation(e: any) {
         e.preventDefault();
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
-            alert("Сумма введена не верно, попробуйте ещё раз.")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Сумма введена не верно, попробуйте ещё раз.',
+            })
+            //alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
         if (!data.name) {
-            alert("Укажите название счёта")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Укажите название счёта',
+            })
+            //alert("Укажите название счёта")
             return
         } else {
             await dataToDB();
@@ -89,15 +98,27 @@ export default function Page(props: {
         const secondUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.secondUser_id === props.user._id)
         const allUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.secondUser_id)
         if (firstUser || secondUser) {
-            alert("Вы не можете подключиться к своему счёту")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Вы не можете подключиться к своему счёту',
+            })
+            //alert("Вы не можете подключиться к своему счёту")
             return;
         }
         if (allUser) {
-            alert("У данного счёта уже есть второй пользователь")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'У данного счёта уже есть второй пользователь',
+            })
+            //alert("У данного счёта уже есть второй пользователь")
             return;
         }
         if (!inviteToBankAccount) {
-            alert("Код введён не верно, попробуйте ещё раз")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Код введён не верно, попробуйте ещё раз',
+            })
+            //alert("Код введён не верно, попробуйте ещё раз")
             return;
         } else {
 
@@ -158,9 +179,14 @@ export default function Page(props: {
         const updateBankAccount = responseJson.bankAccount as IBankAccount
         const updateUser = responseJson.user as IUser
         handleFieldChange("bankName", updateBankAccount.name)
+        handleFieldChange("changeBankName", updateBankAccount.name)
         handleFieldChange("fio", updateUser.fio)
         handleFieldChange("email", updateUser.email)
-        alert("всё оки, работаем дальше")
+        notifications.show({
+            title: 'Уведомление',
+            message: 'всё оки, работаем дальше',
+        })
+        //alert("всё оки, работаем дальше")
         setBillModalState(false)
     }
 
@@ -184,14 +210,23 @@ export default function Page(props: {
 
         const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
         handleFieldChange("bankName", updateBankAccount.name)
+        handleFieldChange("changeBankName", updateBankAccount.name)
 
-        alert("Аккаунт успешно сменён")
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Аккаунт успешно сменён',
+        })
+        //alert("Аккаунт успешно сменён")
         setChangeAccountModalState(false)
     }
 
     async function updateData() {
         if (!data.changeFio || !data.changeEmail || !data.changeBankName) {
-            alert("Данные указаны не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Данные указаны не верно',
+            })
+            //alert("Данные указаны не верно")
             return
         }
         const response = await fetch(`/api/updateData`, {
@@ -210,7 +245,11 @@ export default function Page(props: {
         });
 
         if (!response.ok) throw new Error(response.statusText);
-        alert("Данные успешно обновлены")
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Данные успешно обновлены',
+        })
+        //alert("Данные успешно обновлены")
         handleFieldChange("fio", data.changeFio)
         handleFieldChange("email", data.changeEmail)
         handleFieldChange("bankName", data.changeBankName)
@@ -319,7 +358,7 @@ export default function Page(props: {
                        title={'Смена счёта'}>
                     <h1>Выберите счёт:</h1>
                     <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
-                                  data={data.bankAccounts} defaultValue={props.bankAccount.name}></NativeSelect>//
+                                  data={data.bankAccounts}></NativeSelect>
                     <Button onClick={changeBankAccount}>Перейти</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный

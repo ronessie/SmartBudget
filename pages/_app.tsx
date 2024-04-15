@@ -8,10 +8,12 @@ import '@mantine/dates/styles.css';
 import '@mantine/charts/styles.css';
 import {MantineProvider} from '@mantine/core';
 import {ModalsProvider} from "@mantine/modals";
+import {Notifications} from "@mantine/notifications";
 
 const App = ({Component, pageProps: {session, ...pageProps}}: AppProps) => {
     return (
         <MantineProvider defaultColorScheme="light">
+            <Notifications/>
             <ModalsProvider>
                 <SessionProvider session={session}>
                     <Head>

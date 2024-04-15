@@ -8,7 +8,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Drawer, Modal, NativeSelect, TextInput} from "@mantine/core";
+import {Button, Drawer, Modal, NativeSelect, Paper, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
@@ -170,7 +170,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
-        let { sum, afterCurrency, beforeCurrency } = convertData;
+        let {sum, afterCurrency, beforeCurrency} = convertData;
 
         const response = await fetch('/api/converter', {
             method: 'POST',
@@ -213,7 +213,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             <TextInput style={{width: 270}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
                             <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
-                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)} defaultValue={props.bankAccount.currency}/>
+                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
+                                          defaultValue={props.bankAccount.currency}/>
                         </div>
                         <div>
                             <TextInput readOnly={true} style={{width: 270}} label="Итоговая сумма"
@@ -224,12 +225,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
                     <h1>{t('mainPage.yourBankAccount')}</h1>
-                    <div><br/>
-                        <h1>{props.bankAccount.name}</h1><br/>
-                        <h1>{data.balance} {props.bankAccount.currency}</h1>
-                        <br/>
-                        <h1>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
-                    </div>
+                    <Paper shadow="md" radius="md" p="xl" style={{backgroundColor: "lightgrey", width: 400, height: 190}}>
+                        <div>
+                            <h1>{props.bankAccount.name}</h1><br/>
+                            <h1>{data.balance} {props.bankAccount.currency}</h1>
+                            <br/>
+                            <h1>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
+                        </div>
+                    </Paper><br/>
                     <div>
                         <Button variant="light" color="green"
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
