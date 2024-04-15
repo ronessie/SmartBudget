@@ -14,6 +14,7 @@ import {Text, Group, Button, rem, useMantineTheme} from '@mantine/core';
 import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
 import {IconCloudUpload, IconX, IconDownload} from '@tabler/icons-react';
 import classes from '@/styles/dropzoneButton.module.css';
+import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
@@ -58,7 +59,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 });
 
                 if (!dbResponse.ok) throw new Error(dbResponse.statusText);
-                alert("Файл успешно загружен")
+                notifications.show({
+                    title: 'Уведомление',
+                    message: 'Файл успешно загружен',
+                })
+                //alert("Файл успешно загружен")
             } catch (error) {
                 console.error("Ошибка при сохранении изображения:", error);
             }

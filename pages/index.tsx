@@ -90,7 +90,11 @@ export default function Page(props: { user: IUser }) {
         });
 
         if (response2FA.ok) {
-            alert("Код уже отправлен Вам на почту");
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Код уже отправлен Вам на почту',
+            })
+            //alert("Код уже отправлен Вам на почту");
             console.log('Email sent successfully!');
         } else {
             console.error('Failed to send email.');
@@ -100,10 +104,18 @@ export default function Page(props: { user: IUser }) {
     async function check2FA(e: any) {
         e.preventDefault()
         if (!data.check2FA || data.check2FA != data.twoStepAuthCode) {
-            alert("код введён не верно, попробуйте ещё раз");
+            notifications.show({
+                title: 'Уведомление',
+                message: 'код введён не верно, попробуйте ещё раз',
+            })
+            //alert("код введён не верно, попробуйте ещё раз");
             return
         }
-        alert("Вы успешно вошли")
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Вы успешно вошли',
+        })
+        //alert("Вы успешно вошли")
         await router.push('/main');
     }
 
@@ -116,17 +128,29 @@ export default function Page(props: { user: IUser }) {
         const json = await response.json();
 
         if (!validator.isEmail(data.email.trim())) {
-            alert("Электронная почта введена не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Электронная почта введена не верно',
+            })
+            //alert("Электронная почта введена не верно")
             return;
         }
         if (!data.password) {
-            alert("Введите пароль")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Введите пароль',
+            })
+            //alert("Введите пароль")
             return;
         }
 
         const userEmail = json.users.find((user: IUser) => user.email === data.email && user.password === data.password);
         if (!userEmail) {
-            alert("Данные введены не верно, попробуйте ещё раз")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Данные введены не верно, попробуйте ещё раз',
+            })
+            //alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
         const checkUser2FA = json.users.find((user: IUser) => user.email === data.email && user.password === data.password && user.twoStepAuth === true);
@@ -147,7 +171,11 @@ export default function Page(props: { user: IUser }) {
             if (response2FA.ok) {
                 await signIn('credentials', {username: data.email, password: data.password, redirect: false});
                 setTwoFAState(true)
-                alert("Код уже отправлен Вам на почту");
+                notifications.show({
+                    title: 'Уведомление',
+                    message: 'Код уже отправлен Вам на почту',
+                })
+                //alert("Код уже отправлен Вам на почту");
                 console.log('Email sent successfully!');
             } else {
                 console.error('Failed to send email.');
@@ -155,7 +183,11 @@ export default function Page(props: { user: IUser }) {
         } else {
             await signIn('credentials', {username: data.email, password: data.password, redirect: false});
 
-            alert("Вы успешно вошли")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Вы успешно вошли',
+            })
+            //alert("Вы успешно вошли")
 
             await router.push('/main');
         }
@@ -165,7 +197,11 @@ export default function Page(props: { user: IUser }) {
         e.preventDefault();
 
         if (!validator.isEmail(data.popUpEmail)) {
-            alert("Электронная почта введена не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Электронная почта введена не верно',
+            })
+            //alert("Электронная почта введена не верно")
             return;
         }
 
@@ -177,7 +213,11 @@ export default function Page(props: { user: IUser }) {
 
         const userEmail = json.users.find((user: IUser) => user.email === data.popUpEmail);
         if (!userEmail) {
-            alert("Пользователь с такой почтой не обнаружен")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Пользователь с такой почтой не обнаружен',
+            })
+            //alert("Пользователь с такой почтой не обнаружен")
             return;
         }
         const response = await fetch('/api/sendNewPasswordOnEmail', {
@@ -189,7 +229,11 @@ export default function Page(props: { user: IUser }) {
         });
 
         if (response.ok) {
-            alert("Новый пароль отправлен вам на почту");
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Новый пароль отправлен вам на почту',
+            })
+            //alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
             setPasswordRecoveryModalState(false);
         } else {
@@ -217,31 +261,55 @@ export default function Page(props: { user: IUser }) {
         const userExist = json.users.find((user: IUser) => user.email === data.email);
 
         if (!data.fio || !data.email || !data.password || !data.checkPassword) {
-            alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз',
+            })
+            //alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
             return
         }
         if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(data.fio)) {
-            alert("ФИО введено не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'ФИО введено не верно',
+            })
+            //alert("ФИО введено не верно")
             return;
         }
         if (!validator.isEmail(data.email.trim())) {
-            alert("Почта введена не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Почта введена не верно',
+            })
+            //alert("Почта введена не верно")
             return;
         }
         if (data.password.length < 8) {
-            alert("Пароль должен содержать не менее 8 символов")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Пароль должен содержать не менее 8 символов',
+            })
+            //alert("Пароль должен содержать не менее 8 символов")
             return;
         }
         if (data.password != data.checkPassword) {
-            alert("Пароль введён не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Пароль введён не верно',
+            })
+            //alert("Пароль введён не верно")
             return;
         }
         if (!userExist) {
             await dataToDB()
             await signIn('credentials', {username: data.email, password: data.password, redirect: false});
-            router.push('/main')
+            await router.push('/main')
         } else {
-            alert("Аккаунт с такой почтой уже существует")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Аккаунт с такой почтой уже существует',
+            })
+            //alert("Аккаунт с такой почтой уже существует")
         }
     }
 

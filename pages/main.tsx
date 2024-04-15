@@ -16,6 +16,7 @@ import Header from "../components/header"
 import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
 import {currency} from "@/src/utils";
+import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -155,11 +156,19 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         if (!response.ok) throw new Error(response.statusText);
         console.log('data: ', data);
         if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
-            alert("Сумма введена не верно, попробуйте ещё раз.")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Сумма введена не верно, попробуйте ещё раз.',
+            })
+            //alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
-            alert("Дата введена не верно")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Дата введена не верно',
+            })
+            //alert("Дата введена не верно")
             return
         }
         if (data.category === "other") {
