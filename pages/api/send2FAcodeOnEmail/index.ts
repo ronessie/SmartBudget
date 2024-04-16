@@ -9,7 +9,7 @@ export default async function send2FAcodeOnEmail(req: NextApiRequest, res: NextA
     }
     try {
         const {email, twoStepAuthCode, fromEmail} = req.body;
-        console.log(email+" - "+twoStepAuthCode);
+        console.log(email + " - " + twoStepAuthCode);
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -35,11 +35,10 @@ export default async function send2FAcodeOnEmail(req: NextApiRequest, res: NextA
 
         console.log('Message sent: %s', info.messageId);
 
-        if (res.status(200))
-        {
-            const { db } = await connectToDatabase();
+        if (res.status(200)) {
+            const {db} = await connectToDatabase();
             const collection = await db.collection('users');
-            const filter = { email: email };
+            const filter = {email: email};
             const updateDocument = {
                 $set: {
                     twoStepAuthCode: twoStepAuthCode

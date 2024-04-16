@@ -26,7 +26,7 @@ import {ObjectId} from "bson";
 import Footer from "../components/footer"
 import {connectToDatabase} from "@/src/database";
 import classes from "@/styles/header.module.css";
-import { notifications } from '@mantine/notifications';
+import {notifications} from '@mantine/notifications';
 
 path.resolve('./next.config.js');
 
@@ -56,19 +56,20 @@ export default function Page(props: { user: IUser }) {
     };
 
     function IndexHeader() {
-        const [opened, { toggle }] = useDisclosure(false);
+        const [opened, {toggle}] = useDisclosure(false);
         const router = useRouter();
 
         return (
             <header className={classes.header}>
                 <Container size="md" className={classes.inner}>
-                    <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}} onClick={()=> router.push('/')}/>
+                    <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
+                         onClick={() => router.push('/')}/>
                     <Group gap={5} visibleFrom="xs">
                         <Button className={classes.button}>About</Button>
                         <Button className={classes.button}>Contacts</Button>
                         <Button className={classes.button} onClick={drawerAuthMethods.open}>LogIn/SignIn</Button>
                     </Group>
-                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm"/>
                 </Container>
             </header>
         );

@@ -1,5 +1,5 @@
-import { Text, ActionIcon, Group, rem } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
+import {Text, ActionIcon, Group, rem} from '@mantine/core';
+import {IconBrandTwitter, IconBrandYoutube, IconBrandInstagram} from '@tabler/icons-react';
 import classes from '../styles/footer.module.css';
 import {useRouter} from "next/router";
 

@@ -15,6 +15,7 @@ import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
 import {IconCloudUpload, IconX, IconDownload} from '@tabler/icons-react';
 import classes from '@/styles/dropzoneButton.module.css';
 import {notifications} from "@mantine/notifications";
+import {rgb} from "d3-color";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
@@ -75,33 +76,34 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     return (
         <div className={styles.page}>
             <Header/>
-            <div className={styles.pageContent}>
+            <div className={styles.pageContent}><br/>
                 <Dropzone
                     maxFiles={1}
                     openRef={openRef}
                     onDrop={handleImageChange}
-                    className={classes.dropzone}
                     radius="md"
+                    /*style={{borderRadius: 20, border: 3, borderColor: "blue", borderStyle: "dashed", width: 1000, marginLeft: 460}}*/
+                    /*className={classes.dropzone}*/
                     accept={[MIME_TYPES.png]}
                     maxSize={30 * 1024 ** 2}>
                     <div style={{pointerEvents: 'none'}}><br/>
                         <Group justify="center">
                             <Dropzone.Accept>
                                 <IconDownload
-                                    style={{width: rem(50), height: rem(50)}}
+                                    style={{width: rem(100), height: rem(100)}}
                                     color={theme.colors.blue[6]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Accept>
                             <Dropzone.Reject>
                                 <IconX
-                                    style={{width: rem(50), height: rem(50)}}
+                                    style={{width: rem(100), height: rem(100)}}
                                     color={theme.colors.red[6]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Reject>
                             <Dropzone.Idle>
-                                <IconCloudUpload style={{width: rem(50), height: rem(50)}} stroke={1.5}/>
+                                <IconCloudUpload style={{width: rem(100), height: rem(100)}} stroke={1.5}/>
                             </Dropzone.Idle>
                         </Group>
 
@@ -113,9 +115,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Text ta="center" fz="sm" mt="xs" c="dimmed">
                             Drag&apos;n&apos;drop files here to upload.
                         </Text>
-                    </div><br/>
+                    </div>
+                    <br/>
                 </Dropzone><br/>
-                <Button className={classes.control} size="md" radius="xl" onClick={handleUpload}>
+                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 835}} size="md" radius="xl" onClick={handleUpload}>
                     Upload
                 </Button>
             </div>

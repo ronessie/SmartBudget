@@ -73,7 +73,7 @@ export function generatePassword() {
     return password;
 }
 
-export function currency(){
+export function currency() {
     let symbols = {
         "AED": "United Arab Emirates Dirham",
         "AFN": "Afghan Afghani",
@@ -245,7 +245,7 @@ export function currency(){
         "ZMW": "Zambian Kwacha",
         "ZWL": "Zimbabwean Dollar"
     }
-    const result: {label: string, value: string}[] = [];
+    const result: { label: string, value: string }[] = [];
     Object.entries(symbols).map((e) => result.push({label: e[0], value: e[0]}))
     return result
 }

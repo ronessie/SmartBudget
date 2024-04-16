@@ -12,7 +12,7 @@ const Error404Page = () => {
     return (
         <Container size="sm">
             <Image src='/images/404.png' alt="Image 404"
-                 style={{width: 500, height: 500, marginLeft: 100, marginTop: 100, marginBottom: 50}}/>
+                   style={{width: 500, height: 500, marginLeft: 100, marginTop: 100, marginBottom: 50}}/>
             <Title order={1} style={{marginBottom: 10, textAlign: "center"}}>
                 Oops! Something went wrong
             </Title>

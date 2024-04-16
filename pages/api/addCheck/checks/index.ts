@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
@@ -27,7 +27,7 @@ export default async function handler(req: any, res: any) {
         upload.single('image')(req, res, (err) => {
             if (err) {
                 console.error('Multer error:', err);
-                return res.status(500).json({ error: 'Ошибка загрузки файла' });
+                return res.status(500).json({error: 'Ошибка загрузки файла'});
             }
 
             // Путь к загруженному файлу
@@ -35,7 +35,7 @@ export default async function handler(req: any, res: any) {
             console.log('File uploaded:', req.file);
 
             // Отправляем клиенту ответ с путем к загруженному файлу
-            res.status(200).json({ filePath });
+            res.status(200).json({filePath});
         });
     } else {
         res.status(405).end(`Метод ${req.method} не разрешен. Используйте метод POST.`);

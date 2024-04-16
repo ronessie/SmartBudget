@@ -7,7 +7,7 @@ import {Image} from "@mantine/core";
 import Header from "../components/header"
 import styles from "@/styles/pages.module.css";
 import Footer from "../components/footer"
-import { Carousel } from '@mantine/carousel';
+import {Carousel} from '@mantine/carousel';
 import {useState} from "react";
 import {currency} from "@/src/utils";
 
@@ -16,7 +16,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, ch
         images: props.checks,
     });
 
-    function Carusel(){
+    function Carusel() {
         const slides = data.images.map((url) => (
             <Carousel.Slide key={url} style={{width: 700, height: 500}}>
                 <Image src={'/uploads/' + url}/>

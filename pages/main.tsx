@@ -234,7 +234,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
                     <h1>{t('mainPage.yourBankAccount')}</h1>
-                    <Paper shadow="md" radius="md" p="xl" style={{backgroundColor: "lightgrey", width: 400, height: 190}}>
+                    <Paper shadow="md" radius="md" p="xl"
+                           style={{backgroundColor: "lightgrey", width: 400, height: 190}}>
                         <div>
                             <h1>{props.bankAccount.name}</h1><br/>
                             <h1>{data.balance} {props.bankAccount.currency}</h1>
@@ -250,7 +251,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.incomeModal.title')}>
                             <TextInput
-                                label={t('mainPage.incomeModal.inputSum')}
+                                label={t('mainPage.incomeModal.inputSum')+`, ${props.bankAccount.currency}`}
                                 placeholder="100"
                                 onChange={(e) => handleFieldChange("sum", e.target.value)}
                                 title={t('mainPage.incomeModal.sumTitle')}
@@ -284,7 +285,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.expensesModal.title')}>
                             <TextInput
-                                label={t('mainPage.expensesModal.inputSum')}
+                                label={t('mainPage.expensesModal.inputSum')+`, ${props.bankAccount.currency}`}
                                 placeholder="100"
                                 onChange={(e) => handleFieldChange("sum", e.target.value)}
                                 title={t('mainPage.expensesModal.sumTitle')}

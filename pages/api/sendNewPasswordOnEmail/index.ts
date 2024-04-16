@@ -8,7 +8,7 @@ export default async function sendNewPasswordOnEmail(req: NextApiRequest, res: N
     }
     try {
         const {email, password, fromEmail} = req.body;
-        console.log(email+" - "+password);
+        console.log(email + " - " + password);
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
@@ -33,11 +33,10 @@ export default async function sendNewPasswordOnEmail(req: NextApiRequest, res: N
 
         console.log('Message sent: %s', info.messageId);
 
-        if (res.status(200))
-        {
-            const { db } = await connectToDatabase();
+        if (res.status(200)) {
+            const {db} = await connectToDatabase();
             const collection = await db.collection('users');
-            const filter = { email: email };
+            const filter = {email: email};
             const updateDocument = {
                 $set: {
                     password: password

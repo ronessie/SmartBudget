@@ -1,7 +1,7 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import {MongoClient, ObjectId} from 'mongodb';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env.local' });
+dotenv.config({path: './.env.local'});
 
 const MONGODB_URI = process.env.MONGODB_URI ?? '';
 const MONGODB_DB = process.env.DB_NAME ?? '';

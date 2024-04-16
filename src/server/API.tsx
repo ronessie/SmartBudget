@@ -1,6 +1,6 @@
 import IUser from '../types/IUser';
 
-const { NEXTAUTH_URL } = process.env;
+const {NEXTAUTH_URL} = process.env;
 
 export namespace API {
     export async function getUser(
@@ -19,6 +19,7 @@ export namespace API {
 
         return json.account;
     }
+
     export async function getAllUsers(): Promise<IUser[]> {
         const response = await fetch(`${NEXTAUTH_URL}/api/users`);
 

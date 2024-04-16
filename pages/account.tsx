@@ -15,8 +15,8 @@ import {
     Button,
     CopyButton,
     Fieldset,
-    Group,
-    Modal,
+    Group, InputBase,
+    Modal, Pill,
     NativeSelect,
     Switch,
     Text,
@@ -27,6 +27,7 @@ import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
+import {useRouter} from "next/router";
 
 export default function Page(props: {
     user: IUser,
@@ -34,6 +35,7 @@ export default function Page(props: {
     bankAccounts: { label: string, value: string }[]
 }) {
     const [changeModalState, setChangeModalState] = useState(false);
+    const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
     const [addCategoryModalState, setAddCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
@@ -53,7 +55,9 @@ export default function Page(props: {
         changeEmail: props.user.email,
         changeCurrency: props.bankAccount.currency,
         changeBankName: props.bankAccount.name,
-        allCurrency: currency()
+        allCurrency: currency(),
+        allIncomeCategories: props.bankAccount.incomeCategories,
+        allExpensesCategories: props.bankAccount.expensesCategories,
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -63,6 +67,7 @@ export default function Page(props: {
             [fieldName]: value,
         }));
     }
+    const router = useRouter();
 
     async function dateValidation(e: any) {
         e.preventDefault();
@@ -256,6 +261,10 @@ export default function Page(props: {
         setChangeModalState(false);
     }
 
+    const changeLanguage = async (language: string) => {
+        await router.push(router.pathname, router.asPath, {locale: language});
+    };
+
     return (
         <div className={styles.page}>
             <Header/>
@@ -304,6 +313,9 @@ export default function Page(props: {
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Добавление категорий'}>
                     <h1>Test category</h1>
+                    <InputBase component="div" multiline>
+                        <Pill.Group></Pill.Group>//props.bankAccount.incomeCategories
+                    </InputBase>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
@@ -380,6 +392,15 @@ export default function Page(props: {
                             </Tooltip>
                         )}
                     </CopyButton></Text>
+                </Modal><br/>
+                <Button style={{width: 200}} onClick={() => setChangeLanguageState(!changeLanguageState)}>Сменить язык</Button>
+                <Modal title={"Смена языка"}
+                       opened={changeLanguageState} onClose={() => setChangeLanguageState(false)}
+                       overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                    <div>
+                        <Button onClick={() => changeLanguage('en')}>EN</Button>
+                        <Button onClick={() => changeLanguage('ru')}>RU</Button>
+                    </div>
                 </Modal>
             </div>
             <Footer/>

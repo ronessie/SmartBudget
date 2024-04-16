@@ -17,8 +17,8 @@ export default NextAuth({
             id: "credentials",
             name: 'Credentials',
             credentials: {
-                username: { label: "Username", type: "text" },
-                password: { label: "Password", type: "password" }
+                username: {label: "Username", type: "text"},
+                password: {label: "Password", type: "password"}
             },
             async authorize(credentials, req) {
                 if (!credentials) return false as any;
@@ -44,7 +44,7 @@ export default NextAuth({
             if (account?.provider === 'google') {
                 console.log('auth by google: ', user);
 
-                const { db } = await connectToDatabase();
+                const {db} = await connectToDatabase();
 
                 const userExists = ((await db
                     .collection('users')
