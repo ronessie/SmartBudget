@@ -31,7 +31,7 @@ export default async function handler(req: any, res: any) {
             }
 
             // Путь к загруженному файлу
-            const filePath = req.file.path;
+            const filePath = req.file.filename;
             console.log('File uploaded:', req.file);
 
             // Отправляем клиенту ответ с путем к загруженному файлу
