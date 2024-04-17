@@ -1,5 +1,5 @@
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {useState} from "react";
+import React, {useState} from "react";
 import Footer from "../components/footer"
 import Header from "../components/header"
 import styles from '../styles/pages.module.css'
@@ -10,17 +10,56 @@ import {connectToDatabase} from "@/src/database";
 import IUser from "@/src/types/IUser";
 import IBankAccount from "@/src/types/IBankAccount";
 import {useRef} from 'react';
-import {Text, Group, Button, rem, useMantineTheme} from '@mantine/core';
+import {Text, Group, Button, rem, useMantineTheme, Modal, Textarea, Loader} from '@mantine/core';
 import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
 import {IconCloudUpload, IconX, IconDownload} from '@tabler/icons-react';
-import classes from '@/styles/dropzoneButton.module.css';
 import {notifications} from "@mantine/notifications";
-import {rgb} from "d3-color";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
     const theme = useMantineTheme();
     const openRef = useRef<() => void>(null);
+    const [textModalState, setTextModalState] = useState(false);
+    const [loaderModalState, setLoaderModalState] = useState(false);
+    const [checkText, setCheckText] = useState({
+        text: "",
+        toDB: false
+    });
+
+    function handleFieldChange(fieldName: string, value: any) {
+        console.log(`set ${fieldName} with value: ${value}`)
+        setCheckText({
+            ...checkText,
+            [fieldName]: value,
+        });
+        console.log(checkText)
+    }
+
+    async function textRecognition(check: ICheck) {
+        const path = "/uploads/" + check.filePath;
+        const response = await fetch('/api/textRecognition', {
+            method: 'POST',
+            body: JSON.stringify({
+                path
+            }),
+        });
+
+        if (response.ok) {
+            console.log('api worked successfully!');
+            const result = (await response.json()).result;
+            handleFieldChange("text", result);
+            setLoaderModalState(false)
+            setTextModalState(!textModalState);
+            check.checkText = checkText.text;
+            if (checkText.toDB === true) {
+                console.log("Всё зашло")
+                await dataToDB(check);
+            }
+
+        } else {
+            console.error('Failed work.');
+        }
+    }
 
     const handleImageChange = (e: any) => {
         setImage(e);
@@ -29,6 +68,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const handleUpload = async () => {
         if (image) {
             try {
+                setLoaderModalState(true)
                 const formData = new FormData();
                 formData.append('image', image[0]);
 
@@ -50,28 +90,40 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     user_id: props.user._id,
                     bankAccount_id: props.bankAccount._id,
                     filePath: data.filePath,
-                    //checkText: "",
+                    checkText: "",
+                    //checkText: checkText.text,
                     dateTime: Date()
                 };
-
-                const dbResponse = await fetch(`/api/addCheck`, {
-                    method: "POST",
-                    body: JSON.stringify(check),
-                });
-
-                if (!dbResponse.ok) throw new Error(dbResponse.statusText);
-                notifications.show({
-                    title: 'Уведомление',
-                    message: 'Файл успешно загружен',
-                })
-                //alert("Файл успешно загружен")
+                await textRecognition(check)
             } catch (error) {
                 console.error("Ошибка при сохранении изображения:", error);
             }
         } else {
             console.warn("Изображение не выбрано");
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Файл не выбран',
+            })
         }
     };
+
+    async function dataToDB(check: ICheck) {
+        try {
+            const dbResponse = await fetch(`/api/addCheck`, {
+                method: "POST",
+                body: JSON.stringify(check),
+            });
+
+            if (!dbResponse.ok) throw new Error(dbResponse.statusText);
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Файл успешно загружен',
+            })
+            //alert("Файл успешно загружен")
+        } catch (error) {
+            console.error("Ошибка при сохранении изображения:", error);
+        }
+    }
 
     return (
         <div className={styles.page}>
@@ -87,6 +139,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     accept={[MIME_TYPES.png]}
                     maxSize={30 * 1024 ** 2}>
                     <div style={{pointerEvents: 'none'}}><br/>
+                        <h1></h1>
                         <Group justify="center">
                             <Dropzone.Accept>
                                 <IconDownload
@@ -118,9 +171,26 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                 </Dropzone><br/>
-                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 835}} size="md" radius="xl" onClick={handleUpload}>
+                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 835}} size="md"
+                                                        radius="xl" onClick={handleUpload}>
                     Upload
                 </Button>
+                <Modal title={"Расшифровка чека"}
+                       opened={textModalState} onClose={() => setTextModalState(false)}
+                       overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                    <div>
+                        <Textarea size="md"
+                                  value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
+                        <Button onClick={() => handleFieldChange("toDB", true)}>Save</Button>
+                    </div>
+                </Modal>
+                <Modal opened={loaderModalState} withCloseButton={false} onClose={() => setLoaderModalState(false)}
+                       overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                    <div>
+                        <h1>Загрузка фото, а так же ожидание расшифровки может занять некоторое время.</h1><br/>
+                        <Loader color="blue" style={{marginLeft: 170}}/>
+                    </div>
+                </Modal>
             </div>
             <Footer/>
         </div>
