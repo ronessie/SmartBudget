@@ -3,15 +3,14 @@ import {NextApiRequest, NextApiResponse} from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {path} = JSON.parse(req.body);
+    let result;
     Tesseract.recognize(
-// this first argument is for the location of an image it can be a //url like below or you can set a local path in your computer
         'public/' + path,
-// this second argument is for the language
-        'eng',
+        'eng+rus',
         { logger: m => console.log(m) }
     ).then(({ data: { text } }) => {
         console.log(text);
+        result = text
+        return res.json({result: result});
     })
-
-    return res.json({result: true});
 }
