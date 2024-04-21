@@ -23,7 +23,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const [loaderModalState, setLoaderModalState] = useState(false);
     const [checkText, setCheckText] = useState({
         text: "",
-        toDB: false
+        filePath: "",
     });
 
     function handleFieldChange(fieldName: string, value: any) {
@@ -45,16 +45,15 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         });
 
         if (response.ok) {
+            //сюда он заходит
             console.log('api worked successfully!');
             const result = (await response.json()).result;
+            // тут result = тексту
             handleFieldChange("text", result);
+            // а тут checkText.text это пустота ""
+            handleFieldChange("filePath", check.filePath);//тут тоже пустота
             setLoaderModalState(false)
             setTextModalState(!textModalState);
-            check.checkText = checkText.text;
-            if (checkText.toDB === true) {
-                console.log("Всё зашло")
-                await dataToDB(check);
-            }
 
         } else {
             console.error('Failed work.');
@@ -91,9 +90,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     bankAccount_id: props.bankAccount._id,
                     filePath: data.filePath,
                     checkText: "",
-                    //checkText: checkText.text,
                     dateTime: Date()
                 };
+                await dataToDB(check)
                 await textRecognition(check)
             } catch (error) {
                 console.error("Ошибка при сохранении изображения:", error);
@@ -123,6 +122,21 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         } catch (error) {
             console.error("Ошибка при сохранении изображения:", error);
         }
+    }
+
+    async function updateCheckText() {
+        const response = await fetch(`/api/updateCheckText`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filePath: checkText.filePath,
+                text: checkText.text
+            }),
+        });
+
+        if (!response.ok) throw new Error(response.statusText);
     }
 
     return (
@@ -181,7 +195,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <div>
                         <Textarea size="md"
                                   value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
-                        <Button onClick={() => handleFieldChange("toDB", true)}>Save</Button>
+                        <Button onClick={updateCheckText}>Save</Button>
                     </div>
                 </Modal>
                 <Modal opened={loaderModalState} withCloseButton={false} onClose={() => setLoaderModalState(false)}
