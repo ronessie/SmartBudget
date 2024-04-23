@@ -27,12 +27,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     });
 
     function handleFieldChange(fieldName: string, value: any) {
-        console.log(`set ${fieldName} with value: ${value}`)
-        setCheckText({
-            ...checkText,
+        setCheckText(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
-        console.log(checkText)
+        }));
     }
 
     async function textRecognition(check: ICheck) {
