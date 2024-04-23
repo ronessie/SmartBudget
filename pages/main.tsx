@@ -80,12 +80,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
 
     function handleFieldChange(fieldName: string, value: any) {
-        console.log(`set ${fieldName} with value: ${value}`)
-        setData({
-            ...data,
+        setData(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
-        console.log(data)
+        }));
     }
 
     function handleConvertChange(fieldName: string, value: any) {

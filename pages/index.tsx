@@ -243,10 +243,10 @@ export default function Page(props: { user: IUser }) {
     }
 
     function handleFieldChange(fieldName: string, value: any) {
-        setData({
-            ...data,
+        setData(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
+        }));
     }
 
     async function googleAuthentication(e: any) {
