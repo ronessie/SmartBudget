@@ -43,13 +43,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         });
 
         if (response.ok) {
-            //сюда он заходит
             console.log('api worked successfully!');
             const result = (await response.json()).result;
-            // тут result = тексту
             handleFieldChange("text", result);
-            // а тут checkText.text это пустота ""
-            handleFieldChange("filePath", check.filePath);//тут тоже пустота
+            handleFieldChange("filePath", check.filePath);
             setLoaderModalState(false)
             setTextModalState(!textModalState);
 
@@ -133,8 +130,12 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 text: checkText.text
             }),
         });
-
         if (!response.ok) throw new Error(response.statusText);
+        setTextModalState(false);
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Текст успешно сохранён',
+        })
     }
 
     return (
