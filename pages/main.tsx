@@ -32,7 +32,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         lastUpdateDate: formatTime(props.bankAccount.lastUpdateDate?.toString()),
         operationStatus: "",
         newBalance: 0,
-        newCategory: ""
+        newCategory: "",
+        incomeCategory: props.bankAccount.incomeCategories,
     });
     const [convertData, setConvertData] = useState({
         sum: 1,

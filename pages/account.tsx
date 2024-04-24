@@ -15,8 +15,8 @@ import {
     Button,
     CopyButton,
     Fieldset,
-    Group, InputBase,
-    Modal, Pill,
+    Group,
+    Modal,
     NativeSelect,
     Switch,
     Text,
@@ -402,7 +402,7 @@ export default function Page(props: {
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
                     код</Button>
-                <Modal title={"Пригласительный код для счёта: " + props.bankAccount.name}
+                <Modal title={"Пригласительный код для счёта: " + data.changeBankName}
                        opened={codeModalState} onClose={() => setCodeModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <Text>{data.inviteCode}
