@@ -197,7 +197,11 @@ export default function Page(props: {
 
     async function changeBankAccount() {
         if (!data.selectBankAccount) {
-            alert("Выберите счёт")
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Выберите счёт',
+            })
+            //alert("Выберите счёт")
             return
         }
         const response = await fetch(`/api/changeCurrentBankAccount`, {

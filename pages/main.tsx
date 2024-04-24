@@ -8,7 +8,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Drawer, Modal, NativeSelect, Paper, TextInput} from "@mantine/core";
+import {Button, Drawer, Group, Modal, NativeSelect, Paper, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
@@ -146,7 +146,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
-        alert("Операция проведена успешно")
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Операция проведена успешно',
+        })
+        //alert("Операция проведена успешно")
     }
 
     async function dateValidation() {
@@ -208,6 +212,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Button onClick={converterAuthMethods.open}>Конвертер</Button>
+                        <Group>
+                        <Button>Мои доходы</Button>
+                        <Button>Мои расходы</Button>
+                        </Group>
                     </div>
                     <Drawer
                         title="Конвертер валют"
