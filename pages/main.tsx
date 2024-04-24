@@ -2,7 +2,7 @@ import styles from '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {getSession, useSession} from "next-auth/react";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
@@ -15,10 +15,11 @@ import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
-import {currency} from "@/src/utils";
+import {currency, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
+    const [incomeCategories, setIncomeCategories] = useState<{ value: string, label: string }[]>([]);
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
     const [categoryModalState, setCategoryModalState] = useState(false);
@@ -57,6 +58,13 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         {name: 'Japan', value: 160, color: 'red.6'},
         {name: 'Other', value: 400, color: 'orange.6'},
     ];
+
+    useEffect(() => {
+        const incomeCategories = Object.entries(props.bankAccount?.incomeCategories ?? [])
+            .map(([value, label]) => ({ value, label: ucFirst(label) }));
+
+        setIncomeCategories(incomeCategories);
+    }, []);
 
     function formatTime(input: string | Date | undefined): string {
         if (!input) {
@@ -266,14 +274,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             <br/>
                             <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
-                                          title={t('mainPage.incomeModal.selector.title')} data={[
-                                {value: 'salary', label: t('mainPage.incomeModal.selector.value.salary')},
-                                {value: 'gift', label: t('mainPage.incomeModal.selector.value.gift')},
-                                {value: 'premium', label: t('mainPage.incomeModal.selector.value.premium')},
-                                {value: 'debt refund', label: t('mainPage.incomeModal.selector.value.debtRefund')},
-                                {value: 'cashback', label: t('mainPage.incomeModal.selector.value.cashback')},
-                                {value: 'other', label: t('mainPage.expensesModal.selector.value.other')},
-                            ]}>
+                                          title={t('mainPage.incomeModal.selector.title')} data={incomeCategories}>
                             </NativeSelect><br/>
                             <DateInput onChange={(e) => handleFieldChange("date", e)}
                                        label={t('mainPage.incomeModal.dateLabel')}
