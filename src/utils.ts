@@ -41,8 +41,8 @@ export function createBankAccountObj(userId: string, bankAccount_id: string, nam
         currency: currency ?? "BYN",
         balance: balance ?? 0,
         invitingCode: inviteCode(),
-        incomeCategories,
-        expensesCategories
+        incomeCategories: incomeCategories,
+        expensesCategories: expensesCategories
     };
 }
 

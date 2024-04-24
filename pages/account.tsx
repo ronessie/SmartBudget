@@ -21,7 +21,7 @@ import {
     Switch,
     Text,
     TextInput,
-    Tooltip
+    Tooltip, SegmentedControl
 } from "@mantine/core";
 import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
@@ -37,9 +37,11 @@ export default function Page(props: {
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
-    const [addCategoryModalState, setAddCategoryModalState] = useState(false);
+    const [addIncomeCategoryModalState, setAddIncomeCategoryModalState] = useState(false);
+    const [addExpensesCategoryModalState, setAddExpensesCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
     const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
+    const [segmentState, setSegmentState] = useState('+');
     const [codeModalState, setCodeModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
@@ -269,6 +271,21 @@ export default function Page(props: {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
 
+    function incomeCategories()
+    {
+        alert("+")
+        return (
+            <h1> + categories </h1>
+        )
+    }
+    function expensesCategories()
+    {
+        alert("-")
+        return (
+            <h1> - categories </h1>
+        )
+    }
+
     return (
         <div className={styles.page}>
             <Header/>
@@ -311,15 +328,21 @@ export default function Page(props: {
                             style={{width: 410, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setAddCategoryModalState(!addCategoryModalState)}>Добавить
+                <Button style={{width: 200}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Добавить
                     категорию</Button><br/>
-                <Modal opened={addCategoryModalState} onClose={() => setAddCategoryModalState(false)}
+                <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Добавление категорий'}>
+                    <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
+                        setSegmentState(e);
+                        if (e === '+') {
+                            incomeCategories()
+                        } else if (e === '-') {
+                            expensesCategories()
+                        }
+                    }}/>
                     <h1>Test category</h1>
-                    <InputBase component="div" multiline>
-                        <Pill.Group></Pill.Group>//props.bankAccount.incomeCategories
-                    </InputBase>
+
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
