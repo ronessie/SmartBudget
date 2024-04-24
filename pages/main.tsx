@@ -34,6 +34,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         newBalance: 0,
         newCategory: "",
         incomeCategory: Object.entries(props.bankAccount?.incomeCategories ?? [])
+            .map(([value, label]) => ({ value, label: ucFirst(label) })),
+        expensesCategory: Object.entries(props.bankAccount?.expensesCategories ?? [])
             .map(([value, label]) => ({ value, label: ucFirst(label) }))
     });
     const [convertData, setConvertData] = useState({
@@ -295,24 +297,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                             <NativeSelect label={t('mainPage.expensesModal.selector.label')}
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
                                           title={t('mainPage.expensesModal.selector.title')}
-                                          data={[
-                                              {
-                                                  value: 'products',
-                                                  label: t('mainPage.expensesModal.selector.value.products')
-                                              },
-                                              {
-                                                  value: 'clothes',
-                                                  label: t('mainPage.expensesModal.selector.value.clothes')
-                                              },
-                                              {value: 'house', label: t('mainPage.expensesModal.selector.value.house')},
-                                              {value: 'car', label: t('mainPage.expensesModal.selector.value.car')},
-                                              {
-                                                  value: 'entertainment',
-                                                  label: t('mainPage.expensesModal.selector.value.entertainment')
-                                              },
-                                              {value: 'duty', label: t('mainPage.expensesModal.selector.value.duty')},
-                                              {value: 'other', label: t('mainPage.expensesModal.selector.value.other')},
-                                          ]}>
+                                          data={data.expensesCategory}>
                             </NativeSelect><br/>
                             <DateInput
                                 onChange={(e) => handleFieldChange("date", e)}
