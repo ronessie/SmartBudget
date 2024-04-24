@@ -249,3 +249,9 @@ export function currency() {
     Object.entries(symbols).map((e) => result.push({label: e[0], value: e[0]}))
     return result
 }
+
+export function ucFirst(str: string): string {
+    if (!str) return str;
+
+    return str[0].toUpperCase() + str.slice(1);
+}
