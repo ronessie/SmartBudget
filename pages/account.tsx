@@ -21,9 +21,9 @@ import {
     Switch,
     Text,
     TextInput,
-    Tooltip, SegmentedControl
+    Tooltip, SegmentedControl, TagsInput
 } from "@mantine/core";
-import {createBankAccountObj} from "@/src/utils";
+import {createBankAccountObj, ucFirst} from "@/src/utils";
 import Header from "../components/header"
 import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
@@ -58,8 +58,10 @@ export default function Page(props: {
         changeCurrency: props.bankAccount.currency,
         changeBankName: props.bankAccount.name,
         allCurrency: currency(),
-        allIncomeCategories: props.bankAccount.incomeCategories,
-        allExpensesCategories: props.bankAccount.expensesCategories,
+        allIncomeCategories: Object.entries(props.bankAccount?.incomeCategories ?? [])
+            .map(([value, label]) => ({ value, label: ucFirst(label) })),
+        allExpensesCategories: Object.entries(props.bankAccount?.expensesCategories ?? [])
+            .map(([value, label]) => ({ value, label: ucFirst(label) })),
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -263,17 +265,13 @@ export default function Page(props: {
 
     function incomeCategories()
     {
-        alert("+")
-        return (
-            <h1> + categories </h1>
-        )
+        setAddExpensesCategoryModalState(false)
+        setAddIncomeCategoryModalState(true)
     }
     function expensesCategories()
     {
-        alert("-")
-        return (
-            <h1> - categories </h1>
-        )
+        setAddIncomeCategoryModalState(false)
+        setAddExpensesCategoryModalState(true)
     }
 
     return (
@@ -331,8 +329,28 @@ export default function Page(props: {
                             expensesCategories()
                         }
                     }}/>
-                    <h1>Test category</h1>
-
+                    <TagsInput
+                        label="Press Enter to submit a tag"
+                        placeholder="Enter tag"
+                        defaultValue={['React']}
+                    />
+                    <NativeSelect data={data.allIncomeCategories}></NativeSelect>
+                </Modal>
+                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий" opened={addExpensesCategoryModalState} onClose={()=> setAddExpensesCategoryModalState(false)}>
+                    <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
+                        setSegmentState(e);
+                        if (e === '+') {
+                            incomeCategories()
+                        } else if (e === '-') {
+                            expensesCategories()
+                        }
+                    }}/>
+                    <TagsInput
+                        label="Press Enter to submit a tag"
+                        placeholder="Enter tag"
+                        defaultValue={['React']}
+                    />
+                    <NativeSelect data={data.allExpensesCategories}></NativeSelect>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
