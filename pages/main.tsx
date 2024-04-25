@@ -2,7 +2,7 @@ import styles from '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {getSession, useSession} from "next-auth/react";
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
@@ -91,7 +91,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     function handleConvertChange(fieldName: string, value: any) {
-        console.log(`set ${fieldName} with value: ${value}`)
         setConvertData({
             ...convertData,
             [fieldName]: value,
@@ -138,7 +137,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 currentBankAccount_id: props.bankAccount._id,
                 sum: data.sum,
                 operationStatus: data.operationStatus,
-                balance: props.bankAccount.balance
+                balance: data.balance
             }),
         });
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
@@ -150,6 +149,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
+        handleFieldChange("category", "")
         notifications.show({
             title: 'Уведомление',
             message: 'Операция проведена успешно',
