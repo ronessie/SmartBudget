@@ -95,7 +95,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Код уже отправлен Вам на почту',
             })
-            //alert("Код уже отправлен Вам на почту");
             console.log('Email sent successfully!');
         } else {
             console.error('Failed to send email.');
@@ -109,14 +108,12 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'код введён не верно, попробуйте ещё раз',
             })
-            //alert("код введён не верно, попробуйте ещё раз");
             return
         }
         notifications.show({
             title: 'Уведомление',
             message: 'Вы успешно вошли',
         })
-        //alert("Вы успешно вошли")
         await router.push('/main');
     }
 
@@ -133,7 +130,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Электронная почта введена не верно',
             })
-            //alert("Электронная почта введена не верно")
             return;
         }
         if (!data.password) {
@@ -141,7 +137,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Введите пароль',
             })
-            //alert("Введите пароль")
             return;
         }
 
@@ -151,7 +146,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Данные введены не верно, попробуйте ещё раз',
             })
-            //alert("Данные введены не верно, попробуйте ещё раз")
             return;
         }
         const checkUser2FA = json.users.find((user: IUser) => user.email === data.email && user.password === data.password && user.twoStepAuth === true);
@@ -176,7 +170,6 @@ export default function Page(props: { user: IUser }) {
                     title: 'Уведомление',
                     message: 'Код уже отправлен Вам на почту',
                 })
-                //alert("Код уже отправлен Вам на почту");
                 console.log('Email sent successfully!');
             } else {
                 console.error('Failed to send email.');
@@ -188,7 +181,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Вы успешно вошли',
             })
-            //alert("Вы успешно вошли")
 
             await router.push('/main');
         }
@@ -202,7 +194,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Электронная почта введена не верно',
             })
-            //alert("Электронная почта введена не верно")
             return;
         }
 
@@ -218,7 +209,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Пользователь с такой почтой не обнаружен',
             })
-            //alert("Пользователь с такой почтой не обнаружен")
             return;
         }
         const response = await fetch('/api/sendNewPasswordOnEmail', {
@@ -234,7 +224,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Новый пароль отправлен вам на почту',
             })
-            //alert("Новый пароль отправлен вам на почту");
             console.log('Email sent successfully!');
             setPasswordRecoveryModalState(false);
         } else {
@@ -266,7 +255,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз',
             })
-            //alert("Все поля являются обязательными, проверьте введённые данные и попробуйте ещё раз")
             return
         }
         if (!(/^[A-Za-zА-Яа-яЁё\s]+$/).test(data.fio)) {
@@ -274,7 +262,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'ФИО введено не верно',
             })
-            //alert("ФИО введено не верно")
             return;
         }
         if (!validator.isEmail(data.email.trim())) {
@@ -282,7 +269,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Почта введена не верно',
             })
-            //alert("Почта введена не верно")
             return;
         }
         if (data.password.length < 8) {
@@ -290,7 +276,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Пароль должен содержать не менее 8 символов',
             })
-            //alert("Пароль должен содержать не менее 8 символов")
             return;
         }
         if (data.password != data.checkPassword) {
@@ -298,7 +283,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Пароль введён не верно',
             })
-            //alert("Пароль введён не верно")
             return;
         }
         if (!userExist) {
@@ -310,7 +294,6 @@ export default function Page(props: { user: IUser }) {
                 title: 'Уведомление',
                 message: 'Аккаунт с такой почтой уже существует',
             })
-            //alert("Аккаунт с такой почтой уже существует")
         }
     }
 

@@ -154,7 +154,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             title: 'Уведомление',
             message: 'Операция проведена успешно',
         })
-        //alert("Операция проведена успешно")
     }
 
     async function dateValidation() {
@@ -166,7 +165,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 title: 'Уведомление',
                 message: 'Сумма введена не верно, попробуйте ещё раз.',
             })
-            //alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
@@ -174,7 +172,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 title: 'Уведомление',
                 message: 'Дата введена не верно',
             })
-            //alert("Дата введена не верно")
             return
         }
         if (data.category === "other") {

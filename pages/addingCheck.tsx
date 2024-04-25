@@ -113,7 +113,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 title: 'Уведомление',
                 message: 'Файл успешно загружен',
             })
-            //alert("Файл успешно загружен")
         } catch (error) {
             console.error("Ошибка при сохранении изображения:", error);
         }

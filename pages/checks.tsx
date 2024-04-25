@@ -9,7 +9,6 @@ import styles from "@/styles/pages.module.css";
 import Footer from "../components/footer"
 import {Carousel} from '@mantine/carousel';
 import {useState} from "react";
-import {currency} from "@/src/utils";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount, checks: string[] }) {
     const [data, setData] = useState({

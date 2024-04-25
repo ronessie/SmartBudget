@@ -78,7 +78,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Сумма введена не верно, попробуйте ещё раз.',
             })
-            //alert("Сумма введена не верно, попробуйте ещё раз.")
             return
         }
         if (!data.name) {
@@ -86,7 +85,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Укажите название счёта',
             })
-            //alert("Укажите название счёта")
             return
         } else {
             await dataToDB();
@@ -109,7 +107,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Вы не можете подключиться к своему счёту',
             })
-            //alert("Вы не можете подключиться к своему счёту")
             return;
         }
         if (allUser) {
@@ -117,7 +114,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'У данного счёта уже есть второй пользователь',
             })
-            //alert("У данного счёта уже есть второй пользователь")
             return;
         }
         if (!inviteToBankAccount) {
@@ -125,7 +121,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Код введён не верно, попробуйте ещё раз',
             })
-            //alert("Код введён не верно, попробуйте ещё раз")
             return;
         } else {
 
@@ -193,7 +188,6 @@ export default function Page(props: {
             title: 'Уведомление',
             message: 'всё оки, работаем дальше',
         })
-        //alert("всё оки, работаем дальше")
         setBillModalState(false)
     }
 
@@ -203,7 +197,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Выберите счёт',
             })
-            //alert("Выберите счёт")
             return
         }
         const response = await fetch(`/api/changeCurrentBankAccount`, {
@@ -227,7 +220,6 @@ export default function Page(props: {
             title: 'Уведомление',
             message: 'Аккаунт успешно сменён',
         })
-        //alert("Аккаунт успешно сменён")
         setChangeAccountModalState(false)
     }
 
@@ -237,7 +229,6 @@ export default function Page(props: {
                 title: 'Уведомление',
                 message: 'Данные указаны не верно',
             })
-            //alert("Данные указаны не верно")
             return
         }
         const response = await fetch(`/api/updateData`, {
@@ -260,7 +251,6 @@ export default function Page(props: {
             title: 'Уведомление',
             message: 'Данные успешно обновлены',
         })
-        //alert("Данные успешно обновлены")
         handleFieldChange("fio", data.changeFio)
         handleFieldChange("email", data.changeEmail)
         handleFieldChange("bankName", data.changeBankName)
