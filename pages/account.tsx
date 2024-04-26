@@ -59,9 +59,9 @@ export default function Page(props: {
         changeBankName: props.bankAccount.name,
         allCurrency: currency(),
         allIncomeCategories: Object.entries(props.bankAccount?.incomeCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) })),
+            .map(([label]) => (ucFirst(label))),
         allExpensesCategories: Object.entries(props.bankAccount?.expensesCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) })),
+            .map(([label]) => (ucFirst(label))),
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
 
@@ -332,9 +332,9 @@ export default function Page(props: {
                     <TagsInput
                         label="Press Enter to submit a tag"
                         placeholder="Enter tag"
-                        defaultValue={['React']}
+                        defaultValue={data.allIncomeCategories}
                     />
-                    <NativeSelect data={data.allIncomeCategories}></NativeSelect>
+                    <Button>Save</Button>
                 </Modal>
                 <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий" opened={addExpensesCategoryModalState} onClose={()=> setAddExpensesCategoryModalState(false)}>
                     <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
@@ -348,9 +348,9 @@ export default function Page(props: {
                     <TagsInput
                         label="Press Enter to submit a tag"
                         placeholder="Enter tag"
-                        defaultValue={['React']}
+                        defaultValue={data.allExpensesCategories}
                     />
-                    <NativeSelect data={data.allExpensesCategories}></NativeSelect>
+                    <Button>Save</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>

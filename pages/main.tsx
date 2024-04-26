@@ -213,10 +213,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Button onClick={converterAuthMethods.open}>Конвертер</Button>
-                        <Group>
-                        <Button>Мои доходы</Button>
-                        <Button>Мои расходы</Button>
-                        </Group>
+                        {/*<Group>*/}
+                        {/*<Button>Мои доходы</Button>*/}
+                        {/*<Button>Мои расходы</Button>*/}
+                        {/*</Group>*/}
                     </div>
                     <Drawer
                         title="Конвертер валют"
