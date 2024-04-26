@@ -64,6 +64,8 @@ export default function Page(props: {
             .map(([label]) => (ucFirst(label))),
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
+    const [newIncomeCategories, setNewIncomeCategories] = useState(data.allIncomeCategories);
+    const [newExpensesCategories, setNewExpensesCategories] = useState(data.allExpensesCategories);
 
     function handleFieldChange(fieldName: string, value: any) {
         setData(prevData => ({
@@ -341,7 +343,8 @@ export default function Page(props: {
                     <TagsInput
                         label="Press Enter to submit a tag"
                         placeholder="Enter tag"
-                        defaultValue={data.allIncomeCategories}
+                        value={newIncomeCategories}
+                        onChange={(e) => setNewIncomeCategories(e)}
                     />
                     <Button onClick={updateIncomeCategories}>Save</Button>
                 </Modal>
@@ -357,7 +360,8 @@ export default function Page(props: {
                     <TagsInput
                         label="Press Enter to submit a tag"
                         placeholder="Enter tag"
-                        defaultValue={data.allExpensesCategories}
+                        value={newExpensesCategories}
+                        onChange={(e) => setNewExpensesCategories(e)}
                     />
                     <Button onClick={updateExpensesCategories}>Save</Button>
                 </Modal>
