@@ -265,12 +265,46 @@ export default function Page(props: {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
 
-    function updateIncomeCategories()
+    async function updateIncomeCategories()
     {
+        //newIncomeCategories
+        /*Object.entries(newIncomeCategories ?? [])
+            .map(([label]) => (({ label,  label })))*/
+        const response = await fetch(`/api/updateIncomeCategories`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: props.user.currentBankAccount,
+                categories: newIncomeCategories,
+            }),
+        });
 
+        if (!response.ok) throw new Error(response.statusText);
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Категории успешно обновлены',
+        })
     }
-    function updateExpensesCategories()
+    async function updateExpensesCategories()
     {
+        const response = await fetch(`/api/updateExpensesCategories`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: props.user.currentBankAccount,
+                categories: newExpensesCategories,
+            }),
+        });
+
+        if (!response.ok) throw new Error(response.statusText);
+        notifications.show({
+            title: 'Уведомление',
+            message: 'Категории успешно обновлены',
+        })
 
     }
 
