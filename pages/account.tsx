@@ -263,6 +263,15 @@ export default function Page(props: {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
 
+    function updateIncomeCategories()
+    {
+
+    }
+    function updateExpensesCategories()
+    {
+
+    }
+
     function incomeCategories()
     {
         setAddExpensesCategoryModalState(false)
@@ -320,7 +329,7 @@ export default function Page(props: {
                     категорию</Button><br/>
                 <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                       title={'Добавление категорий'}>
+                       title={'Добавление категорий доходов'}>
                     <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
                         setSegmentState(e);
                         if (e === '+') {
@@ -334,9 +343,9 @@ export default function Page(props: {
                         placeholder="Enter tag"
                         defaultValue={data.allIncomeCategories}
                     />
-                    <Button>Save</Button>
+                    <Button onClick={updateIncomeCategories}>Save</Button>
                 </Modal>
-                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий" opened={addExpensesCategoryModalState} onClose={()=> setAddExpensesCategoryModalState(false)}>
+                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов" opened={addExpensesCategoryModalState} onClose={()=> setAddExpensesCategoryModalState(false)}>
                     <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
                         setSegmentState(e);
                         if (e === '+') {
@@ -350,7 +359,7 @@ export default function Page(props: {
                         placeholder="Enter tag"
                         defaultValue={data.allExpensesCategories}
                     />
-                    <Button>Save</Button>
+                    <Button onClick={updateExpensesCategories}>Save</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
