@@ -15,7 +15,7 @@ import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
-import {currency} from "@/src/utils";
+import {currency, defaultExpensesCategories, defaultIncomeCategories} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
@@ -34,10 +34,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         operationStatus: "",
         newBalance: 0,
         newCategory: "",
-        incomeCategory: (props.bankAccount?.incomeCategories ?? [])
-            .map((e) => ({ value: e, label: t(e) })),
-        expensesCategory: (props.bankAccount?.expensesCategories ?? [])
-            .map((e) => ({ value: e, label: t(e) })),
+        incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({ value: e, label: t(e) })),
+        expensesCategory: (defaultExpensesCategories.concat(props.bankAccount?.expensesCategories ?? []).map((e) => ({ value: e, label: t(e) }))),
     });
     const [convertData, setConvertData] = useState({
         sum: 1,

@@ -2,6 +2,11 @@
 import IUser from "@/src/types/IUser";
 import IBankAccount from "@/src/types/IBankAccount";
 
+export const defaultIncomeCategories: string[] = ['categories.income.salary',"categories.income.gift","categories.income.premium",
+    "categories.income.debtRefund","categories.income.cashBack","categories.income.other"]
+export const defaultExpensesCategories: string[] = ["categories.expenses.products","categories.expenses.clothes","categories.expenses.house",
+    "categories.expenses.car","categories.expenses.entertainment","categories.expenses.duty","categories.expenses.other"]
+
 export function createUserObj(fio: string, email: string, password: string, bankAccount_id: string): IUser {
     return {
         _id: new ObjectId().toString(),
@@ -15,11 +20,6 @@ export function createUserObj(fio: string, email: string, password: string, bank
 }
 
 export function createBankAccountObj(userId: string, bankAccount_id: string, name?: string, currency?: string, balance?: number): IBankAccount {
-    const incomeCategories: string[] = ['categories.income.salary',"categories.income.gift","categories.income.premium",
-        "categories.income.debtRefund","categories.income.cashBack","categories.income.other"]
-    const expensesCategories: string[] = ["categories.expenses.products","categories.expenses.clothes","categories.expenses.house",
-        "categories.expenses.car","categories.expenses.entertainment","categories.expenses.duty","categories.expenses.other"]
-
     return {
         _id: bankAccount_id,
         user_id: userId,
@@ -27,8 +27,8 @@ export function createBankAccountObj(userId: string, bankAccount_id: string, nam
         currency: currency ?? "BYN",
         balance: balance ?? 0,
         invitingCode: inviteCode(),
-        incomeCategories: incomeCategories,
-        expensesCategories: expensesCategories
+        incomeCategories: [],
+        expensesCategories: []
     };
 }
 
