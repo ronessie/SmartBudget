@@ -15,24 +15,10 @@ export function createUserObj(fio: string, email: string, password: string, bank
 }
 
 export function createBankAccountObj(userId: string, bankAccount_id: string, name?: string, currency?: string, balance?: number): IBankAccount {
-    const incomeCategories: { [key: string]: string } = {
-        "salary": "salary",
-        "gift": "gift",
-        "premium": "premium",
-        "debt refund": "debt refund",
-        "cashback": "cashback",
-        "other": "other"
-    }
-
-    const expensesCategories: { [key: string]: string } = {
-        "products": "products",
-        "clothes": "clothes",
-        "house": "house",
-        "car": "car",
-        "entertainment": "entertainment",
-        "duty": "duty",
-        "other": "other"
-    }
+    const incomeCategories: string[] = ['categories.income.salary',"categories.income.gift","categories.income.premium",
+        "categories.income.debtRefund","categories.income.cashBack","categories.income.other"]
+    const expensesCategories: string[] = ["categories.expenses.products","categories.expenses.clothes","categories.expenses.house",
+        "categories.expenses.car","categories.expenses.entertainment","categories.expenses.duty","categories.expenses.other"]
 
     return {
         _id: bankAccount_id,

@@ -15,10 +15,11 @@ import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
-import {currency, ucFirst} from "@/src/utils";
+import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
+    const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
     const [categoryModalState, setCategoryModalState] = useState(false);
@@ -33,10 +34,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         operationStatus: "",
         newBalance: 0,
         newCategory: "",
-        incomeCategory: Object.entries(props.bankAccount?.incomeCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) })),
-        expensesCategory: Object.entries(props.bankAccount?.expensesCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) }))
+        incomeCategory: (props.bankAccount?.incomeCategories ?? [])
+            .map((e) => ({ value: e, label: t(e) })),
+        expensesCategory: (props.bankAccount?.expensesCategories ?? [])
+            .map((e) => ({ value: e, label: t(e) })),
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -45,7 +46,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         afterCurrency: "AED",
         newSum: 0
     });
-    const {t} = useTranslation('common');
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
     const dataChart1 = [

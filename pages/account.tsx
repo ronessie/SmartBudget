@@ -23,17 +23,19 @@ import {
     TextInput,
     Tooltip, SegmentedControl, TagsInput
 } from "@mantine/core";
-import {createBankAccountObj, ucFirst} from "@/src/utils";
+import {createBankAccountObj} from "@/src/utils";
 import Header from "../components/header"
 import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 export default function Page(props: {
     user: IUser,
     bankAccount: IBankAccount,
     bankAccounts: { label: string, value: string }[]
 }) {
+    const { t } = useTranslation();
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
@@ -58,10 +60,8 @@ export default function Page(props: {
         changeCurrency: props.bankAccount.currency,
         changeBankName: props.bankAccount.name,
         allCurrency: currency(),
-        allIncomeCategories: Object.entries(props.bankAccount?.incomeCategories ?? [])
-            .map(([label]) => (ucFirst(label))),
-        allExpensesCategories: Object.entries(props.bankAccount?.expensesCategories ?? [])
-            .map(([label]) => (ucFirst(label))),
+        allIncomeCategories: (props.bankAccount?.incomeCategories ?? []).map(e => t(e)),
+        allExpensesCategories: (props.bankAccount?.expensesCategories ?? []).map(e => t(e))
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
     const [newIncomeCategories, setNewIncomeCategories] = useState(data.allIncomeCategories);

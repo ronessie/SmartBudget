@@ -107,5 +107,24 @@
       "datePlaceholder": "Выберите дату",
       "addButton": "Добавить"
     }
+  },
+  "categories": {
+    "income": {
+      "salary": "Salary",
+      "gift": "Gift",
+      "premium": "Premium",
+      "debtRefund": "Debt Refund",
+      "cashBack": "Cashback",
+      "other": "Other"
+    },
+   "expenses": {
+     "products": "Products",
+     "clothes": "Clothes",
+     "house": "House",
+     "car": "Car",
+     "entertainment": "Entertainment",
+     "duty": "Duty",
+     "other": "Other"
+   }
   }
 }
