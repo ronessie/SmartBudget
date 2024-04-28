@@ -9,7 +9,7 @@ import {
     Container,
     Drawer,
     Group,
-    Modal,
+    Modal, NativeSelect,
     PasswordInput,
     PinInput,
     SegmentedControl,
@@ -18,7 +18,7 @@ import {
 import {useDisclosure} from "@mantine/hooks";
 import styles from "@/styles/pages.module.css";
 import React, {useState} from "react";
-import {createBankAccountObj, createUserObj, generate2FAcode, generatePassword} from "@/src/utils";
+import {createBankAccountObj, createUserObj, currency, generate2FAcode, generatePassword} from "@/src/utils";
 import validator from "validator";
 import IUser from "@/src/types/IUser";
 import {getSession, signIn} from "next-auth/react";
@@ -50,10 +50,26 @@ export default function Page(props: { user: IUser }) {
     const [registrationDrawerState, drawerRegistrationMethods] = useDisclosure(false);
     const [segmentState, setSegmentState] = useState('Log In');
     const [twoFAState, setTwoFAState] = useState(false);
+    const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
+    const [convertData, setConvertData] = useState({
+        sum: 1,
+        currency: currency(),
+        beforeCurrency: "AED",
+        afterCurrency: "AED",
+        newSum: 0
+    });
 
     const changeLanguage = async (language: string) => {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
+
+    function handleConvertChange(fieldName: string, value: any) {
+        setConvertData({
+            ...convertData,
+            [fieldName]: value,
+        });
+        console.log(convertData)
+    }
 
     function IndexHeader() {
         const [opened, {toggle}] = useDisclosure(false);
@@ -67,6 +83,7 @@ export default function Page(props: { user: IUser }) {
                     <Group gap={5} visibleFrom="xs">
                         <Button className={classes.button}>About</Button>
                         <Button className={classes.button}>Contacts</Button>
+                        <Button className={classes.button} onClick={converterAuthMethods.open}>Converter</Button>
                         <Button className={classes.button} onClick={drawerAuthMethods.open}>LogIn/SignIn</Button>
                     </Group>
                     <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm"/>
@@ -311,6 +328,36 @@ export default function Page(props: { user: IUser }) {
         if (!response.ok) throw new Error(response.statusText);
     }
 
+    async function convert() {
+        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString()))
+        {
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Сумма введена не верно',
+            })
+            handleConvertChange("sum", 0)
+            return
+        }
+        let {sum, afterCurrency, beforeCurrency} = convertData;
+
+        const response = await fetch('/api/converter', {
+            method: 'POST',
+            body: JSON.stringify({
+                sum,
+                afterCurrency,
+                beforeCurrency
+            }),
+        });
+
+        if (response.ok) {
+            console.log('converter api worked successfully!');
+            const convert = (await response.json()).result;
+            handleConvertChange("newSum", convert?.toFixed(2));
+        } else {
+            console.error('Failed work converter.');
+        }
+    }
+
     function authToReg() {
         drawerAuthMethods.close();
         drawerRegistrationMethods.open();
@@ -480,6 +527,27 @@ export default function Page(props: { user: IUser }) {
                     </Button><br/>
                     <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}>{t('2FA.resendLink')}</Link>
                 </Modal>
+                <Drawer
+                    title="Конвертер валют"
+                    opened={converterDrawerState}
+                    onClose={converterAuthMethods.close}
+                    overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                    position="right"
+                    offset={8} radius="md">
+                    <Group>
+                        <TextInput style={{width: 307}} label="Укажите сумму"
+                                   onChange={(e) => handleConvertChange("sum", e.target.value)}/>
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                                      onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
+                    </Group>
+                    <Group>
+                        <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
+                                   value={convertData.newSum}/>
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                                      onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
+                    <br/>
+                    <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
+                </Drawer>
             </div>
             <Footer/>
         </div>

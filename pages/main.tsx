@@ -182,6 +182,16 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
+
+        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString()))
+        {
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Сумма введена не верно',
+            })
+            handleConvertChange("sum", 0)
+            return
+        }
         let {sum, afterCurrency, beforeCurrency} = convertData;
 
         const response = await fetch('/api/converter', {
@@ -225,18 +235,18 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <div>
-                            <TextInput style={{width: 270}} label="Укажите сумму"
+                        <Group>
+                            <TextInput style={{width: 307}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
                                           defaultValue={props.bankAccount.currency}/>
-                        </div>
-                        <div>
-                            <TextInput readOnly={true} style={{width: 270}} label="Итоговая сумма"
+                        </Group>
+                        <Group>
+                            <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
                                        value={convertData.newSum}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
-                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
