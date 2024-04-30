@@ -164,7 +164,10 @@ export default function Page(props: {
     async function dataToDB() {
         const bankAccount = createBankAccountObj(props.user._id, new ObjectId().toString(), data.name, data.currency, data.balance);
 
-        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
+        const response = await fetch(`/api/addBankAccount`, {
+            method: 'POST',
+            body: JSON.stringify(bankAccount)
+        });
 
         if (!response.ok) throw new Error(response.statusText);
 
