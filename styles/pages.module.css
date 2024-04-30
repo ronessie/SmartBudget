@@ -6,6 +6,22 @@
     padding-top: 3%;
 }
 
+.welcomeText {
+    position: absolute;
+    margin-left: 30%;
+
+    font-family: revert-layer;
+    font-weight: 400;
+    font-size: 80px;
+    font-weight: bold;
+
+    background: linear-gradient(123.81deg, #00FFE0 11.62%, #0BD7FA 38.4%, #439FF3 88.38%, #0D8AFD 95.38%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
 /*.page {*/
 /*    width: 100vw;*/
 /*    height: 100vh;*/

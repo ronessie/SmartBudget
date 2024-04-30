@@ -8,7 +8,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Drawer, Group, Modal, NativeSelect, Paper, TextInput} from "@mantine/core";
+import {Button, Drawer, Group, Modal, NativeSelect, Paper, Table, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
@@ -18,10 +18,12 @@ import {useDisclosure} from "@mantine/hooks";
 import {currency, defaultExpensesCategories, defaultIncomeCategories} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 
-export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
-    const {t} = useTranslation('common');
+export default function Page(props: { user: IUser, bankAccount: IBankAccount, income: { category: string, sum: number, currency: string, date: string }[], expenses: { category: string, sum: number, currency: string, date: string }[] }) {
+    const { t } = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
+    const [allIncomeModalState, setAllIncomeModalState] = useState(false);
+    const [allExpensesModalState, setAllExpensesModalState] = useState(false);
     const [categoryModalState, setCategoryModalState] = useState(false);
     const [data, setData] = useState({
         sum: 0.0,
@@ -36,6 +38,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         newCategory: "",
         incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({ value: e, label: t(e) })),
         expensesCategory: (defaultExpensesCategories.concat(props.bankAccount?.expensesCategories ?? []).map((e) => ({ value: e, label: t(e) }))),
+        allIncome: Object.entries(props.income ?? [])
+            .map(([category, sum, currency, date]) => ({ category: ucFirst(category), sum, currency, date })),
+        allExpenses:  Object.entries(props.expenses ?? [])
+            .map(([category, sum, currency, date]) => ({ category: ucFirst(category), sum, currency, date })),
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -180,6 +186,16 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     }
 
     async function convert() {
+
+        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString()))
+        {
+            notifications.show({
+                title: 'Уведомление',
+                message: 'Сумма введена не верно',
+            })
+            handleConvertChange("sum", 0)
+            return
+        }
         let {sum, afterCurrency, beforeCurrency} = convertData;
 
         const response = await fetch('/api/converter', {
@@ -210,11 +226,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 <div>
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
+                        <Group>
                         <Button onClick={converterAuthMethods.open}>Конвертер</Button>
-                        {/*<Group>*/}
-                        {/*<Button>Мои доходы</Button>*/}
-                        {/*<Button>Мои расходы</Button>*/}
-                        {/*</Group>*/}
+                        <Button onClick={()=>setAllIncomeModalState(true)}>Мои доходы</Button>
+                        <Button onClick={()=>setAllExpensesModalState(true)}>Мои расходы</Button>
+                        </Group>
                     </div>
                     <Drawer
                         title="Конвертер валют"
@@ -223,18 +239,18 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <div>
-                            <TextInput style={{width: 270}} label="Укажите сумму"
+                        <Group>
+                            <TextInput style={{width: 307}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
                                           defaultValue={props.bankAccount.currency}/>
-                        </div>
-                        <div>
-                            <TextInput readOnly={true} style={{width: 270}} label="Итоговая сумма"
+                        </Group>
+                        <Group>
+                            <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
                                        value={convertData.newSum}/>
-                            <NativeSelect style={{width: 120, paddingTop: 25}} data={convertData.currency}
-                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></div>
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
@@ -318,6 +334,35 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         </Modal>
                     </div>
                     <br/>
+                    <Modal opened={allIncomeModalState} onClose={() => setAllIncomeModalState(false)}
+                           title="Все доходы" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <Table>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Категории</Table.Th>
+                                    <Table.Th>Сумма</Table.Th>
+                                    <Table.Th>Валюта</Table.Th>
+                                    <Table.Th>Дата</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            {/*<Table.Tbody>{rows}</Table.Tbody>*/}
+                        </Table>
+                    </Modal>
+                    <Modal opened={allExpensesModalState} onClose={() => setAllExpensesModalState(false)}
+                           title="Все расходы" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        {/*category: string, sum: number, currency: string, date: string*/}
+                        <Table>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Категории</Table.Th>
+                                    <Table.Th>Сумма</Table.Th>
+                                    <Table.Th>Валюта</Table.Th>
+                                    <Table.Th>Дата</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            {/*<Table.Tbody>{rows}</Table.Tbody>*/}
+                        </Table>
+                    </Modal>
                     <div>
                         <DonutChart data={dataChart1} title="Расходы"/>
                         <DonutChart data={dataChart2} title="Доходы"/>
@@ -339,10 +384,19 @@ export const getServerSideProps = async (ctx: any) => {
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
     const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+    const {NEXTAUTH_URL} = process.env;
+    const responseIncome = await fetch(`${NEXTAUTH_URL}/api/allIncome/${bankAcc._id}`);
+    const income = (await responseIncome.json()).result as { category: string, sum: number, currency: string, date: string }[];
+    const responseExpenses = await fetch(`${NEXTAUTH_URL}/api/allExpenses/${bankAcc._id}`);
+    if (!responseExpenses.ok) throw new Error(responseExpenses.statusText);
+    if (!responseIncome.ok) throw new Error(responseIncome.statusText);
+
+    const expenses = (await responseExpenses.json()).result as { category: string, sum: number, currency: string, date: string }[];
+
 
     return {
         props: {
-            user: user, bankAccount: bankAcc,
+            user: user, bankAccount: bankAcc, income: income, expenses: expenses,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }
