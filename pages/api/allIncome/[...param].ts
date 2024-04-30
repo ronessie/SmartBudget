@@ -7,16 +7,16 @@ export default async function allIncome(req: NextApiRequest, res: NextApiRespons
     if (!param || param.length < 1) return res.json({});
     const bankAccountId = param[0];
 
-    const {db} = await connectToDatabase();
-    const operations = (await db
-        .collection('operations')
-        .filter({bankAccount_id: bankAccountId, operationsStatus: "+"})
+    const { db } = await connectToDatabase();
+    const operationCollection = await db.collection('operations');
+
+    const operations = (await operationCollection
+        .find({bankAccount_id: bankAccountId, operationsStatus: "+"})
         .toArray()) as IOperation[];
 
     const result: { category: string, sum: number, currency: string, date: string }[] = [];
 
     operations.map((e) => result.push({category: e.category ?? '', sum: e.sum ?? 0, currency: e.currency ?? '', date: e.date?.toString() ?? ''}))
-    console.log(result);
 
     res.json({result: result});
 }
