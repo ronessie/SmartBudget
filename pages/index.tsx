@@ -372,6 +372,7 @@ export default function Page(props: { user: IUser }) {
         <div className={styles.page}>
             <IndexHeader/>
             <div className={styles.pageContent}>
+
                 <Link href={"checks"}>Чеки</Link>
                 <br/>
                 <Link href={"main"}>{t('indexPage.main')}</Link>
@@ -382,6 +383,13 @@ export default function Page(props: { user: IUser }) {
                 <br/>
                 <Button onClick={() => changeLanguage('en')}>EN</Button>
                 <Button onClick={() => changeLanguage('ru')}>RU</Button>
+                <br/>
+                <h1 className={styles.welcomeText}>Добро
+                    пожаловать!</h1><br/>
+                <Group>
+                    <img src="/images/bigTriangle.svg"/>
+                    <h1 style={{color: "grey", marginLeft: -200, fontSize: 40}}>Это приложение для учёта финансов SmartBudget</h1>
+                </Group><br/>
                 <div>
                     <Drawer
                         opened={authDrawerState}
