@@ -15,10 +15,11 @@ import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
-import {currency, ucFirst} from "@/src/utils";
+import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount, income: { category: string, sum: number, currency: string, date: string }[], expenses: { category: string, sum: number, currency: string, date: string }[] }) {
+    const { t } = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
     const [allIncomeModalState, setAllIncomeModalState] = useState(false);
@@ -35,14 +36,12 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
         operationStatus: "",
         newBalance: 0,
         newCategory: "",
-        incomeCategory: Object.entries(props.bankAccount?.incomeCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) })),
-        expensesCategory: Object.entries(props.bankAccount?.expensesCategories ?? [])
-            .map(([value, label]) => ({ value, label: ucFirst(label) })),
-        allIncome: Object.entries(props.income ?? [])
-            .map(([category, sum, currency, date]) => ({ category: ucFirst(category), sum, currency, date })),
-        allExpenses:  Object.entries(props.expenses ?? [])
-            .map(([category, sum, currency, date]) => ({ category: ucFirst(category), sum, currency, date })),
+        incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({ value: e, label: t(e) })),
+        expensesCategory: (defaultExpensesCategories.concat(props.bankAccount?.expensesCategories ?? []).map((e) => ({ value: e, label: t(e) }))),
+        allIncome: (props.income ?? [])
+            .map(({ category, sum, currency, date }) => ({ category: ucFirst(t(category)), sum, currency, date })),
+        allExpenses: (props.expenses ?? [])
+            .map(({ category, sum, currency, date }) => ({ category: ucFirst(t(category)), sum, currency, date })),
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -51,7 +50,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
         afterCurrency: "AED",
         newSum: 0
     });
-    const {t} = useTranslation('common');
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
     const dataChart1 = [
@@ -218,6 +216,42 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
         }
     }
 
+    function getIncomeTableRows() {
+        const rows = data.allIncome.map(({ category, sum, date, currency }) => {
+
+            const dateTime = new Date(date);
+            const day = String(dateTime.getDate()).padStart(2, '0');
+            const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+            const year = dateTime.getFullYear();
+
+            return (<Table.Tr key={`${category}-${sum}-${date}-${currency}`}>
+                <Table.Td>{category}</Table.Td>
+                <Table.Td>{sum}</Table.Td>
+                <Table.Td>{currency}</Table.Td>
+                <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
+            </Table.Tr>)});
+
+        return rows
+    }
+
+    function getExpensesTableRows() {
+        const rows = data.allExpenses.map(({ category, sum, date, currency }) => {
+
+            const dateTime = new Date(date);
+            const day = String(dateTime.getDate()).padStart(2, '0');
+            const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+            const year = dateTime.getFullYear();
+
+            return (<Table.Tr key={`${category}-${sum}-${date}-${currency}`}>
+                <Table.Td>{category}</Table.Td>
+                <Table.Td>{sum}</Table.Td>
+                <Table.Td>{currency}</Table.Td>
+                <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
+            </Table.Tr>)});
+
+        return rows
+    }
+
     const {data: session} = useSession();
     console.log(session);
 
@@ -347,7 +381,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                                     <Table.Th>Дата</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
-                            {/*<Table.Tbody>{rows}</Table.Tbody>*/}
+                            {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
                     <Modal opened={allExpensesModalState} onClose={() => setAllExpensesModalState(false)}
@@ -362,7 +396,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                                     <Table.Th>Дата</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
-                            {/*<Table.Tbody>{rows}</Table.Tbody>*/}
+                            {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
                     <div>

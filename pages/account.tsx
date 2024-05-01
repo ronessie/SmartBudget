@@ -21,19 +21,21 @@ import {
     Switch,
     Text,
     TextInput,
-    Tooltip, SegmentedControl, TagsInput
+    Tooltip, SegmentedControl, TagsInput, InputBase, Pill
 } from "@mantine/core";
-import {createBankAccountObj, ucFirst} from "@/src/utils";
+import {createBankAccountObj, defaultExpensesCategories, defaultIncomeCategories} from "@/src/utils";
 import Header from "../components/header"
 import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 export default function Page(props: {
     user: IUser,
     bankAccount: IBankAccount,
     bankAccounts: { label: string, value: string }[]
 }) {
+    const { t } = useTranslation();
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
@@ -58,10 +60,8 @@ export default function Page(props: {
         changeCurrency: props.bankAccount.currency,
         changeBankName: props.bankAccount.name,
         allCurrency: currency(),
-        allIncomeCategories: Object.entries(props.bankAccount?.incomeCategories ?? [])
-            .map(([label]) => (ucFirst(label))),
-        allExpensesCategories: Object.entries(props.bankAccount?.expensesCategories ?? [])
-            .map(([label]) => (ucFirst(label))),
+        allIncomeCategories: (props.bankAccount?.incomeCategories ?? []).map(e => t(e)),
+        allExpensesCategories: (props.bankAccount?.expensesCategories ?? []).map(e => t(e))
     });
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
     const [newIncomeCategories, setNewIncomeCategories] = useState(data.allIncomeCategories);
@@ -364,8 +364,8 @@ export default function Page(props: {
                             style={{width: 410, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Добавить
-                    категорию</Button><br/>
+                <Button style={{width: 200}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
+                    категории</Button><br/>
                 <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Добавление категорий доходов'}>
@@ -377,15 +377,26 @@ export default function Page(props: {
                             expensesCategories()
                         }
                     }}/>
+                    <InputBase component="div" multiline label={'Стандартные категории доходов'}>
+                        <Pill.Group>{defaultIncomeCategories.map(e => (
+                            <Pill key={e} withRemoveButton disabled>
+                                {t(e)}
+                            </Pill>
+                        ))}</Pill.Group>
+                    </InputBase>
                     <TagsInput
-                        label="Press Enter to submit a tag"
-                        placeholder="Enter tag"
+                        label="Личные категории доходов"
+                        placeholder="Введите личные категории доходов"
                         value={newIncomeCategories}
                         onChange={(e) => setNewIncomeCategories(e)}
                     />
                     <Button onClick={updateIncomeCategories}>Save</Button>
                 </Modal>
-                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов" opened={addExpensesCategoryModalState} onClose={()=> setAddExpensesCategoryModalState(false)}>
+                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов" opened={addExpensesCategoryModalState}
+                       onClose={() => {
+                           setSegmentState('+')
+                           setAddExpensesCategoryModalState(false)
+                       }}>
                     <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
                         setSegmentState(e);
                         if (e === '+') {
@@ -394,9 +405,16 @@ export default function Page(props: {
                             expensesCategories()
                         }
                     }}/>
+                    <InputBase component="div" multiline label={'Стандартные категории расходов'}>
+                        <Pill.Group>{defaultExpensesCategories.map(e => (
+                            <Pill key={e} withRemoveButton disabled>
+                                {t(e)}
+                            </Pill>
+                        ))}</Pill.Group>
+                    </InputBase>
                     <TagsInput
-                        label="Press Enter to submit a tag"
-                        placeholder="Enter tag"
+                        label="Личные категории расходов"
+                        placeholder="Введите личные категории расходов"
                         value={newExpensesCategories}
                         onChange={(e) => setNewExpensesCategories(e)}
                     />
