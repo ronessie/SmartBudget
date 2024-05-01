@@ -324,7 +324,10 @@ export default function Page(props: { user: IUser }) {
 
         const bankAccount = createBankAccountObj(user._id, bankAccount_id);
 
-        const response = await fetch(`/api/addBankAccount/${JSON.stringify(bankAccount)}`);
+        const response = await fetch(`/api/addBankAccount`, {
+            method: 'POST',
+            body: JSON.stringify(bankAccount)
+        });
         if (!response.ok) throw new Error(response.statusText);
     }
 
