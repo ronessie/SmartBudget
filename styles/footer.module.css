@@ -1,4 +1,7 @@
 .footer {
+    right: 0;
+    bottom: 0;
+    position: fixed;
     /*noinspection CssInvalidFunction*/
     margin-top: 11.5rem;
     /*noinspection CssInvalidFunction*/

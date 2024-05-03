@@ -1,5 +1,6 @@
 import {useTranslation} from 'next-i18next';
 import path from 'path';
+import { GoogleIcon } from '../public/images/GoogleIcon';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
@@ -431,21 +432,23 @@ export default function Page(props: { user: IUser }) {
                                 style={{width: 410, marginTop: 20, fontSize: 18}}
                                 onClick={checkDate}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
-                        <Button style={{width: 410, marginTop: 5, fontSize: 18, backgroundColor: "grey"}}
+                        <Button style={{width: 410, marginTop: 5, fontSize: 18}}
+                                leftSection={<GoogleIcon />}
+                                variant={"outline"}
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
-                        <Link href="" onClick={() => {
+                        <Button variant={"transparent"} onClick={() => {
                             setSegmentState('Sign In');
                             authToReg();
                         }}
                               style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
-                              title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Link><br/>
+                                title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button><br/>
 
-                        <Link href={""} title={t('authenticationPage.placeholder.changePassLink')}
+                        <Button variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
                               style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
                               onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
-                            {t('authenticationPage.changePasswordLink')}</Link>
+                            {t('authenticationPage.changePasswordLink')}</Button>
 
                         <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
@@ -514,17 +517,18 @@ export default function Page(props: { user: IUser }) {
                                 title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                         <br/>
                         <Button onClick={googleAuthentication}
+                                leftSection={<GoogleIcon />}
+                                variant={"outline"}
                                 style={{
                                     width: 410,
                                     marginTop: 5,
                                     fontSize: 20,
-                                    backgroundColor: "grey"
                                 }}>{t('registrationPage.googleButton')}</Button>
-                        <Link style={{textAlign: "center", paddingLeft: 100}} href=""
+                        <Button style={{textAlign: "center", paddingLeft: 100, fontSize: 16}} variant={"transparent"}
                               onClick={() => {
                                   setSegmentState('Log In');
                                   regToAuth();
-                              }}>{t('registrationPage.link')}</Link>
+                              }}>{t('registrationPage.link')}</Button>
                     </Drawer></div>
                 <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
