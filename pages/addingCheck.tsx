@@ -24,6 +24,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const [checkText, setCheckText] = useState({
         text: "",
         filePath: "",
+        fileName: "",
     });
 
     function handleFieldChange(fieldName: string, value: any) {
@@ -57,6 +58,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
     const handleImageChange = (e: any) => {
         setImage(e);
+        handleFieldChange("fileName", e[0].name)
+        console.log(e[0].name)
     };
 
     const handleUpload = async () => {
@@ -141,6 +144,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         <div className={styles.page}>
             <Header/>
             <div className={styles.pageContent}><br/>
+                <Text size="sm" ta="center" mt="sm">
+                    Picked file: {checkText.fileName}
+                </Text>
                 <Dropzone
                     maxFiles={1}
                     openRef={openRef}
@@ -189,6 +195,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 </Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
+                       withCloseButton={false}
+                       closeOnClickOutside={false}
+                       closeOnEscape={false}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <div>
                         <Textarea size="md"
@@ -196,7 +205,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Button onClick={updateCheckText}>Save</Button>
                     </div>
                 </Modal>
-                <Modal opened={loaderModalState} withCloseButton={false} onClose={() => setLoaderModalState(false)}
+                <Modal opened={loaderModalState} withCloseButton={false} closeOnClickOutside={false}
+                       closeOnEscape={false} onClose={() => setLoaderModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <div>
                         <h1>Загрузка фото, а так же ожидание расшифровки может занять некоторое время.</h1><br/>
