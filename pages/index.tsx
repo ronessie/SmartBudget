@@ -377,16 +377,16 @@ export default function Page(props: { user: IUser }) {
             <IndexHeader/>
             <div className={styles.pageContent}>
 
-                <Link href={"checks"}>Чеки</Link>
-                <br/>
-                <Link href={"main"}>{t('indexPage.main')}</Link>
-                <br/>
-                <Link href={"addingCheck"}>Добавить чек</Link>
-                <br/>
-                <Link href={"account"}>Аккаунт</Link>
-                <br/>
-                <Button onClick={() => changeLanguage('en')}>EN</Button>
-                <Button onClick={() => changeLanguage('ru')}>RU</Button>
+                {/*<Link href={"checks"}>Чеки</Link>*/}
+                {/*<br/>*/}
+                {/*<Link href={"main"}>{t('indexPage.main')}</Link>*/}
+                {/*<br/>*/}
+                {/*<Link href={"addingCheck"}>Добавить чек</Link>*/}
+                {/*<br/>*/}
+                {/*<Link href={"account"}>Аккаунт</Link>*/}
+                {/*<br/>*/}
+                {/*<Button onClick={() => changeLanguage('en')}>EN</Button>*/}
+                {/*<Button onClick={() => changeLanguage('ru')}>RU</Button>*/}
                 <br/>
                 <h1 className={styles.welcomeText}>Добро
                     пожаловать!</h1><br/>

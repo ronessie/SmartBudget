@@ -3,9 +3,9 @@ import IUser from "@/src/types/IUser";
 import IBankAccount from "@/src/types/IBankAccount";
 
 export const defaultIncomeCategories: string[] = ['categories.income.salary',"categories.income.gift","categories.income.premium",
-    "categories.income.debtRefund","categories.income.cashBack","categories.income.other"]
+    "categories.income.debtRefund","categories.income.cashBack"]
 export const defaultExpensesCategories: string[] = ["categories.expenses.products","categories.expenses.clothes","categories.expenses.house",
-    "categories.expenses.car","categories.expenses.entertainment","categories.expenses.duty","categories.expenses.other"]
+    "categories.expenses.car","categories.expenses.entertainment","categories.expenses.duty"]
 
 export function createUserObj(fio: string, email: string, password: string, bankAccount_id: string): IUser {
     return {

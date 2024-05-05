@@ -24,7 +24,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
     const [expensesModalState, setExpensesModalState] = useState(false);
     const [allIncomeModalState, setAllIncomeModalState] = useState(false);
     const [allExpensesModalState, setAllExpensesModalState] = useState(false);
-    const [categoryModalState, setCategoryModalState] = useState(false);
     const [data, setData] = useState({
         sum: 0.0,
         currency: props.bankAccount.currency,
@@ -177,11 +176,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                 message: 'Дата введена не верно',
             })
             return
-        }
-        if (data.category === "other") {
-            setCategoryModalState(true);
-        } else {
-            await dataToDB();
         }
     }
 
@@ -357,16 +351,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                                         fontSize: 20
                                     }}>{t('mainPage.expensesModal.addButton')}
                             </Button>
-                        </Modal>
-                        <Modal opened={categoryModalState} onClose={() => setCategoryModalState(false)}
-                               title="Добавление новой категории" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                            <TextInput label="Введите название категории"
-                                       onChange={(e) => handleFieldChange("newCategory", e.target.value)}/>
-                            <Button style={{
-                                width: 408,
-                                marginTop: 20,
-                                fontSize: 20
-                            }}>Добавить</Button>
                         </Modal>
                     </div>
                     <br/>
