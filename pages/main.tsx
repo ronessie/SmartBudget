@@ -177,6 +177,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
             })
             return
         }
+        else {
+            await dataToDB()
+        }
     }
 
     async function convert() {

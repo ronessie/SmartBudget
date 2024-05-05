@@ -1,6 +1,6 @@
 import {useTranslation} from 'next-i18next';
 import path from 'path';
-import { GoogleIcon } from '../public/images/GoogleIcon';
+import { GoogleIcon } from '@/public/images/GoogleIcon';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
@@ -391,7 +391,7 @@ export default function Page(props: { user: IUser }) {
                 <h1 className={styles.welcomeText}>Добро
                     пожаловать!</h1><br/>
                 <Group>
-                    <img src="/images/bigTriangle.svg"/>
+                    <img alt="" src="/images/bigTriangle.svg"/>
                     <h1 style={{color: "grey", marginLeft: -200, fontSize: 40}}>Это приложение для учёта финансов SmartBudget</h1>
                 </Group><br/>
                 <div>
