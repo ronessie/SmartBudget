@@ -1,13 +1,17 @@
 {
   "indexPage": {
-    "authentication": "Вход",
-    "registration": "Регистрация",
-    "main": "Главная",
-    "operations": "Операции",
     "languages": {
       "russian": "Русский",
       "english": "Английский"
-    }
+    },
+    "hello": "Добро пожаловать!",
+    "aboutText": "Приложение для учёта финансов SmartBudget",
+    "about": "О нас",
+    "contacts": "Контакты",
+    "converter": "Конвертер",
+    "logIn/signIn": "Войти",
+    "privacy": "Безопасность",
+    "help": "Помощь"
   },
   "authenticationPage": {
     "signIn": "Вход",
@@ -126,5 +130,20 @@
      "duty": "Duty",
      "other": "Other"
    }
+  },
+  "addFilePage":{
+    "pickedFile": "Выбранный файл: ",
+    "upload": "Загрузить",
+    "description": "Перетащите файл сюда для загрузки.",
+    "accept": "Перетащите файл сюда",
+    "reject": "Png файл весит более 30 Мб",
+    "idle": "Загрузить файл"
+  },
+  "header": {
+    "main": "Главная",
+    "account": "Аккаунт",
+    "addingCheck": "Добавить чек",
+    "checks": "Чеки",
+    "logOut": "Выйти"
   }
 }

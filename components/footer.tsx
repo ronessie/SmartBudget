@@ -2,16 +2,16 @@ import { Container, Group, Anchor, Divider } from '@mantine/core'
 import classes from '../styles/footer.module.css';
 import { useTranslation } from 'next-i18next'
 
-const links = [
-    { link: '#', label: 'About' },
-    { link: '#', label: 'Contact' },
-    { link: '#', label: 'Privacy' },
-    { link: '#', label: 'Help' },
-]
+
 
 export default function Footer() {
     const { t } = useTranslation()
-
+    const links = [
+        { link: '#', label: 'indexPage.about' },
+        { link: '#', label: 'indexPage.contacts' },
+        { link: '#', label: 'indexPage.privacy' },
+        { link: '#', label: 'indexPage.help' },
+    ]
     const items = links.map((link) => (
         <Anchor<'a'>
             c='dimmed'
@@ -20,7 +20,7 @@ export default function Footer() {
             onClick={(event) => event.preventDefault()}
             size='sm'
         >
-            {link.label}
+            {t(link.label)}
         </Anchor>
     ))
 

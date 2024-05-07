@@ -82,12 +82,11 @@ export default function Page(props: { user: IUser }) {
                     <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
                          onClick={() => router.push('/')}/>
                     <Group gap={5} visibleFrom="xs">
-                        <Button className={classes.button}>About</Button>
-                        <Button className={classes.button}>Contacts</Button>
-                        <Button className={classes.button} onClick={converterAuthMethods.open}>Converter</Button>
-                        <Button className={classes.button} onClick={drawerAuthMethods.open}>LogIn/SignIn</Button>
+                        <Button className={classes.button}>{t('indexPage.about')}</Button>
+                        <Button className={classes.button}>{t('indexPage.contacts')}</Button>
+                        <Button className={classes.button} onClick={converterAuthMethods.open}>{t('indexPage.converter')}</Button>
+                        <Button className={classes.button} onClick={drawerAuthMethods.open}>{t('indexPage.logIn/signIn')}</Button>
                     </Group>
-                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm"/>
                 </Container>
             </header>
         );
@@ -385,14 +384,13 @@ export default function Page(props: { user: IUser }) {
                 {/*<br/>*/}
                 {/*<Link href={"account"}>Аккаунт</Link>*/}
                 {/*<br/>*/}
-                {/*<Button onClick={() => changeLanguage('en')}>EN</Button>*/}
-                {/*<Button onClick={() => changeLanguage('ru')}>RU</Button>*/}
+                <Button onClick={() => changeLanguage('en')}>EN</Button>
+                <Button onClick={() => changeLanguage('ru')}>RU</Button>
                 <br/>
-                <h1 className={styles.welcomeText}>Добро
-                    пожаловать!</h1><br/>
+                <h1 className={styles.welcomeText}>{t('indexPage.hello')}</h1><br/>
                 <Group>
                     <img alt="" src="/images/bigTriangle.svg"/>
-                    <h1 style={{color: "grey", marginLeft: -200, fontSize: 40}}>Это приложение для учёта финансов SmartBudget</h1>
+                    <h1 style={{color: "grey", marginLeft: -200, fontSize: 40}}>{t('indexPage.aboutText')}</h1>
                 </Group><br/>
                 <div>
                     <Drawer

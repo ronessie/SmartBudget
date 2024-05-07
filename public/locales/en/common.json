@@ -1,13 +1,17 @@
 {
   "indexPage": {
-    "authentication": "Authentication",
-    "registration": "Registration",
-    "main": "Main",
-    "operations": "Operations",
     "languages": {
       "russian": "Russian",
       "english": "English"
-    }
+    },
+    "hello": "Welcome!",
+    "aboutText": "SmartBudget Financial Accounting App",
+    "about": "About",
+    "contacts": "Contacts",
+    "converter": "Converter",
+    "logIn/signIn": "LogIn",
+    "privacy": "Privacy",
+    "help": "Help"
   },
   "authenticationPage": {
     "signIn": "Authorization",
@@ -107,5 +111,20 @@
       "datePlaceholder": "Select the date",
       "addButton": "Add"
     }
+  },
+  "addFilePage":{
+    "pickedFile": "Picked file: ",
+    "upload": "Upload",
+    "description": "Drag'n'drop files here to upload.",
+    "accept": "Drop files here",
+    "reject": "Png file less than 30mb",
+    "idle": "Upload file"
+  },
+  "header": {
+    "main": "Main",
+    "account": "Account",
+    "addingCheck": "Adding check",
+    "checks": "Checks",
+    "logOut": "LogOut"
   }
 }

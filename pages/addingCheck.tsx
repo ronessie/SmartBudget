@@ -14,6 +14,7 @@ import {Text, Group, Button, rem, useMantineTheme, Modal, Textarea, Loader} from
 import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
 import {IconCloudUpload, IconX, IconDownload} from '@tabler/icons-react';
 import {notifications} from "@mantine/notifications";
+import {useTranslation} from "next-i18next";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount }) {
     const [image, setImage] = useState(null);
@@ -21,6 +22,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const openRef = useRef<() => void>(null);
     const [textModalState, setTextModalState] = useState(false);
     const [loaderModalState, setLoaderModalState] = useState(false);
+    const { t } = useTranslation('common');
     const [checkText, setCheckText] = useState({
         text: "",
         filePath: "",
@@ -145,7 +147,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
             <Header/>
             <div className={styles.pageContent}><br/>
                 <Text size="sm" ta="center" mt="sm">
-                    Picked file: {checkText.fileName}
+                    {t('addFilePage.pickedFile')} {checkText.fileName}
                 </Text>
                 <Dropzone
                     maxFiles={1}
@@ -179,20 +181,18 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         </Group>
 
                         <Text ta="center" fw={700} fz="lg" mt="xl">
-                            <Dropzone.Accept>Drop files here</Dropzone.Accept>
-                            <Dropzone.Reject>Png file less than 30mb</Dropzone.Reject>
-                            <Dropzone.Idle>Upload file</Dropzone.Idle>
+                            <Dropzone.Accept>{t('addFilePage.accept')}</Dropzone.Accept>
+                            <Dropzone.Reject>{t('addFilePage.reject')}</Dropzone.Reject>
+                            <Dropzone.Idle>{t('addFilePage.idle')}</Dropzone.Idle>
                         </Text>
                         <Text ta="center" fz="sm" mt="xs" c="dimmed">
-                            Drag&apos;n&apos;drop files here to upload.
+                            {t('addFilePage.description')}
                         </Text>
                     </div>
                     <br/>
                 </Dropzone><br/>
                 <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 835}} size="md"
-                                                        radius="xl" onClick={handleUpload}>
-                    Upload
-                </Button>
+                                                        radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
                        withCloseButton={false}
