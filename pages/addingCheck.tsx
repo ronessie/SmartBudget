@@ -146,7 +146,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         <div className={styles.page}>
             <Header/>
             <div className={styles.pageContent}><br/>
-                <Text size="sm" ta="center" mt="sm">
+                <Text size="sm" ta="center" mt="sm" style={{fontSize: 20}}>
                     {t('addFilePage.pickedFile')} {checkText.fileName}
                 </Text>
                 <Dropzone
@@ -154,8 +154,6 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     openRef={openRef}
                     onDrop={handleImageChange}
                     radius="md"
-                    /*style={{borderRadius: 20, border: 3, borderColor: "blue", borderStyle: "dashed", width: 1000, marginLeft: 460}}*/
-                    /*className={classes.dropzone}*/
                     accept={[MIME_TYPES.png]}
                     maxSize={30 * 1024 ** 2}>
                     <div style={{pointerEvents: 'none'}}><br/>
@@ -163,20 +161,20 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Group justify="center">
                             <Dropzone.Accept>
                                 <IconDownload
-                                    style={{width: rem(100), height: rem(100)}}
+                                    style={{width: rem(150), height: rem(150)}}
                                     color={theme.colors.blue[6]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Accept>
                             <Dropzone.Reject>
                                 <IconX
-                                    style={{width: rem(100), height: rem(100)}}
+                                    style={{width: rem(150), height: rem(150)}}
                                     color={theme.colors.red[6]}
                                     stroke={1.5}
                                 />
                             </Dropzone.Reject>
                             <Dropzone.Idle>
-                                <IconCloudUpload style={{width: rem(100), height: rem(100)}} stroke={1.5}/>
+                                <IconCloudUpload style={{width: rem(150), height: rem(150)}} stroke={1.5}/>
                             </Dropzone.Idle>
                         </Group>
 
@@ -191,7 +189,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                 </Dropzone><br/>
-                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 835}} size="md"
+                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 820}} size="md"
                                                         radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
