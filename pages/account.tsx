@@ -270,9 +270,6 @@ export default function Page(props: {
 
     async function updateIncomeCategories()
     {
-        //newIncomeCategories
-        /*Object.entries(newIncomeCategories ?? [])
-            .map(([label]) => (({ label,  label })))*/
         const response = await fetch(`/api/updateIncomeCategories`, {
             method: 'POST',
             headers: {
@@ -359,9 +356,9 @@ export default function Page(props: {
                                   title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency} defaultValue={props.bankAccount.currency}></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
-                            onChange={(event) => setChecked2FA(event.currentTarget.checked)}/><br/>
+                            onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
                     <Button onClick={updateData}
-                            style={{width: 410, fontSize: 20}}>Сохранить
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
@@ -390,7 +387,7 @@ export default function Page(props: {
                         value={newIncomeCategories}
                         onChange={(e) => setNewIncomeCategories(e)}
                     />
-                    <Button onClick={updateIncomeCategories}>Save</Button>
+                    <Button onClick={updateIncomeCategories} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                 </Modal>
                 <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов" opened={addExpensesCategoryModalState}
                        onClose={() => {
@@ -418,7 +415,7 @@ export default function Page(props: {
                         value={newExpensesCategories}
                         onChange={(e) => setNewExpensesCategories(e)}
                     />
-                    <Button onClick={updateExpensesCategories}>Save</Button>
+                    <Button onClick={updateExpensesCategories} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
@@ -474,7 +471,7 @@ export default function Page(props: {
                     <h1>Выберите счёт:</h1>
                     <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
                                   data={data.bankAccounts}></NativeSelect>
-                    <Button onClick={changeBankAccount}>Перейти</Button>
+                    <Button onClick={changeBankAccount} style={{width: 410, marginTop: 20, fontSize: 20}}>Перейти</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
                     код</Button>
