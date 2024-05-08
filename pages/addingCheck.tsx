@@ -198,9 +198,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                        closeOnEscape={false}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <div>
-                        <Textarea size="md"
+                        <Textarea size="xl" autosize
                                   value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
-                        <Button onClick={updateCheckText}>Save</Button>
+                        <Button onClick={updateCheckText} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                     </div>
                 </Modal>
                 <Modal opened={loaderModalState} withCloseButton={false} closeOnClickOutside={false}
