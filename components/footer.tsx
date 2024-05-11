@@ -1,23 +1,25 @@
 import { Container, Group, Anchor, Divider } from '@mantine/core'
 import classes from '../styles/footer.module.css';
 import { useTranslation } from 'next-i18next'
+import {useRouter} from "next/navigation";
 
 
 
 export default function Footer() {
+    const router = useRouter();
     const { t } = useTranslation()
     const links = [
-        { link: '#', label: 'indexPage.about' },
-        { link: '#', label: 'indexPage.contacts' },
-        { link: '#', label: 'indexPage.privacy' },
-        { link: '#', label: 'indexPage.help' },
+        { link: '#', label: 'indexPage.about', onClick: ()=>router.push('/') },
+        { link: '#', label: 'indexPage.contacts', onClick: ()=>router.push('/') },
+        { link: '/policy', label: 'indexPage.privacy', onClick: ()=>router.push('/policy')},
+        { link: '#', label: 'indexPage.help', onClick: ()=>router.push('/') },
     ]
     const items = links.map((link) => (
         <Anchor<'a'>
             c='dimmed'
             key={link.label}
             href={link.link}
-            onClick={(event) => event.preventDefault()}
+            onClick={link.onClick}
             size='sm'
         >
             {t(link.label)}
