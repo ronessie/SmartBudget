@@ -10,15 +10,17 @@ import Footer from "../components/footer"
 import {Carousel} from '@mantine/carousel';
 import {useState} from "react";
 
-export default function Page(props: { user: IUser, bankAccount: IBankAccount, checks: string[] }) {
+export default function Page(props: { user: IUser, bankAccount: IBankAccount, checks: string[], /*checksText: string[]*/ }) {
     const [data, setData] = useState({
         images: props.checks,
+        // text: props.checksText
     });
 
     function Carusel() {
         const slides = data.images.map((url) => (
-            <Carousel.Slide key={url} style={{width: 700, height: 500}}>
+            <Carousel.Slide key={url} style={{width: 700, height: 700}}>
                 <Image src={'/uploads/' + url}/>
+                {/*<h1>{data.text}</h1>*/}
             </Carousel.Slide>
         ));
 
@@ -48,11 +50,14 @@ export const getServerSideProps = async (ctx: any) => {
     const response = await fetch(`${NEXTAUTH_URL}/api/userChecks/${JSON.stringify(user)}`);
     if (!response.ok) throw new Error(response.statusText);
     const checks = (await response.json()).result as string[];
+    //const checksText = (await response.json()).text as string[];
+    console.log(checks)
 
     return {
         props: {
             user: user, bankAccount: bankAcc,
             checks: checks,
+            //checksText: checksText,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }

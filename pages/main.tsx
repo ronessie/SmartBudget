@@ -13,10 +13,10 @@ import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
-import Footer from "../components/footer"
 import {useDisclosure} from "@mantine/hooks";
 import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
+import LongFooter from "@/components/longFooter";
 
 export default function Page(props: { user: IUser, bankAccount: IBankAccount, income: { category: string, sum: number, currency: string, date: string }[], expenses: { category: string, sum: number, currency: string, date: string }[] }) {
     const { t } = useTranslation('common');
@@ -260,9 +260,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Group>
-                        <Button onClick={converterAuthMethods.open}>Конвертер</Button>
-                        <Button onClick={()=>setAllIncomeModalState(true)}>Мои доходы</Button>
-                        <Button onClick={()=>setAllExpensesModalState(true)}>Мои расходы</Button>
+                        <Button variant={"outline"} onClick={converterAuthMethods.open}>Конвертер</Button>
+                        <Button variant={"outline"} onClick={()=>setAllIncomeModalState(true)}>Мои доходы</Button>
+                        <Button variant={"outline"} onClick={()=>setAllExpensesModalState(true)}>Мои расходы</Button>
                         </Group>
                     </div>
                     <Drawer
@@ -395,7 +395,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
 
                 </div>
             </div>
-            <Footer/>
+            <LongFooter/>
         </div>
     )
 }

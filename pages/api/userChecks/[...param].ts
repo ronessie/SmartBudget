@@ -16,10 +16,10 @@ export default async function userChecks(req: NextApiRequest, res: NextApiRespon
         .find()
         .toArray()) as ICheck[];
 
-    console.log("Test: " + checks)
 
     const filePaths = checks.map(c => c.filePath) as string[];
+    const recognitionText = checks.map(c => c.checkText ?? "") as string[];
     console.log(filePaths);
 
-    res.json({result: filePaths});
+    res.json({result: filePaths, text: recognitionText??""});
 }
