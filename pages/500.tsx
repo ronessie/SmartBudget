@@ -3,6 +3,7 @@ import {Button, Container, Image, Text, Title} from '@mantine/core';
 import {useRouter} from 'next/router';
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {GetStaticProps} from "next";
 
 const Error500Page = () => {
     const router = useRouter();
@@ -27,10 +28,10 @@ const Error500Page = () => {
 
 export default Error500Page;
 
-export const getServerSideProps = async (ctx: any) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...(await serverSideTranslations(ctx.locale, ['common']))
-        }
+            ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+        },
     }
-};
+}
