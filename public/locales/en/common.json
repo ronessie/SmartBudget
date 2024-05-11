@@ -11,7 +11,8 @@
     "converter": "Converter",
     "logIn/signIn": "LogIn",
     "privacy": "Privacy",
-    "help": "Help"
+    "help": "Help",
+    "onMain": "On Main"
   },
   "authenticationPage": {
     "signIn": "Authorization",
@@ -126,5 +127,15 @@
     "addingCheck": "Adding check",
     "checks": "Checks",
     "logOut": "LogOut"
+  },
+  "404": {
+    "title": "Oops! Something went wrong",
+    "text": "We apologize, but it seems there was an internal server error.",
+    "button": "Go back to Home"
+  },
+  "500": {
+    "title": "Internal Server Error",
+    "text": "Sorry, something went wrong on our end. Please try again later.",
+    "button": "Go back to Home"
   }
 }
