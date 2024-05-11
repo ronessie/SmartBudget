@@ -2,15 +2,31 @@ import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Header from "../components/header"
 import styles from "@/styles/pages.module.css";
-import {useState} from "react";
+import React, {useState} from "react";
 import LongFooter from "@/components/longFooter";
-import {List} from "@mantine/core";
+import {Button, Container, Drawer, Group, List, NativeSelect, TextInput} from "@mantine/core";
+import classes from "@/styles/header.module.css";
+import {useRouter} from "next/navigation";
+import {useTranslation} from "next-i18next";
+import {useDisclosure} from "@mantine/hooks";
 
 export default function Page() {
+    const router = useRouter();
+    const { t } = useTranslation('common');
 
     return (
         <div className={styles.page}>
-            <Header/> {/*надо поменять хедер*/}
+            <header className={classes.header}>
+                <Container size="md" className={classes.inner}>
+                    <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
+                         onClick={() => router.push('/')}/>
+                    <Group gap={5} visibleFrom="xs">
+                        <Button className={classes.button}>{t('indexPage.about')}</Button>
+                        <Button className={classes.button}>{t('indexPage.contacts')}</Button>
+                        <Button className={classes.button} onClick={()=> router.push('/')}>{t('indexPage.onMain')}</Button>
+                    </Group>
+                </Container>
+            </header>
             <div className={styles.pageContent} style={{width: 800, textAlign: "justify", marginLeft: 500}}>
                 <h1 style={{color: "blue", fontSize: 30}}>Политика конфиденциальности</h1>
                 <h2>Настоящая Политика конфиденциальности регулирует способ, которым SmartBudget собирает, использует,
