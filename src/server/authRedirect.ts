@@ -1,11 +1,14 @@
 import {getSession} from 'next-auth/react';
 
-export async function authRedirect(ctx: any) {
+export async function authRedirect(ctx: any, destination: string) {
     const session = await getSession(ctx);
-    if (!session)
+
+    if (!session) {
         return {
-            destination: '/',
+            destination,
             permanent: false
         };
+    }
+
     return undefined;
 }

@@ -17,6 +17,7 @@ import {useDisclosure} from "@mantine/hooks";
 import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 import Footer from "@/components/footer";
+import {authRedirect} from "@/src/server/authRedirect";
 
 export default function Page(props: {
     user: IUser,
@@ -531,32 +532,35 @@ export default function Page(props: {
 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
-
     const {db} = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
-    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
-    const {NEXTAUTH_URL} = process.env;
-    const responseIncome = await fetch(`${NEXTAUTH_URL}/api/allIncome/${bankAcc._id}`);
-    const income = (await responseIncome.json()).result as {
-        category: string,
-        sum: number,
-        currency: string,
-        date: string
-    }[];
-    const responseExpenses = await fetch(`${NEXTAUTH_URL}/api/allExpenses/${bankAcc._id}`);
-    if (!responseExpenses.ok) throw new Error(responseExpenses.statusText);
-    if (!responseIncome.ok) throw new Error(responseIncome.statusText);
+    let income, expenses, bankAcc;
 
-    const expenses = (await responseExpenses.json()).result as {
-        category: string,
-        sum: number,
-        currency: string,
-        date: string
-    }[];
+    if (user) {
+        bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+        const {NEXTAUTH_URL} = process.env;
+        const responseIncome = await fetch(`${NEXTAUTH_URL}/api/allIncome/${bankAcc._id}`);
+        income = (await responseIncome.json()).result as {
+            category: string,
+            sum: number,
+            currency: string,
+            date: string
+        }[];
+        const responseExpenses = await fetch(`${NEXTAUTH_URL}/api/allExpenses/${bankAcc._id}`);
+        if (!responseExpenses.ok) throw new Error(responseExpenses.statusText);
+        if (!responseIncome.ok) throw new Error(responseIncome.statusText);
 
+        expenses = (await responseExpenses.json()).result as {
+            category: string,
+            sum: number,
+            currency: string,
+            date: string
+        }[];
+    }
 
     return {
+        redirect: await authRedirect(ctx, '/'),
         props: {
             user: user, bankAccount: bankAcc, income: income, expenses: expenses,
             ...(await serverSideTranslations(ctx.locale, ['common']))
