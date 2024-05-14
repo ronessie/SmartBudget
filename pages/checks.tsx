@@ -9,6 +9,7 @@ import styles from "@/styles/pages.module.css";
 import Footer from "../components/footer"
 import {Carousel} from '@mantine/carousel';
 import {useState} from "react";
+import {authRedirect} from "@/src/server/authRedirect";
 
 export default function Page(props: {
     user: IUser,
@@ -48,16 +49,22 @@ export const getServerSideProps = async (ctx: any) => {
     const {db} = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
-    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+    let bankAcc;
+    let checks;
 
-    const {NEXTAUTH_URL} = process.env;
-    const response = await fetch(`${NEXTAUTH_URL}/api/userChecks/${JSON.stringify(user)}`);
-    if (!response.ok) throw new Error(response.statusText);
-    const checks = (await response.json()).result as string[];
-    //const checksText = (await response.json()).text as string[];
-    console.log(checks)
+    if (user) {
+        bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+
+        const {NEXTAUTH_URL} = process.env;
+        const response = await fetch(`${NEXTAUTH_URL}/api/userChecks/${JSON.stringify(user)}`);
+        if (!response.ok) throw new Error(response.statusText);
+        checks = (await response.json()).result as string[];
+        //const checksText = (await response.json()).text as string[];
+        console.log(checks);
+    }
 
     return {
+        redirect: await authRedirect(ctx, '/'),
         props: {
             user: user, bankAccount: bankAcc,
             checks: checks,

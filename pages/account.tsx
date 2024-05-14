@@ -29,6 +29,7 @@ import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
+import {authRedirect} from "@/src/server/authRedirect";
 
 export default function Page(props: {
     user: IUser,
@@ -517,18 +518,23 @@ export default function Page(props: {
 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
-
     const {db} = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
+    let bankAccounts;
+    let bankAcc;
 
-    const {NEXTAUTH_URL} = process.env;
-    const response = await fetch(`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
-    if (!response.ok) throw new Error(response.statusText);
-    const bankAccounts = (await response.json()).result as { label: string, value: string }[];
-    const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+    if (user) {
+        const {NEXTAUTH_URL} = process.env;
+        const response = await fetch(`${NEXTAUTH_URL}/api/userBankAccounts/${user._id}`);
+        if (!response.ok) throw new Error(response.statusText);
+        bankAccounts = (await response.json()).result as { label: string, value: string }[];
+        bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
+    }
+
 
     return {
+        redirect: await authRedirect(ctx, '/'),
         props: {
             user: user, bankAccount: bankAcc,
             bankAccounts: bankAccounts,
