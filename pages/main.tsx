@@ -157,8 +157,20 @@ export default function Page(props: {
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
-
         if (!response.ok) throw new Error(response.statusText);
+
+        if (operation.operationsStatus === '+') {
+            const newIncomes = [...data.allIncome];
+            newIncomes.push({ category: ucFirst(t(operation.category ?? '')), sum: operation.sum ?? 0, currency: operation.currency ?? '', date: operation.date?.toString() ?? '' });
+
+            handleFieldChange('allIncome', newIncomes)
+        }
+        else if (operation.operationsStatus === '-') {
+            const newExpenses = [...data.allExpenses];
+            newExpenses.push({ category: ucFirst(t(operation.category ?? '')), sum: operation.sum ?? 0, currency: operation.currency ?? '', date: operation.date?.toString() ?? '' });
+            handleFieldChange('allExpenses', newExpenses)
+        }
+
         await updateBalance()
     }
 
@@ -408,7 +420,10 @@ export default function Page(props: {
                         </Modal>
                     </div>
                     <br/>
-                    <Modal opened={categoriesIncomeModalState} onClose={() => setCategoriesIncomeModalState(false)}
+                    <Modal opened={categoriesIncomeModalState} onClose={() => {
+                        setCategoriesIncomeModalState(false)
+                        setSegmentCategoriesState('Доходы');
+                    }}
                            title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
@@ -434,7 +449,10 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={categoriesExpensesModalState} onClose={() => setCategoriesExpensesModalState(false)}
+                    <Modal opened={categoriesExpensesModalState} onClose={() => {
+                        setCategoriesExpensesModalState(false);
+                        setSegmentCategoriesState('Доходы');
+                    }}
                            title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
@@ -460,7 +478,10 @@ export default function Page(props: {
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={dateIncomeModalState} onClose={() => setDateIncomeModalState(false)}
+                    <Modal opened={dateIncomeModalState} onClose={() => {
+                        setDateIncomeModalState(false);
+                        setSegmentDateState('Доходы');
+                    }}
                            title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentDateState(e);
@@ -489,7 +510,10 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={dateExpensesModalState} onClose={() => setDateExpensesModalState(false)}
+                    <Modal opened={dateExpensesModalState} onClose={() => {
+                        setDateExpensesModalState(false);
+                        setSegmentDateState('Доходы');
+                    }}
                            title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentDateState(e);
