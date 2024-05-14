@@ -12,7 +12,6 @@ export default function Footer() {
         { link: '/about', label: 'indexPage.about', onClick: ()=>router.push('/about') },
         { link: '/contacts', label: 'indexPage.contacts', onClick: ()=>router.push('/contacts') },
         { link: '/policy', label: 'indexPage.privacy', onClick: ()=>router.push('/policy')},
-        { link: '/help', label: 'indexPage.help', onClick: ()=>router.push('/help') },
     ]
     const items = links.map((link) => (
         <Anchor<'a'>

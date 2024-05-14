@@ -19,7 +19,8 @@ export default function SmallHeader() {
                 <Group gap={5} visibleFrom="xs">
                     <Button className={classes.button}
                             onClick={() => router.push('/about')}>{t('indexPage.about')}</Button>
-                    <Button className={classes.button}>{t('indexPage.contacts')}</Button>
+                    <Button className={classes.button} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
+                    <Button className={classes.button} onClick={()=> router.push('/policy')}>{t('indexPage.privacy')}</Button>
                     <Button className={classes.button} onClick={() => router.push('/')}>{t('indexPage.onMain')}</Button>
                 </Group>
             </Container>
