@@ -23,11 +23,11 @@ export default function Header() {
                 <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
                      onClick={() => router.push('/')}/>
                 <Group gap={5} visibleFrom="xs">
-                    <Button className={classes.button} onClick={() => router.push('/main')}>{t('header.main')}</Button>
-                    <Button className={classes.button} onClick={() => router.push('/account')}>{t('header.account')}</Button>
-                    <Button className={classes.button} onClick={() => router.push('/addingCheck')}>{t('header.addingCheck')}</Button>
-                    <Button className={classes.button} onClick={() => router.push('/checks')}>{t('header.checks')}</Button>
-                    <Button className={classes.button} onClick={signOutAccount}>{t('header.logOut')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/main')}>{t('header.main')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/account')}>{t('header.account')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/addingCheck')}>{t('header.addingCheck')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/checks')}>{t('header.checks')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={signOutAccount}>{t('header.logOut')}</Button>
                 </Group>
             </Container>
         </header>

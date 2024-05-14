@@ -17,11 +17,11 @@ export default function SmallHeader() {
                 <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
                      onClick={() => router.push('/')}/>
                 <Group gap={5} visibleFrom="xs">
-                    <Button className={classes.button}
+                    <Button variant="light" radius="xl" style={{fontSize: 18}}
                             onClick={() => router.push('/about')}>{t('indexPage.about')}</Button>
-                    <Button className={classes.button} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
-                    <Button className={classes.button} onClick={()=> router.push('/policy')}>{t('indexPage.privacy')}</Button>
-                    <Button className={classes.button} onClick={() => router.push('/')}>{t('indexPage.onMain')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={()=> router.push('/policy')}>{t('indexPage.privacy')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/')}>{t('indexPage.onMain')}</Button>
                 </Group>
             </Container>
         </header>

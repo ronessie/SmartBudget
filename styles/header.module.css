@@ -4,7 +4,7 @@
     height: 56px;
     margin-bottom: 120px;
     color: white;
-    background-color: #cccccc;
+    background-color: rgb(229, 239, 252);
     border-bottom: 1px solid var(--mantine-color-gray-3), var(--mantine-color-dark-4);
 }
 
@@ -13,19 +13,4 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.button {
-    display: block;
-    line-height: 1;
-    padding: 8px 12px;
-    border-radius: var(--mantine-radius-sm);
-    text-decoration: none;
-    font-size: var(--mantine-font-size-sm);
-    font-weight: 500;
-
-    [data-mantine-color-scheme] &[data-active] {
-        background-color: var(--mantine-color-blue-filled);
-        color: var(--mantine-color-white);
-    }
 }

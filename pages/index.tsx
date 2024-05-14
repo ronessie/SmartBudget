@@ -1,11 +1,10 @@
 import {useTranslation} from 'next-i18next';
 import path from 'path';
-import { GoogleIcon } from '@/public/images/GoogleIcon';
+import {GoogleIcon} from '@/public/images/GoogleIcon';
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {
-    Burger,
     Button,
     Container,
     Drawer,
@@ -78,14 +77,18 @@ export default function Page(props: { user: IUser }) {
 
         return (
             <header className={classes.header}>
-                <Container size="md" className={classes.inner}>
+                <Container className={classes.inner}>
                     <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
                          onClick={() => router.push('/')}/>
                     <Group gap={5} visibleFrom="xs">
-                        <Button className={classes.button} onClick={()=> router.push('/about')}>{t('indexPage.about')}</Button>
-                        <Button className={classes.button} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
-                        <Button className={classes.button} onClick={converterAuthMethods.open}>{t('indexPage.converter')}</Button>
-                        <Button className={classes.button} onClick={drawerAuthMethods.open}>{t('indexPage.logIn/signIn')}</Button>
+                        <Button variant="light" radius="xl" style={{fontSize: 18}}
+                                onClick={() => router.push('/about')}>{t('indexPage.about')}</Button>
+                        <Button variant="light" radius="xl" style={{fontSize: 18}}
+                                onClick={() => router.push('/contacts')}>{t('indexPage.contacts')}</Button>
+                        <Button variant="light" radius="xl" style={{fontSize: 18}}
+                                onClick={converterAuthMethods.open}>{t('indexPage.converter')}</Button>
+                        <Button variant="light" radius="xl" style={{fontSize: 18}}
+                                onClick={drawerAuthMethods.open}>{t('indexPage.logIn/signIn')}</Button>
                     </Group>
                 </Container>
             </header>
@@ -332,8 +335,7 @@ export default function Page(props: { user: IUser }) {
     }
 
     async function convert() {
-        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString()))
-        {
+        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString())) {
             notifications.show({
                 title: 'Уведомление',
                 message: 'Сумма введена не верно',
@@ -381,8 +383,15 @@ export default function Page(props: { user: IUser }) {
                 <h1 className={styles.welcomeText}>{t('indexPage.hello')}</h1><br/>
                 <Group style={{marginTop: 30}}>
                     <img alt="" src="/images/bigTriangle.svg"/>
-                    <h1 style={{color: "grey", marginLeft: -300, marginTop: -100, fontSize: 40, paddingTop: 0}}>{t('indexPage.aboutText')}</h1><br/>
-                    <Button style={{position: "absolute", width: 250, marginTop: 100, marginLeft: 800, fontSize: 20}} size="md"
+                    <h1 style={{
+                        color: "grey",
+                        marginLeft: -300,
+                        marginTop: -100,
+                        fontSize: 40,
+                        paddingTop: 0
+                    }}>{t('indexPage.aboutText')}</h1><br/>
+                    <Button style={{position: "absolute", width: 250, marginTop: 100, marginLeft: 800, fontSize: 20}}
+                            size="md"
                             radius="xl" onClick={drawerAuthMethods.open}>Начать</Button>
                 </Group><br/>
                 <div>
@@ -424,7 +433,7 @@ export default function Page(props: { user: IUser }) {
                                 onClick={checkDate}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
                         <Button style={{width: 410, marginTop: 5, fontSize: 18}}
-                                leftSection={<GoogleIcon />}
+                                leftSection={<GoogleIcon/>}
                                 variant={"outline"}
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
@@ -433,12 +442,12 @@ export default function Page(props: { user: IUser }) {
                             setSegmentState('Sign In');
                             authToReg();
                         }}
-                              style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
+                                style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
                                 title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button><br/>
 
                         <Button variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
-                              style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
-                              onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
+                                style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
+                                onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
 
                         <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
@@ -508,7 +517,7 @@ export default function Page(props: { user: IUser }) {
                                 title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                         <br/>
                         <Button onClick={googleAuthentication}
-                                leftSection={<GoogleIcon />}
+                                leftSection={<GoogleIcon/>}
                                 variant={"outline"}
                                 style={{
                                     width: 410,
@@ -516,10 +525,10 @@ export default function Page(props: { user: IUser }) {
                                     fontSize: 20,
                                 }}>{t('registrationPage.googleButton')}</Button>
                         <Button style={{textAlign: "center", paddingLeft: 100, fontSize: 16}} variant={"transparent"}
-                              onClick={() => {
-                                  setSegmentState('Log In');
-                                  regToAuth();
-                              }}>{t('registrationPage.link')}</Button>
+                                onClick={() => {
+                                    setSegmentState('Log In');
+                                    regToAuth();
+                                }}>{t('registrationPage.link')}</Button>
                     </Drawer></div>
                 <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
