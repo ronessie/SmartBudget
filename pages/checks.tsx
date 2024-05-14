@@ -14,18 +14,25 @@ import {authRedirect} from "@/src/server/authRedirect";
 export default function Page(props: {
     user: IUser,
     bankAccount: IBankAccount,
-    checks: string[], /*checksText: string[]*/
+    checks: string[],
+    checksText: string[]
 }) {
     const [data, setData] = useState({
         images: props.checks,
-        // text: props.checksText
+        texts: props.checksText
     });
 
     function Carusel() {
-        const slides = data.images.map((url) => (
-            <Carousel.Slide key={url} style={{width: 700, height: 700}}>
-                <Image src={'/uploads/' + url}/>
-                {/*<h1>{data.text}</h1>*/}
+
+        const slides = data.images.map((url, i) => (
+            <Carousel.Slide key={url} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column'
+            }}>
+                <Image src={'/uploads/' + url} w={600} h={600} alt={'image'}/>
+                <h1>{data.texts[i]}</h1>
             </Carousel.Slide>
         ));
 
@@ -49,8 +56,7 @@ export const getServerSideProps = async (ctx: any) => {
     const {db} = await connectToDatabase();
 
     const user = (await db.collection('users').findOne({email: session?.user?.email})) as IUser;
-    let bankAcc;
-    let checks;
+    let bankAcc, checks, checksText;
 
     if (user) {
         bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
@@ -58,8 +64,9 @@ export const getServerSideProps = async (ctx: any) => {
         const {NEXTAUTH_URL} = process.env;
         const response = await fetch(`${NEXTAUTH_URL}/api/userChecks/${JSON.stringify(user)}`);
         if (!response.ok) throw new Error(response.statusText);
-        checks = (await response.json()).result as string[];
-        //const checksText = (await response.json()).text as string[];
+        const userChecksJson = await response.json();
+        checks = userChecksJson.result as string[];
+        checksText = userChecksJson.text as string[];
         console.log(checks);
     }
 
@@ -68,7 +75,7 @@ export const getServerSideProps = async (ctx: any) => {
         props: {
             user: user, bankAccount: bankAcc,
             checks: checks,
-            //checksText: checksText,
+            checksText: checksText,
             ...(await serverSideTranslations(ctx.locale, ['common']))
         }
     }
