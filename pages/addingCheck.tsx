@@ -29,6 +29,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         fileName: "",
     });
 
+    const clearFile = () => {
+        setImage(null);
+        handleFieldChange("fileName", "")
+    };
+
     function handleFieldChange(fieldName: string, value: any) {
         setCheckText(prevData => ({
             ...prevData,
@@ -189,8 +194,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                 </Dropzone><br/>
-                <Button /*className={classes.control}*/ style={{position: "absolute", width: 250, left: 820}} size="md"
-                                                        radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button>
+                <Button style={{position: "absolute", width: 250, left: 820}} size="md"
+                                                        radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button> <br/>
+                <Button style={{ width: 200, marginTop: 30, left: 845}} size="md" variant={"outline"} color="red" disabled={!image}
+                                                        radius="xl" onClick={clearFile}>Отменить</Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
                        withCloseButton={false}
