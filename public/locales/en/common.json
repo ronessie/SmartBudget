@@ -136,5 +136,34 @@
     "title": "Internal Server Error",
     "text": "Sorry, something went wrong on our end. Please try again later.",
     "button": "Go back to Home"
+  },
+  "policyPage": {
+    "title": {
+      "1": "Privacy Policy",
+      "2": "Personal Identifying Information",
+      "3": "Non-Personal Identifying Information",
+      "4": "Web browser cookies",
+      "5": "How we use the information we collect",
+      "6": "How we protect your information",
+      "7": "Transmission of your personal information",
+      "8": "Changes to the privacy policy",
+      "9": "Your acceptance of these terms and conditions",
+      "10": "Contact Us"
+    },
+    "text": {
+      "1": "This Privacy Policy governs the manner in which SmartBudget collects, uses, stores and discloses information collected from users (each, a «User»,) of the smartbudget website («Site»). This privacy policy\n applies to the Site and all services offered by smartBudget.",
+      "2": "We may collect personally identifiable information from Users in a variety of ways, including, but not limited to, when Users visit our Site, register on the Site, subscribe to our newsletter, respond to surveys, and in connection with other activities, services, features or resources we provide on our Site. Users may be asked for their name, e-mail address, if applicable. We will collect personally identifiable information from Users only if they voluntarily provide us with such information. Users may always refuse to provide personal\n identifying information, except to the extent that doing so may prevent them from engaging in certain activities related to the Site.",
+      "3": "We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may\nclude browser name, computer type, and technical information about Users\n means of connection to our Site, such as the operating system and internet service providers used, and\n other similar information.",
+      "4": "Our Site may use cookies to improve user experience. A user\n web browser places cookies on their hard drive in order to record, and sometimes track\n information about them. The user can set their web browser to reject\n cookies or to alert you when a cookie is sent. If they do so, please note\n notice that some parts of the Site may not function properly.",
+      "5": "SmartBudget may collect and use Users' personal information for the following purposes:",
+      "5-1": "To improve customer service: The information you provide helps us to respond more\n effectively to your customer service requests and support needs.",
+      "5-2": "To personalize the user experience: We may use information in\n aggregate to understand how our Users, as a group, use the services and resources provided on our Website.",
+      "5-3": "To send periodic emails: We may use their email address to send them information and updates. If a User chooses to subscribe to\n our newsletter, they will receive emails that may contain company news, updates, product or service information, etc.",
+      "6": "We use appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal\n information, username, password, transaction information and data stored on our Site. The exchange of confidential and private data between the Site and its Users takes place over\n secure SSL communication channel.",
+      "7": "We do not sell, trade, or rent Users\n personal identifying information to others. We may share general aggregated demographic information not linked to\n any personally identifiable information about visitors and users with our business\n partners, trusted affiliates and advertisers for the purposes set forth above. We may\n use third-party service providers to help us operate our business and the Site or\n to administer activities on our behalf, such as sending newsletters or surveys.\n We may share your information with these third parties for these limited purposes provided that\n you have given us your permission.",
+      "8": "SmartBudget has the discretion to update this privacy policy at any\n time. We encourage\n Users to check this page frequently for any changes so that we are aware of how\n we help protect the personal information we collect. You acknowledge and agree that\n you are responsible for periodically reviewing this privacy policy and\n familiarizing yourself with changes.",
+      "9": "By using this Site, you agree to be bound by this policy. If you do not agree with this policy, please do not use our Site. Your continued use of the Site after we post\n changes to this policy will be deemed to be your agreement to those changes.",
+      "10": "If you have any questions about this Privacy Policy, the practices of this site or your dealings with this site, please contact us at:\n vsakolinskaa@gmail.com."
+    }
   }
 }

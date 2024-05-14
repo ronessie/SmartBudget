@@ -24,3 +24,8 @@
     background-clip: text;
     text-fill-color: transparent;
 }
+
+.policyText {
+    color: #0D8AFDFF;
+    font-size: 30px;
+}
