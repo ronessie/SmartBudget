@@ -5,7 +5,7 @@ import styles from '../styles/pages.module.css'
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import { IconCopy, IconCheck } from '@tabler/icons-react';
+import {IconCopy, IconCheck} from '@tabler/icons-react';
 import {ObjectId} from "bson";
 import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
@@ -35,7 +35,7 @@ export default function Page(props: {
     bankAccount: IBankAccount,
     bankAccounts: { label: string, value: string }[]
 }) {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [changeModalState, setChangeModalState] = useState(false);
     const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
@@ -73,6 +73,7 @@ export default function Page(props: {
             [fieldName]: value,
         }));
     }
+
     const router = useRouter();
 
     async function dateValidation(e: any) {
@@ -268,8 +269,7 @@ export default function Page(props: {
         await router.push(router.pathname, router.asPath, {locale: language});
     };
 
-    async function updateIncomeCategories()
-    {
+    async function updateIncomeCategories() {
         const response = await fetch(`/api/updateIncomeCategories`, {
             method: 'POST',
             headers: {
@@ -287,8 +287,8 @@ export default function Page(props: {
             message: 'Категории успешно обновлены',
         })
     }
-    async function updateExpensesCategories()
-    {
+
+    async function updateExpensesCategories() {
         const response = await fetch(`/api/updateExpensesCategories`, {
             method: 'POST',
             headers: {
@@ -308,13 +308,12 @@ export default function Page(props: {
 
     }
 
-    function incomeCategories()
-    {
+    function incomeCategories() {
         setAddExpensesCategoryModalState(false)
         setAddIncomeCategoryModalState(true)
     }
-    function expensesCategories()
-    {
+
+    function expensesCategories() {
         setAddIncomeCategoryModalState(false)
         setAddExpensesCategoryModalState(true)
     }
@@ -353,7 +352,8 @@ export default function Page(props: {
                         value={data.changeBankName}
                     />
                     <NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}
-                                  title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency} defaultValue={props.bankAccount.currency}></NativeSelect><br/>
+                                  title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}
+                                  defaultValue={props.bankAccount.currency}></NativeSelect><br/>
                     <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                             checked={checked2FA}
                             onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
@@ -361,7 +361,8 @@ export default function Page(props: {
                             style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                     </Button>
                 </Modal>
-                <Button style={{width: 200}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
+                <Button style={{width: 200}}
+                        onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
                     категории</Button><br/>
                 <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
@@ -387,9 +388,11 @@ export default function Page(props: {
                         value={newIncomeCategories}
                         onChange={(e) => setNewIncomeCategories(e)}
                     />
-                    <Button onClick={updateIncomeCategories} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                    <Button onClick={updateIncomeCategories}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                 </Modal>
-                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов" opened={addExpensesCategoryModalState}
+                <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов"
+                       opened={addExpensesCategoryModalState}
                        onClose={() => {
                            setSegmentState('+')
                            setAddExpensesCategoryModalState(false)
@@ -415,7 +418,8 @@ export default function Page(props: {
                         value={newExpensesCategories}
                         onChange={(e) => setNewExpensesCategories(e)}
                     />
-                    <Button onClick={updateExpensesCategories} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                    <Button onClick={updateExpensesCategories}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
                     счёт</Button><br/>
@@ -471,7 +475,8 @@ export default function Page(props: {
                     <h1>Выберите счёт:</h1>
                     <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
                                   data={data.bankAccounts}></NativeSelect>
-                    <Button onClick={changeBankAccount} style={{width: 410, marginTop: 20, fontSize: 20}}>Перейти</Button>
+                    <Button onClick={changeBankAccount}
+                            style={{width: 410, marginTop: 20, fontSize: 20}}>Перейти</Button>
                 </Modal>
                 <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
                     код</Button>
@@ -479,21 +484,22 @@ export default function Page(props: {
                        opened={codeModalState} onClose={() => setCodeModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <Text>{data.inviteCode}
-                    <CopyButton value={data.inviteCode ?? ""} timeout={2000}>
-                        {({ copied, copy }) => (
-                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-                                <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
-                                    {copied ? (
-                                        <IconCheck style={{ width: 16 }} />
-                                    ) : (
-                                        <IconCopy style={{ width: 16 }} />
-                                    )}
-                                </ActionIcon>
-                            </Tooltip>
-                        )}
-                    </CopyButton></Text>
+                        <CopyButton value={data.inviteCode ?? ""} timeout={2000}>
+                            {({copied, copy}) => (
+                                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                                    <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                                        {copied ? (
+                                            <IconCheck style={{width: 16}}/>
+                                        ) : (
+                                            <IconCopy style={{width: 16}}/>
+                                        )}
+                                    </ActionIcon>
+                                </Tooltip>
+                            )}
+                        </CopyButton></Text>
                 </Modal><br/>
-                <Button style={{width: 200}} onClick={() => setChangeLanguageState(!changeLanguageState)}>Сменить язык</Button>
+                <Button style={{width: 200}} onClick={() => setChangeLanguageState(!changeLanguageState)}>Сменить
+                    язык</Button>
                 <Modal title={"Смена языка"}
                        opened={changeLanguageState} onClose={() => setChangeLanguageState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>

@@ -7,7 +7,7 @@ import {GetStaticProps} from "next";
 
 const Error500Page = () => {
     const router = useRouter();
-    const { t } = useTranslation('common');
+    const {t} = useTranslation('common');
 
     const handleBackHome = () => {
         router.push('/');
@@ -28,7 +28,7 @@ const Error500Page = () => {
 
 export default Error500Page;
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({locale}) => {
     return {
         props: {
             ...(await serverSideTranslations(locale ?? 'en', ['common'])),

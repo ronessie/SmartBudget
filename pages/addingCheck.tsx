@@ -22,7 +22,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
     const openRef = useRef<() => void>(null);
     const [textModalState, setTextModalState] = useState(false);
     const [loaderModalState, setLoaderModalState] = useState(false);
-    const { t } = useTranslation('common');
+    const {t} = useTranslation('common');
     const [checkText, setCheckText] = useState({
         text: "",
         filePath: "",
@@ -195,9 +195,10 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <br/>
                 </Dropzone><br/>
                 <Button style={{position: "absolute", width: 250, left: 820}} size="md"
-                                                        radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button> <br/>
-                <Button style={{ width: 200, marginTop: 30, left: 845}} size="md" variant={"outline"} color="red" disabled={!image}
-                                                        radius="xl" onClick={clearFile}>Отменить</Button>
+                        radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button> <br/>
+                <Button style={{width: 200, marginTop: 30, left: 845}} size="md" variant={"outline"} color="red"
+                        disabled={!image}
+                        radius="xl" onClick={clearFile}>Отменить</Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
                        withCloseButton={false}
@@ -207,7 +208,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     <div>
                         <Textarea size="xl" autosize
                                   value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
-                        <Button onClick={updateCheckText} style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                        <Button onClick={updateCheckText}
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                     </div>
                 </Modal>
                 <Modal opened={loaderModalState} withCloseButton={false} closeOnClickOutside={false}

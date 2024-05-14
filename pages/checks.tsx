@@ -10,7 +10,11 @@ import Footer from "../components/footer"
 import {Carousel} from '@mantine/carousel';
 import {useState} from "react";
 
-export default function Page(props: { user: IUser, bankAccount: IBankAccount, checks: string[], /*checksText: string[]*/ }) {
+export default function Page(props: {
+    user: IUser,
+    bankAccount: IBankAccount,
+    checks: string[], /*checksText: string[]*/
+}) {
     const [data, setData] = useState({
         images: props.checks,
         // text: props.checksText

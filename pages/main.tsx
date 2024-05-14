@@ -9,14 +9,14 @@ import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Drawer, Group, Modal, NativeSelect, Paper, SegmentedControl, Table, TextInput} from "@mantine/core";
-import {DateInput, DatePicker, DatePickerInput} from '@mantine/dates';
+import {DateInput, DatePickerInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import {useDisclosure} from "@mantine/hooks";
 import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
-import LongFooter from "@/components/longFooter";
+import Footer from "@/components/footer";
 
 export default function Page(props: {
     user: IUser,
@@ -43,7 +43,6 @@ export default function Page(props: {
         lastUpdateDate: formatTime(props.bankAccount.lastUpdateDate?.toString()),
         operationStatus: "",
         newBalance: 0,
-        statisticCategory: "",
         incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({
             value: e,
             label: t(e)
@@ -65,6 +64,10 @@ export default function Page(props: {
         beforeCurrency: "AED",
         afterCurrency: "AED",
         newSum: 0
+    });
+
+    const [categoryData, setCategoryData] = useState({
+        selectedCategory: ""
     });
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
@@ -116,6 +119,14 @@ export default function Page(props: {
             [fieldName]: value,
         });
         console.log(convertData)
+    }
+
+    function handleCategoriesChange(fieldName: string, value: any) {
+        setCategoryData({
+            ...categoryData,
+            [fieldName]: value,
+        });
+        console.log(categoryData)
     }
 
     async function addIncome(e: any) {
@@ -407,7 +418,7 @@ export default function Page(props: {
                             }
                         }}/>
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
-                                      onChange={(e) => handleFieldChange("statisticCategory", e.target.value)}
+                                      onChange={(e) => handleCategoriesChange("statisticCategory", e.target.value)}
                                       title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
                         </NativeSelect><br/>
                         <Table>
@@ -433,7 +444,7 @@ export default function Page(props: {
                             }
                         }}/>
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
-                                      onChange={(e) => handleFieldChange("statisticCategory", e.target.value)}
+                                      onChange={(e) => handleCategoriesChange("statisticCategory", e.target.value)}
                                       title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
                         </NativeSelect><br/>
                         <Table>
@@ -460,8 +471,8 @@ export default function Page(props: {
                         }}/>
                         <DatePickerInput
                             type="range"
-                            label="Pick dates range"
-                            placeholder="Pick dates range"
+                            label="Укажите даты"
+                            placeholder="Выберите промежуток времени"
                             value={value}
                             onChange={setValue}
                         />
@@ -489,8 +500,8 @@ export default function Page(props: {
                         }}/>
                         <DatePickerInput
                             type="range"
-                            label="Pick dates range"
-                            placeholder="Pick dates range"
+                            label="Укажите даты"
+                            placeholder="Выберите промежуток времени"
                             value={value}
                             onChange={setValue}
                         />
@@ -509,13 +520,11 @@ export default function Page(props: {
                     <div>
                         <DonutChart data={dataChart1} title="Расходы"/>
                         <DonutChart data={dataChart2} title="Доходы"/>
-                        <DonutChart data={dataChart1} title="Расходы"/>
-                        <DonutChart data={dataChart2} title="Доходы"/>
                     </div>
 
                 </div>
             </div>
-            <LongFooter/>
+            <Footer/>
         </div>
     )
 }
