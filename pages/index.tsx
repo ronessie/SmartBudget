@@ -82,8 +82,8 @@ export default function Page(props: { user: IUser }) {
                     <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
                          onClick={() => router.push('/')}/>
                     <Group gap={5} visibleFrom="xs">
-                        <Button className={classes.button}>{t('indexPage.about')}</Button>
-                        <Button className={classes.button}>{t('indexPage.contacts')}</Button>
+                        <Button className={classes.button} onClick={()=> router.push('/about')}>{t('indexPage.about')}</Button>
+                        <Button className={classes.button} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
                         <Button className={classes.button} onClick={converterAuthMethods.open}>{t('indexPage.converter')}</Button>
                         <Button className={classes.button} onClick={drawerAuthMethods.open}>{t('indexPage.logIn/signIn')}</Button>
                     </Group>
@@ -257,7 +257,7 @@ export default function Page(props: { user: IUser }) {
 
     async function googleAuthentication(e: any) {
         e.preventDefault()
-        await signIn('google', {callbackUrl: '/main'});
+        await signIn('google', {callbackUrl: '/main', redirect: false});
     }
 
     async function dateValidation(e: any) {

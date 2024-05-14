@@ -9,10 +9,10 @@ export default function Footer() {
     const router = useRouter();
     const { t } = useTranslation()
     const links = [
-        { link: '#', label: 'indexPage.about', onClick: ()=>router.push('/') },
-        { link: '#', label: 'indexPage.contacts', onClick: ()=>router.push('/') },
+        { link: '/about', label: 'indexPage.about', onClick: ()=>router.push('/about') },
+        { link: '/contacts', label: 'indexPage.contacts', onClick: ()=>router.push('/contacts') },
         { link: '/policy', label: 'indexPage.privacy', onClick: ()=>router.push('/policy')},
-        { link: '#', label: 'indexPage.help', onClick: ()=>router.push('/') },
+        { link: '/help', label: 'indexPage.help', onClick: ()=>router.push('/help') },
     ]
     const items = links.map((link) => (
         <Anchor<'a'>
