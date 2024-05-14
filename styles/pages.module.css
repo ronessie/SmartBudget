@@ -16,7 +16,9 @@
     font-size: 80px;
     font-weight: bold;
 
-    background: linear-gradient(123.81deg, #00FFE0 11.62%, #0BD7FA 38.4%, #439FF3 88.38%, #0D8AFD 95.38%);
+    /*background: linear-gradient(123.81deg, #00FFE0 11.62%, #0BD7FA 38.4%, #439FF3 88.38%, #0D8AFD 95.38%);*/
+    /*background: linear-gradient(117.99deg, #0BD7FA 12.67%, #439FF3 73.25%, #439FF3 103.37%, #0D8AFD 103.37%);*/
+    background: linear-gradient(118.06deg, #0BD7FA -2.09%, #439FF3 54.3%, #439FF3 103.38%, #0D8AFD 103.38%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

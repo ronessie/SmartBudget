@@ -375,22 +375,15 @@ export default function Page(props: { user: IUser }) {
         <div className={styles.page}>
             <IndexHeader/>
             <div className={styles.pageContent}>
-
-                {/*<Link href={"checks"}>Чеки</Link>*/}
-                {/*<br/>*/}
-                {/*<Link href={"main"}>{t('indexPage.main')}</Link>*/}
-                {/*<br/>*/}
-                {/*<Link href={"addingCheck"}>Добавить чек</Link>*/}
-                {/*<br/>*/}
-                {/*<Link href={"account"}>Аккаунт</Link>*/}
-                {/*<br/>*/}
                 <Button onClick={() => changeLanguage('en')}>EN</Button>
                 <Button onClick={() => changeLanguage('ru')}>RU</Button>
                 <br/>
                 <h1 className={styles.welcomeText}>{t('indexPage.hello')}</h1><br/>
-                <Group>
+                <Group style={{marginTop: 30}}>
                     <img alt="" src="/images/bigTriangle.svg"/>
-                    <h1 style={{color: "grey", marginLeft: -200, fontSize: 40}}>{t('indexPage.aboutText')}</h1>
+                    <h1 style={{color: "grey", marginLeft: -300, marginTop: -100, fontSize: 40, paddingTop: 0}}>{t('indexPage.aboutText')}</h1><br/>
+                    <Button style={{position: "absolute", width: 250, marginTop: 100, marginLeft: 800, fontSize: 20}} size="md"
+                            radius="xl" onClick={drawerAuthMethods.open}>Начать</Button>
                 </Group><br/>
                 <div>
                     <Drawer
