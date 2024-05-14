@@ -8,7 +8,7 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Drawer, Group, Modal, NativeSelect, Paper, Table, TextInput} from "@mantine/core";
+import {Button, Drawer, Group, Modal, NativeSelect, Paper, SegmentedControl, Table, TextInput} from "@mantine/core";
 import {DateInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
@@ -18,12 +18,21 @@ import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} f
 import {notifications} from "@mantine/notifications";
 import LongFooter from "@/components/longFooter";
 
-export default function Page(props: { user: IUser, bankAccount: IBankAccount, income: { category: string, sum: number, currency: string, date: string }[], expenses: { category: string, sum: number, currency: string, date: string }[] }) {
-    const { t } = useTranslation('common');
+export default function Page(props: {
+    user: IUser,
+    bankAccount: IBankAccount,
+    income: { category: string, sum: number, currency: string, date: string }[],
+    expenses: { category: string, sum: number, currency: string, date: string }[]
+}) {
+    const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
-    const [allIncomeModalState, setAllIncomeModalState] = useState(false);
-    const [allExpensesModalState, setAllExpensesModalState] = useState(false);
+    const [categoriesIncomeModalState, setCategoriesIncomeModalState] = useState(false);
+    const [categoriesExpensesModalState, setCategoriesExpensesModalState] = useState(false);
+    const [dateIncomeModalState, setDateIncomeModalState] = useState(false);
+    const [dateExpensesModalState, setDateExpensesModalState] = useState(false);
+    const [segmentCategoriesState, setSegmentCategoriesState] = useState('Доходы');
+    const [segmentDateState, setSegmentDateState] = useState('Доходы');
     const [data, setData] = useState({
         sum: 0.0,
         currency: props.bankAccount.currency,
@@ -35,12 +44,18 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
         operationStatus: "",
         newBalance: 0,
         newCategory: "",
-        incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({ value: e, label: t(e) })),
-        expensesCategory: (defaultExpensesCategories.concat(props.bankAccount?.expensesCategories ?? []).map((e) => ({ value: e, label: t(e) }))),
+        incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({
+            value: e,
+            label: t(e)
+        })),
+        expensesCategory: (defaultExpensesCategories.concat(props.bankAccount?.expensesCategories ?? []).map((e) => ({
+            value: e,
+            label: t(e)
+        }))),
         allIncome: (props.income ?? [])
-            .map(({ category, sum, currency, date }) => ({ category: ucFirst(t(category)), sum, currency, date })),
+            .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
         allExpenses: (props.expenses ?? [])
-            .map(({ category, sum, currency, date }) => ({ category: ucFirst(t(category)), sum, currency, date })),
+            .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
     });
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -176,16 +191,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                 message: 'Дата введена не верно',
             })
             return
-        }
-        else {
+        } else {
             await dataToDB()
         }
     }
 
     async function convert() {
 
-        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString()))
-        {
+        if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString())) {
             notifications.show({
                 title: 'Уведомление',
                 message: 'Сумма введена не верно',
@@ -214,7 +227,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
     }
 
     function getIncomeTableRows() {
-        const rows = data.allIncome.map(({ category, sum, date, currency }) => {
+        const rows = data.allIncome.map(({category, sum, date, currency}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -226,13 +239,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                 <Table.Td>{sum}</Table.Td>
                 <Table.Td>{currency}</Table.Td>
                 <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
-            </Table.Tr>)});
+            </Table.Tr>)
+        });
 
         return rows
     }
 
     function getExpensesTableRows() {
-        const rows = data.allExpenses.map(({ category, sum, date, currency }) => {
+        const rows = data.allExpenses.map(({category, sum, date, currency}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -244,9 +258,30 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                 <Table.Td>{sum}</Table.Td>
                 <Table.Td>{currency}</Table.Td>
                 <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
-            </Table.Tr>)});
+            </Table.Tr>)
+        });
 
         return rows
+    }
+
+    function incomeCategories() {
+        setCategoriesExpensesModalState(false)
+        setCategoriesIncomeModalState(true)
+    }
+
+    function incomeDate() {
+        setDateExpensesModalState(false)
+        setDateIncomeModalState(true)
+    }
+
+    function expensesCategories() {
+        setCategoriesIncomeModalState(false)
+        setCategoriesExpensesModalState(true)
+    }
+
+    function expensesDate() {
+        setDateIncomeModalState(false)
+        setDateExpensesModalState(true)
     }
 
     const {data: session} = useSession();
@@ -260,9 +295,11 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Group>
-                        <Button variant={"outline"} onClick={converterAuthMethods.open}>Конвертер</Button>
-                        <Button variant={"outline"} onClick={()=>setAllIncomeModalState(true)}>Мои доходы</Button>
-                        <Button variant={"outline"} onClick={()=>setAllExpensesModalState(true)}>Мои расходы</Button>
+                            <Button variant={"outline"} onClick={converterAuthMethods.open}>Конвертер</Button>
+                            <Button variant={"outline"} onClick={() => setCategoriesIncomeModalState(true)}>Статистика
+                                по категориям</Button>
+                            <Button variant={"outline"} onClick={() => setDateIncomeModalState(true)}>Статистика
+                                по датам</Button>
                         </Group>
                     </div>
                     <Drawer
@@ -305,7 +342,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.incomeModal.title')}>
                             <TextInput
-                                label={t('mainPage.incomeModal.inputSum')+`, ${props.bankAccount.currency}`}
+                                label={t('mainPage.incomeModal.inputSum') + `, ${props.bankAccount.currency}`}
                                 placeholder="100"
                                 onChange={(e) => handleFieldChange("sum", e.target.value)}
                                 title={t('mainPage.incomeModal.sumTitle')}
@@ -332,7 +369,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.expensesModal.title')}>
                             <TextInput
-                                label={t('mainPage.expensesModal.inputSum')+`, ${props.bankAccount.currency}`}
+                                label={t('mainPage.expensesModal.inputSum') + `, ${props.bankAccount.currency}`}
                                 placeholder="100"
                                 onChange={(e) => handleFieldChange("sum", e.target.value)}
                                 title={t('mainPage.expensesModal.sumTitle')}
@@ -357,8 +394,16 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                         </Modal>
                     </div>
                     <br/>
-                    <Modal opened={allIncomeModalState} onClose={() => setAllIncomeModalState(false)}
-                           title="Все доходы" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                    <Modal opened={categoriesIncomeModalState} onClose={() => setCategoriesIncomeModalState(false)}
+                           title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                            setSegmentCategoriesState(e);
+                            if (e === 'Доходы') {
+                                incomeCategories()
+                            } else if (e === 'Расходы') {
+                                expensesCategories()
+                            }
+                        }}/>
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
@@ -371,9 +416,60 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount, in
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={allExpensesModalState} onClose={() => setAllExpensesModalState(false)}
-                           title="Все расходы" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        {/*category: string, sum: number, currency: string, date: string*/}
+                    <Modal opened={categoriesExpensesModalState} onClose={() => setCategoriesExpensesModalState(false)}
+                           title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                            setSegmentCategoriesState(e);
+                            if (e === 'Доходы') {
+                                incomeCategories()
+                            } else if (e === 'Расходы') {
+                                expensesCategories()
+                            }
+                        }}/>
+                        <Table>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Категории</Table.Th>
+                                    <Table.Th>Сумма</Table.Th>
+                                    <Table.Th>Валюта</Table.Th>
+                                    <Table.Th>Дата</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
+                        </Table>
+                    </Modal>
+                    <Modal opened={dateIncomeModalState} onClose={() => setDateIncomeModalState(false)}
+                           title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                            setSegmentDateState(e);
+                            if (e === 'Доходы') {
+                                incomeDate()
+                            } else if (e === 'Расходы') {
+                                expensesDate()
+                            }
+                        }}/>
+                        <Table>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Категории</Table.Th>
+                                    <Table.Th>Сумма</Table.Th>
+                                    <Table.Th>Валюта</Table.Th>
+                                    <Table.Th>Дата</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
+                        </Table>
+                    </Modal>
+                    <Modal opened={dateExpensesModalState} onClose={() => setDateExpensesModalState(false)}
+                           title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                            setSegmentDateState(e);
+                            if (e === 'Доходы') {
+                                incomeDate()
+                            } else if (e === 'Расходы') {
+                                expensesDate()
+                            }
+                        }}/>
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
@@ -409,12 +505,22 @@ export const getServerSideProps = async (ctx: any) => {
     const bankAcc = (await db.collection('bankAccounts').findOne({_id: user.currentBankAccount})) as IBankAccount;
     const {NEXTAUTH_URL} = process.env;
     const responseIncome = await fetch(`${NEXTAUTH_URL}/api/allIncome/${bankAcc._id}`);
-    const income = (await responseIncome.json()).result as { category: string, sum: number, currency: string, date: string }[];
+    const income = (await responseIncome.json()).result as {
+        category: string,
+        sum: number,
+        currency: string,
+        date: string
+    }[];
     const responseExpenses = await fetch(`${NEXTAUTH_URL}/api/allExpenses/${bankAcc._id}`);
     if (!responseExpenses.ok) throw new Error(responseExpenses.statusText);
     if (!responseIncome.ok) throw new Error(responseIncome.statusText);
 
-    const expenses = (await responseExpenses.json()).result as { category: string, sum: number, currency: string, date: string }[];
+    const expenses = (await responseExpenses.json()).result as {
+        category: string,
+        sum: number,
+        currency: string,
+        date: string
+    }[];
 
 
     return {
