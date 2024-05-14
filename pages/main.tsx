@@ -9,7 +9,7 @@ import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Drawer, Group, Modal, NativeSelect, Paper, SegmentedControl, Table, TextInput} from "@mantine/core";
-import {DateInput} from '@mantine/dates';
+import {DateInput, DatePicker, DatePickerInput} from '@mantine/dates';
 import {DonutChart} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
@@ -43,7 +43,7 @@ export default function Page(props: {
         lastUpdateDate: formatTime(props.bankAccount.lastUpdateDate?.toString()),
         operationStatus: "",
         newBalance: 0,
-        newCategory: "",
+        statisticCategory: "",
         incomeCategory: (defaultIncomeCategories.concat(props.bankAccount?.incomeCategories ?? [])).map((e) => ({
             value: e,
             label: t(e)
@@ -57,6 +57,8 @@ export default function Page(props: {
         allExpenses: (props.expenses ?? [])
             .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
     });
+    const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
+
     const [convertData, setConvertData] = useState({
         sum: 1,
         currency: currency(),
@@ -404,6 +406,10 @@ export default function Page(props: {
                                 expensesCategories()
                             }
                         }}/>
+                        <NativeSelect label={t('mainPage.incomeModal.selector.label')}
+                                      onChange={(e) => handleFieldChange("statisticCategory", e.target.value)}
+                                      title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
+                        </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
@@ -426,6 +432,10 @@ export default function Page(props: {
                                 expensesCategories()
                             }
                         }}/>
+                        <NativeSelect label={t('mainPage.incomeModal.selector.label')}
+                                      onChange={(e) => handleFieldChange("statisticCategory", e.target.value)}
+                                      title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
+                        </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
@@ -448,6 +458,13 @@ export default function Page(props: {
                                 expensesDate()
                             }
                         }}/>
+                        <DatePickerInput
+                            type="range"
+                            label="Pick dates range"
+                            placeholder="Pick dates range"
+                            value={value}
+                            onChange={setValue}
+                        />
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
@@ -470,6 +487,13 @@ export default function Page(props: {
                                 expensesDate()
                             }
                         }}/>
+                        <DatePickerInput
+                            type="range"
+                            label="Pick dates range"
+                            placeholder="Pick dates range"
+                            value={value}
+                            onChange={setValue}
+                        />
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
