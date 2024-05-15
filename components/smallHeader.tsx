@@ -6,7 +6,6 @@ import {useTranslation} from "next-i18next";
 import React from "react";
 
 export default function SmallHeader() {
-    const [opened, {toggle}] = useDisclosure(false);
     const router = useRouter();
     const { t } = useTranslation('common');
 

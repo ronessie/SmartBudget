@@ -18,6 +18,23 @@
       "label-1": "Specify amount",
       "label-2": "Total amount.",
       "button": "Calculate"
+    },
+    "notification": {
+      "title": "Notification",
+      "codeOnEmail": "The code has already been sent to your email",
+      "codeError": "Code entered incorrectly, please try again",
+      "signInGood": "You have successfully logged in.",
+      "emailError": "Email entered incorrectly.",
+      "inputPassword": "Enter password.",
+      "dataError": "Data entered incorrectly, please try again",
+      "userNotFound": "No user with this email has been found.",
+      "newPasswordSend": "A new password has been sent to your e-mail.",
+      "allInputsError": "All fields are required, please check your input and try again",
+      "fioError": "Name entered is not correct",
+      "password8": "Password must contain at least 8 characters.",
+      "passwordError": "Password is not correct.",
+      "userExist": "An account with this email already exists.",
+      "sumError": "The amount entered is not correct"
     }
   },
   "authenticationPage": {
