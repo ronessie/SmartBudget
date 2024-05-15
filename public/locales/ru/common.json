@@ -12,7 +12,14 @@
     "logIn/signIn": "Войти",
     "privacy": "Безопасность",
     "help": "Помощь",
-    "onMain": "На главную"
+    "onMain": "На главную",
+    "startButton": "Начать",
+    "converterDrawer": {
+      "title": "Конвертер валют",
+      "label-1": "Укажите сумму",
+      "label-2": "Итоговая сумма",
+      "button": "Рассчитать"
+    }
   },
   "authenticationPage": {
     "signIn": "Вход",
@@ -41,7 +48,7 @@
   },
   "2FA": {
     "label": "Двухфакторная аутентификация",
-    "inputCode": "Введите код",
+    "inputCodeText": "Введите код который пришёл вам на почту",
     "confirmButton": "Подтвердить",
     "resendLink": "Код не пришёл"
   },

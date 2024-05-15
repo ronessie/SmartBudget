@@ -48,7 +48,7 @@ export default function Page(props: { user: IUser }) {
     });
     const [authDrawerState, drawerAuthMethods] = useDisclosure(false);
     const [registrationDrawerState, drawerRegistrationMethods] = useDisclosure(false);
-    const [segmentState, setSegmentState] = useState('Log In');
+    const [segmentState, setSegmentState] = useState('Sign In');
     const [twoFAState, setTwoFAState] = useState(false);
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
     const [convertData, setConvertData] = useState({
@@ -392,7 +392,7 @@ export default function Page(props: { user: IUser }) {
                     }}>{t('indexPage.aboutText')}</h1><br/>
                     <Button style={{position: "absolute", width: 250, marginTop: 100, marginLeft: 800, fontSize: 20}}
                             size="md"
-                            radius="xl" onClick={drawerAuthMethods.open}>Начать</Button>
+                            radius="xl" onClick={drawerAuthMethods.open}>{t('indexPage.startButton')}</Button>
                 </Group><br/>
                 <div>
                     <Drawer
@@ -409,12 +409,12 @@ export default function Page(props: { user: IUser }) {
                                 marginBottom: 10,
                                 textAlign: "center"
                             }}>{t('authenticationPage.signIn')}</h1>
-                        <SegmentedControl value={segmentState} fullWidth data={['Log In', 'Sign In']} radius='xl'
+                        <SegmentedControl value={segmentState} fullWidth data={['Sign In', 'Sign Up']} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === 'Log In') {
+                                              if (e === 'Sign In') {
                                                   regToAuth()
-                                              } else if (e === 'Sign In') {
+                                              } else if (e === 'Sign Up') {
                                                   authToReg()
                                               }
                                           }}/><br/>
@@ -445,11 +445,11 @@ export default function Page(props: { user: IUser }) {
                             setSegmentState('Sign In');
                             authToReg();
                         }}
-                                style={{fontSize: 16, textAlign: "center", paddingLeft: 80}}
+                                style={{fontSize: 16, textAlign: "center", marginLeft: 80}}
                                 title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button><br/>
 
                         <Button variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
-                                style={{paddingLeft: 120, fontSize: 16, textAlign: "center"}}
+                                style={{marginLeft: 120, fontSize: 16, textAlign: "center"}}
                                 onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
 
@@ -480,12 +480,12 @@ export default function Page(props: { user: IUser }) {
                             paddingLeft: 100
                         }}>{t('registrationPage.label')}</h1>
                         <SegmentedControl value={segmentState} fullWidth
-                                          data={['Log In', 'Sign In']} radius='xl'
+                                          data={['Sign In', 'Sign Up']} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === 'Log In') {
+                                              if (e === 'Sign In') {
                                                   regToAuth()
-                                              } else if (e === 'Sign In') {
+                                              } else if (e === 'Sign Up') {
                                                   authToReg()
                                               }
                                           }}/><br/>
@@ -531,7 +531,7 @@ export default function Page(props: { user: IUser }) {
                                     marginTop: 5,
                                     fontSize: 20,
                                 }}>{t('registrationPage.googleButton')}</Button>
-                        <Button style={{textAlign: "center", paddingLeft: 100, fontSize: 16}} variant={"transparent"}
+                        <Button style={{textAlign: "center", marginLeft: 70, fontSize: 16}} variant={"transparent"}
                                 onClick={() => {
                                     setSegmentState('Log In');
                                     regToAuth();
@@ -539,9 +539,9 @@ export default function Page(props: { user: IUser }) {
                     </Drawer></div>
                 <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                       title={'Двухфакторная аутентификация'}>
+                       title={t('2FA.label')}>
                     <PinInput size="md" length={6} type="number" value={data.check2FA}
-                              title="Введите код который пришёл вам на почту"
+                              title={t('2FA.inputCodeText')}
                               onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
                     <Button style={{width: 276, marginTop: 5, fontSize: 20}}
                             onClick={check2FA}
@@ -550,25 +550,25 @@ export default function Page(props: { user: IUser }) {
                     <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}>{t('2FA.resendLink')}</Link>
                 </Modal>
                 <Drawer
-                    title="Конвертер валют"
+                    title={t('indexPage.converterDrawer.title')}
                     opened={converterDrawerState}
                     onClose={converterAuthMethods.close}
                     overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                     position="right"
                     offset={8} radius="md">
                     <Group>
-                        <TextInput style={{width: 307}} label="Укажите сумму"
+                        <TextInput style={{width: 307}} label={t('indexPage.converterDrawer.label-1')}
                                    onChange={(e) => handleConvertChange("sum", e.target.value)}/>
                         <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                       onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
                     </Group>
                     <Group>
-                        <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
+                        <TextInput readOnly={true} style={{width: 307}} label={t('indexPage.converterDrawer.label-2')}
                                    value={convertData.newSum}/>
                         <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                       onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                     <br/>
-                    <Button style={{width: 410, fontSize: 20}} onClick={convert}>Рассчитать</Button>
+                    <Button style={{width: 410, fontSize: 20}} onClick={convert}>{t('indexPage.converterDrawer.button')}</Button>
                 </Drawer>
             </div>
             <Footer/>

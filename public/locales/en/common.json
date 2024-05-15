@@ -9,9 +9,16 @@
     "about": "About",
     "contacts": "Contacts",
     "converter": "Converter",
-    "logIn/signIn": "LogIn",
+    "logIn/signIn": "Sign In",
     "privacy": "Privacy",
-    "onMain": "On Main"
+    "onMain": "On Main",
+    "startButton": "Start",
+    "converterDrawer": {
+      "title": "Currency Converter",
+      "label-1": "Specify amount",
+      "label-2": "Total amount.",
+      "button": "Calculate"
+    }
   },
   "authenticationPage": {
     "signIn": "Authorization",
@@ -19,9 +26,9 @@
       "password": "Input password:",
       "email": "Input email:"
     },
-    "signInButton": "SignIn",
-    "googleLoginButton": "SignIn with google",
-    "registrationLink": "No account, signUp",
+    "signInButton": "Sign In",
+    "googleLoginButton": "Sign In with google",
+    "registrationLink": "No account, Sign Up",
     "changePasswordLink": "Reset password",
     "placeholder": {
       "email": "Example: Ivanov@mail.ru",
@@ -50,9 +57,9 @@
     "inputEmail": "Input email",
     "inputPassword": "Input password",
     "checkPassword": "Confirm password",
-    "button": "Sign up",
-    "googleButton": "Google sign up",
-    "link": "You already have an account, log in",
+    "button": "Sign Up",
+    "googleButton": "Google Sign Up",
+    "link": "You already have an account, Sign In",
     "placeholder": {
       "fio": "Example: Ivanov Ivan Ivanovich",
       "email": "Example: your@email.com",
