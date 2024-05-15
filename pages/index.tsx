@@ -397,7 +397,7 @@ export default function Page(props: { user: IUser }) {
                 <div>
                     <Drawer
                         opened={authDrawerState}
-                        onClose={drawerAuthMethods.close}
+                        onClose={()=>{drawerAuthMethods.close(); setSegmentState('Sign In')}}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
@@ -469,7 +469,7 @@ export default function Page(props: { user: IUser }) {
                     </Drawer>
                     <Drawer
                         opened={registrationDrawerState}
-                        onClose={drawerRegistrationMethods.close}
+                        onClose={()=>{drawerRegistrationMethods.close(); setSegmentState('Sign In') }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">

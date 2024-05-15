@@ -365,7 +365,10 @@ export default function Page(props: {
                 <Button style={{width: 200}}
                         onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
                     категории</Button><br/>
-                <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
+                <Modal opened={addIncomeCategoryModalState} onClose={() => {
+                    setAddIncomeCategoryModalState(false)
+                    setSegmentState('+')
+                }}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Добавление категорий доходов'}>
                     <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl' onChange={(e) => {
@@ -395,8 +398,8 @@ export default function Page(props: {
                 <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов"
                        opened={addExpensesCategoryModalState}
                        onClose={() => {
-                           setSegmentState('+')
                            setAddExpensesCategoryModalState(false)
+                           setSegmentState('+')
                        }}>
                     <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl' onChange={(e) => {
                         setSegmentState(e);
