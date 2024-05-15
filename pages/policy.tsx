@@ -5,11 +5,9 @@ import styles from "@/styles/pages.module.css";
 import React, {useState} from "react";
 import LongFooter from "@/components/longFooter";
 import {List} from "@mantine/core";
-import {useRouter} from "next/navigation";
 import {useTranslation} from "next-i18next";
 
 export default function Page() {
-    const router = useRouter();
     const {t} = useTranslation('common');
 
     return (

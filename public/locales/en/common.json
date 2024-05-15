@@ -112,7 +112,7 @@
       "addButton": "Add"
     }
   },
-  "addFilePage":{
+  "addFilePage": {
     "pickedFile": "Picked file: ",
     "upload": "Upload",
     "description": "Drag'n'drop files here to upload.",
@@ -165,5 +165,15 @@
       "9": "By using this Site, you agree to be bound by this policy. If you do not agree with this policy, please do not use our Site. Your continued use of the Site after we post\n changes to this policy will be deemed to be your agreement to those changes.",
       "10": "If you have any questions about this Privacy Policy, the practices of this site or your dealings with this site, please contact us at:\n vsakolinskaa@gmail.com."
     }
+  },
+  "aboutPage": {
+    "1": "About Us",
+    "2": "Welcome to SmartBudget, your trusted assistant in managing your personal finances. We\n offer a simple and effective solution to track your income and expenses, helping you\n achieve financial stability and realize long-term goals.",
+    "3": "Our mission is to provide you with tools that make financial planning accessible and\n understandable. We believe that managing your finances should be easy and convenient, and our service is designed\n so that you can easily control your finances.",
+    "4": "Our features:",
+    "4-1": "User-friendly interface: Our platform is intuitive, making it easy for you to enter\n data and get up-to-date information about your financial status.",
+    "4-2": "Data Security: We utilize advanced encryption technology to protect your\n sensitive information.",
+    "4-3": "Analytics and Reports: Get detailed reports and analytics on your income and expenses to help you make informed decisions.",
+    "5": "We are proud to provide a service that helps people around the world achieve financial\n independence. Join SmartBudget and get started on the path to a confident financial future today!"
   }
 }
