@@ -28,10 +28,10 @@ export default function Page() {
 
                 <h1 className={styles.policyText}>{t('policyPage.title.5')}</h1>
                 <h2>{t('policyPage.text.5')}
-                    <List withPadding={true} listStyleType="disc">
-                        <List.Item>{t('policyPage.text.5-1')}</List.Item>
-                        <List.Item>{t('policyPage.text.5-2')}</List.Item>
-                        <List.Item>{t('policyPage.text.5-3')}</List.Item></List></h2><br/>
+                    <List listStyleType="disc" withPadding={true}>
+                        <List.Item style={{width: 768}}>{t('policyPage.text.5-1')}</List.Item>
+                        <List.Item style={{width: 768}}>{t('policyPage.text.5-2')}</List.Item>
+                        <List.Item style={{width: 768}}>{t('policyPage.text.5-3')}</List.Item></List></h2><br/>
 
                 <h1 className={styles.policyText}>{t('policyPage.title.6')}</h1>
                 <h2>{t('policyPage.text.6')}</h2><br/>

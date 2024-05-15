@@ -18,10 +18,10 @@ export default function Page() {
                 <h1>{t('aboutPage.2')}</h1>
                 <h1>{t('aboutPage.3')}</h1>
                 <h1>{t('aboutPage.4')}</h1>
-                <List withPadding={true} listStyleType="disc">
-                    <List.Item>{t('aboutPage.4-1')}</List.Item>
-                    <List.Item>{t('aboutPage.4-2')}</List.Item>
-                    <List.Item>{t('aboutPage.4-3')}</List.Item>
+                <List listStyleType="disc" withPadding={true}>
+                    <List.Item style={{width: 768}}>{t('aboutPage.4-1')}</List.Item>
+                    <List.Item style={{width: 768}}>{t('aboutPage.4-2')}</List.Item>
+                    <List.Item style={{width: 768}}>{t('aboutPage.4-3')}</List.Item>
                 </List>
                 <h1>{t('aboutPage.5')}</h1>
             </div>
