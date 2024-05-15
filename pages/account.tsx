@@ -368,7 +368,7 @@ export default function Page(props: {
                 <Modal opened={addIncomeCategoryModalState} onClose={() => setAddIncomeCategoryModalState(false)}
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={'Добавление категорий доходов'}>
-                    <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
+                    <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl' onChange={(e) => {
                         setSegmentState(e);
                         if (e === '+') {
                             incomeCategories()
@@ -398,7 +398,7 @@ export default function Page(props: {
                            setSegmentState('+')
                            setAddExpensesCategoryModalState(false)
                        }}>
-                    <SegmentedControl value={segmentState} data={['+', '-']} onChange={(e) => {
+                    <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl' onChange={(e) => {
                         setSegmentState(e);
                         if (e === '+') {
                             incomeCategories()

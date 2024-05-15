@@ -321,10 +321,10 @@ export default function Page(props: {
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Group>
-                            <Button variant={"outline"} onClick={converterAuthMethods.open}>Конвертер</Button>
-                            <Button variant={"outline"} onClick={() => setCategoriesIncomeModalState(true)}>Статистика
+                            <Button variant={"outline"} radius='xl' onClick={converterAuthMethods.open}>Конвертер</Button>
+                            <Button variant={"outline"} radius='xl' onClick={() => setCategoriesIncomeModalState(true)}>Статистика
                                 по категориям</Button>
-                            <Button variant={"outline"} onClick={() => setDateIncomeModalState(true)}>Статистика
+                            <Button variant={"outline"} radius='xl' onClick={() => setDateIncomeModalState(true)}>Статистика
                                 по датам</Button>
                         </Group>
                     </div>
@@ -361,7 +361,7 @@ export default function Page(props: {
                         </div>
                     </Paper><br/>
                     <div>
-                        <Button variant="light" color="green"
+                        <Button variant="light" color="green" radius='xl'
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                         </Button>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
@@ -388,7 +388,7 @@ export default function Page(props: {
                                         fontSize: 20
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
-                        <Button variant="light" color="red"
+                        <Button variant="light" color="red" radius='xl'
                                 onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                         </Button>
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
@@ -425,7 +425,7 @@ export default function Page(props: {
                         setSegmentCategoriesState('Доходы');
                     }}
                            title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
                             if (e === 'Доходы') {
                                 incomeCategories()
@@ -454,7 +454,7 @@ export default function Page(props: {
                         setSegmentCategoriesState('Доходы');
                     }}
                            title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl value={segmentCategoriesState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
                             if (e === 'Доходы') {
                                 incomeCategories()
@@ -483,7 +483,7 @@ export default function Page(props: {
                         setSegmentDateState('Доходы');
                     }}
                            title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
                             setSegmentDateState(e);
                             if (e === 'Доходы') {
                                 incomeDate()
@@ -515,7 +515,7 @@ export default function Page(props: {
                         setSegmentDateState('Доходы');
                     }}
                            title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl value={segmentDateState} data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
                             setSegmentDateState(e);
                             if (e === 'Доходы') {
                                 incomeDate()

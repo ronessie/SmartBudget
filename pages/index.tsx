@@ -401,20 +401,23 @@ export default function Page(props: { user: IUser }) {
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
-                            setSegmentState(e);
-                            if (e === 'Log In') {
-                                regToAuth()
-                            } else if (e === 'Sign In') {
-                                authToReg()
-                            }
-                        }}/>
                         <h1
                             style={{
                                 fontSize: 40,
                                 padding: 0,
+                                marginTop: -15,
+                                marginBottom: 10,
                                 textAlign: "center"
                             }}>{t('authenticationPage.signIn')}</h1>
+                        <SegmentedControl value={segmentState} fullWidth data={['Log In', 'Sign In']} radius='xl'
+                                          onChange={(e) => {
+                                              setSegmentState(e);
+                                              if (e === 'Log In') {
+                                                  regToAuth()
+                                              } else if (e === 'Sign In') {
+                                                  authToReg()
+                                              }
+                                          }}/><br/>
                         <TextInput
                             label={t('authenticationPage.input.email')}
                             placeholder="your@email.com"
@@ -470,18 +473,22 @@ export default function Page(props: { user: IUser }) {
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
-                        <SegmentedControl value={segmentState} data={['Log In', 'Sign In']} onChange={(e) => {
-                            setSegmentState(e);
-                            if (e === 'Log In') {
-                                regToAuth()
-                            } else if (e === 'Sign In') {
-                                authToReg()
-                            }
-                        }}/>
                         <h1 style={{
                             fontSize: 35,
+                            marginTop: -15,
+                            marginBottom: 12,
                             paddingLeft: 100
                         }}>{t('registrationPage.label')}</h1>
+                        <SegmentedControl value={segmentState} fullWidth
+                                          data={['Log In', 'Sign In']} radius='xl'
+                                          onChange={(e) => {
+                                              setSegmentState(e);
+                                              if (e === 'Log In') {
+                                                  regToAuth()
+                                              } else if (e === 'Sign In') {
+                                                  authToReg()
+                                              }
+                                          }}/><br/>
                         <TextInput
                             withAsterisk
                             label={t('registrationPage.inputFIO')}
@@ -561,7 +568,7 @@ export default function Page(props: { user: IUser }) {
                         <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                       onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                     <br/>
-                    <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
+                    <Button style={{width: 410, fontSize: 20}} onClick={convert}>Рассчитать</Button>
                 </Drawer>
             </div>
             <Footer/>
