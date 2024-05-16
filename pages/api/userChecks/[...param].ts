@@ -12,8 +12,7 @@ export default async function userChecks(req: NextApiRequest, res: NextApiRespon
     const {db} = await connectToDatabase();
     const collection = await db.collection('checks')
     const checks = (await collection
-        //.filter({user_id: user._id, bankAccount_id: user.currentBankAccount})
-        .find()
+        .find({user_id: user._id, bankAccount_id: user.currentBankAccount})
         .toArray()) as ICheck[];
 
 
