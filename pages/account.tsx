@@ -335,16 +335,21 @@ export default function Page(props: {
                 }}
                 padding="md"
             >
-                <AppShell.Navbar style={{fontSize: 30}} className={styles.navbar} p="md">Account</AppShell.Navbar>
+                <AppShell.Navbar style={{fontSize: 30}} className={styles.navbar} p="md">
+                    <div>Account<br/>
+                        <Button style={{marginTop: 5}} onClick={() => setChangeModalState(!changeModalState)} fullWidth={true} variant="light">Изменить данные</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)} fullWidth={true} variant="light">Редактирование категорий</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setBillModalState(!billModalState)} fullWidth={true} variant="light">Добавить счёт</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setChangeAccountModalState(!changeAccountModalState)} fullWidth={true} variant="light">Сменить счёт</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)} fullWidth={true} variant="light">Пригласительный код</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setChangeLanguageState(!changeLanguageState)} fullWidth={true} variant="light">Сменить язык</Button></div>
+                </AppShell.Navbar>
                 <AppShell.Main>
                     <Fieldset style={{width: 400}} legend="Personal information">
                         <h2>ФИО: {data.fio}</h2>
                         <h2>Электронная почта: {data.email}</h2>
                         <h2>Название счёта: {data.bankName}</h2>
                     </Fieldset>
-                    <Button style={{width: 200}}
-                            onClick={() => setChangeModalState(!changeModalState)}>Изменить
-                    </Button><br/>
                     <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={'Редактирование данных'}>
@@ -376,9 +381,6 @@ export default function Page(props: {
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
                         </Button>
                     </Modal>
-                    <Button style={{width: 200}}
-                            onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}>Изменить
-                        категории</Button><br/>
                     <Modal opened={addIncomeCategoryModalState} onClose={() => {
                         setAddIncomeCategoryModalState(false)
                         setSegmentState('+')
@@ -441,8 +443,6 @@ export default function Page(props: {
                         <Button onClick={updateExpensesCategories}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
                     </Modal>
-                    <Button style={{width: 200}} onClick={() => setBillModalState(!billModalState)}>Добавить
-                        счёт</Button><br/>
                     <Modal
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
@@ -488,9 +488,6 @@ export default function Page(props: {
                             </Button>
                         </Modal>
                     </Modal>
-                    <Button style={{width: 200}}
-                            onClick={() => setChangeAccountModalState(!changeAccountModalState)}>Сменить
-                        счёт</Button><br/>
                     <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={'Смена счёта'}>
@@ -500,8 +497,6 @@ export default function Page(props: {
                         <Button onClick={changeBankAccount}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Перейти</Button>
                     </Modal>
-                    <Button style={{width: 200}} onClick={() => setCodeModalState(!codeModalState)}>Пригласительный
-                        код</Button>
                     <Modal title={"Пригласительный код для счёта: " + data.changeBankName}
                            opened={codeModalState} onClose={() => setCodeModalState(false)}
                            overlayProps={{backgroundOpacity: 0, blur: 4}}>
@@ -521,8 +516,6 @@ export default function Page(props: {
                                 )}
                             </CopyButton></Text>
                     </Modal><br/>
-                    <Button style={{width: 200}} onClick={() => setChangeLanguageState(!changeLanguageState)}>Сменить
-                        язык</Button>
                     <Modal title={"Смена языка"}
                            opened={changeLanguageState} onClose={() => setChangeLanguageState(false)}
                            overlayProps={{backgroundOpacity: 0, blur: 4}}>
