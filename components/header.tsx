@@ -1,5 +1,4 @@
 import {Container, Group, Button} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
 import classes from '../styles/header.module.css';
 import {useRouter} from "next/navigation";
 import {signOut} from 'next-auth/react'

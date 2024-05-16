@@ -1,5 +1,4 @@
 import {Container, Group, Button} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
 import classes from '../styles/header.module.css';
 import {useRouter} from "next/navigation";
 import {useTranslation} from "next-i18next";
@@ -20,7 +19,7 @@ export default function SmallHeader() {
                             onClick={() => router.push('/about')}>{t('indexPage.about')}</Button>
                     <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={()=> router.push('/contacts')}>{t('indexPage.contacts')}</Button>
                     <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={()=> router.push('/policy')}>{t('indexPage.privacy')}</Button>
-                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/')}>{t('indexPage.onMain')}</Button>
+                    <Button variant="light" radius="xl" style={{fontSize: 18}} onClick={() => router.push('/main')}>{t('indexPage.onMain')}</Button>
                 </Group>
             </Container>
         </header>

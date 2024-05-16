@@ -238,15 +238,14 @@ export default function Page(props: { user: IUser }) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email: data.popUpEmail, password: data.newPassword, fromEmail: data.fromEmail}),
+            body: JSON.stringify({email: data.popUpEmail, password: data.newPassword, fromEmail: data.fromEmail, subject: t('api.emailSubjectNewPassword'),
+                text: t('api.newPasswordOnEmail')}),
         });
 
         if (response.ok) {
             notifications.show({
                 title: t('indexPage.notification.title'),
                 message: t('indexPage.notification.newPasswordSend'),
-                subject: t('api.emailSubjectNewPassword'),
-                text: t('api.newPasswordOnEmail')
             })
             console.log('Email sent successfully!');
             setPasswordRecoveryModalState(false);
