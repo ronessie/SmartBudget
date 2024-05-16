@@ -1,15 +1,13 @@
 import nodemailer from "nodemailer";
 import {NextApiRequest, NextApiResponse} from "next";
 import {connectToDatabase} from "@/src/database";
-import {useTranslation} from "next-i18next";
 
 export default async function sendNewPasswordOnEmail(req: NextApiRequest, res: NextApiResponse) {
-    const {t} = useTranslation('common');
     if (req.method !== 'POST') {
         return res.status(405).json({error: 'Method Not Allowed'});
     }
     try {
-        const {email, password, fromEmail} = req.body;
+        const {email, password, fromEmail, subject, text} = req.body;
         console.log(email + " - " + password);
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -27,8 +25,8 @@ export default async function sendNewPasswordOnEmail(req: NextApiRequest, res: N
         const mailOptions = {
             from: `"SmartBudget" <${fromEmail}>`,
             to: email,
-            subject: t('api.emailSubjectNewPassword'),
-            text: t('api.newPasswordOnEmail') + password,
+            subject: subject,
+            text: text + password,
         };
 
         const info = await transporter.sendMail(mailOptions);

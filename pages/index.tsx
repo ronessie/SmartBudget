@@ -9,7 +9,7 @@ import {
     Container,
     Drawer,
     Group,
-    Modal, NativeSelect,
+    Modal, NativeSelect, PasswordInput,
     PinInput,
     SegmentedControl,
     TextInput
@@ -104,7 +104,9 @@ export default function Page(props: { user: IUser }) {
             body: JSON.stringify({
                 email: props.user.email,
                 twoStepAuthCode: generate2FAcode(),
-                fromEmail: "vsakolinskaa@gmail.com"
+                fromEmail: "vsakolinskaa@gmail.com",
+                subject: t('api.emailSubject2FA'),
+                text: t('api.2FAonEmail')
             }),
         });
 
@@ -177,7 +179,9 @@ export default function Page(props: { user: IUser }) {
                 body: JSON.stringify({
                     email: data.email,
                     twoStepAuthCode: data.twoStepAuthCode,
-                    fromEmail: "vsakolinskaa@gmail.com"
+                    fromEmail: "vsakolinskaa@gmail.com",
+                    subject: t('api.emailSubject2FA'),
+                    text: t('api.2FAonEmail')
                 }),
             });
 
@@ -241,6 +245,8 @@ export default function Page(props: { user: IUser }) {
             notifications.show({
                 title: t('indexPage.notification.title'),
                 message: t('indexPage.notification.newPasswordSend'),
+                subject: t('api.emailSubjectNewPassword'),
+                text: t('api.newPasswordOnEmail')
             })
             console.log('Email sent successfully!');
             setPasswordRecoveryModalState(false);
@@ -423,8 +429,7 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('authenticationPage.placeholder.email')}
                         />
-                        <TextInput
-                            type="password"
+                        <PasswordInput
                             label={t('authenticationPage.input.password')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
@@ -504,16 +509,14 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('registrationPage.placeholder.email')}
                         />
-                        <TextInput
-                            type="password"
+                        <PasswordInput
                             withAsterisk
                             label={t('registrationPage.inputPassword')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
                             title={t('registrationPage.placeholder.password')}
                         />
-                        <TextInput
-                            type="password"
+                        <PasswordInput
                             withAsterisk
                             label={t('registrationPage.checkPassword')}
                             value={data.checkPassword}
