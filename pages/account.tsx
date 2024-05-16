@@ -1,7 +1,7 @@
 import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
-import {AppShell} from '@mantine/core';
+import {AppShell, Avatar} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import styles from '../styles/pages.module.css'
 import {getSession} from "next-auth/react";
@@ -353,10 +353,11 @@ export default function Page(props: {
                                 fullWidth={true} variant="light">Сменить язык</Button></div>
                 </AppShell.Navbar>
                 <AppShell.Main>
-                    <Fieldset style={{width: 400}} legend="Personal information">
-                        <h2>ФИО: {data.fio}</h2>
-                        <h2>Электронная почта: {data.email}</h2>
-                        <h2>Название счёта: {data.bankName}</h2>
+                    <Fieldset radius="xl" className={styles.account}>
+                        <Avatar variant="light" radius="150" size="150" color="blue" src="" className={styles.icon}/>
+                        <Group><h1 className={styles.blueAccountText}>ФИО: </h1><h1 className={styles.accountText}>{data.fio}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>Электронная почта: </h1><h1 className={styles.accountText}>{data.email}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>Название счёта: </h1><h1 className={styles.accountText}>{data.bankName}</h1></Group>
                     </Fieldset>
                     <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}

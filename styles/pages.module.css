@@ -40,3 +40,28 @@
 .navbar {
     background-color: rgb(229, 239, 252);
 }
+
+.account {
+    margin-left: 15%;
+    margin-top: 5%;
+    width: 70%;
+    height: 500px;
+}
+
+.icon {
+    margin-left: 43%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.accountText {
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.blueAccountText {
+    color: rgba(80, 169, 252, 0.99);
+    font-size: 30px;
+    padding-bottom: 10px;
+    margin-left: 5%;
+}
