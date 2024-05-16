@@ -195,9 +195,9 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                     </div>
                     <br/>
                 </Dropzone><br/>
-                <Button style={{position: "absolute", width: 250, left: 820}} size="md"
+                <Button className={styles.installButton} size="md"
                         radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button> <br/>
-                <Button style={{width: 200, marginTop: 30, left: 845}} size="md" variant={"outline"} color="red"
+                <Button className={styles.clearButton} size="md" variant={"outline"} color="red"
                         disabled={!image}
                         radius="xl" onClick={clearFile}>Отменить</Button>
                 <Modal title={"Расшифровка чека"}
