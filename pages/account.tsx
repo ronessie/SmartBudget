@@ -1,7 +1,7 @@
 import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
-import {AppShell, Burger} from '@mantine/core';
+import {AppShell} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import styles from '../styles/pages.module.css'
 import {getSession} from "next-auth/react";
@@ -335,14 +335,22 @@ export default function Page(props: {
                 }}
                 padding="md"
             >
-                <AppShell.Navbar style={{fontSize: 30}} className={styles.navbar} p="md">
-                    <div>Account<br/>
-                        <Button style={{marginTop: 5}} onClick={() => setChangeModalState(!changeModalState)} fullWidth={true} variant="light">Изменить данные</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)} fullWidth={true} variant="light">Редактирование категорий</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setBillModalState(!billModalState)} fullWidth={true} variant="light">Добавить счёт</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setChangeAccountModalState(!changeAccountModalState)} fullWidth={true} variant="light">Сменить счёт</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)} fullWidth={true} variant="light">Пригласительный код</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setChangeLanguageState(!changeLanguageState)} fullWidth={true} variant="light">Сменить язык</Button></div>
+                <AppShell.Navbar className={styles.navbar} p="md">
+                    <div><h1 className={styles.blueText}>Account</h1><br/>
+                        <Button style={{marginTop: 5}} onClick={() => setChangeModalState(!changeModalState)}
+                                fullWidth={true} variant="light">Изменить данные</Button>
+                        <Button style={{marginTop: 5}}
+                                onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}
+                                fullWidth={true} variant="light">Редактирование категорий</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setBillModalState(!billModalState)}
+                                fullWidth={true} variant="light">Добавить счёт</Button>
+                        <Button style={{marginTop: 5}}
+                                onClick={() => setChangeAccountModalState(!changeAccountModalState)} fullWidth={true}
+                                variant="light">Сменить счёт</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)}
+                                fullWidth={true} variant="light">Пригласительный код</Button>
+                        <Button style={{marginTop: 5}} onClick={() => setChangeLanguageState(!changeLanguageState)}
+                                fullWidth={true} variant="light">Сменить язык</Button></div>
                 </AppShell.Navbar>
                 <AppShell.Main>
                     <Fieldset style={{width: 400}} legend="Personal information">
@@ -471,11 +479,10 @@ export default function Page(props: {
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
                         </Button>
 
-                        <Link style={{paddingLeft: 100}} href={""}
-                              onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть
-                            пригласительный
-                            код</Link>
-
+                        <Button variant="transparent" style={{textAlign: "center"}} fullWidth={true}
+                                onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть
+                            пригласительный код
+                        </Button>
                         <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
                                title={'Подключение к банковскому счёту'}>

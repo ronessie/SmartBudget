@@ -444,15 +444,15 @@ export default function Page(props: { user: IUser }) {
                                 onClick={googleAuthentication}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
-                        <Button variant={"transparent"} onClick={() => {
+                        <Button variant={"transparent"} fullWidth={true} onClick={() => {
                             setSegmentState('Sign In');
                             authToReg();
                         }}
-                                style={{fontSize: 16, textAlign: "center", marginLeft: 80}}
-                                title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button><br/>
+                                style={{fontSize: 16, textAlign: "center"}}
+                                title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button>
 
-                        <Button variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
-                                style={{marginLeft: 120, fontSize: 16, textAlign: "center"}}
+                        <Button fullWidth={true} variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
+                                style={{fontSize: 16, textAlign: "center"}}
                                 onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
 
@@ -534,7 +534,7 @@ export default function Page(props: { user: IUser }) {
                                     marginTop: 5,
                                     fontSize: 20,
                                 }}>{t('registrationPage.googleButton')}</Button>
-                        <Button style={{textAlign: "center", marginLeft: 70, fontSize: 16}} variant={"transparent"}
+                        <Button style={{textAlign: "center", fontSize: 16}} variant={"transparent"} fullWidth={true}
                                 onClick={() => {
                                     setSegmentState('Log In');
                                     regToAuth();
@@ -550,7 +550,7 @@ export default function Page(props: { user: IUser }) {
                             onClick={check2FA}
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button><br/>
-                    <Link href={""} onClick={resend2FA} style={{marginLeft: 60}}>{t('2FA.resendLink')}</Link>
+                    <Button variant="transparent" onClick={resend2FA} style={{textAlign: "center"}} fullWidth={true}>{t('2FA.resendLink')}</Button>
                 </Modal>
                 <Drawer
                     title={t('indexPage.converterDrawer.title')}
