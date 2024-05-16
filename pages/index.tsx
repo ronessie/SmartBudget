@@ -1,7 +1,6 @@
 import {useTranslation} from 'next-i18next';
 import path from 'path';
 import {GoogleIcon} from '@/public/images/GoogleIcon';
-import Link from "next/link";
 import {useRouter} from "next/router";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {

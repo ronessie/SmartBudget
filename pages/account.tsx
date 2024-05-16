@@ -9,7 +9,6 @@ import {connectToDatabase} from "@/src/database";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {IconCopy, IconCheck} from '@tabler/icons-react';
 import {ObjectId} from "bson";
-import Link from "next/link";
 import IBankAccount from "@/src/types/IBankAccount";
 import Footer from "../components/footer"
 import {
@@ -508,7 +507,7 @@ export default function Page(props: {
                     <Modal title={"Пригласительный код для счёта: " + data.changeBankName}
                            opened={codeModalState} onClose={() => setCodeModalState(false)}
                            overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <Text>{data.inviteCode}
+                        <Text style={{textAlign: "center"}}>{data.inviteCode}
                             <CopyButton value={data.inviteCode ?? ""} timeout={2000}>
                                 {({copied, copy}) => (
                                     <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">

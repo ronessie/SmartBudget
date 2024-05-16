@@ -21,7 +21,7 @@
 }
 
 .blueText {
-    color: #0D8AFDFF;
+    color: rgb(79, 166, 248);
     font-size: 30px;
 }
 
@@ -46,6 +46,8 @@
     margin-top: 5%;
     width: 70%;
     height: 500px;
+    border-color: rgb(80, 169, 252);
+    border-style: dotted;
 }
 
 .icon {
@@ -60,7 +62,7 @@
 }
 
 .blueAccountText {
-    color: rgba(80, 169, 252, 0.99);
+    color: rgb(80, 169, 252);
     font-size: 30px;
     padding-bottom: 10px;
     margin-left: 5%;
