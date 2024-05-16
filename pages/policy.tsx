@@ -14,38 +14,38 @@ export default function Page() {
         <div className={styles.page}>
             <SmallHeader/>
             <div className={styles.pageContent} style={{width: 800, textAlign: "justify", marginLeft: 560}}>
-                <h1 className={styles.policyText}>{t('policyPage.title.1')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.1')}</h1>
                 <h2>{t('policyPage.text.1')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.2')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.2')}</h1>
                 <h2>{t('policyPage.text.2')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.3')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.3')}</h1>
                 <h2>{t('policyPage.text.3')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.4')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.4')}</h1>
                 <h2>{t('policyPage.text.4')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.5')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.5')}</h1>
                 <h2>{t('policyPage.text.5')}
                     <List listStyleType="disc" withPadding={true}>
                         <List.Item style={{width: 768}}>{t('policyPage.text.5-1')}</List.Item>
                         <List.Item style={{width: 768}}>{t('policyPage.text.5-2')}</List.Item>
                         <List.Item style={{width: 768}}>{t('policyPage.text.5-3')}</List.Item></List></h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.6')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.6')}</h1>
                 <h2>{t('policyPage.text.6')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.7')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.7')}</h1>
                 <h2>{t('policyPage.text.7')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.8')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.8')}</h1>
                 <h2>{t('policyPage.text.8')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.9')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.9')}</h1>
                 <h2>{t('policyPage.text.9')}</h2><br/>
 
-                <h1 className={styles.policyText}>{t('policyPage.title.10')}</h1>
+                <h1 className={styles.blueText}>{t('policyPage.title.10')}</h1>
                 <h2>{t('policyPage.text.10')}</h2><br/>
             </div>
             <LongFooter/>

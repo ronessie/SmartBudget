@@ -1,8 +1,10 @@
 import nodemailer from "nodemailer";
 import {NextApiRequest, NextApiResponse} from "next";
 import {connectToDatabase} from "@/src/database";
+import {useTranslation} from "next-i18next";
 
 export default async function send2FAcodeOnEmail(req: NextApiRequest, res: NextApiResponse) {
+    const {t} = useTranslation('common');
 
     if (req.method !== 'POST') {
         return res.status(405).json({error: 'Method Not Allowed'});
@@ -27,8 +29,8 @@ export default async function send2FAcodeOnEmail(req: NextApiRequest, res: NextA
         const mailOptions = {
             from: `"SmartBudget" <${fromEmail}>`,
             to: email,
-            subject: 'Код двухфакторной  аутентификации',
-            text: twoStepAuthCode,
+            subject: t('api.emailSubject2FA'),
+            text: t('api.2FAonEmail')+twoStepAuthCode,
         };
 
         const info = await transporter.sendMail(mailOptions);

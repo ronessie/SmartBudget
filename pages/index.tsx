@@ -10,7 +10,6 @@ import {
     Drawer,
     Group,
     Modal, NativeSelect,
-    PasswordInput,
     PinInput,
     SegmentedControl,
     TextInput
@@ -424,7 +423,8 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('authenticationPage.placeholder.email')}
                         />
-                        <PasswordInput
+                        <TextInput
+                            type="password"
                             label={t('authenticationPage.input.password')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
@@ -504,14 +504,16 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('registrationPage.placeholder.email')}
                         />
-                        <PasswordInput
+                        <TextInput
+                            type="password"
                             withAsterisk
                             label={t('registrationPage.inputPassword')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
                             title={t('registrationPage.placeholder.password')}
                         />
-                        <PasswordInput
+                        <TextInput
+                            type="password"
                             withAsterisk
                             label={t('registrationPage.checkPassword')}
                             value={data.checkPassword}

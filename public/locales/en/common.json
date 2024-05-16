@@ -206,5 +206,10 @@
     "3": "How to contact us:",
     "3-1": "Email: Our primary communication channel is email. If you have questions about how to better manage your finances, or if you encounter technical issues, please email us at vsakolinskaa@gmail.com. We are committed to processing your request as soon as possible and providing you with comprehensive information and support.",
     "4": "We value every customer and strive to create a community where everyone can feel confident in their financial decisions. Your opinions and suggestions help us improve SmartBudget and make it even better."
+  },
+  "api": {
+    "emailSubject2FA": "Two-Factor Authentication Code",
+    "2FAonEmail": "Your two-factor authentication code for the SmartBudget website: ",
+    "emailSubjectNewPassword": "Password Recovery",
+    "newPasswordOnEmail": "Your new password for the SmartBudget site: "
   }
-}

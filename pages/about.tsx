@@ -14,7 +14,7 @@ export default function Page() {
         <div className={styles.page}>
             <SmallHeader/>
             <div className={styles.pageContent} style={{width: 800, textAlign: "justify", marginLeft: 560}}>
-                <h1 className={styles.policyText}>{t('aboutPage.1')}</h1>
+                <h1 className={styles.blueText}>{t('aboutPage.1')}</h1>
                 <h1>{t('aboutPage.2')}</h1>
                 <h1>{t('aboutPage.3')}</h1>
                 <h1>{t('aboutPage.4')}</h1>

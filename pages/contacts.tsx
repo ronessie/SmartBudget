@@ -14,7 +14,7 @@ export default function Page() {
         <div className={styles.page}>
             <SmallHeader/>
             <div className={styles.pageContent} style={{width: 800, textAlign: "justify", marginLeft: 560}}>
-                <h1 className={styles.policyText}>{t('contactsPage.1')}</h1>
+                <h1 className={styles.blueText}>{t('contactsPage.1')}</h1>
                 <h1>{t('contactsPage.2')}</h1>
                 <h1>{t('contactsPage.3')}</h1>
                 <List listStyleType="disc" withPadding={true}>
