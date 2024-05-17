@@ -399,8 +399,6 @@ export default function Page(props: { user: IUser }) {
         <div className={styles.page}>
             <IndexHeader/>
             <div className={styles.pageContent}>
-                <Button onClick={() => changeLanguage('en')}>EN</Button>
-                <Button onClick={() => changeLanguage('ru')}>RU</Button>
                 <br/>
                 <h1 className={styles.welcomeText}>{t('indexPage.hello')}</h1><br/>
                 <Group style={{marginTop: 30}}>
