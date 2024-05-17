@@ -56,6 +56,10 @@ export default function Page(props: { user: IUser }) {
         afterCurrency: "AED",
         newSum: 0
     });
+    const [language, setLanguage] = useState({
+        lan: [{"value": "ru", "label": "RU"}, {"value": "en", "label": "EN"}],
+        selectedLan: router.locale?.toString(),
+    });
 
     const changeLanguage = async (language: string) => {
         await router.push(router.pathname, router.asPath, {locale: language});
@@ -67,6 +71,14 @@ export default function Page(props: { user: IUser }) {
             [fieldName]: value,
         });
         console.log(convertData)
+    }
+
+    function handleLanguageChange(fieldName: string, value: any) {
+        setLanguage({
+            ...language,
+            [fieldName]: value,
+        });
+        changeLanguage(value)
     }
 
     function IndexHeader() {
@@ -86,6 +98,9 @@ export default function Page(props: { user: IUser }) {
                                 onClick={converterAuthMethods.open}>{t('indexPage.converter')}</Button>
                         <Button variant="light" radius="xl" style={{fontSize: 18}}
                                 onClick={drawerAuthMethods.open}>{t('indexPage.logIn/signIn')}</Button>
+                        <NativeSelect data={language.lan} variant="light" radius="xl" style={{fontSize: 18}}
+                                      defaultValue={language.selectedLan}
+                                      onChange={(e) => handleLanguageChange("selectedLan", e.target.value)}/>
                     </Group>
                 </Container>
             </header>
@@ -237,8 +252,13 @@ export default function Page(props: { user: IUser }) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email: data.popUpEmail, password: data.newPassword, fromEmail: data.fromEmail, subject: t('api.emailSubjectNewPassword'),
-                text: t('api.newPasswordOnEmail')}),
+            body: JSON.stringify({
+                email: data.popUpEmail,
+                password: data.newPassword,
+                fromEmail: data.fromEmail,
+                subject: t('api.emailSubjectNewPassword'),
+                text: t('api.newPasswordOnEmail')
+            }),
         });
 
         if (response.ok) {
@@ -399,7 +419,10 @@ export default function Page(props: { user: IUser }) {
                 <div>
                     <Drawer
                         opened={authDrawerState}
-                        onClose={()=>{drawerAuthMethods.close(); setSegmentState('Sign In')}}
+                        onClose={() => {
+                            drawerAuthMethods.close();
+                            setSegmentState('Sign In')
+                        }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
@@ -450,7 +473,8 @@ export default function Page(props: { user: IUser }) {
                                 style={{fontSize: 16, textAlign: "center"}}
                                 title={t('authenticationPage.placeholder.regLink')}>{t('authenticationPage.registrationLink')}</Button>
 
-                        <Button fullWidth={true} variant={"transparent"} title={t('authenticationPage.placeholder.changePassLink')}
+                        <Button fullWidth={true} variant={"transparent"}
+                                title={t('authenticationPage.placeholder.changePassLink')}
                                 style={{fontSize: 16, textAlign: "center"}}
                                 onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
@@ -471,7 +495,10 @@ export default function Page(props: { user: IUser }) {
                     </Drawer>
                     <Drawer
                         opened={registrationDrawerState}
-                        onClose={()=>{drawerRegistrationMethods.close(); setSegmentState('Sign In') }}
+                        onClose={() => {
+                            drawerRegistrationMethods.close();
+                            setSegmentState('Sign In')
+                        }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
@@ -549,7 +576,8 @@ export default function Page(props: { user: IUser }) {
                             onClick={check2FA}
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button><br/>
-                    <Button variant="transparent" onClick={resend2FA} style={{textAlign: "center"}} fullWidth={true}>{t('2FA.resendLink')}</Button>
+                    <Button variant="transparent" onClick={resend2FA} style={{textAlign: "center"}}
+                            fullWidth={true}>{t('2FA.resendLink')}</Button>
                 </Modal>
                 <Drawer
                     title={t('indexPage.converterDrawer.title')}
@@ -570,7 +598,8 @@ export default function Page(props: { user: IUser }) {
                         <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
                                       onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                     <br/>
-                    <Button style={{width: 410, fontSize: 20}} onClick={convert}>{t('indexPage.converterDrawer.button')}</Button>
+                    <Button style={{width: 410, fontSize: 20}}
+                            onClick={convert}>{t('indexPage.converterDrawer.button')}</Button>
                 </Drawer>
             </div>
             <Footer/>

@@ -39,7 +39,6 @@ export default function Page(props: {
 }) {
     const {t} = useTranslation();
     const [changeModalState, setChangeModalState] = useState(false);
-    const [changeLanguageState, setChangeLanguageState] = useState(false);
     const [changeAccountModalState, setChangeAccountModalState] = useState(false);
     const [addIncomeCategoryModalState, setAddIncomeCategoryModalState] = useState(false);
     const [addExpensesCategoryModalState, setAddExpensesCategoryModalState] = useState(false);
@@ -269,10 +268,6 @@ export default function Page(props: {
         setChangeModalState(false);
     }
 
-    const changeLanguage = async (language: string) => {
-        await router.push(router.pathname, router.asPath, {locale: language});
-    };
-
     async function updateIncomeCategories() {
         const response = await fetch(`/api/updateIncomeCategories`, {
             method: 'POST',
@@ -348,8 +343,7 @@ export default function Page(props: {
                                 variant="light">Сменить счёт</Button>
                         <Button style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)}
                                 fullWidth={true} variant="light">Пригласительный код</Button>
-                        <Button style={{marginTop: 5}} onClick={() => setChangeLanguageState(!changeLanguageState)}
-                                fullWidth={true} variant="light">Сменить язык</Button></div>
+                        </div>
                 </AppShell.Navbar>
                 <AppShell.Main>
                     <Fieldset radius="xl" className={styles.account}>
@@ -523,21 +517,12 @@ export default function Page(props: {
                                 )}
                             </CopyButton></Text>
                     </Modal><br/>
-                    <Modal title={"Смена языка"}
-                           opened={changeLanguageState} onClose={() => setChangeLanguageState(false)}
-                           overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <div>
-                            <Button onClick={() => changeLanguage('en')}>EN</Button>
-                            <Button onClick={() => changeLanguage('ru')}>RU</Button>
-                        </div>
-                    </Modal>
                 </AppShell.Main>
             </AppShell>
             <Footer/>
         </div>
     )
 }
-//доделать функционал кнопок
 
 export const getServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
