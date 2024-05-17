@@ -351,8 +351,8 @@ export default function Page(props: {
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
                     </Drawer>
                     <h1>{t('mainPage.yourBankAccount')}</h1>
-                    <Paper shadow="md" radius="md" p="xl"
-                           style={{backgroundColor: "lightgrey", width: 400, height: 190}}>
+                    <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
+                           style={{width: 400, height: 190}}>
                         <div>
                             <h1>{props.bankAccount.name}</h1><br/>
                             <h1>{data.balance} {props.bankAccount.currency}</h1>
@@ -464,7 +464,7 @@ export default function Page(props: {
                         }}/>
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                       onChange={(e) => handleCategoriesChange("statisticCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
+                                      title={t('mainPage.incomeModal.selector.title')} data={data.expensesCategory}>
                         </NativeSelect><br/>
                         <Table>
                             <Table.Thead>

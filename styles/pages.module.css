@@ -21,7 +21,7 @@
 }
 
 .blueText {
-    color: rgb(79, 166, 248);
+    color: #0D8AFD;
     font-size: 30px;
 }
 
@@ -46,7 +46,7 @@
     margin-top: 5%;
     width: 70%;
     height: 500px;
-    border-color: rgb(80, 169, 252);
+    border-color: #0D8AFD;
     border-style: dotted;
 }
 
@@ -62,8 +62,12 @@
 }
 
 .blueAccountText {
-    color: rgb(80, 169, 252);
+    color: #0D8AFD;
     font-size: 30px;
     padding-bottom: 10px;
     margin-left: 5%;
+}
+
+.paper {
+    background-color: rgb(229, 239, 252);
 }
