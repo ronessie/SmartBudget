@@ -88,7 +88,7 @@ export default function Page(props: { user: IUser }) {
             <header className={classes.header}>
                 <Container className={classes.inner}>
                     <img src="/images/small_logo.svg" alt="SmartBudget" style={{paddingTop: 9}}
-                         onClick={() => router.push('/')}/>
+                         onClick={() => router.push('/main')}/>
                     <Group gap={5} visibleFrom="xs">
                         <Button variant="light" radius="xl" style={{fontSize: 18}}
                                 onClick={() => router.push('/about')}>{t('indexPage.about')}</Button>
