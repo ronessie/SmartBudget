@@ -7,4 +7,5 @@ export default interface IOperation {
     category?: string;
     date?: Date;
     operationsStatus?: string;
+    finalSum?: number;
 }

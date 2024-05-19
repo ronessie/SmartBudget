@@ -56,11 +56,12 @@ export default function Page(props: {
             .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
         allExpenses: (props.expenses ?? [])
             .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
+        allCurrency: currency(),
+        operationCurrency: props.bankAccount.currency,
     });
 
     const [convertData, setConvertData] = useState({
         sum: 1,
-        currency: currency(),
         beforeCurrency: "AED",
         afterCurrency: "AED",
         newSum: 0
@@ -154,10 +155,11 @@ export default function Page(props: {
             user_id: props.user._id,
             bankAccount_id: props.bankAccount._id,
             sum: data.sum,
-            currency: data.currency,
+            currency: data.operationCurrency,
             date: data.date,
             category: data.category,
-            operationsStatus: data.operationStatus
+            operationsStatus: data.operationStatus,
+            //finalSum: 1,//тут надо менять
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
@@ -165,13 +167,22 @@ export default function Page(props: {
 
         if (operation.operationsStatus === '+') {
             const newIncomes = [...data.allIncome];
-            newIncomes.push({ category: ucFirst(t(operation.category ?? '')), sum: operation.sum ?? 0, currency: operation.currency ?? '', date: operation.date?.toString() ?? '' });
+            newIncomes.push({
+                category: ucFirst(t(operation.category ?? '')),
+                sum: operation.sum ?? 0,
+                currency: operation.currency ?? '',
+                date: operation.date?.toString() ?? ''
+            });
 
             handleFieldChange('allIncome', newIncomes)
-        }
-        else if (operation.operationsStatus === '-') {
+        } else if (operation.operationsStatus === '-') {
             const newExpenses = [...data.allExpenses];
-            newExpenses.push({ category: ucFirst(t(operation.category ?? '')), sum: operation.sum ?? 0, currency: operation.currency ?? '', date: operation.date?.toString() ?? '' });
+            newExpenses.push({
+                category: ucFirst(t(operation.category ?? '')),
+                sum: operation.sum ?? 0,
+                currency: operation.currency ?? '',
+                date: operation.date?.toString() ?? ''
+            });
             handleFieldChange('allExpenses', newExpenses)
         }
 
@@ -349,7 +360,8 @@ export default function Page(props: {
                     <div>
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Group>
-                            <Button variant={"outline"} radius='xl' onClick={converterAuthMethods.open}>Конвертер</Button>
+                            <Button variant={"outline"} radius='xl'
+                                    onClick={converterAuthMethods.open}>Конвертер</Button>
                             <Button variant={"outline"} radius='xl' onClick={() => setCategoriesIncomeModalState(true)}>Статистика
                                 по категориям</Button>
                             <Button variant={"outline"} radius='xl' onClick={() => setDateIncomeModalState(true)}>Статистика
@@ -366,14 +378,14 @@ export default function Page(props: {
                         <Group>
                             <TextInput style={{width: 307}} label="Укажите сумму"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
                                           defaultValue={props.bankAccount.currency}/>
                         </Group>
                         <Group>
                             <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
                                        value={convertData.newSum}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                         <br/>
                         <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
@@ -395,12 +407,17 @@ export default function Page(props: {
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.incomeModal.title')}>
-                            <TextInput
-                                label={t('mainPage.incomeModal.inputSum') + `, ${props.bankAccount.currency}`}
-                                placeholder="100"
-                                onChange={(e) => handleFieldChange("sum", e.target.value)}
-                                title={t('mainPage.incomeModal.sumTitle')}
-                            />
+                            <Group>
+                                <TextInput
+                                    label={t('mainPage.incomeModal.inputSum')}
+                                    placeholder="100"
+                                    onChange={(e) => handleFieldChange("sum", e.target.value)}
+                                    title={t('mainPage.incomeModal.sumTitle')} style={{width: 307}}
+                                />
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                              onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
+                                              defaultValue={props.bankAccount.currency}/>
+                            </Group>
                             <br/>
                             <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
@@ -422,13 +439,16 @@ export default function Page(props: {
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                                title={t('mainPage.expensesModal.title')}>
-                            <TextInput
-                                label={t('mainPage.expensesModal.inputSum') + `, ${props.bankAccount.currency}`}
-                                placeholder="100"
-                                onChange={(e) => handleFieldChange("sum", e.target.value)}
-                                title={t('mainPage.expensesModal.sumTitle')}
-                            />
-                            <br/>
+                            <Group>
+                                <TextInput
+                                    label={t('mainPage.expensesModal.inputSum')}
+                                    placeholder="100"
+                                    onChange={(e) => handleFieldChange("sum", e.target.value)}
+                                    title={t('mainPage.expensesModal.sumTitle')} style={{width: 307}}/>
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                              onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
+                                              defaultValue={props.bankAccount.currency}/>
+                            </Group><br/>
                             <NativeSelect label={t('mainPage.expensesModal.selector.label')}
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
                                           title={t('mainPage.expensesModal.selector.title')}
@@ -454,7 +474,8 @@ export default function Page(props: {
                         handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                     }}
                            title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
+                                          data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
                             if (e === 'Доходы') {
                                 incomeCategories()
@@ -466,7 +487,8 @@ export default function Page(props: {
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                       value={categoryData.selectedStatisticIncomeCategory}
                                       onChange={(e) => handleCategoriesChange("selectedStatisticIncomeCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')} data={['-', ...data.incomeCategory]}>
+                                      title={t('mainPage.incomeModal.selector.title')}
+                                      data={['-', ...data.incomeCategory]}>
                         </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
@@ -486,7 +508,8 @@ export default function Page(props: {
                         handleCategoriesChange("selectedStatisticExpensesCategory", '-')
                     }}
                            title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
+                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
+                                          data={['Доходы', 'Расходы']} onChange={(e) => {
                             setSegmentCategoriesState(e);
                             if (e === 'Доходы') {
                                 incomeCategories()
@@ -498,7 +521,8 @@ export default function Page(props: {
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
                                       value={categoryData.selectedStatisticExpensesCategory}
                                       onChange={(e) => handleCategoriesChange("selectedStatisticExpensesCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')} data={['-', ...data.expensesCategory]}>
+                                      title={t('mainPage.incomeModal.selector.title')}
+                                      data={['-', ...data.expensesCategory]}>
                         </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
@@ -518,15 +542,16 @@ export default function Page(props: {
                         setSelectedStatisticIncomeTimeInterval([null, null])
                     }}
                            title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
-                            setSegmentDateState(e);
-                            if (e === 'Доходы') {
-                                incomeDate()
-                            } else if (e === 'Расходы') {
-                                expensesDate()
-                            }
-                            setSelectedStatisticIncomeTimeInterval([null, null])
-                        }}/>
+                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl'
+                                          onChange={(e) => {
+                                              setSegmentDateState(e);
+                                              if (e === 'Доходы') {
+                                                  incomeDate()
+                                              } else if (e === 'Расходы') {
+                                                  expensesDate()
+                                              }
+                                              setSelectedStatisticIncomeTimeInterval([null, null])
+                                          }}/>
                         <DatePickerInput
                             type="range"
                             label="Укажите даты"
@@ -552,15 +577,16 @@ export default function Page(props: {
                         setSelectedStatisticExpensesTimeInterval([null, null])
                     }}
                            title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
-                            setSegmentDateState(e);
-                            if (e === 'Доходы') {
-                                incomeDate()
-                            } else if (e === 'Расходы') {
-                                expensesDate()
-                            }
-                            setSelectedStatisticExpensesTimeInterval([null, null])
-                        }}/>
+                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl'
+                                          onChange={(e) => {
+                                              setSegmentDateState(e);
+                                              if (e === 'Доходы') {
+                                                  incomeDate()
+                                              } else if (e === 'Расходы') {
+                                                  expensesDate()
+                                              }
+                                              setSelectedStatisticExpensesTimeInterval([null, null])
+                                          }}/>
                         <DatePickerInput
                             type="range"
                             label="Укажите даты"

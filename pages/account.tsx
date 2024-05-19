@@ -351,6 +351,7 @@ export default function Page(props: {
                         <Group><h1 className={styles.blueAccountText}>ФИО: </h1><h1 className={styles.accountText}>{data.fio}</h1></Group>
                         <Group><h1 className={styles.blueAccountText}>Электронная почта: </h1><h1 className={styles.accountText}>{data.email}</h1></Group>
                         <Group><h1 className={styles.blueAccountText}>Название счёта: </h1><h1 className={styles.accountText}>{data.bankName}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>Валюта счёта: </h1><h1 className={styles.accountText}>{data.currency}</h1></Group>
                     </Fieldset>
                     <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
@@ -372,10 +373,10 @@ export default function Page(props: {
                             onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
                             title="Введите Электронную почту"
                             value={data.changeBankName}
-                        />
-                        <NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}
-                                      title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}
-                                      defaultValue={props.bankAccount.currency}></NativeSelect><br/>
+                        /><br/>
+                        {/*<NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}*/}
+                        {/*              title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}*/}
+                        {/*              defaultValue={props.bankAccount.currency}></NativeSelect><br/>*/}
                         <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
                                 checked={checked2FA}
                                 onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
