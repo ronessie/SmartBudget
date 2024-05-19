@@ -121,18 +121,18 @@ export default function Page(props: {
     }
 
     function handleConvertChange(fieldName: string, value: any) {
-        setConvertData({
-            ...convertData,
+        setConvertData(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
+        }));
         console.log(convertData)
     }
 
     function handleCategoriesChange(fieldName: string, value: any) {
-        setCategoryData({
-            ...categoryData,
+        setCategoryData(prevData => ({
+            ...prevData,
             [fieldName]: value,
-        });
+        }));
         console.log(categoryData)
     }
 
@@ -151,7 +151,6 @@ export default function Page(props: {
     }
 
     async function dataToDB() {
-
         const convertResponse = await fetch('/api/converter', {
             method: 'POST',
             body: JSON.stringify({
@@ -161,11 +160,11 @@ export default function Page(props: {
             }),
         });
 
+        let finalSum = 0;
         if (convertResponse.ok) {
             console.log('converter api worked successfully!');
-            const convert = (await convertResponse.json()).result;//тут всё окей
-            handleFieldChange("finalSum", convert?.toFixed(2));//а тут уже 0
-            console.log("Test: " + data.finalSum)
+            finalSum = +((await convertResponse.json()).result?.toFixed(2));
+            handleFieldChange("finalSum", finalSum);
         } else {
             console.error('Failed work converter.');
         }
@@ -178,7 +177,7 @@ export default function Page(props: {
             date: data.date,
             category: data.category,
             operationsStatus: data.operationStatus,
-            finalSum: data.finalSum,
+            finalSum: finalSum,
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
@@ -205,15 +204,15 @@ export default function Page(props: {
             handleFieldChange('allExpenses', newExpenses)
         }
 
-        await updateBalance()
+        await updateBalance(finalSum)
     }
 
-    async function updateBalance() {
+    async function updateBalance(finalSum: number) {
         const responseUpdate = await fetch('/api/updateBalance', {
             method: 'POST',
             body: JSON.stringify({
                 currentBankAccount_id: props.bankAccount._id,
-                sum: data.sum,
+                sum: finalSum,
                 operationStatus: data.operationStatus,
                 balance: data.balance
             }),
@@ -221,9 +220,9 @@ export default function Page(props: {
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         handleFieldChange("updateLastUpdateDate", data?.lastUpdateDate)
         if (data.operationStatus === '+') {
-            handleFieldChange("balance", +(data?.balance ?? 0) + +data.finalSum)
+            handleFieldChange("balance", +((+(data?.balance ?? 0) + finalSum).toFixed(2)))
         } else {
-            handleFieldChange("balance", +(data?.balance ?? 0) - +data.finalSum)
+            handleFieldChange("balance", +((+(data?.balance ?? 0) - finalSum).toFixed(2)))
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
@@ -280,7 +279,7 @@ export default function Page(props: {
         if (response.ok) {
             console.log('converter api worked successfully!');
             const convert = (await response.json()).result;
-            handleConvertChange("newSum", convert?.toFixed(2));
+            handleConvertChange("newSum", +convert?.toFixed(2));
         } else {
             console.error('Failed work converter.');
         }

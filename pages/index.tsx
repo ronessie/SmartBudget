@@ -379,7 +379,7 @@ export default function Page(props: { user: IUser }) {
         if (response.ok) {
             console.log('converter api worked successfully!');
             const convert = (await response.json()).result;
-            handleConvertChange("newSum", convert?.toFixed(2));
+            handleConvertChange("newSum", +convert?.toFixed(2));
         } else {
             console.error('Failed work converter.');
         }
