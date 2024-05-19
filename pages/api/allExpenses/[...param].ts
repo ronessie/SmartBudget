@@ -14,9 +14,9 @@ export default async function allExpenses(req: NextApiRequest, res: NextApiRespo
         .find({bankAccount_id: bankAccountId, operationsStatus: "-"})
         .toArray()) as IOperation[];
 
-    const result: { category: string, sum: number, currency: string, date: string }[] = [];
+    const result: { category: string, sum: number, currency: string, date: string, finalSum: number }[] = [];
 
-    operations.map((e) => result.push({category: e.category ?? '', sum: e.sum ?? 0, currency: e.currency ?? '', date: e.date?.toString() ?? ''}))
+    operations.map((e) => result.push({category: e.category ?? '', sum: e.sum ?? 0, currency: e.currency ?? '', date: e.date?.toString() ?? '', finalSum: e.finalSum ?? 0 }))
 
     res.json({result: result});
 }
