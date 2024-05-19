@@ -241,3 +241,7 @@ export function ucFirst(str: string): string {
 
     return str[0].toUpperCase() + str.slice(1);
 }
+
+const chartsColor = ['blue.6', 'red.6', 'pink.6', 'grape.6', 'violet.6', 'indigo.6', 'cyan.6', 'teal.6', 'green.6', 'lime.6', 'yellow.6', 'orange.6'];
+
+export const getRandomChartColor = () => chartsColor[Math.floor(Math.random() * chartsColor.length)]
