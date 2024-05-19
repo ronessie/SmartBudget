@@ -58,6 +58,7 @@ export default function Page(props: {
             .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
         allCurrency: currency(),
         operationCurrency: props.bankAccount.currency,
+        finalSum: 0
     });
 
     const [convertData, setConvertData] = useState({
@@ -150,6 +151,24 @@ export default function Page(props: {
     }
 
     async function dataToDB() {
+
+        const convertResponse = await fetch('/api/converter', {
+            method: 'POST',
+            body: JSON.stringify({
+                sum: data.sum,
+                afterCurrency: data.currency,
+                beforeCurrency: data.operationCurrency
+            }),
+        });
+
+        if (convertResponse.ok) {
+            console.log('converter api worked successfully!');
+            const convert = (await convertResponse.json()).result;//тут всё окей
+            handleFieldChange("finalSum", convert?.toFixed(2));//а тут уже 0
+            console.log("Test: " + data.finalSum)
+        } else {
+            console.error('Failed work converter.');
+        }
         const operation: IOperation = {
             _id: new ObjectId().toString(),
             user_id: props.user._id,
@@ -159,7 +178,7 @@ export default function Page(props: {
             date: data.date,
             category: data.category,
             operationsStatus: data.operationStatus,
-            //finalSum: 1,//тут надо менять
+            finalSum: data.finalSum,
         };
 
         const response = await fetch(`/api/addOperation/${JSON.stringify(operation)}`);
@@ -202,9 +221,9 @@ export default function Page(props: {
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         handleFieldChange("updateLastUpdateDate", data?.lastUpdateDate)
         if (data.operationStatus === '+') {
-            handleFieldChange("balance", +(data?.balance ?? 0) + +data.sum)
+            handleFieldChange("balance", +(data?.balance ?? 0) + +data.finalSum)
         } else {
-            handleFieldChange("balance", +(data?.balance ?? 0) - +data.sum)
+            handleFieldChange("balance", +(data?.balance ?? 0) - +data.finalSum)
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
