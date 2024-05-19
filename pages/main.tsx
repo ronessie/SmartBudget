@@ -2,7 +2,7 @@ import styles from '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import {ObjectId} from "bson";
 import {getSession, useSession} from "next-auth/react";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import IOperation from "@/src/types/IOperation";
 import validator from "validator";
@@ -10,11 +10,11 @@ import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {Button, Drawer, Group, Modal, NativeSelect, Paper, SegmentedControl, Table, TextInput} from "@mantine/core";
 import {DateInput, DatePickerInput} from '@mantine/dates';
-import {DonutChart} from "@mantine/charts";
+import {DonutChart, DonutChartCell} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
 import {useDisclosure} from "@mantine/hooks";
-import {currency, defaultExpensesCategories, defaultIncomeCategories, ucFirst} from "@/src/utils";
+import {currency, defaultExpensesCategories, defaultIncomeCategories, getRandomChartColor, ucFirst} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
 import Footer from "@/components/footer";
 import {authRedirect} from "@/src/server/authRedirect";
@@ -78,18 +78,56 @@ export default function Page(props: {
 
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
-    const dataChart1 = [
-        {name: 'USA', value: 400, color: 'blue.6'},
-        {name: 'India', value: 300, color: 'yellow.6'},
-        {name: 'Japan', value: 100, color: 'pink.6'},
-        {name: 'Other', value: 200, color: 'red.6'},
-    ];
-    const dataChart2 = [
-        {name: 'USA', value: 250, color: 'green.6'},
-        {name: 'India', value: 190, color: 'blue.6'},
-        {name: 'Japan', value: 160, color: 'red.6'},
-        {name: 'Other', value: 400, color: 'orange.6'},
-    ];
+    const [incomeChartInfo, setIncomeChartInfo] = useState<DonutChartCell[]>([]);
+    const [incomeChartLabel, setIncomeChartLabel] = useState(0);
+    const [expensesChartInfo, setExpensesChartInfo] = useState<DonutChartCell[]>([]);
+    const [expensesChartLabel, setExpensesChartLabel] = useState(0);
+
+    useEffect(() => {
+        const aggregatedIncomeChartData: Record<string, number> = data.allIncome.reduce((acc, item) => {
+            const category = ucFirst(item.category);
+            if (!acc[category]) {
+                acc[category] = 0;
+            }
+            acc[category] += +item.sum;
+            return acc;
+        }, {} as Record<string, number>);
+
+        let sum = 0;
+        setIncomeChartInfo(Object.keys(aggregatedIncomeChartData).map((category, index) => {
+            sum += aggregatedIncomeChartData[category];
+            return {
+                name: category,
+                value: aggregatedIncomeChartData[category],
+                color: getRandomChartColor(),
+            }
+        }));
+
+        setIncomeChartLabel(sum);
+    }, [data.allIncome]);
+
+    useEffect(() => {
+        const aggregatedExpensesChartData: Record<string, number> = data.allExpenses.reduce((acc, item) => {
+            const category = ucFirst(item.category);
+            if (!acc[category]) {
+                acc[category] = 0;
+            }
+            acc[category] += +item.sum;
+            return acc;
+        }, {} as Record<string, number>);
+
+        let sum = 0;
+        setExpensesChartInfo(Object.keys(aggregatedExpensesChartData).map((category, index) => {
+            sum += aggregatedExpensesChartData[category];
+            return {
+                name: category,
+                value: aggregatedExpensesChartData[category],
+                color: getRandomChartColor(),
+            }
+        }));
+
+        setExpensesChartLabel(sum);
+    }, [data.allExpenses]);
 
     function formatTime(input: string | Date | undefined): string {
         if (!input) {
@@ -625,8 +663,8 @@ export default function Page(props: {
                         </Table>
                     </Modal>
                     <div>
-                        <DonutChart data={dataChart1} title="Расходы"/>
-                        <DonutChart data={dataChart2} title="Доходы"/>
+                        <DonutChart data={incomeChartInfo} chartLabel={incomeChartLabel} title="Расходы" tooltipDataSource={'segment'}/>
+                        <DonutChart data={expensesChartInfo} chartLabel={expensesChartLabel} title="Доходы"  tooltipDataSource={'segment'}/>
                     </div>
 
                 </div>
