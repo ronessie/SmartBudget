@@ -57,7 +57,6 @@ export default function Page(props: {
         allExpenses: (props.expenses ?? [])
             .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
     });
-    const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
     const [convertData, setConvertData] = useState({
         sum: 1,
@@ -68,8 +67,13 @@ export default function Page(props: {
     });
 
     const [categoryData, setCategoryData] = useState({
-        selectedCategory: ""
+        selectedStatisticIncomeCategory: '-',
+        selectedStatisticExpensesCategory: '-',
     });
+
+    const [selectedStatisticIncomeTimeInterval, setSelectedStatisticIncomeTimeInterval] = useState<[Date | null, Date | null]>([null, null]);
+    const [selectedStatisticExpensesTimeInterval, setSelectedStatisticExpensesTimeInterval] = useState<[Date | null, Date | null]>([null, null]);
+
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
 
     const dataChart1 = [
@@ -253,7 +257,19 @@ export default function Page(props: {
     }
 
     function getIncomeTableRows() {
-        const rows = data.allIncome.map(({category, sum, date, currency}) => {
+        let filteredIncome;
+
+        if (categoryData.selectedStatisticIncomeCategory === '-') {
+            filteredIncome = data.allIncome;
+        } else {
+            filteredIncome = data.allIncome.filter(e => e.category === t(categoryData.selectedStatisticIncomeCategory))
+        }
+
+        if (selectedStatisticIncomeTimeInterval[0] && selectedStatisticIncomeTimeInterval[1]) {
+            filteredIncome = data.allIncome.filter(e => new Date(e.date) >= selectedStatisticIncomeTimeInterval[0]! && new Date(e.date) <= selectedStatisticIncomeTimeInterval[1]!)
+        }
+
+        const rows = filteredIncome.map(({category, sum, date, currency}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -272,7 +288,19 @@ export default function Page(props: {
     }
 
     function getExpensesTableRows() {
-        const rows = data.allExpenses.map(({category, sum, date, currency}) => {
+        let filteredExpenses;
+
+        if (categoryData.selectedStatisticExpensesCategory === '-') {
+            filteredExpenses = data.allExpenses;
+        } else {
+            filteredExpenses = data.allExpenses.filter(e => e.category === t(categoryData.selectedStatisticExpensesCategory))
+        }
+
+        if (selectedStatisticExpensesTimeInterval[0] && selectedStatisticExpensesTimeInterval[1]) {
+            filteredExpenses = data.allExpenses.filter(e => new Date(e.date) >= selectedStatisticExpensesTimeInterval[0]! && new Date(e.date) <= selectedStatisticExpensesTimeInterval[1]!)
+        }
+
+        const rows = filteredExpenses.map(({category, sum, date, currency}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -423,6 +451,7 @@ export default function Page(props: {
                     <Modal opened={categoriesIncomeModalState} onClose={() => {
                         setCategoriesIncomeModalState(false)
                         setSegmentCategoriesState('Доходы');
+                        handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                     }}
                            title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
@@ -432,10 +461,12 @@ export default function Page(props: {
                             } else if (e === 'Расходы') {
                                 expensesCategories()
                             }
+                            handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                         }}/>
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
-                                      onChange={(e) => handleCategoriesChange("statisticCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
+                                      value={categoryData.selectedStatisticIncomeCategory}
+                                      onChange={(e) => handleCategoriesChange("selectedStatisticIncomeCategory", e.target.value)}
+                                      title={t('mainPage.incomeModal.selector.title')} data={['-', ...data.incomeCategory]}>
                         </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
@@ -452,6 +483,7 @@ export default function Page(props: {
                     <Modal opened={categoriesExpensesModalState} onClose={() => {
                         setCategoriesExpensesModalState(false);
                         setSegmentCategoriesState('Доходы');
+                        handleCategoriesChange("selectedStatisticExpensesCategory", '-')
                     }}
                            title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl' data={['Доходы', 'Расходы']} onChange={(e) => {
@@ -461,10 +493,12 @@ export default function Page(props: {
                             } else if (e === 'Расходы') {
                                 expensesCategories()
                             }
+                            handleCategoriesChange("selectedStatisticExpensesCategory", '-')
                         }}/>
                         <NativeSelect label={t('mainPage.incomeModal.selector.label')}
-                                      onChange={(e) => handleCategoriesChange("statisticCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')} data={data.expensesCategory}>
+                                      value={categoryData.selectedStatisticExpensesCategory}
+                                      onChange={(e) => handleCategoriesChange("selectedStatisticExpensesCategory", e.target.value)}
+                                      title={t('mainPage.incomeModal.selector.title')} data={['-', ...data.expensesCategory]}>
                         </NativeSelect><br/>
                         <Table>
                             <Table.Thead>
@@ -481,6 +515,7 @@ export default function Page(props: {
                     <Modal opened={dateIncomeModalState} onClose={() => {
                         setDateIncomeModalState(false);
                         setSegmentDateState('Доходы');
+                        setSelectedStatisticIncomeTimeInterval([null, null])
                     }}
                            title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
@@ -490,13 +525,14 @@ export default function Page(props: {
                             } else if (e === 'Расходы') {
                                 expensesDate()
                             }
+                            setSelectedStatisticIncomeTimeInterval([null, null])
                         }}/>
                         <DatePickerInput
                             type="range"
                             label="Укажите даты"
                             placeholder="Выберите промежуток времени"
-                            value={value}
-                            onChange={setValue}
+                            value={selectedStatisticIncomeTimeInterval}
+                            onChange={(value) => setSelectedStatisticIncomeTimeInterval(value)}
                         />
                         <Table>
                             <Table.Thead>
@@ -513,6 +549,7 @@ export default function Page(props: {
                     <Modal opened={dateExpensesModalState} onClose={() => {
                         setDateExpensesModalState(false);
                         setSegmentDateState('Доходы');
+                        setSelectedStatisticExpensesTimeInterval([null, null])
                     }}
                            title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl' onChange={(e) => {
@@ -522,13 +559,14 @@ export default function Page(props: {
                             } else if (e === 'Расходы') {
                                 expensesDate()
                             }
+                            setSelectedStatisticExpensesTimeInterval([null, null])
                         }}/>
                         <DatePickerInput
                             type="range"
                             label="Укажите даты"
                             placeholder="Выберите промежуток времени"
-                            value={value}
-                            onChange={setValue}
+                            value={selectedStatisticExpensesTimeInterval}
+                            onChange={(value) => setSelectedStatisticExpensesTimeInterval(value)}
                         />
                         <Table>
                             <Table.Thead>
