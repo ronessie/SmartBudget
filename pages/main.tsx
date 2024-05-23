@@ -22,8 +22,8 @@ import {authRedirect} from "@/src/server/authRedirect";
 export default function Page(props: {
     user: IUser,
     bankAccount: IBankAccount,
-    income: { category: string, sum: number, currency: string, date: string }[],
-    expenses: { category: string, sum: number, currency: string, date: string }[]
+    income: { category: string, sum: number, currency: string, date: string, finalSum: number }[],
+    expenses: { category: string, sum: number, currency: string, date: string, finalSum: number }[]
 }) {
     const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
@@ -53,9 +53,9 @@ export default function Page(props: {
             label: t(e)
         }))),
         allIncome: (props.income ?? [])
-            .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
+            .map(({category, sum, currency, date, finalSum}) => ({category: ucFirst(t(category)), sum, currency, date, finalSum})),
         allExpenses: (props.expenses ?? [])
-            .map(({category, sum, currency, date}) => ({category: ucFirst(t(category)), sum, currency, date})),
+            .map(({category, sum, currency, date, finalSum}) => ({category: ucFirst(t(category)), sum, currency, date, finalSum})),
         allCurrency: currency(),
         operationCurrency: props.bankAccount.currency,
         finalSum: 0
@@ -89,7 +89,7 @@ export default function Page(props: {
             if (!acc[category]) {
                 acc[category] = 0;
             }
-            acc[category] += +item.sum;
+            acc[category] += +item.finalSum;
             return acc;
         }, {} as Record<string, number>);
 
@@ -112,7 +112,7 @@ export default function Page(props: {
             if (!acc[category]) {
                 acc[category] = 0;
             }
-            acc[category] += +item.sum;
+            acc[category] += +item.finalSum;
             return acc;
         }, {} as Record<string, number>);
 
@@ -227,7 +227,8 @@ export default function Page(props: {
                 category: ucFirst(t(operation.category ?? '')),
                 sum: operation.sum ?? 0,
                 currency: operation.currency ?? '',
-                date: operation.date?.toString() ?? ''
+                date: operation.date?.toString() ?? '',
+                finalSum: finalSum
             });
 
             handleFieldChange('allIncome', newIncomes)
@@ -237,7 +238,8 @@ export default function Page(props: {
                 category: ucFirst(t(operation.category ?? '')),
                 sum: operation.sum ?? 0,
                 currency: operation.currency ?? '',
-                date: operation.date?.toString() ?? ''
+                date: operation.date?.toString() ?? '',
+                finalSum: finalSum
             });
             handleFieldChange('allExpenses', newExpenses)
         }
@@ -689,7 +691,8 @@ export const getServerSideProps = async (ctx: any) => {
             category: string,
             sum: number,
             currency: string,
-            date: string
+            date: string,
+            finalSum: number
         }[];
         const responseExpenses = await fetch(`${NEXTAUTH_URL}/api/allExpenses/${bankAcc._id}`);
         if (!responseExpenses.ok) throw new Error(responseExpenses.statusText);
@@ -700,6 +703,7 @@ export const getServerSideProps = async (ctx: any) => {
             sum: number,
             currency: string,
             date: string
+            finalSum: number
         }[];
     }
 
