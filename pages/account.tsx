@@ -44,7 +44,7 @@ export default function Page(props: {
     const [addExpensesCategoryModalState, setAddExpensesCategoryModalState] = useState(false);
     const [billModalState, setBillModalState] = useState(false);
     const [inviteCodeModalState, setInviteCodeModalState] = useState(false);
-    const [segmentState, setSegmentState] = useState('+');
+    const [segmentState, setSegmentState] = useState(t('accountPage.income'));
     const [codeModalState, setCodeModalState] = useState(false);
     const [data, setData] = useState({
         name: "Счёт",
@@ -330,54 +330,51 @@ export default function Page(props: {
                 padding="md"
             >
                 <AppShell.Navbar className={styles.navbar} p="md">
-                    <div><h1 className={styles.blueText}>Account</h1><br/>
+                    <div><h1 className={styles.blueText}>{t('accountPage.appShell.title')}</h1><br/>
                         <Button style={{marginTop: 5}} onClick={() => setChangeModalState(!changeModalState)}
-                                fullWidth={true} variant="light">Изменить данные</Button>
+                                fullWidth={true} variant="light">{t('accountPage.appShell.editData')}</Button>
                         <Button style={{marginTop: 5}}
                                 onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}
-                                fullWidth={true} variant="light">Редактирование категорий</Button>
+                                fullWidth={true} variant="light">{t('accountPage.appShell.editCategory')}</Button>
                         <Button style={{marginTop: 5}} onClick={() => setBillModalState(!billModalState)}
-                                fullWidth={true} variant="light">Добавить счёт</Button>
+                                fullWidth={true} variant="light">{t('accountPage.appShell.addBankAcc')}</Button>
                         <Button style={{marginTop: 5}}
                                 onClick={() => setChangeAccountModalState(!changeAccountModalState)} fullWidth={true}
-                                variant="light">Сменить счёт</Button>
+                                variant="light">{t('accountPage.appShell.changeBankAcc')}</Button>
                         <Button style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)}
-                                fullWidth={true} variant="light">Пригласительный код</Button>
+                                fullWidth={true} variant="light">{t('accountPage.appShell.inviteCode')}</Button>
                         </div>
                 </AppShell.Navbar>
                 <AppShell.Main>
                     <Fieldset radius="xl" className={styles.account}>
                         <Avatar variant="light" radius="150" size="150" color="blue" src="" className={styles.icon}/>
-                        <Group><h1 className={styles.blueAccountText}>ФИО: </h1><h1 className={styles.accountText}>{data.fio}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>Электронная почта: </h1><h1 className={styles.accountText}>{data.email}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>Название счёта: </h1><h1 className={styles.accountText}>{data.bankName}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>Валюта счёта: </h1><h1 className={styles.accountText}>{data.currency}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.fio')}</h1><h1 className={styles.accountText}>{data.fio}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.email')}</h1><h1 className={styles.accountText}>{data.email}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.bankAccName')}</h1><h1 className={styles.accountText}>{data.bankName}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.currency')}</h1><h1 className={styles.accountText}>{data.currency}</h1></Group>
                     </Fieldset>
                     <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                           title={'Редактирование данных'}>
+                           title={t('accountPage.editData')}>
                         <TextInput
-                            label="ФИО:"
+                            label={t('accountPage.fieldset.fio')}
                             onChange={(e) => handleFieldChange("changeFio", e.target.value)}
-                            title="Введите ФИО"
+                            title={t('accountPage.inputFIO')}
                             value={data.changeFio}
                         />
                         <TextInput
-                            label="Электронная почта:"
+                            label={t('accountPage.fieldset.email')}
                             onChange={(e) => handleFieldChange("changeEmail", e.target.value)}
-                            title="Введите Электронную почту"
+                            title={t('accountPage.inputEmail')}
                             value={data.changeEmail}
                         />
                         <TextInput
-                            label="Название счёта:"
+                            label={t('accountPage.fieldset.bankAccName')}
                             onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
-                            title="Введите Электронную почту"
+                            title={t('accountPage.inputBankAccName')}
                             value={data.changeBankName}
                         /><br/>
-                        {/*<NativeSelect onChange={(e) => handleFieldChange("changeCurrency", e.target.value)}*/}
-                        {/*              title="Укажите валюту. Пример: BYN" label="Валюта:" data={data.allCurrency}*/}
-                        {/*              defaultValue={props.bankAccount.currency}></NativeSelect><br/>*/}
-                        <Switch label="Двухфакторная аутентификация" size="md" onLabel="ON" offLabel="OFF"
+                        <Switch label={t('accountPage.2fa')} size="md" onLabel={t('accountPage.on')} offLabel={t('accountPage.off')}
                                 checked={checked2FA}
                                 onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
                         <Button onClick={updateData}
@@ -386,20 +383,20 @@ export default function Page(props: {
                     </Modal>
                     <Modal opened={addIncomeCategoryModalState} onClose={() => {
                         setAddIncomeCategoryModalState(false)
-                        setSegmentState('+')
+                        setSegmentState(t('accountPage.income'))
                     }}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                           title={'Добавление категорий доходов'}>
-                        <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl'
+                           title={t('accountPage.addIncomeCategory')}>
+                        <SegmentedControl fullWidth value={segmentState} data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === '+') {
+                                              if (e === t('accountPage.income')) {
                                                   incomeCategories()
-                                              } else if (e === '-') {
+                                              } else if (e === t('accountPage.expenses')) {
                                                   expensesCategories()
                                               }
                                           }}/>
-                        <InputBase component="div" multiline label={'Стандартные категории доходов'}>
+                        <InputBase component="div" multiline label={t('accountPage.basicIncomeCategory')}>
                             <Pill.Group>{defaultIncomeCategories.map(e => (
                                 <Pill key={e} withRemoveButton disabled>
                                     {t(e)}
@@ -407,30 +404,30 @@ export default function Page(props: {
                             ))}</Pill.Group>
                         </InputBase>
                         <TagsInput
-                            label="Личные категории доходов"
-                            placeholder="Введите личные категории доходов"
+                            label={t('accountPage.userIncomeCategory')}
+                            placeholder={t('accountPage.inputUserIncomeCategory')}
                             value={newIncomeCategories}
                             onChange={(e) => setNewIncomeCategories(e)}
                         />
                         <Button onClick={updateIncomeCategories}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}</Button>
                     </Modal>
-                    <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title="Добавление категорий расходов"
+                    <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title={t('accountPage.addExpensesCategory')}
                            opened={addExpensesCategoryModalState}
                            onClose={() => {
                                setAddExpensesCategoryModalState(false)
-                               setSegmentState('+')
+                               setSegmentState(t('accountPage.income'))
                            }}>
-                        <SegmentedControl fullWidth value={segmentState} data={['+', '-']} radius='xl'
+                        <SegmentedControl fullWidth value={segmentState} data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === '+') {
+                                              if (e === t('accountPage.income')) {
                                                   incomeCategories()
-                                              } else if (e === '-') {
+                                              } else if (e === t('accountPage.expenses')) {
                                                   expensesCategories()
                                               }
                                           }}/>
-                        <InputBase component="div" multiline label={'Стандартные категории расходов'}>
+                        <InputBase component="div" multiline label={t('accountPage.basicExpensesCategory')}>
                             <Pill.Group>{defaultExpensesCategories.map(e => (
                                 <Pill key={e} withRemoveButton disabled>
                                     {t(e)}
@@ -438,24 +435,25 @@ export default function Page(props: {
                             ))}</Pill.Group>
                         </InputBase>
                         <TagsInput
-                            label="Личные категории расходов"
-                            placeholder="Введите личные категории расходов"
+                            label={t('accountPage.userExpensesCategory')}
+                            placeholder={t('accountPage.inputUserExpensesCategory')}
                             value={newExpensesCategories}
                             onChange={(e) => setNewExpensesCategories(e)}
                         />
                         <Button onClick={updateExpensesCategories}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}</Button>
                     </Modal>
                     <Modal
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                        opened={billModalState} onClose={() => setBillModalState(false)} title={'Добавление счёта'}>
+                        opened={billModalState} onClose={() => setBillModalState(false)} title={t('accountPage.addBankAccount')}>
                         <TextInput
-                            label="Введите название счёта"
-                            placeholder="Счёт"
+                            label={t('accountPage.inputBankAccName')}
+                            placeholder={t('accountPage.bankAcc')}
                             onChange={(e) => handleFieldChange("name", e.target.value)}
-                            title="Пример: Счёт №1"
+                            title={t('accountPage.bankAccExample')}
                         />
                         <Group>
+                            //
                             <TextInput
                                 label="Введите начальную сумму и укажите валюту"
                                 placeholder="1000"

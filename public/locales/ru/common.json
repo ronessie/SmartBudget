@@ -232,5 +232,42 @@
     "2FAonEmail": "Ваш код двухфакторной аутентификации для сайта SmartBudget: ",
     "emailSubjectNewPassword": "Восстановление пароля",
     "newPasswordOnEmail": "Ваш новый пароль для сайта SmartBudget: "
+  },
+  "accountPage": {
+    "addShell": {
+      "title": "Аккаунт",
+      "editData": "Редактировать данные",
+      "editCategory": "Редактировать категории",
+      "addBankAcc": "Добавить счёт",
+      "changeBankAcc": "Сменить счёт",
+      "inviteCode": "Пригласительный код"
+    },
+    "fieldset": {
+      "fio": "ФИО: ",
+      "email": "Электронная почта: ",
+      "bankAccName": "Название счёта: ",
+      "currency": "Валюта счёта: "
+    },
+    "editData": "Редактирование данных",
+    "inputFIO": "Введите ФИО",
+    "inputEmail": "Введите электронную почту",
+    "inputBankAccName": "Введите название счёта",
+    "2fa": "Двухфакторная аутентификация",
+    "on": "ВКЛ",
+    "off": "ВЫКЛ",
+    "income": "Доход",
+    "expenses": "Расход",
+    "basicIncomeCategory": "Стандартные категории доходов",
+    "basicExpensesCategory": "Стандартные категории расходов",
+    "userIncomeCategory": "Личные категории доходов",
+    "userExpensesCategory": "Личные категории расходов",
+    "inputUserIncomeCategory": "Введите личные категории доходов",
+    "inputUserExpensesCategory": "Введите личные категории расходов",
+    "addIncomeCategory": "Редактирование категорий доходов",
+    "addExpensesCategory": "Редактирование категорий расходов",
+    "save": "Сохранить",
+    "addBankAccount": "Добавление счёта",
+    "bankAcc": "Счёт",
+    "bankAccExample": "Пример: Счёт №1",
   }
 }
