@@ -28,7 +28,6 @@ import {createBankAccountObj, defaultExpensesCategories, defaultIncomeCategories
 import Header from "../components/header"
 import {currency} from "@/src/utils";
 import {notifications} from "@mantine/notifications";
-import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
 import {authRedirect} from "@/src/server/authRedirect";
 
@@ -77,7 +76,6 @@ export default function Page(props: {
         }));
     }
 
-    const router = useRouter();
 
     async function dateValidation(e: any) {
         e.preventDefault();

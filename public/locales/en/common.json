@@ -142,7 +142,16 @@
     "description": "Drag'n'drop files here to upload.",
     "accept": "Drop files here",
     "reject": "Png file less than 30mb",
-    "idle": "Upload file"
+    "idle": "Upload file",
+    "save": "Save",
+    "clear": "Clear",
+    "loaderText": "Loading the photo as well as waiting for the transcript may take some time.",
+    "notification": {
+      "title": "Notification",
+      "selectFileError": "File not selected.",
+      "fileUpload": "File successfully uploaded.",
+      "textSave": "Text successfully saved."
+    }
   },
   "header": {
     "main": "Main",

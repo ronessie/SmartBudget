@@ -106,8 +106,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         } else {
             console.warn("Изображение не выбрано");
             notifications.show({
-                title: 'Уведомление',
-                message: 'Файл не выбран',
+                title: t('addFilePage.notification.title'),
+                message: t('addFilePage.notification.selectFileError'),
             })
         }
     };
@@ -121,8 +121,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
 
             if (!dbResponse.ok) throw new Error(dbResponse.statusText);
             notifications.show({
-                title: 'Уведомление',
-                message: 'Файл успешно загружен',
+                title: t('addFilePage.notification.title'),
+                message: t('addFilePage.notification.fileUpload'),
             })
         } catch (error) {
             console.error("Ошибка при сохранении изображения:", error);
@@ -143,8 +143,8 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
         if (!response.ok) throw new Error(response.statusText);
         setTextModalState(false);
         notifications.show({
-            title: 'Уведомление',
-            message: 'Текст успешно сохранён',
+            title: t('addFilePage.notification.title'),
+            message: t('addFilePage.notification.textSave'),
         })
     }
 
@@ -199,7 +199,7 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         radius="xl" onClick={handleUpload}>{t('addFilePage.upload')}</Button> <br/>
                 <Button className={styles.clearButton} size="md" variant={"outline"} color="red"
                         disabled={!image}
-                        radius="xl" onClick={clearFile}>Отменить</Button>
+                        radius="xl" onClick={clearFile}>{t('addFilePage.clear')}</Button>
                 <Modal title={"Расшифровка чека"}
                        opened={textModalState} onClose={() => setTextModalState(false)}
                        withCloseButton={false}
@@ -210,14 +210,14 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                         <Textarea size="xl" autosize
                                   value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
                         <Button onClick={updateCheckText}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Save</Button>
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('addFilePage.save')}</Button>
                     </div>
                 </Modal>
                 <Modal opened={loaderModalState} withCloseButton={false} closeOnClickOutside={false}
                        closeOnEscape={false} onClose={() => setLoaderModalState(false)}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <div>
-                        <h1>Загрузка фото, а так же ожидание расшифровки может занять некоторое время.</h1><br/>
+                        <h1>{t('addFilePage.loaderText')}</h1><br/>
                         <Loader color="blue" style={{marginLeft: 170}}/>
                     </div>
                 </Modal>
