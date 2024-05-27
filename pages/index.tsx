@@ -46,7 +46,7 @@ export default function Page(props: { user: IUser }) {
     });
     const [authDrawerState, drawerAuthMethods] = useDisclosure(false);
     const [registrationDrawerState, drawerRegistrationMethods] = useDisclosure(false);
-    const [segmentState, setSegmentState] = useState('Sign In');
+    const [segmentState, setSegmentState] = useState(t('authenticationPage.signInButton'));
     const [twoFAState, setTwoFAState] = useState(false);
     const [converterDrawerState, converterAuthMethods] = useDisclosure(false);
     const [convertData, setConvertData] = useState({
@@ -419,7 +419,7 @@ export default function Page(props: { user: IUser }) {
                         opened={authDrawerState}
                         onClose={() => {
                             drawerAuthMethods.close();
-                            setSegmentState('Sign In')
+                            setSegmentState(t('authenticationPage.signIn'))
                         }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
@@ -432,12 +432,12 @@ export default function Page(props: { user: IUser }) {
                                 marginBottom: 10,
                                 textAlign: "center"
                             }}>{t('authenticationPage.signIn')}</h1>
-                        <SegmentedControl value={segmentState} fullWidth data={['Sign In', 'Sign Up']} radius='xl'
+                        <SegmentedControl value={segmentState} fullWidth data={[t('authenticationPage.signInButton'), t('registrationPage.button')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === 'Sign In') {
+                                              if (e === t('authenticationPage.signInButton')) {
                                                   regToAuth()
-                                              } else if (e === 'Sign Up') {
+                                              } else if (e === t('registrationPage.button')) {
                                                   authToReg()
                                               }
                                           }}/><br/>
@@ -465,7 +465,7 @@ export default function Page(props: { user: IUser }) {
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.googleLoginButton')}</Button>
                         <br/>
                         <Button variant={"transparent"} fullWidth={true} onClick={() => {
-                            setSegmentState('Sign In');
+                            setSegmentState(t('authenticationPage.signInButton'));
                             authToReg();
                         }}
                                 style={{fontSize: 16, textAlign: "center"}}
@@ -495,7 +495,7 @@ export default function Page(props: { user: IUser }) {
                         opened={registrationDrawerState}
                         onClose={() => {
                             drawerRegistrationMethods.close();
-                            setSegmentState('Sign In')
+                            setSegmentState(t('authenticationPage.signInButton'))
                         }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
@@ -507,12 +507,12 @@ export default function Page(props: { user: IUser }) {
                             paddingLeft: 100
                         }}>{t('registrationPage.label')}</h1>
                         <SegmentedControl value={segmentState} fullWidth
-                                          data={['Sign In', 'Sign Up']} radius='xl'
+                                          data={[t('authenticationPage.signInButton'), t('registrationPage.button')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
-                                              if (e === 'Sign In') {
+                                              if (e === t('authenticationPage.signInButton')) {
                                                   regToAuth()
-                                              } else if (e === 'Sign Up') {
+                                              } else if (e === t('registrationPage.button')) {
                                                   authToReg()
                                               }
                                           }}/><br/>

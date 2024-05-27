@@ -1,7 +1,7 @@
 import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import styles from "@/styles/pages.module.css";
-import React, {useState} from "react";
+import React from "react";
 import Footer from "@/components/footer";
 import {useTranslation} from "next-i18next";
 import SmallHeader from "../components/smallHeader"
