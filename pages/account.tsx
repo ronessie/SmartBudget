@@ -47,7 +47,7 @@ export default function Page(props: {
     const [segmentState, setSegmentState] = useState(t('accountPage.income'));
     const [codeModalState, setCodeModalState] = useState(false);
     const [data, setData] = useState({
-        name: "Счёт",
+        name: t('accountPage.bankAcc'),
         currency: props.bankAccount.currency,
         balance: 0,
         inviteCode: props.bankAccount.invitingCode,
@@ -83,15 +83,15 @@ export default function Page(props: {
         e.preventDefault();
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Сумма введена не верно, попробуйте ещё раз.',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.dateValidationSumError'),
             })
             return
         }
         if (!data.name) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Укажите название счёта',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.dateValidationNameError'),
             })
             return
         } else {
@@ -112,22 +112,22 @@ export default function Page(props: {
         const allUser = json.users.find((bankAccount: IBankAccount) => bankAccount.invitingCode === data.inviteCode && bankAccount.secondUser_id)
         if (firstUser || secondUser) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Вы не можете подключиться к своему счёту',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.checkInviteCodeUderError'),
             })
             return;
         }
         if (allUser) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'У данного счёта уже есть второй пользователь',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.checkInviteCodeAllUserError'),
             })
             return;
         }
         if (!inviteToBankAccount) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Код введён не верно, попробуйте ещё раз',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.checkInviteCodeError'),
             })
             return;
         } else {
@@ -159,9 +159,12 @@ export default function Page(props: {
             if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
             const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
             handleFieldChange("bankName", updateBankAccount.name)
-
             setBillModalState(false);
             setInviteCodeModalState(false);
+            notifications.show({
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.inviteToAccountDone'),
+            })
         }
     }
 
@@ -196,8 +199,8 @@ export default function Page(props: {
         handleFieldChange("fio", updateUser.fio)
         handleFieldChange("email", updateUser.email)
         notifications.show({
-            title: 'Уведомление',
-            message: 'всё оки, работаем дальше',
+            title: t('accountPage.notifications.title'),
+            message: t('accountPage.notifications.accountCreated'),
         })
         setBillModalState(false)
     }
@@ -205,8 +208,8 @@ export default function Page(props: {
     async function changeBankAccount() {
         if (!data.selectBankAccount) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Выберите счёт',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.selectBankAcc'),
             })
             return
         }
@@ -228,8 +231,8 @@ export default function Page(props: {
         handleFieldChange("changeBankName", updateBankAccount.name)
 
         notifications.show({
-            title: 'Уведомление',
-            message: 'Аккаунт успешно сменён',
+            title: t('accountPage.notifications.title'),
+            message: t('accountPage.notifications.accountChanged'),
         })
         setChangeAccountModalState(false)
     }
@@ -237,8 +240,8 @@ export default function Page(props: {
     async function updateData() {
         if (!data.changeFio || !data.changeEmail || !data.changeBankName) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Данные указаны не верно',
+                title: t('accountPage.notifications.title'),
+                message: t('accountPage.notifications.inputDataError'),
             })
             return
         }
@@ -259,8 +262,8 @@ export default function Page(props: {
 
         if (!response.ok) throw new Error(response.statusText);
         notifications.show({
-            title: 'Уведомление',
-            message: 'Данные успешно обновлены',
+            title: t('accountPage.notifications.title'),
+            message: t('accountPage.notifications.dataUpdate'),
         })
         handleFieldChange("fio", data.changeFio)
         handleFieldChange("email", data.changeEmail)
@@ -282,8 +285,8 @@ export default function Page(props: {
 
         if (!response.ok) throw new Error(response.statusText);
         notifications.show({
-            title: 'Уведомление',
-            message: 'Категории успешно обновлены',
+            title: t('accountPage.notifications.title'),
+            message: t('accountPage.notifications.categoryUpdate'),
         })
     }
 
@@ -301,8 +304,8 @@ export default function Page(props: {
 
         if (!response.ok) throw new Error(response.statusText);
         notifications.show({
-            title: 'Уведомление',
-            message: 'Категории успешно обновлены',
+            title: t('accountPage.notifications.title'),
+            message: t('accountPage.notifications.categoryUpdate'),
         })
 
     }

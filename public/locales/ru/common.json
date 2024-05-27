@@ -280,6 +280,21 @@
     "changeBankAccount": "Смена счёта",
     "selectBankAcc": "Выберите счёт:",
     "change": "Сменить",
-    "titleInviteCode": "Пригласительный код для счёта: "
+    "titleInviteCode": "Пригласительный код для счёта: ",
+    "notifications": {
+      "title": "Уведомление",
+      "dateValidationSumError": "Сумма введена не верно, попробуйте ещё раз.",
+      "dateValidationNumError": "Укажите название счёта.",
+      "checkInviteCodeUserError": "Вы не можете подключиться к своему счёту.",
+      "checkInviteCodeAllUserError": "У данного счёта уже есть второй пользователь.",
+      "checkInviteCodeError": "Код введён не верно, попробуйте ещё раз.",
+      "inviteToAccountDone": "Вы успешно присоеденены к счёту.",
+      "accountCreated": "Аккаунт успешно создан.",
+      "selectBankAcc": "Выберите счёт.",
+      "accountChanged": "Аккаунт успешно сменён.",
+      "inputDataError": "Данные указаны не верно.",
+      "dataUpdate": "Данные успешно обновлены.",
+      "categoryUpdate": "Категории успешно обновлены."
+    }
   }
 }

@@ -260,6 +260,21 @@
     "changeBankAccount": "Change bank account",
     "selectBankAcc": "Select bank account:",
     "change": "Change",
-    "titleInviteCode": "Invite code for bank account: "
+    "titleInviteCode": "Invite code for bank account: ",
+    "notifications": {
+      "title": "Notification",
+      "dateValidationSumError": "The amount entered is incorrect, please try again.",
+      "dateValidationNumError": "Enter account name.",
+      "checkInviteCodeUserError": "You can't connect to your account.",
+      "checkInviteCodeAllUserError": "This account already has a second user.",
+      "checkInviteCodeError": "The code is incorrect, please try again.",
+      "inviteToAccountDone": "You have successfully joined the account.",
+      "accountCreated": "Account successfully created.",
+      "selectBankAcc": "Select an account.",
+      "accountChanged": "Account successfully changed.",
+      "inputDataError": "Data is incorrect.",
+      "dataUpdate": "Data successfully updated.",
+      "categoryUpdate": "Categories successfully updated."
+    }
   }
 }
