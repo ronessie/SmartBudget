@@ -245,10 +245,11 @@ export function ucFirst(str: string): string {
 const chartsColor = ['blue.6', 'red.6', 'pink.6', 'grape.6', 'violet.6', 'indigo.6', 'cyan.6', 'teal.6', 'green.6', 'lime.6', 'yellow.6', 'orange.6'];
 let tempChartsColor: string[] = [];
 
-export const getRandomChartColor = () => {
+export const getRandomChartColor = (): string => {
     if (tempChartsColor.length <= 0) {
         tempChartsColor = [...chartsColor];
     }
 
-    return tempChartsColor.pop();
+    const color = tempChartsColor.pop() ?? 'blue.6';
+    return color;
 };
