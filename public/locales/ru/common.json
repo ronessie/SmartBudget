@@ -234,7 +234,7 @@
     "newPasswordOnEmail": "Ваш новый пароль для сайта SmartBudget: "
   },
   "accountPage": {
-    "addShell": {
+    "appShell": {
       "title": "Аккаунт",
       "editData": "Редактировать данные",
       "editCategory": "Редактировать категории",
@@ -266,8 +266,20 @@
     "addIncomeCategory": "Редактирование категорий доходов",
     "addExpensesCategory": "Редактирование категорий расходов",
     "save": "Сохранить",
+    "add": "Добавить",
     "addBankAccount": "Добавление счёта",
     "bankAcc": "Счёт",
     "bankAccExample": "Пример: Счёт №1",
+    "inputStartSum": "Введите начальную сумму и укажите валюту",
+    "titleStartSum": "Пример: 1000 BYN",
+    "titleSelectCurrency": "Укажите валюту. Пример: BYN",
+    "inviteCodeLink": "У меня есть пригласительный код",
+    "connectToBankAcc": "Подключение к банковскому счёту",
+    "inputInviteCode": "Введите пригласительный код",
+    "titleInputInviteCode": "Введите 16-значный код",
+    "changeBankAccount": "Смена счёта",
+    "selectBankAcc": "Выберите счёт:",
+    "change": "Сменить",
+    "titleInviteCode": "Пригласительный код для счёта: "
   }
 }

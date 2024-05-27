@@ -378,7 +378,7 @@ export default function Page(props: {
                                 checked={checked2FA}
                                 onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
                         <Button onClick={updateData}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Сохранить
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}
                         </Button>
                     </Modal>
                     <Modal opened={addIncomeCategoryModalState} onClose={() => {
@@ -453,51 +453,49 @@ export default function Page(props: {
                             title={t('accountPage.bankAccExample')}
                         />
                         <Group>
-                            //
                             <TextInput
-                                label="Введите начальную сумму и укажите валюту"
+                                label={t('accountPage.inputStartSum')}
                                 placeholder="1000"
                                 style={{paddingRight: 0, width: 312}}
                                 onChange={(e) => handleFieldChange("balance", e.target.value)}
-                                title="Пример: 1000 BYN"
+                                title={t('accountPage.titleStartSum')}
                             />
                             <NativeSelect
                                 onChange={(e) => handleFieldChange("currency", e.target.value)}
-                                title="Укажите валюту. Пример: BYN"
+                                title={t('accountPage.titleSelectCurrency')}
                                 style={{paddingTop: 25, marginLeft: 0, width: 80}}
                                 defaultValue={props.bankAccount.currency}
                                 data={data.allCurrency}>
                             </NativeSelect></Group>
                         <Button onClick={dateValidation}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.add')}
                         </Button>
 
                         <Button variant="transparent" style={{textAlign: "center"}} fullWidth={true}
-                                onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>У меня есть
-                            пригласительный код
+                                onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>{t('accountPage.inviteCodeLink')}
                         </Button>
                         <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)}
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
-                               title={'Подключение к банковскому счёту'}>
+                               title={t('accountPage.connectToBankAcc')}>
                             <TextInput
-                                label="Введите пригласительный код"
+                                label={t('accountPage.inputInviteCode')}
                                 onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
-                                title="Введите 16-значный код"/>
+                                title={t('accountPage.titleInputInviteCode')}/>
                             <Button onClick={checkInviteCode}
-                                    style={{width: 410, marginTop: 20, fontSize: 20}}>Добавить
+                                    style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.add')}
                             </Button>
                         </Modal>
                     </Modal>
                     <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                           title={'Смена счёта'}>
-                        <h1>Выберите счёт:</h1>
+                           title={t('accountPage.changeBankAccount')}>
+                        <h1>{t('accountPage.selectBankAcc')}</h1>
                         <NativeSelect onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
                                       data={data.bankAccounts}></NativeSelect>
                         <Button onClick={changeBankAccount}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>Перейти</Button>
+                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.change')}</Button>
                     </Modal>
-                    <Modal title={"Пригласительный код для счёта: " + data.changeBankName}
+                    <Modal title={t('accountPage.titleInviteCode') + data.changeBankName}
                            opened={codeModalState} onClose={() => setCodeModalState(false)}
                            overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <Text style={{textAlign: "center"}}>{data.inviteCode}
