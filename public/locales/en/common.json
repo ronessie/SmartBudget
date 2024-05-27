@@ -133,157 +133,201 @@
       },
       "dateLabel": "Enter the date",
       "datePlaceholder": "Select the date",
-      "addButton": "Add"
-    }
-  },
-  "addFilePage": {
-    "pickedFile": "Picked file: ",
-    "upload": "Upload",
-    "description": "Drag'n'drop files here to upload.",
-    "accept": "Drop files here",
-    "reject": "Png file less than 30mb",
-    "idle": "Upload file",
-    "save": "Save",
-    "clear": "Clear",
-    "loaderText": "Loading the photo as well as waiting for the transcript may take some time.",
-    "notification": {
-      "title": "Notification",
-      "selectFileError": "File not selected.",
-      "fileUpload": "File successfully uploaded.",
-      "textSave": "Text successfully saved."
-    }
-  },
-  "header": {
-    "main": "Main",
-    "account": "Account",
-    "addingCheck": "Adding check",
-    "checks": "Checks",
-    "logOut": "LogOut"
-  },
-  "404": {
-    "title": "Oops! Something went wrong",
-    "text": "We apologize, but it seems there was an internal server error.",
-    "button": "Go back to Home"
-  },
-  "500": {
-    "title": "Internal Server Error",
-    "text": "Sorry, something went wrong on our end. Please try again later.",
-    "button": "Go back to Home"
-  },
-  "policyPage": {
-    "title": {
-      "1": "Privacy Policy",
-      "2": "Personal Identifying Information",
-      "3": "Non-Personal Identifying Information",
-      "4": "Web browser cookies",
-      "5": "How we use the information we collect",
-      "6": "How we protect your information",
-      "7": "Transmission of your personal information",
-      "8": "Changes to the privacy policy",
-      "9": "Your acceptance of these terms and conditions",
-      "10": "Contact Us"
+      "addButton": "Add",
+      "income": "Income",
+      "expense": "Expenses",
+      "converterButton": "Converter",
+      "categoryStat": "Statistics by category",
+      "dateStat": "Statistics by date",
+      "converter": {
+        "title": "Currency Converter",
+        "inputSum": {
+          "inputSum": "Specify amount",
+          "resultSum": "Total amount"
+        },
+        "table": {
+          "category": "Categories",
+          "sum": "Sum",
+          "currency": "Currency",
+          "date": "Date"
+        },
+        "titleCategoryStat": "Expenditure Statistics by Category",
+        "titleDateStat": "Income Statistics by Date",
+        "selectDatesLabel": "Specify dates",
+        "selectDates": "Select time interval",
+        "notification": {
+          "title": "notification",
+          "operationDone": "The operation was successful.",
+          "sumError": "The amount entered is incorrect, please try again.",
+          "dateError": "Date entered is incorrect, try again."
+        }
+      }
     },
-    "text": {
-      "1": "This Privacy Policy governs the manner in which SmartBudget collects, uses, stores and discloses information collected from users (each, a «User»,) of the smartbudget website («Site»). This privacy policy\n applies to the Site and all services offered by smartBudget.",
-      "2": "We may collect personally identifiable information from Users in a variety of ways, including, but not limited to, when Users visit our Site, register on the Site, subscribe to our newsletter, respond to surveys, and in connection with other activities, services, features or resources we provide on our Site. Users may be asked for their name, e-mail address, if applicable. We will collect personally identifiable information from Users only if they voluntarily provide us with such information. Users may always refuse to provide personal\n identifying information, except to the extent that doing so may prevent them from engaging in certain activities related to the Site.",
-      "3": "We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may\nclude browser name, computer type, and technical information about Users\n means of connection to our Site, such as the operating system and internet service providers used, and\n other similar information.",
-      "4": "Our Site may use cookies to improve user experience. A user\n web browser places cookies on their hard drive in order to record, and sometimes track\n information about them. The user can set their web browser to reject\n cookies or to alert you when a cookie is sent. If they do so, please note\n notice that some parts of the Site may not function properly.",
-      "5": "SmartBudget may collect and use Users' personal information for the following purposes:",
-      "5-1": "To improve customer service: The information you provide helps us to respond more\n effectively to your customer service requests and support needs.",
-      "5-2": "To personalize the user experience: We may use information in\n aggregate to understand how our Users, as a group, use the services and resources provided on our Website.",
-      "5-3": "To send periodic emails: We may use their email address to send them information and updates. If a User chooses to subscribe to\n our newsletter, they will receive emails that may contain company news, updates, product or service information, etc.",
-      "6": "We use appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal\n information, username, password, transaction information and data stored on our Site. The exchange of confidential and private data between the Site and its Users takes place over\n secure SSL communication channel.",
-      "7": "We do not sell, trade, or rent Users\n personal identifying information to others. We may share general aggregated demographic information not linked to\n any personally identifiable information about visitors and users with our business\n partners, trusted affiliates and advertisers for the purposes set forth above. We may\n use third-party service providers to help us operate our business and the Site or\n to administer activities on our behalf, such as sending newsletters or surveys.\n We may share your information with these third parties for these limited purposes provided that\n you have given us your permission.",
-      "8": "SmartBudget has the discretion to update this privacy policy at any\n time. We encourage\n Users to check this page frequently for any changes so that we are aware of how\n we help protect the personal information we collect. You acknowledge and agree that\n you are responsible for periodically reviewing this privacy policy and\n familiarizing yourself with changes.",
-      "9": "By using this Site, you agree to be bound by this policy. If you do not agree with this policy, please do not use our Site. Your continued use of the Site after we post\n changes to this policy will be deemed to be your agreement to those changes.",
-      "10": "If you have any questions about this Privacy Policy, the practices of this site or your dealings with this site, please contact us at:\n vsakolinskaa@gmail.com."
-    }
-  },
-  "aboutPage": {
-    "1": "About Us",
-    "2": "Welcome to SmartBudget, your trusted assistant in managing your personal finances. We\n offer a simple and effective solution to track your income and expenses, helping you\n achieve financial stability and realize long-term goals.",
-    "3": "Our mission is to provide you with tools that make financial planning accessible and\n understandable. We believe that managing your finances should be easy and convenient, and our service is designed\n so that you can easily control your finances.",
-    "4": "Our features:",
-    "4-1": "User-friendly interface: Our platform is intuitive, making it easy for you to enter\n data and get up-to-date information about your financial status.",
-    "4-2": "Data Security: We utilize advanced encryption technology to protect your\n sensitive information.",
-    "4-3": "Analytics and Reports: Get detailed reports and analytics on your income and expenses to help you make informed decisions.",
-    "5": "We are proud to provide a service that helps people around the world achieve financial\n independence. Join SmartBudget and get started on the path to a confident financial future today!"
-  },
-  "contactsPage": {
-    "1": "Contact Us",
-    "2": "At SmartBudget, we are committed to providing you with not only the tools to effectively manage your finances, but also high quality support. We understand that questions and situations can arise at any time, and our team is always available to help you find solutions.",
-    "3": "How to contact us:",
-    "3-1": "Email: Our primary communication channel is email. If you have questions about how to better manage your finances, or if you encounter technical issues, please email us at vsakolinskaa@gmail.com. We are committed to processing your request as soon as possible and providing you with comprehensive information and support.",
-    "4": "We value every customer and strive to create a community where everyone can feel confident in their financial decisions. Your opinions and suggestions help us improve SmartBudget and make it even better."
-  },
-  "api": {
-    "emailSubject2FA": "Two-Factor Authentication Code",
-    "2FAonEmail": "Your two-factor authentication code for the SmartBudget website: ",
-    "emailSubjectNewPassword": "Password Recovery",
-    "newPasswordOnEmail": "Your new password for the SmartBudget site: "
-  },
-  "accountPage": {
-    "appShell": {
-      "title": "Account",
-      "editData": "Edit Data",
-      "editCategory": "Edit Categories",
-      "addBankAcc": "Add bank account",
-      "changeBankAcc": "Change bank account",
-      "inviteCode": "Invitation Code"
+    "categories": {
+      "income": {
+        "salary": "Salary",
+        "gift": "Gift",
+        "premium": "Premium",
+        "debtRefund": "Debt Refund",
+        "cashBack": "Cashback"
+      },
+      "expenses": {
+        "products": "Products",
+        "clothes": "Clothes",
+        "house": "House",
+        "car": "Car",
+        "entertainment": "Entertainment",
+        "duty": "Duty"
+      }
     },
-    "fieldset": {
-      "fio": "Full name: ",
-      "email": "Email: ",
-      "bankAccName": "Bank account name: ",
-      "currency": "Currency: "
+    "addFilePage": {
+      "pickedFile": "Picked file: ",
+      "upload": "Upload",
+      "description": "Drag'n'drop files here to upload.",
+      "accept": "Drop files here",
+      "reject": "Png file less than 30mb",
+      "idle": "Upload file",
+      "save": "Save",
+      "clear": "Clear",
+      "loaderText": "Loading the photo as well as waiting for the transcript may take some time.",
+      "notification": {
+        "title": "Notification",
+        "selectFileError": "File not selected.",
+        "fileUpload": "File successfully uploaded.",
+        "textSave": "Text successfully saved."
+      }
     },
-    "editData": "Edit data",
-    "inputFIO": "Input full name",
-    "inputEmail": "Enter Email",
-    "inputBankAccName": "Enter bank account name",
-    "2fa": "Two-factor authentication",
-    "on": "ON",
-    "off": "OFF",
-    "income": "Income",
-    "expenses": "Expense",
-    "basicIncomeCategory": "Standard income categories",
-    "basicExpensesCategory": "Standard expense categories",
-    "userIncomeCategory": "Personal income categories",
-    "userExpensesCategory": "Personal expense categories",
-    "inputUserIncomeCategory": "Enter personal income categories",
-    "inputUserExpensesCategory": "Enter personal expense categories",
-    "addIncomeCategory": "Edit income categories",
-    "addExpensesCategory": "Edit expense categories",
-    "save": "Save",
-    "add": "Add",
-    "addBankAccount": "Adding an bank account",
-    "bankAcc": "Bank account",
-    "bankAccExample": "Example: Account №1",
-    "inputStartSum": "Enter amount and specify the currency",
-    "titleStartSum": "Example: 1000 USD",
-    "titleSelectCurrency": "Specify currency. Example: USD",
-    "inviteCodeLink": "I have an invitation code",
-    "connectToBankAcc": "Connect to bank account",
-    "inputInviteCode": "Enter invitation code",
-    "titleInputInviteCode": "Enter 16-digit code",
-    "changeBankAccount": "Change bank account",
-    "selectBankAcc": "Select bank account:",
-    "change": "Change",
-    "titleInviteCode": "Invite code for bank account: ",
-    "notifications": {
-      "title": "Notification",
-      "dateValidationSumError": "The amount entered is incorrect, please try again.",
-      "dateValidationNumError": "Enter account name.",
-      "checkInviteCodeUserError": "You can't connect to your account.",
-      "checkInviteCodeAllUserError": "This account already has a second user.",
-      "checkInviteCodeError": "The code is incorrect, please try again.",
-      "inviteToAccountDone": "You have successfully joined the account.",
-      "accountCreated": "Account successfully created.",
-      "selectBankAcc": "Select an account.",
-      "accountChanged": "Account successfully changed.",
-      "inputDataError": "Data is incorrect.",
-      "dataUpdate": "Data successfully updated.",
-      "categoryUpdate": "Categories successfully updated."
+    "header": {
+      "main": "Main",
+      "account": "Account",
+      "addingCheck": "Adding check",
+      "checks": "Checks",
+      "logOut": "LogOut"
+    },
+    "404": {
+      "title": "Oops! Something went wrong",
+      "text": "We apologize, but it seems there was an internal server error.",
+      "button": "Go back to Home"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "text": "Sorry, something went wrong on our end. Please try again later.",
+      "button": "Go back to Home"
+    },
+    "policyPage": {
+      "title": {
+        "1": "Privacy Policy",
+        "2": "Personal Identifying Information",
+        "3": "Non-Personal Identifying Information",
+        "4": "Web browser cookies",
+        "5": "How we use the information we collect",
+        "6": "How we protect your information",
+        "7": "Transmission of your personal information",
+        "8": "Changes to the privacy policy",
+        "9": "Your acceptance of these terms and conditions",
+        "10": "Contact Us"
+      },
+      "text": {
+        "1": "This Privacy Policy governs the manner in which SmartBudget collects, uses, stores and discloses information collected from users (each, a «User»,) of the smartbudget website («Site»). This privacy policy\n applies to the Site and all services offered by smartBudget.",
+        "2": "We may collect personally identifiable information from Users in a variety of ways, including, but not limited to, when Users visit our Site, register on the Site, subscribe to our newsletter, respond to surveys, and in connection with other activities, services, features or resources we provide on our Site. Users may be asked for their name, e-mail address, if applicable. We will collect personally identifiable information from Users only if they voluntarily provide us with such information. Users may always refuse to provide personal\n identifying information, except to the extent that doing so may prevent them from engaging in certain activities related to the Site.",
+        "3": "We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may\nclude browser name, computer type, and technical information about Users\n means of connection to our Site, such as the operating system and internet service providers used, and\n other similar information.",
+        "4": "Our Site may use cookies to improve user experience. A user\n web browser places cookies on their hard drive in order to record, and sometimes track\n information about them. The user can set their web browser to reject\n cookies or to alert you when a cookie is sent. If they do so, please note\n notice that some parts of the Site may not function properly.",
+        "5": "SmartBudget may collect and use Users' personal information for the following purposes:",
+        "5-1": "To improve customer service: The information you provide helps us to respond more\n effectively to your customer service requests and support needs.",
+        "5-2": "To personalize the user experience: We may use information in\n aggregate to understand how our Users, as a group, use the services and resources provided on our Website.",
+        "5-3": "To send periodic emails: We may use their email address to send them information and updates. If a User chooses to subscribe to\n our newsletter, they will receive emails that may contain company news, updates, product or service information, etc.",
+        "6": "We use appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal\n information, username, password, transaction information and data stored on our Site. The exchange of confidential and private data between the Site and its Users takes place over\n secure SSL communication channel.",
+        "7": "We do not sell, trade, or rent Users\n personal identifying information to others. We may share general aggregated demographic information not linked to\n any personally identifiable information about visitors and users with our business\n partners, trusted affiliates and advertisers for the purposes set forth above. We may\n use third-party service providers to help us operate our business and the Site or\n to administer activities on our behalf, such as sending newsletters or surveys.\n We may share your information with these third parties for these limited purposes provided that\n you have given us your permission.",
+        "8": "SmartBudget has the discretion to update this privacy policy at any\n time. We encourage\n Users to check this page frequently for any changes so that we are aware of how\n we help protect the personal information we collect. You acknowledge and agree that\n you are responsible for periodically reviewing this privacy policy and\n familiarizing yourself with changes.",
+        "9": "By using this Site, you agree to be bound by this policy. If you do not agree with this policy, please do not use our Site. Your continued use of the Site after we post\n changes to this policy will be deemed to be your agreement to those changes.",
+        "10": "If you have any questions about this Privacy Policy, the practices of this site or your dealings with this site, please contact us at:\n vsakolinskaa@gmail.com."
+      }
+    },
+    "aboutPage": {
+      "1": "About Us",
+      "2": "Welcome to SmartBudget, your trusted assistant in managing your personal finances. We\n offer a simple and effective solution to track your income and expenses, helping you\n achieve financial stability and realize long-term goals.",
+      "3": "Our mission is to provide you with tools that make financial planning accessible and\n understandable. We believe that managing your finances should be easy and convenient, and our service is designed\n so that you can easily control your finances.",
+      "4": "Our features:",
+      "4-1": "User-friendly interface: Our platform is intuitive, making it easy for you to enter\n data and get up-to-date information about your financial status.",
+      "4-2": "Data Security: We utilize advanced encryption technology to protect your\n sensitive information.",
+      "4-3": "Analytics and Reports: Get detailed reports and analytics on your income and expenses to help you make informed decisions.",
+      "5": "We are proud to provide a service that helps people around the world achieve financial\n independence. Join SmartBudget and get started on the path to a confident financial future today!"
+    },
+    "contactsPage": {
+      "1": "Contact Us",
+      "2": "At SmartBudget, we are committed to providing you with not only the tools to effectively manage your finances, but also high quality support. We understand that questions and situations can arise at any time, and our team is always available to help you find solutions.",
+      "3": "How to contact us:",
+      "3-1": "Email: Our primary communication channel is email. If you have questions about how to better manage your finances, or if you encounter technical issues, please email us at vsakolinskaa@gmail.com. We are committed to processing your request as soon as possible and providing you with comprehensive information and support.",
+      "4": "We value every customer and strive to create a community where everyone can feel confident in their financial decisions. Your opinions and suggestions help us improve SmartBudget and make it even better."
+    },
+    "api": {
+      "emailSubject2FA": "Two-Factor Authentication Code",
+      "2FAonEmail": "Your two-factor authentication code for the SmartBudget website: ",
+      "emailSubjectNewPassword": "Password Recovery",
+      "newPasswordOnEmail": "Your new password for the SmartBudget site: "
+    },
+    "accountPage": {
+      "appShell": {
+        "title": "Account",
+        "editData": "Edit Data",
+        "editCategory": "Edit Categories",
+        "addBankAcc": "Add bank account",
+        "changeBankAcc": "Change bank account",
+        "inviteCode": "Invitation Code"
+      },
+      "fieldset": {
+        "fio": "Full name: ",
+        "email": "Email: ",
+        "bankAccName": "Bank account name: ",
+        "currency": "Currency: "
+      },
+      "editData": "Edit data",
+      "inputFIO": "Input full name",
+      "inputEmail": "Enter Email",
+      "inputBankAccName": "Enter bank account name",
+      "2fa": "Two-factor authentication",
+      "on": "ON",
+      "off": "OFF",
+      "income": "Income",
+      "expenses": "Expense",
+      "basicIncomeCategory": "Standard income categories",
+      "basicExpensesCategory": "Standard expense categories",
+      "userIncomeCategory": "Personal income categories",
+      "userExpensesCategory": "Personal expense categories",
+      "inputUserIncomeCategory": "Enter personal income categories",
+      "inputUserExpensesCategory": "Enter personal expense categories",
+      "addIncomeCategory": "Edit income categories",
+      "addExpensesCategory": "Edit expense categories",
+      "save": "Save",
+      "add": "Add",
+      "addBankAccount": "Adding an bank account",
+      "bankAcc": "Bank account",
+      "bankAccExample": "Example: Account №1",
+      "inputStartSum": "Enter amount and specify the currency",
+      "titleStartSum": "Example: 1000 USD",
+      "titleSelectCurrency": "Specify currency. Example: USD",
+      "inviteCodeLink": "I have an invitation code",
+      "connectToBankAcc": "Connect to bank account",
+      "inputInviteCode": "Enter invitation code",
+      "titleInputInviteCode": "Enter 16-digit code",
+      "changeBankAccount": "Change bank account",
+      "selectBankAcc": "Select bank account:",
+      "change": "Change",
+      "titleInviteCode": "Invite code for bank account: ",
+      "notifications": {
+        "title": "Notification",
+        "dateValidationSumError": "The amount entered is incorrect, please try again.",
+        "dateValidationNumError": "Enter account name.",
+        "checkInviteCodeUserError": "You can't connect to your account.",
+        "checkInviteCodeAllUserError": "This account already has a second user.",
+        "checkInviteCodeError": "The code is incorrect, please try again.",
+        "inviteToAccountDone": "You have successfully joined the account.",
+        "accountCreated": "Account successfully created.",
+        "selectBankAcc": "Select an account.",
+        "accountChanged": "Account successfully changed.",
+        "inputDataError": "Data is incorrect.",
+        "dataUpdate": "Data successfully updated.",
+        "categoryUpdate": "Categories successfully updated."
+      }
     }
   }
-}

@@ -134,26 +134,50 @@
       },
       "dateLabel": "Укажите дату",
       "datePlaceholder": "Выберите дату",
-      "addButton": "Добавить"
+      "addButton": "Добавить",
+      "income": "Доходы",
+      "expense": "Расходы",
+      "converterButton": "Конвертер",
+      "categoryStat": "Статистика по категориям",
+      "dateStat": "Статистика по датам",
+      "converter": {
+        "title": "Конвертер валют",
+        "inputSum": "Укажите сумму",
+        "resultSum": "Итоговая сумма"
+      },
+      "table": {
+        "category": "Категории",
+        "sum": "Сумма",
+        "currency": "Валюта",
+        "date": "Дата"
+      },
+      "titleCategoryStat": "Статистика расходов по категориям",
+      "titleDateStat": "Статистика доходов по дате",
+      "selectDatesLabel": "Укажите даты",
+      "selectDates": "Выберите промежуток времени",
+      "notification": {
+        "title": "Уведомление",
+        "operationDone": "Операция проведена успешно.",
+        "sumError": "Сумма введена не верно, попробуйте ещё раз.",
+        "dateError": "Дата введена не верно, попробуйте ещё раз."
+      }
     }
   },
   "categories": {
     "income": {
-      "salary": "Salary",
-      "gift": "Gift",
-      "premium": "Premium",
-      "debtRefund": "Debt Refund",
-      "cashBack": "Cashback",
-      "other": "Other"
+      "salary": "Зарплата",
+      "gift": "Подарок",
+      "premium": "Премия",
+      "debtRefund": "Возврат долга",
+      "cashBack": "Кэшбек"
     },
     "expenses": {
-      "products": "Products",
-      "clothes": "Clothes",
-      "house": "House",
-      "car": "Car",
-      "entertainment": "Entertainment",
-      "duty": "Duty",
-      "other": "Other"
+      "products": "Продукты",
+      "clothes": "Одежда",
+      "house": "Дом",
+      "car": "Машина",
+      "entertainment": "Развлечения",
+      "duty": "Долг"
     }
   },
   "addFilePage": {

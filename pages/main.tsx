@@ -32,8 +32,8 @@ export default function Page(props: {
     const [categoriesExpensesModalState, setCategoriesExpensesModalState] = useState(false);
     const [dateIncomeModalState, setDateIncomeModalState] = useState(false);
     const [dateExpensesModalState, setDateExpensesModalState] = useState(false);
-    const [segmentCategoriesState, setSegmentCategoriesState] = useState('Доходы');
-    const [segmentDateState, setSegmentDateState] = useState('Доходы');
+    const [segmentCategoriesState, setSegmentCategoriesState] = useState(t('mainPage.income'));
+    const [segmentDateState, setSegmentDateState] = useState(t('mainPage.income'));
     const [data, setData] = useState({
         sum: 0.0,
         currency: props.bankAccount.currency,
@@ -53,9 +53,21 @@ export default function Page(props: {
             label: t(e)
         }))),
         allIncome: (props.income ?? [])
-            .map(({category, sum, currency, date, finalSum}) => ({category: ucFirst(t(category)), sum, currency, date, finalSum})),
+            .map(({category, sum, currency, date, finalSum}) => ({
+                category: ucFirst(t(category)),
+                sum,
+                currency,
+                date,
+                finalSum
+            })),
         allExpenses: (props.expenses ?? [])
-            .map(({category, sum, currency, date, finalSum}) => ({category: ucFirst(t(category)), sum, currency, date, finalSum})),
+            .map(({category, sum, currency, date, finalSum}) => ({
+                category: ucFirst(t(category)),
+                sum,
+                currency,
+                date,
+                finalSum
+            })),
         allCurrency: currency(),
         operationCurrency: props.bankAccount.currency,
         finalSum: 0
@@ -268,8 +280,8 @@ export default function Page(props: {
         setExpensesModalState(false);
         handleFieldChange("category", "")
         notifications.show({
-            title: 'Уведомление',
-            message: 'Операция проведена успешно',
+            title: t('mainPage.notification.title'),
+            message: t('mainPage.notification.operationDone'),
         })
     }
 
@@ -279,15 +291,15 @@ export default function Page(props: {
         console.log('data: ', data);
         if (!data.sum || !(/^[\d]+$/).test(data.sum.toString())) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Сумма введена не верно, попробуйте ещё раз.',
+                title: t('mainPage.notification.title'),
+                message: t('mainPage.notification.sumError'),
             })
             return
         }
         if ((!data.date || !validator.isDate(data.date.toString())) && data.date > new Date()) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Дата введена не верно',
+                title: t('mainPage.notification.title'),
+                message: t('mainPage.notification.dateError'),
             })
             return
         } else {
@@ -299,8 +311,8 @@ export default function Page(props: {
 
         if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString())) {
             notifications.show({
-                title: 'Уведомление',
-                message: 'Сумма введена не верно',
+                title: t('mainPage.notification.title'),
+                message: t('mainPage.notification.sumError'),
             })
             handleConvertChange("sum", 0)
             return
@@ -419,29 +431,29 @@ export default function Page(props: {
                         <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
                         <Group>
                             <Button variant={"outline"} radius='xl'
-                                    onClick={converterAuthMethods.open}>Конвертер</Button>
-                            <Button variant={"outline"} radius='xl' onClick={() => setCategoriesIncomeModalState(true)}>Статистика
-                                по категориям</Button>
-                            <Button variant={"outline"} radius='xl' onClick={() => setDateIncomeModalState(true)}>Статистика
-                                по датам</Button>
+                                    onClick={converterAuthMethods.open}>{t('mainPage.converterButton')}</Button>
+                            <Button variant={"outline"} radius='xl'
+                                    onClick={() => setCategoriesIncomeModalState(true)}>{t('mainPage.categoryStat')}</Button>
+                            <Button variant={"outline"} radius='xl'
+                                    onClick={() => setDateIncomeModalState(true)}>{t('mainPage.dateStat')}</Button>
                         </Group>
                     </div>
                     <Drawer
-                        title="Конвертер валют"
+                        title={t('mainPage.converter.title')}
                         opened={converterDrawerState}
                         onClose={converterAuthMethods.close}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
                         offset={8} radius="md">
                         <Group>
-                            <TextInput style={{width: 307}} label="Укажите сумму"
+                            <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')}
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
                             <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
                                           defaultValue={props.bankAccount.currency}/>
                         </Group>
                         <Group>
-                            <TextInput readOnly={true} style={{width: 307}} label="Итоговая сумма"
+                            <TextInput readOnly={true} style={{width: 307}} label={t('mainPage.converter.resultSum')}
                                        value={convertData.newSum}/>
                             <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
@@ -528,16 +540,16 @@ export default function Page(props: {
                     <br/>
                     <Modal opened={categoriesIncomeModalState} onClose={() => {
                         setCategoriesIncomeModalState(false)
-                        setSegmentCategoriesState('Доходы');
+                        setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                     }}
                            title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
-                                          data={['Доходы', 'Расходы']} onChange={(e) => {
+                                          data={[t('mainPage.income'), t('mainPage.expense')]} onChange={(e) => {
                             setSegmentCategoriesState(e);
-                            if (e === 'Доходы') {
+                            if (e === t('mainPage.income')) {
                                 incomeCategories()
-                            } else if (e === 'Расходы') {
+                            } else if (e === t('mainPage.expense')) {
                                 expensesCategories()
                             }
                             handleCategoriesChange("selectedStatisticIncomeCategory", '-')
@@ -551,10 +563,10 @@ export default function Page(props: {
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
-                                    <Table.Th>Категории</Table.Th>
-                                    <Table.Th>Сумма</Table.Th>
-                                    <Table.Th>Валюта</Table.Th>
-                                    <Table.Th>Дата</Table.Th>
+                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
@@ -562,16 +574,16 @@ export default function Page(props: {
                     </Modal>
                     <Modal opened={categoriesExpensesModalState} onClose={() => {
                         setCategoriesExpensesModalState(false);
-                        setSegmentCategoriesState('Доходы');
+                        setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticExpensesCategory", '-')
                     }}
-                           title="Статистика расходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                           title={t('mainPage.titleCategoryStat')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
-                                          data={['Доходы', 'Расходы']} onChange={(e) => {
+                                          data={[t('mainPage.income'), t('mainPage.expense')]} onChange={(e) => {
                             setSegmentCategoriesState(e);
-                            if (e === 'Доходы') {
+                            if (e === t('mainPage.income')) {
                                 incomeCategories()
-                            } else if (e === 'Расходы') {
+                            } else if (e === t('mainPage.expense')) {
                                 expensesCategories()
                             }
                             handleCategoriesChange("selectedStatisticExpensesCategory", '-')
@@ -585,10 +597,10 @@ export default function Page(props: {
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
-                                    <Table.Th>Категории</Table.Th>
-                                    <Table.Th>Сумма</Table.Th>
-                                    <Table.Th>Валюта</Table.Th>
-                                    <Table.Th>Дата</Table.Th>
+                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
@@ -596,34 +608,35 @@ export default function Page(props: {
                     </Modal>
                     <Modal opened={dateIncomeModalState} onClose={() => {
                         setDateIncomeModalState(false);
-                        setSegmentDateState('Доходы');
+                        setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticIncomeTimeInterval([null, null])
                     }}
-                           title="Статистика доходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl'
+                           title={t('mainPage.titleDateStat')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                        <SegmentedControl fullWidth value={segmentDateState}
+                                          data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentDateState(e);
-                                              if (e === 'Доходы') {
+                                              if (e === t('mainPage.income')) {
                                                   incomeDate()
-                                              } else if (e === 'Расходы') {
+                                              } else if (e === t('mainPage.expense')) {
                                                   expensesDate()
                                               }
                                               setSelectedStatisticIncomeTimeInterval([null, null])
                                           }}/>
                         <DatePickerInput
                             type="range"
-                            label="Укажите даты"
-                            placeholder="Выберите промежуток времени"
+                            label={t('mainPage.selectDatesLabel')}
+                            placeholder={t('mainPage.selectDates')}
                             value={selectedStatisticIncomeTimeInterval}
                             onChange={(value) => setSelectedStatisticIncomeTimeInterval(value)}
                         />
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
-                                    <Table.Th>Категории</Table.Th>
-                                    <Table.Th>Сумма</Table.Th>
-                                    <Table.Th>Валюта</Table.Th>
-                                    <Table.Th>Дата</Table.Th>
+                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
@@ -631,44 +644,46 @@ export default function Page(props: {
                     </Modal>
                     <Modal opened={dateExpensesModalState} onClose={() => {
                         setDateExpensesModalState(false);
-                        setSegmentDateState('Доходы');
+                        setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticExpensesTimeInterval([null, null])
                     }}
                            title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState} data={['Доходы', 'Расходы']} radius='xl'
+                        <SegmentedControl fullWidth value={segmentDateState}
+                                          data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentDateState(e);
-                                              if (e === 'Доходы') {
+                                              if (e === t('mainPage.income')) {
                                                   incomeDate()
-                                              } else if (e === 'Расходы') {
+                                              } else if (e === t('mainPage.expense')) {
                                                   expensesDate()
                                               }
                                               setSelectedStatisticExpensesTimeInterval([null, null])
                                           }}/>
                         <DatePickerInput
                             type="range"
-                            label="Укажите даты"
-                            placeholder="Выберите промежуток времени"
+                            label={t('mainPage.selectDatesLabel')}
+                            placeholder={t('mainPage.selectDates')}
                             value={selectedStatisticExpensesTimeInterval}
                             onChange={(value) => setSelectedStatisticExpensesTimeInterval(value)}
                         />
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
-                                    <Table.Th>Категории</Table.Th>
-                                    <Table.Th>Сумма</Table.Th>
-                                    <Table.Th>Валюта</Table.Th>
-                                    <Table.Th>Дата</Table.Th>
+                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
                     <div>
-                        <DonutChart data={incomeChartInfo} chartLabel={incomeChartLabel} title="Расходы" tooltipDataSource={'segment'}/>
-                        <DonutChart data={expensesChartInfo} chartLabel={expensesChartLabel} title="Доходы"  tooltipDataSource={'segment'}/>
+                        <DonutChart data={incomeChartInfo} chartLabel={incomeChartLabel} title={t('mainPage.income')}
+                                    tooltipDataSource={'segment'}/>
+                        <DonutChart data={expensesChartInfo} chartLabel={expensesChartLabel}
+                                    title={t('mainPage.expense')} tooltipDataSource={'segment'}/>
                     </div>
-
                 </div>
             </div>
             <Footer/>
