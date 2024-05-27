@@ -134,33 +134,33 @@
       },
       "dateLabel": "Укажите дату",
       "datePlaceholder": "Выберите дату",
-      "addButton": "Добавить",
-      "income": "Доходы",
-      "expense": "Расходы",
-      "converterButton": "Конвертер",
-      "categoryStat": "Статистика по категориям",
-      "dateStat": "Статистика по датам",
-      "converter": {
-        "title": "Конвертер валют",
-        "inputSum": "Укажите сумму",
-        "resultSum": "Итоговая сумма"
-      },
-      "table": {
-        "category": "Категории",
-        "sum": "Сумма",
-        "currency": "Валюта",
-        "date": "Дата"
-      },
-      "titleCategoryStat": "Статистика расходов по категориям",
-      "titleDateStat": "Статистика доходов по дате",
-      "selectDatesLabel": "Укажите даты",
-      "selectDates": "Выберите промежуток времени",
-      "notification": {
-        "title": "Уведомление",
-        "operationDone": "Операция проведена успешно.",
-        "sumError": "Сумма введена не верно, попробуйте ещё раз.",
-        "dateError": "Дата введена не верно, попробуйте ещё раз."
-      }
+      "addButton": "Добавить"
+    },
+    "income": "Доходы",
+    "expense": "Расходы",
+    "converterButton": "Конвертер",
+    "categoryStat": "Статистика по категориям",
+    "dateStat": "Статистика по датам",
+    "converter": {
+      "title": "Конвертер валют",
+      "inputSum": "Укажите сумму",
+      "resultSum": "Итоговая сумма"
+    },
+    "table": {
+      "category": "Категории",
+      "sum": "Сумма",
+      "currency": "Валюта",
+      "date": "Дата"
+    },
+    "titleCategoryStat": "Статистика расходов по категориям",
+    "titleDateStat": "Статистика доходов по дате",
+    "selectDatesLabel": "Укажите даты",
+    "selectDates": "Выберите промежуток времени",
+    "notification": {
+      "title": "Уведомление",
+      "operationDone": "Операция проведена успешно.",
+      "sumError": "Сумма введена не верно, попробуйте ещё раз.",
+      "dateError": "Дата введена не верно, попробуйте ещё раз."
     }
   },
   "categories": {

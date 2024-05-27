@@ -543,7 +543,7 @@ export default function Page(props: {
                         setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                     }}
-                           title="Статистика доходов по категориям" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                           title={t('mainPage.statCategoryIncome')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
                                           data={[t('mainPage.income'), t('mainPage.expense')]} onChange={(e) => {
                             setSegmentCategoriesState(e);
@@ -647,7 +647,7 @@ export default function Page(props: {
                         setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticExpensesTimeInterval([null, null])
                     }}
-                           title="Статистика расходов по дате" overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                           title={t('mainPage.statDateExpense')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <SegmentedControl fullWidth value={segmentDateState}
                                           data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
                                           onChange={(e) => {
