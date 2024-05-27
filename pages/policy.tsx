@@ -2,7 +2,7 @@ import {getSession} from "next-auth/react";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import SmallHeader from "../components/smallHeader"
 import styles from "@/styles/pages.module.css";
-import React, {useState} from "react";
+import React from "react";
 import LongFooter from "@/components/longFooter";
 import {List} from "@mantine/core";
 import {useTranslation} from "next-i18next";
