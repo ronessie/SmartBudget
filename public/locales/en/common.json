@@ -155,8 +155,8 @@
     "titleDateStat": "Income Statistics by Date",
     "selectDatesLabel": "Specify dates",
     "selectDates": "Select time interval",
-    "statCategoryIncome": "Статистика доходов по категориям",
-    "statDateExpense": "Статистика расходов по дате",
+    "statCategoryIncome": "Income statistics by category",
+    "statDateExpense": "Expenses statistics by date",
     "notification": {
       "title": "notification",
       "operationDone": "The operation was successful.",

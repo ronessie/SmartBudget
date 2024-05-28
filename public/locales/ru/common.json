@@ -156,6 +156,8 @@
     "titleDateStat": "Статистика доходов по дате",
     "selectDatesLabel": "Укажите даты",
     "selectDates": "Выберите промежуток времени",
+    "statCategoryIncome": "Статистика доходов по категориям",
+    "statDateExpense": "Статистика расходов по дате",
     "notification": {
       "title": "Уведомление",
       "operationDone": "Операция проведена успешно.",
