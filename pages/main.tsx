@@ -8,7 +8,18 @@ import IOperation from "@/src/types/IOperation";
 import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
-import {Button, Drawer, Group, Modal, NativeSelect, Paper, SegmentedControl, Table, TextInput} from "@mantine/core";
+import {
+    Button,
+    Drawer,
+    Group,
+    Modal,
+    NativeSelect,
+    Paper,
+    SegmentedControl,
+    Table,
+    Text,
+    TextInput
+} from "@mantine/core";
 import {DateInput, DatePickerInput} from '@mantine/dates';
 import {DonutChart, DonutChartCell} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
@@ -678,12 +689,15 @@ export default function Page(props: {
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <div>
-                        <DonutChart data={incomeChartInfo} chartLabel={incomeChartLabel} title={t('mainPage.income')}
-                                    tooltipDataSource={'segment'}/>
-                        <DonutChart data={expensesChartInfo} chartLabel={expensesChartLabel}
-                                    title={t('mainPage.expense')} tooltipDataSource={'segment'}/>
-                    </div>
+                    <Group>
+                        <div>
+                            <Text style={{textAlign: "center"}}>Income</Text>
+                        <DonutChart size={250} thickness={35} data={incomeChartInfo} chartLabel={incomeChartLabel}  withLabelsLine withLabels withTooltip title={t('mainPage.income')} tooltipDataSource="segment"/>
+                </div>
+                        <div><Text style={{textAlign: "center"}}>Expenses</Text>
+                            <DonutChart size={250} thickness={35} data={expensesChartInfo} chartLabel={expensesChartLabel}
+                                         title={t('mainPage.expense')} withTooltip withLabels withLabelsLine tooltipDataSource="segment"/></div>
+                    </Group>
                 </div>
             </div>
             <Footer/>
