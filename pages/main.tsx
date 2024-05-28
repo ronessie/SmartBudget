@@ -118,15 +118,16 @@ export default function Page(props: {
 
         let sum = 0;
         setIncomeChartInfo(Object.keys(aggregatedIncomeChartData).map((category, index) => {
-            sum += aggregatedIncomeChartData[category];
+            const value = aggregatedIncomeChartData[category];
+            sum += value;
             return {
                 name: category,
-                value: aggregatedIncomeChartData[category],
+                value: +value.toFixed(2),
                 color: getRandomChartColor(),
             }
         }));
 
-        setIncomeChartLabel(sum);
+        setIncomeChartLabel(+sum.toFixed(2));
     }, [data.allIncome]);
 
     useEffect(() => {
@@ -141,15 +142,16 @@ export default function Page(props: {
 
         let sum = 0;
         setExpensesChartInfo(Object.keys(aggregatedExpensesChartData).map((category, index) => {
-            sum += aggregatedExpensesChartData[category];
+            const value = aggregatedExpensesChartData[category]
+            sum += value;
             return {
                 name: category,
-                value: aggregatedExpensesChartData[category],
+                value: +value.toFixed(2),
                 color: getRandomChartColor(),
             }
         }));
 
-        setExpensesChartLabel(sum);
+        setExpensesChartLabel(+sum.toFixed(2));
     }, [data.allExpenses]);
 
     function formatTime(input: string | Date | undefined): string {
