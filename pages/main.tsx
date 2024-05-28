@@ -458,7 +458,7 @@ export default function Page(props: {
                             <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                         <br/>
-                        <Button style={{width: 410}} onClick={convert}>Рассчитать</Button>
+                        <Button style={{width: 410, fontSize: 18}} onClick={convert}>{t('mainPage.converter.button')}</Button>
                     </Drawer>
                     <h1>{t('mainPage.yourBankAccount')}</h1>
                     <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}

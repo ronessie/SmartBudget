@@ -200,17 +200,17 @@ export default function Page(props: { user: IUser, bankAccount: IBankAccount }) 
                 <Button className={styles.clearButton} size="md" variant={"outline"} color="red"
                         disabled={!image}
                         radius="xl" onClick={clearFile}>{t('addFilePage.clear')}</Button>
-                <Modal title={"Расшифровка чека"}
+                <Modal title={t('addFilePage.modalTitle')}
                        opened={textModalState} onClose={() => setTextModalState(false)}
                        withCloseButton={false}
                        closeOnClickOutside={false}
                        closeOnEscape={false}
                        overlayProps={{backgroundOpacity: 0, blur: 4}}>
                     <div>
-                        <Textarea size="xl" autosize
+                        <Textarea size="xl" autosize style={{width: 400}}
                                   value={checkText.text} onChange={(e) => handleFieldChange("text", e.target.value)}/>
                         <Button onClick={updateCheckText}
-                                style={{width: 410, marginTop: 20, fontSize: 20}}>{t('addFilePage.save')}</Button>
+                                style={{width: 400, marginTop: 20, fontSize: 20}}>{t('addFilePage.save')}</Button>
                     </div>
                 </Modal>
                 <Modal opened={loaderModalState} withCloseButton={false} closeOnClickOutside={false}
