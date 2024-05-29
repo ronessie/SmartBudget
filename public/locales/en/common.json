@@ -92,8 +92,8 @@
     "hello": "Hello",
     "yourBankAccount": "Your bank account",
     "lastUpdate": "Last update:",
-    "addIncome": "+ Income",
-    "addExpenses": "+ Expense",
+    "addIncome": "Add income",
+    "addExpenses": "Add expense",
     "incomeModal": {
       "title": "Adding income",
       "inputSum": "Enter the amount",

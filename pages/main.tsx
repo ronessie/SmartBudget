@@ -9,6 +9,7 @@ import validator from "validator";
 import {connectToDatabase} from "@/src/database";
 import IBankAccount from "@/src/types/IBankAccount";
 import {
+    AppShell,
     Button,
     Drawer,
     Group, Loader, LoadingOverlay,
@@ -36,7 +37,7 @@ export default function Page(props: {
     income: { category: string, sum: number, currency: string, date: string, finalSum: number }[],
     expenses: { category: string, sum: number, currency: string, date: string, finalSum: number }[]
 }) {
-    const [visible, { toggle }] = useDisclosure(false);
+    const [visible, {toggle}] = useDisclosure(false);
     const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
@@ -438,275 +439,315 @@ export default function Page(props: {
     return (
         <div className={styles.page}>
             <Header/>
-            <div className={styles.pageContent}>
-                <div>
+            <AppShell
+                header={{height: 55}}
+                navbar={{
+                    width: 300,
+                    breakpoint: 'sm',
+                }}
+                padding="md"
+            >
+                <AppShell.Navbar className={styles.navbar} p="md">
                     <div>
-                        <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
-                        <Group>
-                            <Button variant={"outline"} radius='xl'
-                                    onClick={converterAuthMethods.open}>{t('mainPage.converterButton')}</Button>
-                            <Button variant={"outline"} radius='xl'
-                                    onClick={() => setCategoriesIncomeModalState(true)}>{t('mainPage.categoryStat')}</Button>
-                            <Button variant={"outline"} radius='xl'
-                                    onClick={() => setDateIncomeModalState(true)}>{t('mainPage.dateStat')}</Button>
-                        </Group>
+                        <Button radius="xl" style={{marginTop: 5}}
+                                onClick={converterAuthMethods.open}
+                                fullWidth={true} variant="light">{t('mainPage.converterButton')}</Button>
+                        <Button radius="xl" style={{marginTop: 5}}
+                                onClick={() => setIncomeModalState(!incomeModalState)}
+                                fullWidth={true} variant="light">{t('mainPage.addIncome')}</Button>
+                        <Button radius="xl" style={{marginTop: 5}}
+                                onClick={() => setExpensesModalState(!expensesModalState)}
+                                fullWidth={true} variant="light">{t('mainPage.addExpenses')}</Button>
+                        <Button radius="xl" style={{marginTop: 5}} onClick={()=> setCategoriesIncomeModalState(true)}
+                                fullWidth={true} variant="light">{t('mainPage.categoryStat')}</Button>
+                        <Button radius="xl" style={{marginTop: 5}}
+                                onClick={() => setDateIncomeModalState(true)} fullWidth={true}
+                                variant="light">{t('mainPage.dateStat')}</Button>
                     </div>
-                    <Drawer
-                        title={t('mainPage.converter.title')}
-                        opened={converterDrawerState}
-                        onClose={converterAuthMethods.close}
-                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                        position="right"
-                        offset={8} radius="md">
-                        <Group>
-                            <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')} radius="md"
-                                       onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
-                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
-                                          defaultValue={props.bankAccount.currency}/>
-                        </Group>
-                        <Group>
-                            <TextInput radius="md" readOnly={true} style={{width: 307}} label={t('mainPage.converter.resultSum')}
-                                       value={convertData.newSum}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
-                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
-                        <br/>
-                        <Button style={{width: 410, fontSize: 18}} radius="md"
-                                onClick={convert}>{t('mainPage.converter.button')}</Button>
-                    </Drawer>
-                    <h1>{t('mainPage.yourBankAccount')}</h1>
-                    <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
-                           style={{width: 400, height: 190}}>
+                </AppShell.Navbar>
+                <AppShell.Main>
+                    <div className={styles.pageContent}>
                         <div>
-                            <h1>{props.bankAccount.name}</h1><br/>
-                            <h1>{data.balance} {props.bankAccount.currency}</h1>
+                            <div>
+                                <h1>{t('mainPage.hello')}, {props.user.fio}</h1>
+                                {/*<Group>*/}
+                                {/*    <Button variant={"outline"} radius='xl'*/}
+                                {/*            ></Button>*/}
+                                {/*    <Button variant={"outline"} radius='xl'*/}
+                                {/*            onClick={() => setCategoriesIncomeModalState(true)}></Button>*/}
+                                {/*    <Button variant={"outline"} radius='xl'*/}
+                                {/*            ></Button>*/}
+                                {/*</Group>*/}
+                            </div>
+                            <Drawer
+                                title={t('mainPage.converter.title')}
+                                opened={converterDrawerState}
+                                onClose={converterAuthMethods.close}
+                                overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                                position="right"
+                                offset={8} radius="md">
+                                <Group>
+                                    <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')} radius="md"
+                                               onChange={(e) => handleConvertChange("sum", e.target.value)}/>
+                                    <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                                  radius="md"
+                                                  onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
+                                                  defaultValue={props.bankAccount.currency}/>
+                                </Group>
+                                <Group>
+                                    <TextInput radius="md" readOnly={true} style={{width: 307}}
+                                               label={t('mainPage.converter.resultSum')}
+                                               value={convertData.newSum}/>
+                                    <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                                  radius="md"
+                                                  onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
+                                <br/>
+                                <Button style={{width: 410, fontSize: 18}} radius="md"
+                                        onClick={convert}>{t('mainPage.converter.button')}</Button>
+                            </Drawer>
+                            <h1>{t('mainPage.yourBankAccount')}</h1>
+                            <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
+                                   style={{width: 400, height: 190}}>
+                                <div>
+                                    <h1>{props.bankAccount.name}</h1><br/>
+                                    <h1>{data.balance} {props.bankAccount.currency}</h1>
+                                    <br/>
+                                    <h1>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
+                                </div>
+                            </Paper><br/>
+                            <div>
+                                {/*<Button variant="light" color="green" radius='xl'*/}
+                                {/*        onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}*/}
+                                {/*</Button>*/}
+                                <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
+                                       overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
+                                       title={t('mainPage.incomeModal.title')}>
+                                    <Group>
+                                        <TextInput radius="md"
+                                                   label={t('mainPage.incomeModal.inputSum')}
+                                                   placeholder="100"
+                                                   onChange={(e) => handleFieldChange("sum", e.target.value)}
+                                                   title={t('mainPage.incomeModal.sumTitle')} style={{width: 307}}
+                                        />
+                                        <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                                      radius="md"
+                                                      onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
+                                                      defaultValue={props.bankAccount.currency}/>
+                                    </Group>
+                                    <br/>
+                                    <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
+                                                  onChange={(e) => handleFieldChange("category", e.target.value)}
+                                                  title={t('mainPage.incomeModal.selector.title')}
+                                                  data={data.incomeCategory}>
+                                    </NativeSelect><br/>
+                                    <DateInput onChange={(e) => handleFieldChange("date", e)} radius="md"
+                                               label={t('mainPage.incomeModal.dateLabel')}
+                                               placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
+                                    <Button onClick={addIncome} radius="md"
+                                            style={{
+                                                width: 408,
+                                                marginTop: 20,
+                                                fontSize: 20
+                                            }}>{t('mainPage.incomeModal.addButton')}</Button>
+                                </Modal>
+                                {/*<Button variant="light" color="red" radius='xl'*/}
+                                {/*        onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}*/}
+                                {/*</Button>*/}
+                                <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
+                                       overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
+                                       title={t('mainPage.expensesModal.title')}>
+                                    <Group>
+                                        <TextInput radius="md"
+                                                   label={t('mainPage.expensesModal.inputSum')}
+                                                   placeholder="100"
+                                                   onChange={(e) => handleFieldChange("sum", e.target.value)}
+                                                   title={t('mainPage.expensesModal.sumTitle')} style={{width: 307}}/>
+                                        <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                                      radius="md"
+                                                      onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
+                                                      defaultValue={props.bankAccount.currency}/>
+                                    </Group><br/>
+                                    <NativeSelect label={t('mainPage.expensesModal.selector.label')} radius="md"
+                                                  onChange={(e) => handleFieldChange("category", e.target.value)}
+                                                  title={t('mainPage.expensesModal.selector.title')}
+                                                  data={data.expensesCategory}>
+                                    </NativeSelect><br/>
+                                    <DateInput
+                                        onChange={(e) => handleFieldChange("date", e)} radius="md"
+                                        label={t('mainPage.expensesModal.dateLabel')}
+                                        placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
+                                    <Button onClick={addExpenses} radius="md"
+                                            style={{
+                                                width: 408,
+                                                marginTop: 20,
+                                                fontSize: 20
+                                            }}>{t('mainPage.expensesModal.addButton')}
+                                    </Button>
+                                </Modal>
+                            </div>
                             <br/>
-                            <h1>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
-                        </div>
-                    </Paper><br/>
-                    <div>
-                        <Button variant="light" color="green" radius='xl'
-                                onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
-                        </Button>
-                        <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
-                               overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
-                               title={t('mainPage.incomeModal.title')}>
-                            <Group>
-                                <TextInput radius="md"
-                                    label={t('mainPage.incomeModal.inputSum')}
-                                    placeholder="100"
-                                    onChange={(e) => handleFieldChange("sum", e.target.value)}
-                                    title={t('mainPage.incomeModal.sumTitle')} style={{width: 307}}
+                            <Modal opened={categoriesIncomeModalState} radius="md" onClose={() => {
+                                setCategoriesIncomeModalState(false)
+                                setSegmentCategoriesState(t('mainPage.income'));
+                                handleCategoriesChange("selectedStatisticIncomeCategory", '-')
+                            }}
+                                   title={t('mainPage.statCategoryIncome')}
+                                   overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                                <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
+                                                  data={[t('mainPage.income'), t('mainPage.expense')]}
+                                                  onChange={(e) => {
+                                                      setSegmentCategoriesState(e);
+                                                      if (e === t('mainPage.income')) {
+                                                          incomeCategories()
+                                                      } else if (e === t('mainPage.expense')) {
+                                                          expensesCategories()
+                                                      }
+                                                      handleCategoriesChange("selectedStatisticIncomeCategory", '-')
+                                                  }}/>
+                                <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
+                                              value={categoryData.selectedStatisticIncomeCategory}
+                                              onChange={(e) => handleCategoriesChange("selectedStatisticIncomeCategory", e.target.value)}
+                                              title={t('mainPage.incomeModal.selector.title')}
+                                              data={['-', ...data.incomeCategory]}>
+                                </NativeSelect><br/>
+                                <Table>
+                                    <Table.Thead>
+                                        <Table.Tr>
+                                            <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.date')}</Table.Th>
+                                        </Table.Tr>
+                                    </Table.Thead>
+                                    {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
+                                </Table>
+                            </Modal>
+                            <Modal radius="md" opened={categoriesExpensesModalState} onClose={() => {
+                                setCategoriesExpensesModalState(false);
+                                setSegmentCategoriesState(t('mainPage.income'));
+                                handleCategoriesChange("selectedStatisticExpensesCategory", '-')
+                            }}
+                                   title={t('mainPage.titleCategoryStat')}
+                                   overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                                <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
+                                                  data={[t('mainPage.income'), t('mainPage.expense')]}
+                                                  onChange={(e) => {
+                                                      setSegmentCategoriesState(e);
+                                                      if (e === t('mainPage.income')) {
+                                                          incomeCategories()
+                                                      } else if (e === t('mainPage.expense')) {
+                                                          expensesCategories()
+                                                      }
+                                                      handleCategoriesChange("selectedStatisticExpensesCategory", '-')
+                                                  }}/>
+                                <NativeSelect radius="md" label={t('mainPage.incomeModal.selector.label')}
+                                              value={categoryData.selectedStatisticExpensesCategory}
+                                              onChange={(e) => handleCategoriesChange("selectedStatisticExpensesCategory", e.target.value)}
+                                              title={t('mainPage.incomeModal.selector.title')}
+                                              data={['-', ...data.expensesCategory]}>
+                                </NativeSelect><br/>
+                                <Table>
+                                    <Table.Thead>
+                                        <Table.Tr>
+                                            <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.date')}</Table.Th>
+                                        </Table.Tr>
+                                    </Table.Thead>
+                                    {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
+                                </Table>
+                            </Modal>
+                            <Modal opened={dateIncomeModalState} radius="md" onClose={() => {
+                                setDateIncomeModalState(false);
+                                setSegmentDateState(t('mainPage.income'));
+                                setSelectedStatisticIncomeTimeInterval([null, null])
+                            }}
+                                   title={t('mainPage.titleDateStat')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                                <SegmentedControl fullWidth value={segmentDateState}
+                                                  data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
+                                                  onChange={(e) => {
+                                                      setSegmentDateState(e);
+                                                      if (e === t('mainPage.income')) {
+                                                          incomeDate()
+                                                      } else if (e === t('mainPage.expense')) {
+                                                          expensesDate()
+                                                      }
+                                                      setSelectedStatisticIncomeTimeInterval([null, null])
+                                                  }}/>
+                                <DatePickerInput radius="md"
+                                                 type="range"
+                                                 label={t('mainPage.selectDatesLabel')}
+                                                 placeholder={t('mainPage.selectDates')}
+                                                 value={selectedStatisticIncomeTimeInterval}
+                                                 onChange={(value) => setSelectedStatisticIncomeTimeInterval(value)}
                                 />
-                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
-                                              onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
-                                              defaultValue={props.bankAccount.currency}/>
-                            </Group>
-                            <br/>
-                            <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
-                                          onChange={(e) => handleFieldChange("category", e.target.value)}
-                                          title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
-                            </NativeSelect><br/>
-                            <DateInput onChange={(e) => handleFieldChange("date", e)} radius="md"
-                                       label={t('mainPage.incomeModal.dateLabel')}
-                                       placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
-                            <Button onClick={addIncome} radius="md"
-                                    style={{
-                                        width: 408,
-                                        marginTop: 20,
-                                        fontSize: 20
-                                    }}>{t('mainPage.incomeModal.addButton')}</Button>
-                        </Modal>
-                        <Button variant="light" color="red" radius='xl'
-                                onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
-                        </Button>
-                        <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
-                               overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
-                               title={t('mainPage.expensesModal.title')}>
+                                <Table>
+                                    <Table.Thead>
+                                        <Table.Tr>
+                                            <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.date')}</Table.Th>
+                                        </Table.Tr>
+                                    </Table.Thead>
+                                    {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
+                                </Table>
+                            </Modal>
+                            <Modal radius="md" opened={dateExpensesModalState} onClose={() => {
+                                setDateExpensesModalState(false);
+                                setSegmentDateState(t('mainPage.income'));
+                                setSelectedStatisticExpensesTimeInterval([null, null])
+                            }}
+                                   title={t('mainPage.statDateExpense')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
+                                <SegmentedControl fullWidth value={segmentDateState}
+                                                  data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
+                                                  onChange={(e) => {
+                                                      setSegmentDateState(e);
+                                                      if (e === t('mainPage.income')) {
+                                                          incomeDate()
+                                                      } else if (e === t('mainPage.expense')) {
+                                                          expensesDate()
+                                                      }
+                                                      setSelectedStatisticExpensesTimeInterval([null, null])
+                                                  }}/>
+                                <DatePickerInput radius="md"
+                                                 type="range"
+                                                 label={t('mainPage.selectDatesLabel')}
+                                                 placeholder={t('mainPage.selectDates')}
+                                                 value={selectedStatisticExpensesTimeInterval}
+                                                 onChange={(value) => setSelectedStatisticExpensesTimeInterval(value)}
+                                />
+                                <Table>
+                                    <Table.Thead>
+                                        <Table.Tr>
+                                            <Table.Th>{t('mainPage.table.category')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.sum')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                            <Table.Th>{t('mainPage.table.date')}</Table.Th>
+                                        </Table.Tr>
+                                    </Table.Thead>
+                                    {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
+                                </Table>
+                            </Modal>
                             <Group>
-                                <TextInput radius="md"
-                                    label={t('mainPage.expensesModal.inputSum')}
-                                    placeholder="100"
-                                    onChange={(e) => handleFieldChange("sum", e.target.value)}
-                                    title={t('mainPage.expensesModal.sumTitle')} style={{width: 307}}/>
-                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
-                                              onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
-                                              defaultValue={props.bankAccount.currency}/>
-                            </Group><br/>
-                            <NativeSelect label={t('mainPage.expensesModal.selector.label')} radius="md"
-                                          onChange={(e) => handleFieldChange("category", e.target.value)}
-                                          title={t('mainPage.expensesModal.selector.title')}
-                                          data={data.expensesCategory}>
-                            </NativeSelect><br/>
-                            <DateInput
-                                onChange={(e) => handleFieldChange("date", e)} radius="md"
-                                label={t('mainPage.expensesModal.dateLabel')}
-                                placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
-                            <Button onClick={addExpenses} radius="md"
-                                    style={{
-                                        width: 408,
-                                        marginTop: 20,
-                                        fontSize: 20
-                                    }}>{t('mainPage.expensesModal.addButton')}
-                            </Button>
-                        </Modal>
-                    </div>
-                    <br/>
-                    <Modal opened={categoriesIncomeModalState} radius="md" onClose={() => {
-                        setCategoriesIncomeModalState(false)
-                        setSegmentCategoriesState(t('mainPage.income'));
-                        handleCategoriesChange("selectedStatisticIncomeCategory", '-')
-                    }}
-                           title={t('mainPage.statCategoryIncome')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
-                                          data={[t('mainPage.income'), t('mainPage.expense')]} onChange={(e) => {
-                            setSegmentCategoriesState(e);
-                            if (e === t('mainPage.income')) {
-                                incomeCategories()
-                            } else if (e === t('mainPage.expense')) {
-                                expensesCategories()
-                            }
-                            handleCategoriesChange("selectedStatisticIncomeCategory", '-')
-                        }}/>
-                        <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
-                                      value={categoryData.selectedStatisticIncomeCategory}
-                                      onChange={(e) => handleCategoriesChange("selectedStatisticIncomeCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')}
-                                      data={['-', ...data.incomeCategory]}>
-                        </NativeSelect><br/>
-                        <Table>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
-                        </Table>
-                    </Modal>
-                    <Modal radius="md" opened={categoriesExpensesModalState} onClose={() => {
-                        setCategoriesExpensesModalState(false);
-                        setSegmentCategoriesState(t('mainPage.income'));
-                        handleCategoriesChange("selectedStatisticExpensesCategory", '-')
-                    }}
-                           title={t('mainPage.titleCategoryStat')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentCategoriesState} radius='xl'
-                                          data={[t('mainPage.income'), t('mainPage.expense')]} onChange={(e) => {
-                            setSegmentCategoriesState(e);
-                            if (e === t('mainPage.income')) {
-                                incomeCategories()
-                            } else if (e === t('mainPage.expense')) {
-                                expensesCategories()
-                            }
-                            handleCategoriesChange("selectedStatisticExpensesCategory", '-')
-                        }}/>
-                        <NativeSelect radius="md" label={t('mainPage.incomeModal.selector.label')}
-                                      value={categoryData.selectedStatisticExpensesCategory}
-                                      onChange={(e) => handleCategoriesChange("selectedStatisticExpensesCategory", e.target.value)}
-                                      title={t('mainPage.incomeModal.selector.title')}
-                                      data={['-', ...data.expensesCategory]}>
-                        </NativeSelect><br/>
-                        <Table>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
-                        </Table>
-                    </Modal>
-                    <Modal opened={dateIncomeModalState} radius="md" onClose={() => {
-                        setDateIncomeModalState(false);
-                        setSegmentDateState(t('mainPage.income'));
-                        setSelectedStatisticIncomeTimeInterval([null, null])
-                    }}
-                           title={t('mainPage.titleDateStat')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState}
-                                          data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
-                                          onChange={(e) => {
-                                              setSegmentDateState(e);
-                                              if (e === t('mainPage.income')) {
-                                                  incomeDate()
-                                              } else if (e === t('mainPage.expense')) {
-                                                  expensesDate()
-                                              }
-                                              setSelectedStatisticIncomeTimeInterval([null, null])
-                                          }}/>
-                        <DatePickerInput radius="md"
-                            type="range"
-                            label={t('mainPage.selectDatesLabel')}
-                            placeholder={t('mainPage.selectDates')}
-                            value={selectedStatisticIncomeTimeInterval}
-                            onChange={(value) => setSelectedStatisticIncomeTimeInterval(value)}
-                        />
-                        <Table>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
-                        </Table>
-                    </Modal>
-                    <Modal radius="md" opened={dateExpensesModalState} onClose={() => {
-                        setDateExpensesModalState(false);
-                        setSegmentDateState(t('mainPage.income'));
-                        setSelectedStatisticExpensesTimeInterval([null, null])
-                    }}
-                           title={t('mainPage.statDateExpense')} overlayProps={{backgroundOpacity: 0, blur: 4}}>
-                        <SegmentedControl fullWidth value={segmentDateState}
-                                          data={[t('mainPage.income'), t('mainPage.expense')]} radius='xl'
-                                          onChange={(e) => {
-                                              setSegmentDateState(e);
-                                              if (e === t('mainPage.income')) {
-                                                  incomeDate()
-                                              } else if (e === t('mainPage.expense')) {
-                                                  expensesDate()
-                                              }
-                                              setSelectedStatisticExpensesTimeInterval([null, null])
-                                          }}/>
-                        <DatePickerInput radius="md"
-                            type="range"
-                            label={t('mainPage.selectDatesLabel')}
-                            placeholder={t('mainPage.selectDates')}
-                            value={selectedStatisticExpensesTimeInterval}
-                            onChange={(value) => setSelectedStatisticExpensesTimeInterval(value)}
-                        />
-                        <Table>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>{t('mainPage.table.category')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.sum')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.currency')}</Table.Th>
-                                    <Table.Th>{t('mainPage.table.date')}</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
-                        </Table>
-                    </Modal>
-                    <Group>
-                        <div>
-                            <Text style={{textAlign: "center"}}>Income</Text>
-                            <DonutChart size={250} thickness={35} data={incomeChartInfo} chartLabel={incomeChartLabel}
-                                        withLabelsLine withLabels withTooltip title={t('mainPage.income')}
-                                        tooltipDataSource="segment"/>
+                                <div>
+                                    <Text style={{textAlign: "center"}}>Income</Text>
+                                    <DonutChart size={250} thickness={35} data={incomeChartInfo}
+                                                chartLabel={incomeChartLabel}
+                                                withLabelsLine withLabels withTooltip title={t('mainPage.income')}
+                                                tooltipDataSource="segment"/>
+                                </div>
+                                <div><Text style={{textAlign: "center"}}>Expenses</Text>
+                                    <DonutChart size={250} thickness={35} data={expensesChartInfo}
+                                                chartLabel={expensesChartLabel}
+                                                title={t('mainPage.expense')} withTooltip withLabels withLabelsLine
+                                                tooltipDataSource="segment"/></div>
+                            </Group>
                         </div>
-                        <div><Text style={{textAlign: "center"}}>Expenses</Text>
-                            <DonutChart size={250} thickness={35} data={expensesChartInfo}
-                                        chartLabel={expensesChartLabel}
-                                        title={t('mainPage.expense')} withTooltip withLabels withLabelsLine
-                                        tooltipDataSource="segment"/></div>
-                    </Group>
-                </div>
-            </div>
+                    </div>
+                </AppShell.Main>
+            </AppShell>
             <Footer/>
         </div>
     )

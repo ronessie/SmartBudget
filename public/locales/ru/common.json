@@ -93,8 +93,8 @@
     "hello": "Здравствуйте",
     "yourBankAccount": "Ваш счёт:",
     "lastUpdate": "Последнее обновление",
-    "addIncome": "+ Доход",
-    "addExpenses": "+ Расход",
+    "addIncome": "Добавить доход",
+    "addExpenses": "Добавить расход",
     "incomeModal": {
       "title": "Добавление дохода",
       "inputSum": "Введите сумму",
