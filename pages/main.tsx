@@ -11,7 +11,7 @@ import IBankAccount from "@/src/types/IBankAccount";
 import {
     Button,
     Drawer,
-    Group,
+    Group, Loader, LoadingOverlay,
     Modal,
     NativeSelect,
     Paper,
@@ -36,6 +36,7 @@ export default function Page(props: {
     income: { category: string, sum: number, currency: string, date: string, finalSum: number }[],
     expenses: { category: string, sum: number, currency: string, date: string, finalSum: number }[]
 }) {
+    const [visible, { toggle }] = useDisclosure(false);
     const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
@@ -321,7 +322,6 @@ export default function Page(props: {
     }
 
     async function convert() {
-
         if (!convertData.sum || !(/^[\d]+$/).test(convertData.sum.toString())) {
             notifications.show({
                 title: t('mainPage.notification.title'),
@@ -459,19 +459,20 @@ export default function Page(props: {
                         position="right"
                         offset={8} radius="md">
                         <Group>
-                            <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')}
+                            <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')} radius="md"
                                        onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
                                           onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
                                           defaultValue={props.bankAccount.currency}/>
                         </Group>
                         <Group>
-                            <TextInput readOnly={true} style={{width: 307}} label={t('mainPage.converter.resultSum')}
+                            <TextInput radius="md" readOnly={true} style={{width: 307}} label={t('mainPage.converter.resultSum')}
                                        value={convertData.newSum}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
                                           onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                         <br/>
-                        <Button style={{width: 410, fontSize: 18}} onClick={convert}>{t('mainPage.converter.button')}</Button>
+                        <Button style={{width: 410, fontSize: 18}} radius="md"
+                                onClick={convert}>{t('mainPage.converter.button')}</Button>
                     </Drawer>
                     <h1>{t('mainPage.yourBankAccount')}</h1>
                     <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
@@ -488,28 +489,28 @@ export default function Page(props: {
                                 onClick={() => setIncomeModalState(!incomeModalState)}>{t('mainPage.addIncome')}
                         </Button>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
-                               overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                               overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.incomeModal.title')}>
                             <Group>
-                                <TextInput
+                                <TextInput radius="md"
                                     label={t('mainPage.incomeModal.inputSum')}
                                     placeholder="100"
                                     onChange={(e) => handleFieldChange("sum", e.target.value)}
                                     title={t('mainPage.incomeModal.sumTitle')} style={{width: 307}}
                                 />
-                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
                                               onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
                                               defaultValue={props.bankAccount.currency}/>
                             </Group>
                             <br/>
-                            <NativeSelect label={t('mainPage.incomeModal.selector.label')}
+                            <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
                                           title={t('mainPage.incomeModal.selector.title')} data={data.incomeCategory}>
                             </NativeSelect><br/>
-                            <DateInput onChange={(e) => handleFieldChange("date", e)}
+                            <DateInput onChange={(e) => handleFieldChange("date", e)} radius="md"
                                        label={t('mainPage.incomeModal.dateLabel')}
                                        placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
-                            <Button onClick={addIncome}
+                            <Button onClick={addIncome} radius="md"
                                     style={{
                                         width: 408,
                                         marginTop: 20,
@@ -520,28 +521,28 @@ export default function Page(props: {
                                 onClick={() => setExpensesModalState(!expensesModalState)}>{t('mainPage.addExpenses')}
                         </Button>
                         <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
-                               overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                               overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.expensesModal.title')}>
                             <Group>
-                                <TextInput
+                                <TextInput radius="md"
                                     label={t('mainPage.expensesModal.inputSum')}
                                     placeholder="100"
                                     onChange={(e) => handleFieldChange("sum", e.target.value)}
                                     title={t('mainPage.expensesModal.sumTitle')} style={{width: 307}}/>
-                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency} radius="md"
                                               onChange={(e) => handleFieldChange("operationCurrency", e.target.value)}
                                               defaultValue={props.bankAccount.currency}/>
                             </Group><br/>
-                            <NativeSelect label={t('mainPage.expensesModal.selector.label')}
+                            <NativeSelect label={t('mainPage.expensesModal.selector.label')} radius="md"
                                           onChange={(e) => handleFieldChange("category", e.target.value)}
                                           title={t('mainPage.expensesModal.selector.title')}
                                           data={data.expensesCategory}>
                             </NativeSelect><br/>
                             <DateInput
-                                onChange={(e) => handleFieldChange("date", e)}
+                                onChange={(e) => handleFieldChange("date", e)} radius="md"
                                 label={t('mainPage.expensesModal.dateLabel')}
                                 placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
-                            <Button onClick={addExpenses}
+                            <Button onClick={addExpenses} radius="md"
                                     style={{
                                         width: 408,
                                         marginTop: 20,
@@ -551,7 +552,7 @@ export default function Page(props: {
                         </Modal>
                     </div>
                     <br/>
-                    <Modal opened={categoriesIncomeModalState} onClose={() => {
+                    <Modal opened={categoriesIncomeModalState} radius="md" onClose={() => {
                         setCategoriesIncomeModalState(false)
                         setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticIncomeCategory", '-')
@@ -567,7 +568,7 @@ export default function Page(props: {
                             }
                             handleCategoriesChange("selectedStatisticIncomeCategory", '-')
                         }}/>
-                        <NativeSelect label={t('mainPage.incomeModal.selector.label')}
+                        <NativeSelect label={t('mainPage.incomeModal.selector.label')} radius="md"
                                       value={categoryData.selectedStatisticIncomeCategory}
                                       onChange={(e) => handleCategoriesChange("selectedStatisticIncomeCategory", e.target.value)}
                                       title={t('mainPage.incomeModal.selector.title')}
@@ -585,7 +586,7 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={categoriesExpensesModalState} onClose={() => {
+                    <Modal radius="md" opened={categoriesExpensesModalState} onClose={() => {
                         setCategoriesExpensesModalState(false);
                         setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticExpensesCategory", '-')
@@ -601,7 +602,7 @@ export default function Page(props: {
                             }
                             handleCategoriesChange("selectedStatisticExpensesCategory", '-')
                         }}/>
-                        <NativeSelect label={t('mainPage.incomeModal.selector.label')}
+                        <NativeSelect radius="md" label={t('mainPage.incomeModal.selector.label')}
                                       value={categoryData.selectedStatisticExpensesCategory}
                                       onChange={(e) => handleCategoriesChange("selectedStatisticExpensesCategory", e.target.value)}
                                       title={t('mainPage.incomeModal.selector.title')}
@@ -619,7 +620,7 @@ export default function Page(props: {
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={dateIncomeModalState} onClose={() => {
+                    <Modal opened={dateIncomeModalState} radius="md" onClose={() => {
                         setDateIncomeModalState(false);
                         setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticIncomeTimeInterval([null, null])
@@ -636,7 +637,7 @@ export default function Page(props: {
                                               }
                                               setSelectedStatisticIncomeTimeInterval([null, null])
                                           }}/>
-                        <DatePickerInput
+                        <DatePickerInput radius="md"
                             type="range"
                             label={t('mainPage.selectDatesLabel')}
                             placeholder={t('mainPage.selectDates')}
@@ -655,7 +656,7 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={dateExpensesModalState} onClose={() => {
+                    <Modal radius="md" opened={dateExpensesModalState} onClose={() => {
                         setDateExpensesModalState(false);
                         setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticExpensesTimeInterval([null, null])
@@ -672,7 +673,7 @@ export default function Page(props: {
                                               }
                                               setSelectedStatisticExpensesTimeInterval([null, null])
                                           }}/>
-                        <DatePickerInput
+                        <DatePickerInput radius="md"
                             type="range"
                             label={t('mainPage.selectDatesLabel')}
                             placeholder={t('mainPage.selectDates')}
@@ -694,11 +695,15 @@ export default function Page(props: {
                     <Group>
                         <div>
                             <Text style={{textAlign: "center"}}>Income</Text>
-                        <DonutChart size={250} thickness={35} data={incomeChartInfo} chartLabel={incomeChartLabel}  withLabelsLine withLabels withTooltip title={t('mainPage.income')} tooltipDataSource="segment"/>
-                </div>
+                            <DonutChart size={250} thickness={35} data={incomeChartInfo} chartLabel={incomeChartLabel}
+                                        withLabelsLine withLabels withTooltip title={t('mainPage.income')}
+                                        tooltipDataSource="segment"/>
+                        </div>
                         <div><Text style={{textAlign: "center"}}>Expenses</Text>
-                            <DonutChart size={250} thickness={35} data={expensesChartInfo} chartLabel={expensesChartLabel}
-                                         title={t('mainPage.expense')} withTooltip withLabels withLabelsLine tooltipDataSource="segment"/></div>
+                            <DonutChart size={250} thickness={35} data={expensesChartInfo}
+                                        chartLabel={expensesChartLabel}
+                                        title={t('mainPage.expense')} withTooltip withLabels withLabelsLine
+                                        tooltipDataSource="segment"/></div>
                     </Group>
                 </div>
             </div>

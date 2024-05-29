@@ -32,7 +32,7 @@ export default function Page(props: {
                 flexDirection: 'column'
             }}>
                 <Image src={'/uploads/' + url} w={600} h={600} alt={'image'}/>
-                <h1>{data.texts[i]}</h1>
+                <h1 style={{width: 1000, textAlign: "center"}}>{data.texts[i]}</h1>
             </Carousel.Slide>
         ));
 

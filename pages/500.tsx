@@ -20,7 +20,7 @@ const Error500Page = () => {
             <Title order={1} style={{marginBottom: 10, textAlign: "center"}}>{t('500.title')}</Title>
             <Text style={{marginBottom: 20, textAlign: "center"}}>{t('500.text')}</Text>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Button onClick={handleBackHome}>{t('500.button')}</Button>
+                <Button radius="xl" style={{fontSize: 20}} onClick={handleBackHome}>{t('500.button')}</Button>
             </div>
         </Container>
     );

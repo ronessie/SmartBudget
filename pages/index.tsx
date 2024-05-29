@@ -441,24 +441,24 @@ export default function Page(props: { user: IUser }) {
                                                   authToReg()
                                               }
                                           }}/><br/>
-                        <TextInput
+                        <TextInput radius="md"
                             label={t('authenticationPage.input.email')}
                             placeholder="your@email.com"
                             value={data.email}
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('authenticationPage.placeholder.email')}
                         />
-                        <PasswordInput
+                        <PasswordInput radius="md"
                             label={t('authenticationPage.input.password')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
                             title={t('authenticationPage.placeholder.password')}
                         />
-                        <Button id="auth"
+                        <Button id="auth" radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 18}}
                                 onClick={checkDate}
                                 title={t('authenticationPage.placeholder.button')}>{t('authenticationPage.signInButton')}</Button>
-                        <Button style={{width: 410, marginTop: 5, fontSize: 18}}
+                        <Button style={{width: 410, marginTop: 5, fontSize: 18}} radius="md"
                                 leftSection={<GoogleIcon/>}
                                 variant={"outline"}
                                 onClick={googleAuthentication}
@@ -477,17 +477,17 @@ export default function Page(props: { user: IUser }) {
                                 onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
 
-                        <Modal opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                        <Modal radius="md" opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
                                title={t('authenticationPage.modals.header')}>
-                            <TextInput
+                            <TextInput radius="md"
                                 label={t('authenticationPage.modals.email')}
                                 placeholder="your@email.com"
                                 onChange={(e) => handleFieldChange("popUpEmail", e.target.value)}
                                 title={t('authenticationPage.modals.title')}
                             />
-                            <Button onClick={checkDataForPasswordRecovery}
-                                    style={{marginTop: 10, width: 408}}
+                            <Button onClick={checkDataForPasswordRecovery} radius="md" fullWidth
+                                    style={{marginTop: 10, fontSize: 18}}
                                     title={t('authenticationPage.modals.buttonTitle')}>{t('authenticationPage.modals.button')}</Button>
                         </Modal>
                     </Drawer>
@@ -516,7 +516,7 @@ export default function Page(props: { user: IUser }) {
                                                   authToReg()
                                               }
                                           }}/><br/>
-                        <TextInput
+                        <TextInput radius="md"
                             withAsterisk
                             label={t('registrationPage.inputFIO')}
                             placeholder={t('registrationPage.inputPlaceholder.fio')}
@@ -524,7 +524,7 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("fio", e.target.value)}
                             title={t('registrationPage.placeholder.fio')}
                         />
-                        <TextInput
+                        <TextInput radius="md"
                             withAsterisk
                             label={t('registrationPage.inputEmail')}
                             placeholder={t('registrationPage.inputPlaceholder.email')}
@@ -532,25 +532,25 @@ export default function Page(props: { user: IUser }) {
                             onChange={(e) => handleFieldChange("email", e.target.value)}
                             title={t('registrationPage.placeholder.email')}
                         />
-                        <PasswordInput
+                        <PasswordInput radius="md"
                             withAsterisk
                             label={t('registrationPage.inputPassword')}
                             value={data.password}
                             onChange={(e) => handleFieldChange("password", e.target.value)}
                             title={t('registrationPage.placeholder.password')}
                         />
-                        <PasswordInput
+                        <PasswordInput radius="md"
                             withAsterisk
                             label={t('registrationPage.checkPassword')}
                             value={data.checkPassword}
                             onChange={(e) => handleFieldChange("checkPassword", e.target.value)}
                             title={t('registrationPage.placeholder.password')}
                         />
-                        <Button onClick={dateValidation}
+                        <Button onClick={dateValidation} radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 20}}
                                 title={t('registrationPage.placeholder.button')}>{t('registrationPage.button')}</Button>
                         <br/>
-                        <Button onClick={googleAuthentication}
+                        <Button onClick={googleAuthentication} radius="md"
                                 leftSection={<GoogleIcon/>}
                                 variant={"outline"}
                                 style={{
@@ -560,18 +560,18 @@ export default function Page(props: { user: IUser }) {
                                 }}>{t('registrationPage.googleButton')}</Button>
                         <Button style={{textAlign: "center", fontSize: 16}} variant={"transparent"} fullWidth={true}
                                 onClick={() => {
-                                    setSegmentState('Log In');
+                                    setSegmentState(t('authenticationPage.signInButton'));
                                     regToAuth();
                                 }}>{t('registrationPage.link')}</Button>
                     </Drawer></div>
-                <Modal opened={twoFAState} onClose={() => setTwoFAState(false)}
+                <Modal opened={twoFAState} onClose={() => setTwoFAState(false)} radius="md"
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={t('2FA.label')}>
-                    <PinInput size="md" length={6} type="number" value={data.check2FA}
+                    <PinInput size="md" length={6} type="number" value={data.check2FA} radius="md"
                               title={t('2FA.inputCodeText')}
                               onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
                     <Button style={{width: 276, marginTop: 5, fontSize: 20}}
-                            onClick={check2FA}
+                            onClick={check2FA} radius="md"
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button><br/>
                     <Button variant="transparent" onClick={resend2FA} style={{textAlign: "center"}}
@@ -585,18 +585,18 @@ export default function Page(props: { user: IUser }) {
                     position="right"
                     offset={8} radius="md">
                     <Group>
-                        <TextInput style={{width: 307}} label={t('indexPage.converterDrawer.label-1')}
+                        <TextInput style={{width: 307}} label={t('indexPage.converterDrawer.label-1')} radius="md"
                                    onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md"
                                       onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
                     </Group>
                     <Group>
-                        <TextInput readOnly={true} style={{width: 307}} label={t('indexPage.converterDrawer.label-2')}
+                        <TextInput readOnly={true} style={{width: 307}} label={t('indexPage.converterDrawer.label-2')} radius="md"
                                    value={convertData.newSum}/>
-                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency}
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md"
                                       onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                     <br/>
-                    <Button style={{width: 410, fontSize: 20}}
+                    <Button style={{width: 410, fontSize: 20}} radius="md"
                             onClick={convert}>{t('indexPage.converterDrawer.button')}</Button>
                 </Drawer>
             </div>
