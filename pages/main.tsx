@@ -12,7 +12,7 @@ import {
     AppShell,
     Button,
     Drawer,
-    Group, Loader, LoadingOverlay,
+    Group,
     Modal,
     NativeSelect,
     Paper,
@@ -21,7 +21,7 @@ import {
     Text,
     TextInput
 } from "@mantine/core";
-import {DateInput, DatePickerInput} from '@mantine/dates';
+import {Calendar, DateInput, DatePickerInput} from '@mantine/dates';
 import {DonutChart, DonutChartCell} from "@mantine/charts";
 import {useTranslation} from "next-i18next";
 import Header from "../components/header"
@@ -37,7 +37,6 @@ export default function Page(props: {
     income: { category: string, sum: number, currency: string, date: string, finalSum: number }[],
     expenses: { category: string, sum: number, currency: string, date: string, finalSum: number }[]
 }) {
-    const [visible, {toggle}] = useDisclosure(false);
     const {t} = useTranslation('common');
     const [incomeModalState, setIncomeModalState] = useState(false);
     const [expensesModalState, setExpensesModalState] = useState(false);
@@ -465,33 +464,8 @@ export default function Page(props: {
                                 variant="light">{t('mainPage.dateStat')}</Button>
                     </div>
                 </AppShell.Navbar>
-                <AppShell.Main>
-                    <Drawer
-                        title={t('mainPage.converter.title')}
-                        opened={converterDrawerState}
-                        onClose={converterAuthMethods.close}
-                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                        position="right"
-                        offset={8} radius="md">
-                        <Group>
-                            <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')} radius="md"
-                                       onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
-                                          radius="md"
-                                          onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
-                                          defaultValue={props.bankAccount.currency}/>
-                        </Group>
-                        <Group>
-                            <TextInput radius="md" readOnly={true} style={{width: 307}}
-                                       label={t('mainPage.converter.resultSum')}
-                                       value={convertData.newSum}/>
-                            <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
-                                          radius="md"
-                                          onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
-                        <br/>
-                        <Button style={{width: 410, fontSize: 18}} radius="md"
-                                onClick={convert}>{t('mainPage.converter.button')}</Button>
-                    </Drawer>
+                <AppShell.Main style={{marginLeft: 50}}>
+                    <Group><div>
                     <h1 style={{fontSize: 25}}>{t('mainPage.hello')}, {props.user.fio}</h1><br/>
                     <h1 style={{fontSize: 20}}>{t('mainPage.yourBankAccount')}</h1>
                     <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
@@ -502,8 +476,37 @@ export default function Page(props: {
                             <br/>
                             <h1 style={{fontSize: 18}}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
                         </div>
-                    </Paper><br/>
+                    </Paper><br/></div>
                     <div>
+                        <Calendar/>
+                    </div></Group>
+                    <div>
+                        <Drawer
+                            title={t('mainPage.converter.title')}
+                            opened={converterDrawerState}
+                            onClose={converterAuthMethods.close}
+                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                            position="right"
+                            offset={8} radius="md">
+                            <Group>
+                                <TextInput style={{width: 307}} label={t('mainPage.converter.inputSum')} radius="md"
+                                           onChange={(e) => handleConvertChange("sum", e.target.value)}/>
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                              radius="md"
+                                              onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}
+                                              defaultValue={props.bankAccount.currency}/>
+                            </Group>
+                            <Group>
+                                <TextInput radius="md" readOnly={true} style={{width: 307}}
+                                           label={t('mainPage.converter.resultSum')}
+                                           value={convertData.newSum}/>
+                                <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
+                                              radius="md"
+                                              onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
+                            <br/>
+                            <Button style={{width: 410, fontSize: 18}} radius="md"
+                                    onClick={convert}>{t('mainPage.converter.button')}</Button>
+                        </Drawer>
                         <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.incomeModal.title')}>

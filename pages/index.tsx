@@ -567,10 +567,10 @@ export default function Page(props: { user: IUser }) {
                 <Modal opened={twoFAState} onClose={() => setTwoFAState(false)} radius="md"
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={t('2FA.label')}>
-                    <PinInput size="md" length={6} type="number" value={data.check2FA} radius="md"
+                    <PinInput size="md" length={6} type="number" style={{marginLeft: 30}} value={data.check2FA} radius="md"
                               title={t('2FA.inputCodeText')}
                               onChange={(e) => handleFieldChange("check2FA", e)}/><br/>
-                    <Button style={{width: 276, marginTop: 5, fontSize: 20}}
+                    <Button style={{marginTop: 5, fontSize: 20}} fullWidth={true}
                             onClick={check2FA} radius="md"
                             title={t('authenticationPage.placeholder.button')}>{t('2FA.confirmButton')}
                     </Button><br/>
