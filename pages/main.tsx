@@ -486,7 +486,7 @@ export default function Page(props: {
                                 </div>
                             </Paper><br/></div>
                         <div>
-                            <Calendar
+                            <Calendar style={{marginLeft: 210}}
                                 getDayProps={(date) => ({
                                     selected: [new Date()].some((s) => dayjs(date).isSame(s, 'date')),
                                 })}
