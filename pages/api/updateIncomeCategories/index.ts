@@ -13,12 +13,12 @@ export default async function updateIncomeCategories(req: NextApiRequest, res: N
         }
     };
     const result = await collection.updateOne(filter, updateDocument);
-
-    if (result.modifiedCount === 1) {
+    console.log(result);
+    if (result.matchedCount === 1) {
         console.log(`Data updated successfully for ${id}`);
         return res.status(200).json({success: true});
     } else {
         console.log(`Data does not update ${id}`);
-        return res.status(404);
+        return res.status(404).json({success: false});
     }
 }
