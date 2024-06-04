@@ -290,9 +290,9 @@ export default function Page(props: {
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         handleFieldChange("updateLastUpdateDate", data?.lastUpdateDate)
         if (data.operationStatus === '+') {
-            handleFieldChange("balance", +((+(data?.balance ?? 0) + finalSum).toFixed(2)))
+            handleFieldChange("balance", +(+(+(data?.balance ?? 0) + (+finalSum)).toFixed(2)))
         } else {
-            handleFieldChange("balance", +((+(data?.balance ?? 0) - finalSum).toFixed(2)))
+            handleFieldChange("balance", +(+(+(data?.balance ?? 0) - (+finalSum)).toFixed(2)))
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
