@@ -507,7 +507,8 @@ export default function Page(props: {
                             <Button style={{width: 410, fontSize: 18}} radius="md"
                                     onClick={convert}>{t('mainPage.converter.button')}</Button>
                         </Drawer>
-                        <Modal opened={incomeModalState} onClose={() => setIncomeModalState(false)}
+                        <Modal closeOnClickOutside={false}
+                               closeOnEscape={false} opened={incomeModalState} onClose={() => setIncomeModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.incomeModal.title')}>
                             <Group>
@@ -538,7 +539,8 @@ export default function Page(props: {
                                         fontSize: 20
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
-                        <Modal opened={expensesModalState} onClose={() => setExpensesModalState(false)}
+                        <Modal closeOnClickOutside={false}
+                               closeOnEscape={false} opened={expensesModalState} onClose={() => setExpensesModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.expensesModal.title')}>
                             <Group>
@@ -571,7 +573,8 @@ export default function Page(props: {
                         </Modal>
                     </div>
                     <br/>
-                    <Modal opened={categoriesIncomeModalState} radius="md" onClose={() => {
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} opened={categoriesIncomeModalState} radius="md" onClose={() => {
                         setCategoriesIncomeModalState(false)
                         setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticIncomeCategory", '-')
@@ -607,7 +610,8 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal radius="md" opened={categoriesExpensesModalState} onClose={() => {
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} radius="md" opened={categoriesExpensesModalState} onClose={() => {
                         setCategoriesExpensesModalState(false);
                         setSegmentCategoriesState(t('mainPage.income'));
                         handleCategoriesChange("selectedStatisticExpensesCategory", '-')
@@ -643,7 +647,8 @@ export default function Page(props: {
                             {<Table.Tbody>{getExpensesTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal opened={dateIncomeModalState} radius="md" onClose={() => {
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} opened={dateIncomeModalState} radius="md" onClose={() => {
                         setDateIncomeModalState(false);
                         setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticIncomeTimeInterval([null, null])
@@ -679,7 +684,8 @@ export default function Page(props: {
                             {<Table.Tbody>{getIncomeTableRows()}</Table.Tbody>}
                         </Table>
                     </Modal>
-                    <Modal radius="md" opened={dateExpensesModalState} onClose={() => {
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} radius="md" opened={dateExpensesModalState} onClose={() => {
                         setDateExpensesModalState(false);
                         setSegmentDateState(t('mainPage.income'));
                         setSelectedStatisticExpensesTimeInterval([null, null])

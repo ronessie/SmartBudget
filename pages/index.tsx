@@ -477,7 +477,8 @@ export default function Page(props: { user: IUser }) {
                                 onClick={() => setPasswordRecoveryModalState(!passwordRecoveryModalState)}>
                             {t('authenticationPage.changePasswordLink')}</Button>
 
-                        <Modal radius="md" opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
+                        <Modal closeOnClickOutside={false}
+                               closeOnEscape={false} radius="md" opened={passwordRecoveryModalState} onClose={() => setPasswordRecoveryModalState(false)}
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
                                title={t('authenticationPage.modals.header')}>
                             <TextInput radius="md"
@@ -564,7 +565,8 @@ export default function Page(props: { user: IUser }) {
                                     regToAuth();
                                 }}>{t('registrationPage.link')}</Button>
                     </Drawer></div>
-                <Modal opened={twoFAState} onClose={() => setTwoFAState(false)} radius="md"
+                <Modal closeOnClickOutside={false}
+                       closeOnEscape={false} withCloseButton={false} opened={twoFAState} onClose={() => setTwoFAState(false)} radius="md"
                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                        title={t('2FA.label')}>
                     <PinInput size="md" length={6} type="number" style={{marginLeft: 30}} value={data.check2FA} radius="md"

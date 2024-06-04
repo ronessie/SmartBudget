@@ -2,7 +2,6 @@ import '../styles/pages.module.css'
 import IUser from "@/src/types/IUser";
 import React, {useState} from "react";
 import {AppShell, Avatar} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
 import styles from '../styles/pages.module.css'
 import {getSession} from "next-auth/react";
 import {connectToDatabase} from "@/src/database";
@@ -66,8 +65,6 @@ export default function Page(props: {
     const [checked2FA, setChecked2FA] = useState(props.user.twoStepAuth);
     const [newIncomeCategories, setNewIncomeCategories] = useState(data.allIncomeCategories);
     const [newExpensesCategories, setNewExpensesCategories] = useState(data.allExpensesCategories);
-
-    const [opened, {toggle}] = useDisclosure();
 
     function handleFieldChange(fieldName: string, value: any) {
         setData(prevData => ({
@@ -326,13 +323,14 @@ export default function Page(props: {
                 navbar={{
                     width: 300,
                     breakpoint: 'sm',
-                    collapsed: {mobile: !opened},
                 }}
                 padding="md"
             >
                 <AppShell.Navbar className={styles.navbar} p="md">
-                    <div><h1 style={{marginLeft: 70}} className={styles.blueText}>{t('accountPage.appShell.title')}</h1><br/>
-                        <Button radius="xl" style={{marginTop: 5}} onClick={() => setChangeModalState(!changeModalState)}
+                    <div><h1 style={{marginLeft: 70}} className={styles.blueText}>{t('accountPage.appShell.title')}</h1>
+                        <br/>
+                        <Button radius="xl" style={{marginTop: 5}}
+                                onClick={() => setChangeModalState(!changeModalState)}
                                 fullWidth={true} variant="light">{t('accountPage.appShell.editData')}</Button>
                         <Button radius="xl" style={{marginTop: 5}}
                                 onClick={() => setAddIncomeCategoryModalState(!addIncomeCategoryModalState)}
@@ -344,51 +342,59 @@ export default function Page(props: {
                                 variant="light">{t('accountPage.appShell.changeBankAcc')}</Button>
                         <Button radius="xl" style={{marginTop: 5}} onClick={() => setCodeModalState(!codeModalState)}
                                 fullWidth={true} variant="light">{t('accountPage.appShell.inviteCode')}</Button>
-                        </div>
+                    </div>
                 </AppShell.Navbar>
                 <AppShell.Main>
                     <Fieldset radius="xl" className={styles.account}>
                         <Avatar variant="light" radius="150" size="150" color="blue" src="" className={styles.icon}/>
-                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.fio')}</h1><h1 className={styles.accountText}>{data.fio}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.email')}</h1><h1 className={styles.accountText}>{data.email}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.bankAccName')}</h1><h1 className={styles.accountText}>{data.bankName}</h1></Group>
-                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.currency')}</h1><h1 className={styles.accountText}>{data.currency}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.fio')}</h1><h1
+                            className={styles.accountText}>{data.fio}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.email')}</h1><h1
+                            className={styles.accountText}>{data.email}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.bankAccName')}</h1><h1
+                            className={styles.accountText}>{data.bankName}</h1></Group>
+                        <Group><h1 className={styles.blueAccountText}>{t('accountPage.fieldset.currency')}</h1><h1
+                            className={styles.accountText}>{data.currency}</h1></Group>
                     </Fieldset>
-                    <Modal opened={changeModalState} onClose={() => setChangeModalState(false)}
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} opened={changeModalState} onClose={() => setChangeModalState(false)}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                            title={t('accountPage.editData')}>
                         <TextInput radius="md"
-                            label={t('accountPage.fieldset.fio')}
-                            onChange={(e) => handleFieldChange("changeFio", e.target.value)}
-                            title={t('accountPage.inputFIO')}
-                            value={data.changeFio}
+                                   label={t('accountPage.fieldset.fio')}
+                                   onChange={(e) => handleFieldChange("changeFio", e.target.value)}
+                                   title={t('accountPage.inputFIO')}
+                                   value={data.changeFio}
                         />
                         <TextInput radius="md"
-                            label={t('accountPage.fieldset.email')}
-                            onChange={(e) => handleFieldChange("changeEmail", e.target.value)}
-                            title={t('accountPage.inputEmail')}
-                            value={data.changeEmail}
+                                   label={t('accountPage.fieldset.email')}
+                                   onChange={(e) => handleFieldChange("changeEmail", e.target.value)}
+                                   title={t('accountPage.inputEmail')}
+                                   value={data.changeEmail}
                         />
                         <TextInput radius="md"
-                            label={t('accountPage.fieldset.bankAccName')}
-                            onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
-                            title={t('accountPage.inputBankAccName')}
-                            value={data.changeBankName}
+                                   label={t('accountPage.fieldset.bankAccName')}
+                                   onChange={(e) => handleFieldChange("changeBankName", e.target.value)}
+                                   title={t('accountPage.inputBankAccName')}
+                                   value={data.changeBankName}
                         /><br/>
-                        <Switch label={t('accountPage.2fa')} size="md" onLabel={t('accountPage.on')} offLabel={t('accountPage.off')}
+                        <Switch label={t('accountPage.2fa')} size="md" onLabel={t('accountPage.on')}
+                                offLabel={t('accountPage.off')}
                                 checked={checked2FA}
                                 onChange={(event) => setChecked2FA(event.currentTarget.checked)}/>
                         <Button radius="md" onClick={updateData}
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}
                         </Button>
                     </Modal>
-                    <Modal opened={addIncomeCategoryModalState}  radius="md" onClose={() => {
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} opened={addIncomeCategoryModalState} radius="md" onClose={() => {
                         setAddIncomeCategoryModalState(false)
                         setSegmentState(t('accountPage.income'))
                     }}
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={t('accountPage.addIncomeCategory')}>
-                        <SegmentedControl fullWidth value={segmentState} data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
+                        <SegmentedControl fullWidth value={segmentState}
+                                          data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
                                               if (e === t('accountPage.income')) {
@@ -405,21 +411,24 @@ export default function Page(props: {
                             ))}</Pill.Group>
                         </InputBase>
                         <TagsInput radius="md"
-                            label={t('accountPage.userIncomeCategory')}
-                            placeholder={t('accountPage.inputUserIncomeCategory')}
-                            value={newIncomeCategories}
-                            onChange={(e) => setNewIncomeCategories(e)}
+                                   label={t('accountPage.userIncomeCategory')}
+                                   placeholder={t('accountPage.inputUserIncomeCategory')}
+                                   value={newIncomeCategories}
+                                   onChange={(e) => setNewIncomeCategories(e)}
                         />
                         <Button onClick={updateIncomeCategories} radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}</Button>
                     </Modal>
-                    <Modal overlayProps={{backgroundOpacity: 0.5, blur: 4}} title={t('accountPage.addExpensesCategory')}
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                           title={t('accountPage.addExpensesCategory')}
                            opened={addExpensesCategoryModalState} radius="md"
                            onClose={() => {
                                setAddExpensesCategoryModalState(false)
                                setSegmentState(t('accountPage.income'))
                            }}>
-                        <SegmentedControl fullWidth value={segmentState} data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
+                        <SegmentedControl fullWidth value={segmentState}
+                                          data={[t('accountPage.income'), t('accountPage.expenses')]} radius='xl'
                                           onChange={(e) => {
                                               setSegmentState(e);
                                               if (e === t('accountPage.income')) {
@@ -436,37 +445,39 @@ export default function Page(props: {
                             ))}</Pill.Group>
                         </InputBase>
                         <TagsInput radius="md"
-                            label={t('accountPage.userExpensesCategory')}
-                            placeholder={t('accountPage.inputUserExpensesCategory')}
-                            value={newExpensesCategories}
-                            onChange={(e) => setNewExpensesCategories(e)}
+                                   label={t('accountPage.userExpensesCategory')}
+                                   placeholder={t('accountPage.inputUserExpensesCategory')}
+                                   value={newExpensesCategories}
+                                   onChange={(e) => setNewExpensesCategories(e)}
                         />
                         <Button onClick={updateExpensesCategories} radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.save')}</Button>
                     </Modal>
-                    <Modal radius="md"
-                        overlayProps={{backgroundOpacity: 0.5, blur: 4}}
-                        opened={billModalState} onClose={() => setBillModalState(false)} title={t('accountPage.addBankAccount')}>
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} radius="md"
+                           overlayProps={{backgroundOpacity: 0.5, blur: 4}}
+                           opened={billModalState} onClose={() => setBillModalState(false)}
+                           title={t('accountPage.addBankAccount')}>
                         <TextInput radius="md"
-                            label={t('accountPage.inputBankAccName')}
-                            placeholder={t('accountPage.bankAcc')}
-                            onChange={(e) => handleFieldChange("name", e.target.value)}
-                            title={t('accountPage.bankAccExample')}
+                                   label={t('accountPage.inputBankAccName')}
+                                   placeholder={t('accountPage.bankAcc')}
+                                   onChange={(e) => handleFieldChange("name", e.target.value)}
+                                   title={t('accountPage.bankAccExample')}
                         />
                         <Group>
                             <TextInput radius="md"
-                                label={t('accountPage.inputStartSum')}
-                                placeholder="1000"
-                                style={{paddingRight: 0, width: 312}}
-                                onChange={(e) => handleFieldChange("balance", e.target.value)}
-                                title={t('accountPage.titleStartSum')}
+                                       label={t('accountPage.inputStartSum')}
+                                       placeholder="1000"
+                                       style={{paddingRight: 0, width: 312}}
+                                       onChange={(e) => handleFieldChange("balance", e.target.value)}
+                                       title={t('accountPage.titleStartSum')}
                             />
                             <NativeSelect radius="md"
-                                onChange={(e) => handleFieldChange("currency", e.target.value)}
-                                title={t('accountPage.titleSelectCurrency')}
-                                style={{paddingTop: 25, marginLeft: 0, width: 80}}
-                                defaultValue={props.bankAccount.currency}
-                                data={data.allCurrency}>
+                                          onChange={(e) => handleFieldChange("currency", e.target.value)}
+                                          title={t('accountPage.titleSelectCurrency')}
+                                          style={{paddingTop: 25, marginLeft: 0, width: 80}}
+                                          defaultValue={props.bankAccount.currency}
+                                          data={data.allCurrency}>
                             </NativeSelect></Group>
                         <Button onClick={dateValidation} radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.add')}
@@ -475,28 +486,35 @@ export default function Page(props: {
                         <Button variant="transparent" style={{textAlign: "center"}} fullWidth={true}
                                 onClick={() => setInviteCodeModalState(!inviteCodeModalState)}>{t('accountPage.inviteCodeLink')}
                         </Button>
-                        <Modal opened={inviteCodeModalState} onClose={() => setInviteCodeModalState(false)} radius="md"
+                        <Modal closeOnClickOutside={false}
+                               closeOnEscape={false} opened={inviteCodeModalState}
+                               onClose={() => setInviteCodeModalState(false)} radius="md"
                                overlayProps={{backgroundOpacity: 0, blur: 4}}
                                title={t('accountPage.connectToBankAcc')}>
                             <TextInput radius="md"
-                                label={t('accountPage.inputInviteCode')}
-                                onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
-                                title={t('accountPage.titleInputInviteCode')}/>
+                                       label={t('accountPage.inputInviteCode')}
+                                       onChange={(e) => handleFieldChange("inviteCode", e.target.value)}
+                                       title={t('accountPage.titleInputInviteCode')}/>
                             <Button onClick={checkInviteCode} radius="md"
                                     style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.add')}
                             </Button>
                         </Modal>
                     </Modal>
-                    <Modal opened={changeAccountModalState} onClose={() => setChangeAccountModalState(false)} radius="md"
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} opened={changeAccountModalState}
+                           onClose={() => setChangeAccountModalState(false)} radius="md"
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={t('accountPage.changeBankAccount')}>
                         <h1>{t('accountPage.selectBankAcc')}</h1>
-                        <NativeSelect radius="md" onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
+                        <NativeSelect radius="md"
+                                      onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
                                       data={data.bankAccounts}></NativeSelect>
                         <Button onClick={changeBankAccount} radius="md"
                                 style={{width: 410, marginTop: 20, fontSize: 20}}>{t('accountPage.change')}</Button>
                     </Modal>
-                    <Modal radius="md" title={t('accountPage.titleInviteCode') + data.changeBankName}
+                    <Modal closeOnClickOutside={false}
+                           closeOnEscape={false} radius="md"
+                           title={t('accountPage.titleInviteCode') + data.changeBankName}
                            opened={codeModalState} onClose={() => setCodeModalState(false)}
                            overlayProps={{backgroundOpacity: 0, blur: 4}}>
                         <Text style={{textAlign: "center"}}>{data.inviteCode}
