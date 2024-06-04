@@ -30,6 +30,7 @@ import {currency, defaultExpensesCategories, defaultIncomeCategories, getRandomC
 import {notifications} from "@mantine/notifications";
 import Footer from "@/components/footer";
 import {authRedirect} from "@/src/server/authRedirect";
+import dayjs from "dayjs";
 
 export default function Page(props: {
     user: IUser,
@@ -290,9 +291,9 @@ export default function Page(props: {
         if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
         handleFieldChange("updateLastUpdateDate", data?.lastUpdateDate)
         if (data.operationStatus === '+') {
-            handleFieldChange("balance", +((+(data?.balance ?? 0) + finalSum).toFixed(2)))
+            handleFieldChange("balance", +(+(+(data?.balance ?? 0) + (+finalSum)).toFixed(2)))
         } else {
-            handleFieldChange("balance", +((+(data?.balance ?? 0) - finalSum).toFixed(2)))
+            handleFieldChange("balance", +(+(+(data?.balance ?? 0) - (+finalSum)).toFixed(2)))
         }
         setIncomeModalState(false)
         setExpensesModalState(false);
@@ -485,7 +486,11 @@ export default function Page(props: {
                                 </div>
                             </Paper><br/></div>
                         <div>
-                            <Calendar style={{marginLeft: 170}}/>
+                            <Calendar
+                                getDayProps={(date) => ({
+                                    selected: [new Date()].some((s) => dayjs(date).isSame(s, 'date')),
+                                })}
+                            />
                         </div>
                     </Group>
                     <div>
