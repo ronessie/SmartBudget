@@ -215,22 +215,26 @@ export default function Page(props: {
     }
 
     async function dataToDB() {
-        const convertResponse = await fetch('/api/converter', {
-            method: 'POST',
-            body: JSON.stringify({
-                sum: data.sum,
-                afterCurrency: data.currency,
-                beforeCurrency: data.operationCurrency
-            }),
-        });
-
         let finalSum = 0;
-        if (convertResponse.ok) {
-            console.log('converter api worked successfully!');
-            finalSum = +((await convertResponse.json()).result?.toFixed(2));
-            handleFieldChange("finalSum", finalSum);
+        if (data.currency == data.operationCurrency) {
+            finalSum = data.sum
         } else {
-            console.error('Failed work converter.');
+            const convertResponse = await fetch('/api/converter', {
+                method: 'POST',
+                body: JSON.stringify({
+                    sum: data.sum,
+                    afterCurrency: data.currency,
+                    beforeCurrency: data.operationCurrency
+                }),
+            });
+
+            if (convertResponse.ok) {
+                console.log('converter api worked successfully!');
+                finalSum = +((await convertResponse.json()).result?.toFixed(2));
+                handleFieldChange("finalSum", finalSum);
+            } else {
+                console.error('Failed work converter.');
+            }
         }
         const operation: IOperation = {
             _id: new ObjectId().toString(),
@@ -467,21 +471,23 @@ export default function Page(props: {
                     </div>
                 </AppShell.Navbar>
                 <AppShell.Main style={{marginLeft: 50}}>
-                    <Group><div>
-                    <h1 style={{fontSize: 25}}>{t('mainPage.hello')}, {props.user.fio}</h1><br/>
-                    <h1 style={{fontSize: 20}}>{t('mainPage.yourBankAccount')}</h1>
-                    <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
-                           style={{width: 400, height: 200}}>
-                        <div style={{marginTop: -10, marginLeft: -15}}>
-                            <h1 style={{fontSize: 18}}>{props.bankAccount.name}</h1><br/>
-                            <h1 style={{fontSize: 25}}>{data.balance} {props.bankAccount.currency}</h1>
-                            <br/>
-                            <h1 style={{fontSize: 18}}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
+                    <Group>
+                        <div>
+                            <h1 style={{fontSize: 25}}>{t('mainPage.hello')}, {props.user.fio}</h1><br/>
+                            <h1 style={{fontSize: 20}}>{t('mainPage.yourBankAccount')}</h1>
+                            <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
+                                   style={{width: 400, height: 200}}>
+                                <div style={{marginTop: -10, marginLeft: -15}}>
+                                    <h1 style={{fontSize: 18}}>{props.bankAccount.name}</h1><br/>
+                                    <h1 style={{fontSize: 25}}>{data.balance} {props.bankAccount.currency}</h1>
+                                    <br/>
+                                    <h1 style={{fontSize: 18}}>{t('mainPage.lastUpdate')} {data.lastUpdateDate}</h1>
+                                </div>
+                            </Paper><br/></div>
+                        <div>
+                            <Calendar/>
                         </div>
-                    </Paper><br/></div>
-                    <div>
-                        <Calendar/>
-                    </div></Group>
+                    </Group>
                     <div>
                         <Drawer
                             title={t('mainPage.converter.title')}
@@ -510,7 +516,8 @@ export default function Page(props: {
                                     onClick={convert}>{t('mainPage.converter.button')}</Button>
                         </Drawer>
                         <Modal closeOnClickOutside={false}
-                               closeOnEscape={false} opened={incomeModalState} onClose={() => setIncomeModalState(false)}
+                               closeOnEscape={false} opened={incomeModalState}
+                               onClose={() => setIncomeModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.incomeModal.title')}>
                             <Group>
@@ -542,7 +549,8 @@ export default function Page(props: {
                                     }}>{t('mainPage.incomeModal.addButton')}</Button>
                         </Modal>
                         <Modal closeOnClickOutside={false}
-                               closeOnEscape={false} opened={expensesModalState} onClose={() => setExpensesModalState(false)}
+                               closeOnEscape={false} opened={expensesModalState}
+                               onClose={() => setExpensesModalState(false)}
                                overlayProps={{backgroundOpacity: 0.5, blur: 4}} radius="md"
                                title={t('mainPage.expensesModal.title')}>
                             <Group>

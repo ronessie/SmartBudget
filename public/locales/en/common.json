@@ -152,8 +152,8 @@
       "currency": "Currency",
       "date": "Date"
     },
-    "titleCategoryStat": "Expenditure Statistics by Category",
-    "titleDateStat": "Income Statistics by Date",
+    "titleCategoryStat": "Expenses statistics by category",
+    "titleDateStat": "Income statistics by date",
     "selectDatesLabel": "Specify dates",
     "selectDates": "Select time interval",
     "statCategoryIncome": "Income statistics by category",
