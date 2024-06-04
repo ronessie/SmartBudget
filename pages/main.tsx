@@ -30,6 +30,7 @@ import {currency, defaultExpensesCategories, defaultIncomeCategories, getRandomC
 import {notifications} from "@mantine/notifications";
 import Footer from "@/components/footer";
 import {authRedirect} from "@/src/server/authRedirect";
+import dayjs from "dayjs";
 
 export default function Page(props: {
     user: IUser,
@@ -485,7 +486,11 @@ export default function Page(props: {
                                 </div>
                             </Paper><br/></div>
                         <div>
-                            <Calendar style={{marginLeft: 170}}/>
+                            <Calendar
+                                getDayProps={(date) => ({
+                                    selected: [new Date()].some((s) => dayjs(date).isSame(s, 'date')),
+                                })}
+                            />
                         </div>
                     </Group>
                     <div>
