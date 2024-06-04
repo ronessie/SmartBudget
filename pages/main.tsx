@@ -363,7 +363,7 @@ export default function Page(props: {
             filteredIncome = data.allIncome.filter(e => new Date(e.date) >= selectedStatisticIncomeTimeInterval[0]! && new Date(e.date) <= selectedStatisticIncomeTimeInterval[1]!)
         }
 
-        const rows = filteredIncome.map(({category, sum, date, currency}) => {
+        const rows = filteredIncome.map(({category, sum, date, currency, finalSum}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -374,6 +374,7 @@ export default function Page(props: {
                 <Table.Td>{category}</Table.Td>
                 <Table.Td>{sum}</Table.Td>
                 <Table.Td>{currency}</Table.Td>
+                <Table.Td>{finalSum}</Table.Td>
                 <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
             </Table.Tr>)
         });
@@ -394,7 +395,7 @@ export default function Page(props: {
             filteredExpenses = data.allExpenses.filter(e => new Date(e.date) >= selectedStatisticExpensesTimeInterval[0]! && new Date(e.date) <= selectedStatisticExpensesTimeInterval[1]!)
         }
 
-        const rows = filteredExpenses.map(({category, sum, date, currency}) => {
+        const rows = filteredExpenses.map(({category, sum, date, currency, finalSum}) => {
 
             const dateTime = new Date(date);
             const day = String(dateTime.getDate()).padStart(2, '0');
@@ -405,6 +406,7 @@ export default function Page(props: {
                 <Table.Td>{category}</Table.Td>
                 <Table.Td>{sum}</Table.Td>
                 <Table.Td>{currency}</Table.Td>
+                <Table.Td>{finalSum}</Table.Td>
                 <Table.Td>{`${day}/${month}/${year}`}</Table.Td>
             </Table.Tr>)
         });
@@ -604,6 +606,7 @@ export default function Page(props: {
                                     <Table.Th>{t('mainPage.table.category')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.sum')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}, {data.currency}</Table.Th>
                                     <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
@@ -641,6 +644,7 @@ export default function Page(props: {
                                     <Table.Th>{t('mainPage.table.category')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.sum')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}, {data.currency}</Table.Th>
                                     <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
@@ -678,6 +682,7 @@ export default function Page(props: {
                                     <Table.Th>{t('mainPage.table.category')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.sum')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}, {data.currency}</Table.Th>
                                     <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
@@ -715,6 +720,7 @@ export default function Page(props: {
                                     <Table.Th>{t('mainPage.table.category')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.sum')}</Table.Th>
                                     <Table.Th>{t('mainPage.table.currency')}</Table.Th>
+                                    <Table.Th>{t('mainPage.table.sum')}, {data.currency}</Table.Th>
                                     <Table.Th>{t('mainPage.table.date')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
