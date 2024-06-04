@@ -470,9 +470,9 @@ export default function Page(props: {
                                 variant="light">{t('mainPage.dateStat')}</Button>
                     </div>
                 </AppShell.Navbar>
-                <AppShell.Main style={{marginLeft: 50}}>
+                <AppShell.Main style={{marginLeft: 250}}>
                     <Group>
-                        <div>
+                        <div style={{marginTop: 20}}>
                             <h1 style={{fontSize: 25}}>{t('mainPage.hello')}, {props.user.fio}</h1><br/>
                             <h1 style={{fontSize: 20}}>{t('mainPage.yourBankAccount')}</h1>
                             <Paper shadow="md" radius="md" p="xl" withBorder={true} className={styles.paper}
@@ -485,7 +485,7 @@ export default function Page(props: {
                                 </div>
                             </Paper><br/></div>
                         <div>
-                            <Calendar/>
+                            <Calendar style={{marginLeft: 170}}/>
                         </div>
                     </Group>
                     <div>
@@ -736,15 +736,16 @@ export default function Page(props: {
                         </Table>
                     </Modal>
                     <Group>
+                        <br/>
                         <div>
                             <Text style={{textAlign: "center", fontSize: 20}}>Доходы</Text>
-                            <DonutChart size={250} thickness={35} data={incomeChartInfo}
+                            <DonutChart style={{margin: 20}} size={300} thickness={50} data={incomeChartInfo}
                                         chartLabel={incomeChartLabel}
                                         withLabelsLine withLabels withTooltip title={t('mainPage.income')}
                                         tooltipDataSource="segment"/>
                         </div>
                         <div><Text style={{textAlign: "center", fontSize: 20}}>Расходы</Text>
-                            <DonutChart size={250} thickness={35} data={expensesChartInfo}
+                            <DonutChart style={{margin: 20}} size={300} thickness={50} data={expensesChartInfo}
                                         chartLabel={expensesChartLabel}
                                         title={t('mainPage.expense')} withTooltip withLabels withLabelsLine
                                         tooltipDataSource="segment"/></div>

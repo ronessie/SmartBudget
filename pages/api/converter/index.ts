@@ -5,8 +5,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const url = "https://api.apilayer.com/exchangerates_data/convert?to=" + afterCurrency + "&from=" + beforeCurrency + "&amount=" + sum;
     const myHeaders = new Headers();
-    myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");
-    //myHeaders.append("apikey", "oTKqCujvyTo5enTl3d3zjwH3Vj02aEKo"); //Второй код
+    //myHeaders.append("apikey", "hE44IsmHdazgHUSbLcj34Sl2cGPVsduz");//Второй код
+    myHeaders.append("apikey", "oTKqCujvyTo5enTl3d3zjwH3Vj02aEKo");
 
     const response = await fetch(url, {
         method: 'GET',
