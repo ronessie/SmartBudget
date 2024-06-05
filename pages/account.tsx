@@ -224,6 +224,7 @@ export default function Page(props: {
         const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
         handleFieldChange("bankName", updateBankAccount.name)
         handleFieldChange("changeBankName", updateBankAccount.name)
+        handleFieldChange("currency", updateBankAccount.currency)
 
         notifications.show({
             title: t('accountPage.notifications.title'),
