@@ -52,8 +52,8 @@ export default function Page(props: { user: IUser }) {
     const [convertData, setConvertData] = useState({
         sum: 1,
         currency: currency(),
-        beforeCurrency: "AED",
-        afterCurrency: "AED",
+        beforeCurrency: "BYN",
+        afterCurrency: "USD",
         newSum: 0
     });
     const [language, setLanguage] = useState({
@@ -589,13 +589,13 @@ export default function Page(props: { user: IUser }) {
                     <Group>
                         <TextInput style={{width: 307}} label={t('indexPage.converterDrawer.label-1')} radius="md"
                                    onChange={(e) => handleConvertChange("sum", e.target.value)}/>
-                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md"
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md" defaultValue={"BYN"}
                                       onChange={(e) => handleConvertChange("beforeCurrency", e.target.value)}/>
                     </Group>
                     <Group>
                         <TextInput readOnly={true} style={{width: 307}} label={t('indexPage.converterDrawer.label-2')} radius="md"
                                    value={convertData.newSum}/>
-                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md"
+                        <NativeSelect style={{width: 85, paddingTop: 25}} data={convertData.currency} radius="md" defaultValue={"USD"}
                                       onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                     <br/>
                     <Button style={{width: 410, fontSize: 20}} radius="md"

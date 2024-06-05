@@ -88,8 +88,8 @@ export default function Page(props: {
 
     const [convertData, setConvertData] = useState({
         sum: 1,
-        beforeCurrency: "AED",
-        afterCurrency: "AED",
+        beforeCurrency: props.bankAccount.currency,
+        afterCurrency: "USD",
         newSum: 0
     });
 
@@ -514,7 +514,7 @@ export default function Page(props: {
                                            label={t('mainPage.converter.resultSum')}
                                            value={convertData.newSum}/>
                                 <NativeSelect style={{width: 85, paddingTop: 25}} data={data.allCurrency}
-                                              radius="md"
+                                              radius="md" defaultValue={"USD"}
                                               onChange={(e) => handleConvertChange("afterCurrency", e.target.value)}/></Group>
                             <br/>
                             <Button style={{width: 410, fontSize: 18}} radius="md"
