@@ -204,14 +204,14 @@ export default function Page(props: {
     async function addIncome(e: any) {
         e.preventDefault()
         data.operationStatus = "+";
-        if (!data.category) data.category = "salary";
+        if (!data.category) data.category = "categories.income.salary";
         await dateValidation();
     }
 
     async function addExpenses(e: any) {
         e.preventDefault()
         data.operationStatus = "-";
-        if (!data.category) data.category = "products";
+        if (!data.category) data.category = "categories.expenses.products";
         await dateValidation()
     }
 
@@ -274,6 +274,7 @@ export default function Page(props: {
             });
             handleFieldChange('allExpenses', newExpenses)
         }
+        handleFieldChange("date", "")
 
         await updateBalance(finalSum)
     }
@@ -543,7 +544,7 @@ export default function Page(props: {
                                           title={t('mainPage.incomeModal.selector.title')}
                                           data={data.incomeCategory}>
                             </NativeSelect><br/>
-                            <DateInput onChange={(e) => handleFieldChange("date", e)} radius="md"
+                            <DateInput onChange={(e) => handleFieldChange("date", e)} radius="md" defaultValue={new Date()}
                                        label={t('mainPage.incomeModal.dateLabel')}
                                        placeholder={t('mainPage.incomeModal.datePlaceholder')}></DateInput>
                             <Button onClick={addIncome} radius="md"
@@ -575,7 +576,7 @@ export default function Page(props: {
                                           data={data.expensesCategory}>
                             </NativeSelect><br/>
                             <DateInput
-                                onChange={(e) => handleFieldChange("date", e)} radius="md"
+                                onChange={(e) => handleFieldChange("date", e)} radius="md" defaultValue={new Date()}
                                 label={t('mainPage.expensesModal.dateLabel')}
                                 placeholder={t('mainPage.expensesModal.datePlaceholder')}></DateInput>
                             <Button onClick={addExpenses} radius="md"

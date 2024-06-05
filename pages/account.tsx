@@ -52,7 +52,7 @@ export default function Page(props: {
         fio: props.user.fio,
         email: props.user.email,
         bankAccounts: props.bankAccounts,
-        selectBankAccount: props.bankAccounts[0].value,
+        selectBankAccount: props.user.currentBankAccount,
         bankName: props.bankAccount.name,
         changeFio: props.user.fio,
         changeEmail: props.user.email,
@@ -506,7 +506,7 @@ export default function Page(props: {
                            overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                            title={t('accountPage.changeBankAccount')}>
                         <h1>{t('accountPage.selectBankAcc')}</h1>
-                        <NativeSelect radius="md"
+                        <NativeSelect radius="md" defaultValue={data.selectBankAccount}
                                       onChange={(e) => handleFieldChange("selectBankAccount", e.target.value)}
                                       data={data.bankAccounts}></NativeSelect>
                         <Button onClick={changeBankAccount} radius="md"

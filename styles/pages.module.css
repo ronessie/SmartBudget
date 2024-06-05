@@ -1,6 +1,11 @@
 .page {
     user-select: none;
 }
+.image {
+    display: block;
+    width: 600px;
+    height: 600px;
+}
 
 .pageContent {
     padding-top: 4%;
