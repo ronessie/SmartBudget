@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "@/styles/pages.module.css";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {createBankAccountObj, createUserObj, currency, generate2FAcode, generatePassword} from "@/src/utils";
 import validator from "validator";
 import IUser from "@/src/types/IUser";
@@ -419,7 +419,7 @@ export default function Page(props: { user: IUser }) {
                         opened={authDrawerState}
                         onClose={() => {
                             drawerAuthMethods.close();
-                            setSegmentState(t('authenticationPage.signIn'))
+                            setSegmentState(t('authenticationPage.signInButton'))
                         }}
                         overlayProps={{backgroundOpacity: 0.5, blur: 4}}
                         position="right"
