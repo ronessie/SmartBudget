@@ -73,7 +73,6 @@ export default function Page(props: {
         }));
     }
 
-
     async function dateValidation(e: any) {
         e.preventDefault();
         if (!data.balance || !(/^[\d]+$/).test(data.balance.toString())) {
@@ -108,7 +107,7 @@ export default function Page(props: {
         if (firstUser || secondUser) {
             notifications.show({
                 title: t('accountPage.notifications.title'),
-                message: t('accountPage.notifications.checkInviteCodeUderError'),
+                message: t('accountPage.notifications.checkInviteCodeUserError'),
             })
             return;
         }
@@ -152,8 +151,11 @@ export default function Page(props: {
             });
 
             if (!responseUpdate.ok) throw new Error(responseUpdate.statusText);
-            const updateBankAccount = (await response.json()).bankAccount as IBankAccount;
+            const updateBankAccount = (await responseUpdate.json()).bankAccount as IBankAccount;
             handleFieldChange("bankName", updateBankAccount.name)
+            data.bankAccounts.push({ label: updateBankAccount.name ?? '', value: updateBankAccount._id });
+            handleFieldChange("bankAccounts", data.bankAccounts);
+            handleFieldChange("selectBankAccount", updateBankAccount._id);
             setBillModalState(false);
             setInviteCodeModalState(false);
             notifications.show({
@@ -193,6 +195,9 @@ export default function Page(props: {
         handleFieldChange("changeBankName", updateBankAccount.name)
         handleFieldChange("fio", updateUser.fio)
         handleFieldChange("email", updateUser.email)
+        data.bankAccounts.push({ label: updateBankAccount.name ?? '', value: updateBankAccount._id });
+        handleFieldChange("bankAccounts", data.bankAccounts);
+        handleFieldChange("selectBankAccount", updateBankAccount._id);
         notifications.show({
             title: t('accountPage.notifications.title'),
             message: t('accountPage.notifications.accountCreated'),
