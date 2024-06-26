@@ -744,13 +744,13 @@ export default function Page(props: {
                     <Group>
                         <br/>
                         <div>
-                            <Text style={{textAlign: "center", fontSize: 20}}>Доходы</Text>
+                            <Text style={{textAlign: "center", fontSize: 20}}>{t('mainPage.income')}</Text>
                             <DonutChart style={{margin: 20}} size={300} thickness={50} data={incomeChartInfo}
                                         chartLabel={incomeChartLabel}
                                         withLabelsLine withLabels withTooltip title={t('mainPage.income')}
                                         tooltipDataSource="segment"/>
                         </div>
-                        <div><Text style={{textAlign: "center", fontSize: 20}}>Расходы</Text>
+                        <div><Text style={{textAlign: "center", fontSize: 20}}>{t('mainPage.expense')}</Text>
                             <DonutChart style={{margin: 20}} size={300} thickness={50} data={expensesChartInfo}
                                         chartLabel={expensesChartLabel}
                                         title={t('mainPage.expense')} withTooltip withLabels withLabelsLine
