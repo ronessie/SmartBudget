@@ -5,7 +5,7 @@ export default function Document() {
     return (
         <Html lang='indexPage'>
             <Head>
-                <ColorSchemeScript defaultColorScheme="auto"/>
+                <ColorSchemeScript defaultColorScheme="light"/>
             </Head>
             <body>
             <Main/>

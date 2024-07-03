@@ -16,8 +16,8 @@ export default async function send2FAcodeOnEmail(req: NextApiRequest, res: NextA
             port: 587,
             secure: false,
             auth: {
-                user: 'vsakolinskaa@gmail.com',
-                pass: 'hbjjwbstsgliuoco',
+                user: process.env.EMAIL_AUTH_USER,
+                pass: process.env.EMAIL_AUTH_PASS,
             },
             tls: {
                 rejectUnauthorized: false
