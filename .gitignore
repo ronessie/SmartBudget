@@ -1,55 +1,35 @@
-# build output
-dist
-.next
-target
-packages/next/wasm/@next
-/.env.local
-
 # dependencies
-node_modules
-package-lock.json
-yarn.lock
-!/yarn.lock
-pages/api/auth/node_modules
-.pnpm-store/
-.github/**/node_modules
+/node_modules
+/.pnp
+.pnp.js
 
-# logs & pids
-*.log
-pids
-*.cpuprofile
-*.heapsnapshot
+# testing
+/coverage
 
-# coverage
-.nyc_output
-coverage
+# next.js
+/.next/
+/out/
 
-# auth output
-pages/api/auth/**/out*
-pages/api/auth/**/next-env.d.ts
+# production
+/build
+
+# misc
 .DS_Store
-/e2e-tests
-pages/api/auth/tmp/**
-pages/api/auth/.trace
-pages/api/auth/traces
+*.pem
 
-# Editors
-**/.idea
-**/.#*
-.nvmrc
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# examples
-examples/**/out
-examples/**/.env*.local
 
-pr-stats.md
-test-timings.json
-
-# Vercel
+# vercel
 .vercel
-.now
 
-# Cache
+# typescript
 *.tsbuildinfo
-.swc/
-.turbo
+next-env.d.ts
+
+/.env.local
+/.env.prod
