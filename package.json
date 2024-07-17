@@ -31,7 +31,7 @@
     "i18next": "^23.7.16",
     "mongodb": "^6.3.0",
     "multer": "^1.4.5-lts.1",
-    "next": "13.5.4",
+    "next": "^14.2.5",
     "next-auth": "^4.24.5",
     "next-i18next": "^15.2.0",
     "next-session": "^4.0.5",
